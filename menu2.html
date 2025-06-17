@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&display=swap"
+            rel="stylesheet">
+
+      <title>Portfolio</title>
+      <style>
+            * {
+                  margin: 0;
+                  padding: 0;
+                  box-sizing: border-box;
+            }
+
+            body {
+                  font-family: 'Playfair Display', serif;
+                  background-color: #f8f6f2;
+                  color: #333;
+                  min-height: 100vh;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  margin: 0;
+                  padding: 0;
+                  overflow: hidden;
+            }
+
+            .modal {
+                  background-color: #f8f6f2;
+                  width: 100vw;
+                  height: 100vh;
+                  position: relative;
+                  display: flex;
+                  flex-direction: column;
+                  opacity: 0;
+                  animation: fadeInModal 1s ease-out 0.2s forwards;
+            }
+
+            .header {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: flex-start;
+                  padding: 40px 50px 0 50px;
+                  transform: translateY(-30px);
+                  opacity: 0;
+                  animation: slideInFromTop 0.8s ease-out 0.5s forwards;
+            }
+
+            .logo {
+                  font-size: 32px;
+                  font-weight: 300;
+                  letter-spacing: 2px;
+                  line-height: 1;
+                  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                  cursor: pointer;
+            }
+
+            .logo:hover {
+                  transform: scale(1.1) rotate(5deg);
+                  color: #cd5909;
+            }
+
+            .close-btn {
+                  font-size: 24px;
+                  font-weight: 300;
+                  cursor: pointer;
+                  line-height: 1;
+                  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                  padding: 5px;
+                  border-radius: 50%;
+            }
+
+            .close-btn:hover {
+                  transform: rotate(90deg) scale(1.2);
+                  background-color: rgba(166, 214, 73, 0.1);
+                  color: #cd5909;
+            }
+
+            .contact-info {
+                  font-size: 12px;
+                  font-weight: 400;
+                  text-align: right;
+                  line-height: 1.2;
+                  transition: all 0.3s ease;
+            }
+
+            .contact-info:hover {
+                  color: #cd5909;
+                  transform: translateX(-5px);
+            }
+
+            .main-content {
+                  flex: 1;
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                  padding: 0 50px;
+            }
+
+            .menu-list {
+                  text-align: center;
+                  margin-bottom: 60px;
+            }
+
+            .menu-item {
+                  font-size: 84px;
+                  font-weight: 300;
+                  line-height: 0.9;
+                  margin-bottom: 50px;
+                  letter-spacing: -2px;
+                  cursor: pointer;
+                  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                  opacity: 0;
+                  transform: translateY(50px);
+                  position: relative;
+                  overflow: hidden;
+            }
+
+            .menu-item::before {
+                  content: '';
+                  position: absolute;
+                  top: 0;
+                  left: -100%;
+                  width: 100%;
+                  height: 100%;
+                  background: linear-gradient(90deg, transparent, rgba(166, 214, 73, 0.2), transparent);
+                  transition: left 0.6s ease;
+            }
+
+            .menu-item:hover::before {
+                  left: 100%;
+            }
+
+            .menu-item:hover {
+                  transform: translateX(20px) scale(1.05);
+                  color: #cd5909;
+                  text-shadow: 0 0 20px rgba(166, 214, 73, 0.3);
+            }
+
+            .menu-item.highlight {
+                  color: #cd5909;
+                  transform: scale(1.02);
+            }
+
+            .menu-item:nth-child(1) {
+                  animation: slideInFromBottom 0.6s ease-out 0.8s forwards;
+            }
+
+            .menu-item:nth-child(2) {
+                  animation: slideInFromBottom 0.6s ease-out 1s forwards;
+            }
+
+            .menu-item:nth-child(3) {
+                  animation: slideInFromBottom 0.6s ease-out 1.2s forwards;
+            }
+
+            .menu-item:nth-child(4) {
+                  animation: slideInFromBottom 0.6s ease-out 1.4s forwards;
+            }
+
+            .menu-item:nth-child(5) {
+                  animation: slideInFromBottom 0.6s ease-out 1.6s forwards;
+            }
+
+            .social-links {
+                  display: flex;
+                  gap: 40px;
+                  font-size: 14px;
+                  font-weight: 400;
+                  opacity: 0;
+                  transform: translateY(30px);
+                  animation: slideInFromBottom 0.8s ease-out 1.8s forwards;
+            }
+
+            .social-links a {
+                  color: #333;
+                  text-decoration: none;
+                  cursor: pointer;
+                  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                  position: relative;
+                  padding: 8px 0;
+            }
+
+            .social-links a::after {
+                  content: '';
+                  position: absolute;
+                  bottom: 0;
+                  left: 50%;
+                  width: 0;
+                  height: 2px;
+                  background-color: #cd5909;
+                  transition: all 0.3s ease;
+                  transform: translateX(-50%);
+            }
+
+            .social-links a:hover {
+                  color: #cd5909;
+                  transform: translateY(-3px);
+            }
+
+            .social-links a:hover::after {
+                  width: 100%;
+            }
+
+            /* Background animation */
+            body::before {
+                  content: '';
+                  position: fixed;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  background: radial-gradient(circle at 20% 80%, rgba(166, 214, 73, 0.03) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(166, 214, 73, 0.03) 0%, transparent 50%);
+                  z-index: -1;
+                  animation: backgroundPulse 8s ease-in-out infinite;
+            }
+
+            /* Keyframe animations */
+            @keyframes fadeInModal {
+                  to {
+                        opacity: 1;
+                  }
+            }
+
+            @keyframes slideInFromTop {
+                  to {
+                        transform: translateY(0);
+                        opacity: 1;
+                  }
+            }
+
+            @keyframes slideInFromBottom {
+                  to {
+                        transform: translateY(0);
+                        opacity: 1;
+                  }
+            }
+
+            @keyframes backgroundPulse {
+
+                  0%,
+                  100% {
+                        opacity: 1;
+                  }
+
+                  50% {
+                        opacity: 0.5;
+                  }
+            }
+
+            /* Active states for better interactivity */
+            .menu-item:active {
+                  transform: translateX(20px) scale(0.98);
+            }
+
+            .close-btn:active {
+                  transform: rotate(90deg) scale(0.9);
+            }
+
+            .logo:active {
+                  transform: scale(1.05) rotate(5deg);
+            }
+
+            /* Responsive design */
+            @media (max-width: 768px) {
+                  .header {
+                        padding: 30px 30px 0 30px;
+                  }
+
+                  .main-content {
+                        padding: 0 30px;
+                  }
+
+                  .menu-item {
+                        font-size: 64px;
+                  }
+
+                  .social-links {
+                        gap: 25px;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                  }
+            }
+
+            @media (max-width: 480px) {
+                  .menu-item {
+                        font-size: 48px;
+                  }
+
+                  .logo {
+                        font-size: 28px;
+                  }
+            }
+
+            /* Smooth scrolling behavior */
+            html {
+                  scroll-behavior: smooth;
+            }
+
+            /* Focus states for accessibility */
+            .menu-item:focus,
+            .social-links a:focus,
+            .close-btn:focus,
+            .logo:focus {
+                  outline: 2px solid #cd5909;
+                  outline-offset: 4px;
+                  border-radius: 4px;
+            }
+      </style>
+</head>
+
+<body>
+      <div class="modal">
+            <div class="header">
+                  <div class="logo" tabindex="0" role="button" aria-label="Logo">L<br>A</div>
+                  <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 20px;">
+                        <div class="close-btn" tabindex="0" role="button" aria-label="Close menu">×</div>
+                        <div class="contact-info">
+                              +1 (778) 871 8102<br>
+                              leo.schwartz@icloud.iit
+                        </div>
+                  </div>
+            </div>
+
+            <div class="main-content">
+                  <div class="menu-list" role="navigation" aria-label="Main navigation">
+                        <div class="menu-item highlight" tabindex="0" role="button"
+                              onclick="window.location.href='./one.html'">Home</div>
+                        <div class="menu-item" tabindex="0" role="button" onclick="window.location.href='./two.html'">
+                              Projects</div>
+                        <div class="menu-item" tabindex="0" role="button" onclick="window.location.href='./about.html'">
+                              About</div>
+                        <div class="menu-item" tabindex="0" role="button"
+                              onclick="window.location.href='./contact.html'">Contact</div>
+                  </div>
+
+                  <div class="social-links" role="navigation" aria-label="Social media links">
+                        <a href="#" tabindex="0" aria-label="LinkedIn profile">LinkedIn</a>
+                        <a href="#" tabindex="0" aria-label="Instagram profile">Instagram</a>
+                        <a href="#" tabindex="0" aria-label="Github portfolio">Github</a>
+                        <a href="#" tabindex="0" aria-label="Medium profile">Medium</a>
+                  </div>
+            </div>
+      </div>
+
+      <script>
+            // Enhanced interactivity
+            document.addEventListener('DOMContentLoaded', function () {
+                  const menuItems = document.querySelectorAll('.menu-item');
+                  const socialLinks = document.querySelectorAll('.social-links a');
+                  const closeBtn = document.querySelector('.close-btn');
+                  const logo = document.querySelector('.logo');
+
+                  // Menu item interactions
+                  menuItems.forEach((item, index) => {
+                        item.addEventListener('click', function () {
+                              // Remove highlight from all items
+                              menuItems.forEach(i => i.classList.remove('highlight'));
+                              // Add highlight to clicked item
+                              this.classList.add('highlight');
+
+                              // Add a little bounce effect
+                              this.style.animation = 'none';
+                              this.offsetHeight; // Trigger reflow
+                              this.style.animation = 'bounce 0.6s ease';
+                        });
+
+                        // Keyboard navigation
+                        item.addEventListener('keydown', function (e) {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                    e.preventDefault();
+                                    this.click();
+                              }
+                        });
+                  });
+
+                  // Close button functionality
+                  closeBtn.addEventListener('click', function () {
+                        document.body.style.animation = 'fadeOut 0.5s ease-out forwards';
+                        setTimeout(() => {
+                              alert('Portfolio closed - this would typically navigate away or close the modal');
+                        }, 500);
+                  });
+
+                  // Logo interaction
+                  logo.addEventListener('click', function () {
+                        // Reset to home
+                        menuItems.forEach(i => i.classList.remove('highlight'));
+                        menuItems[0].classList.add('highlight');
+                  });
+
+                  // Social links hover effects
+                  socialLinks.forEach(link => {
+                        link.addEventListener('mouseenter', function () {
+                              this.style.transform = 'translateY(-3px) scale(1.05)';
+                        });
+
+                        link.addEventListener('mouseleave', function () {
+                              this.style.transform = 'translateY(0) scale(1)';
+                        });
+                  });
+
+                  // Add keyboard navigation for social links
+                  socialLinks.forEach(link => {
+                        link.addEventListener('keydown', function (e) {
+                              if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    // This would typically open the social media profile
+                                    console.log(`Opening ${this.textContent} profile`);
+                              }
+                        });
+                  });
+            });
+
+            // Add additional CSS animations via JavaScript
+            const style = document.createElement('style');
+            style.textContent = `
+                  @keyframes bounce {
+                        0%, 20%, 60%, 100% {
+                              transform: translateY(0) scale(1.02);
+                        }
+                        40% {
+                              transform: translateY(-10px) scale(1.05);
+                        }
+                        80% {
+                              transform: translateY(-3px) scale(1.03);
+                        }
+                  }
+
+                  @keyframes fadeOut {
+                        to {
+                              opacity: 0;
+                              transform: scale(0.95);
+                        }
+                  }
+            `;
+            document.head.appendChild(style);
+            let currentPage = 1;
+            const pages = ['home.html', 'menu2.html'];
+            let isScrolling = false;
+
+            // Add CSS for page transition animations
+            const style = document.createElement('style');
+            style.textContent = `
+    .page-transition-out {
+        animation: slideOutDown 0.8s ease-in-out forwards;
+    }
+    
+    .page-transition-up {
+        animation: slideOutUp 0.8s ease-in-out forwards;
+    }
+    
+    @keyframes slideOutDown {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: translateY(-20px) scale(0.98);
+            opacity: 0.7;
+        }
+        100% {
+            transform: translateY(100vh) scale(0.9);
+            opacity: 0;
+        }
+    }
+    
+    @keyframes slideOutUp {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: translateY(20px) scale(0.98);
+            opacity: 0.7;
+        }
+        100% {
+            transform: translateY(-100vh) scale(0.9);
+            opacity: 0;
+        }
+    }
+    
+    .scroll-indicator {
+        position: fixed;
+        top: 50%;
+        right: 30px;
+        transform: translateY(-50%);
+        z-index: 1000;
+        font-size: 2rem;
+        color: #667eea;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+    
+    .scroll-indicator.show {
+        opacity: 1;
+        animation: bounce 0.6s ease;
+    }
+    
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(-50%);
+        }
+        40% {
+            transform: translateY(-60%);
+        }
+        60% {
+            transform: translateY(-55%);
+        }
+    }
+    
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .loading-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+`;
+            document.head.appendChild(style);
+
+            // Create scroll indicator
+            const scrollIndicator = document.createElement('div');
+            scrollIndicator.className = 'scroll-indicator';
+            scrollIndicator.innerHTML = '↓';
+            document.body.appendChild(scrollIndicator);
+
+            // Create loading overlay
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.className = 'loading-overlay';
+            loadingOverlay.innerHTML = '<div class="loading-spinner"></div>';
+            document.body.appendChild(loadingOverlay);
+
+            // Prevent rapid scrolling
+            function throttleScroll() {
+                  if (isScrolling) return;
+                  isScrolling = true;
+                  setTimeout(() => { isScrolling = false; }, 1200); // Increased delay for animation
+            }
+
+            // Animate page transition
+            function animatePageTransition(direction, targetPage) {
+                  const body = document.body;
+
+                  // Show loading overlay
+                  loadingOverlay.classList.add('active');
+
+                  // Add transition class based on scroll direction
+                  if (direction === 'down') {
+                        body.classList.add('page-transition-out');
+                        scrollIndicator.innerHTML = '↓';
+                  } else {
+                        body.classList.add('page-transition-up');
+                        scrollIndicator.innerHTML = '↑';
+                  }
+
+                  // Show scroll indicator
+                  scrollIndicator.classList.add('show');
+
+                  // Navigate after animation completes
+                  setTimeout(() => {
+                        window.location.href = targetPage;
+                  }, 800); // Match animation duration
+            }
+
+            // Handle scroll events
+            window.addEventListener('wheel', function (e) {
+                  if (isScrolling) return;
+
+                  e.preventDefault(); // Prevent default scroll behavior
+
+                  if (e.deltaY > 0) { // Scrolling down
+                        throttleScroll();
+                        const nextPage = (currentPage + 1) % pages.length;
+                        animatePageTransition('down', pages[nextPage]);
+                  } else if (e.deltaY < 0) { // Scrolling up
+                        throttleScroll();
+                        const prevPage = (currentPage - 1 + pages.length) % pages.length;
+                        animatePageTransition('up', pages[prevPage]);
+                  }
+            });
+
+            // Keyboard support for menu items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                  item.addEventListener('keydown', function (e) {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              this.click();
+                        }
+                  });
+            });
+
+            // Set current page index based on current URL
+            const currentUrl = window.location.pathname.split('/').pop();
+            currentPage = pages.indexOf(currentUrl);
+            if (currentPage === -1) currentPage = 0;
+
+            // Add smooth page entry animation
+            window.addEventListener('load', function () {
+                  document.body.style.animation = 'slideInUp 0.8s ease-out';
+
+                  // Add entry animation keyframes
+                  const entryStyle = document.createElement('style');
+                  entryStyle.textContent = `
+        @keyframes slideInUp {
+            0% {
+                transform: translateY(100vh) scale(0.9);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-10px) scale(0.98);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+    `;
+                  document.head.appendChild(entryStyle);
+            });
+
+            // Touch support for mobile devices
+            let touchStartY = 0;
+            let touchEndY = 0;
+
+            document.addEventListener('touchstart', function (e) {
+                  touchStartY = e.changedTouches[0].screenY;
+            });
+
+            document.addEventListener('touchend', function (e) {
+                  if (isScrolling) return;
+
+                  touchEndY = e.changedTouches[0].screenY;
+                  const touchDiff = touchStartY - touchEndY;
+
+                  if (Math.abs(touchDiff) > 50) { // Minimum swipe distance
+                        if (touchDiff > 0) { // Swipe up (scroll down)
+                              throttleScroll();
+                              const nextPage = (currentPage + 1) % pages.length;
+                              animatePageTransition('down', pages[nextPage]);
+                        } else { // Swipe down (scroll up)
+                              throttleScroll();
+                              const prevPage = (currentPage - 1 + pages.length) % pages.length;
+                              animatePageTransition('up', pages[prevPage]);
+                        }
+                  }
+            });
+      </script>
+</body>
+
+</html>

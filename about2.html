@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wove</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #f0ebda;
+      color: #1a1a1a;
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #f0ebda;
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #000;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #666;
+      font-size: 16px;
+      font-weight: 400;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #000;
+    }
+
+    .main-content {
+      margin-top: 75px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .content-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 100px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .about-title {
+      font-size: 120px;
+      font-weight: 300;
+      color: #000;
+      line-height: 0.9;
+      margin-bottom: 60px;
+      letter-spacing: -0.04em;
+    }
+
+    .right-content {
+      padding-left: 40px;
+    }
+
+    .main-text {
+      font-size: 24px;
+      line-height: 1.6;
+      color: #666;
+      font-weight: 300;
+      margin-bottom: 80px;
+      letter-spacing: -0.01em;
+    }
+
+    .info-section {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 60px;
+      margin-bottom: 60px;
+    }
+
+    .team-info h3 {
+      font-size: 18px;
+      font-weight: 500;
+      color: #000;
+      margin-bottom: 20px;
+    }
+
+    .team-info p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    .join-team {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #000;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 400;
+      transition: all 0.3s ease;
+    }
+
+    .join-team:hover {
+      gap: 15px;
+    }
+
+    .join-team::after {
+      content: '→';
+      font-size: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .join-team:hover::after {
+      transform: translateX(5px);
+    }
+
+    .contact-info h3 {
+      font-size: 18px;
+      font-weight: 500;
+      color: #000;
+      margin-bottom: 15px;
+    }
+
+    .contact-info p {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .status-indicator {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+
+
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .content-wrapper {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .about-title {
+        font-size: 80px;
+      }
+
+      .main-text {
+        font-size: 20px;
+      }
+
+      .info-section {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .nav-dots {
+        display: none;
+      }
+
+      .sidebar-text {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <a href="#" class="logo">Lokesh Ram Chand</a>
+      <div class="nav-links">
+        <a href="./index.html">Home</a>
+        <a href="./two.html">Projects</a>
+        <a href="./about2.html">About</a>
+        <a href="./contact2.html">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <div class="content-wrapper">
+        <!-- Left Side -->
+        <div class="sidebar">
+          <h1 class="about-title">About</h1>
+        </div>
+
+        <!-- Right Side -->
+        <div class="right-content">
+          <p class="main-text">
+            Hey, I’m Lokesh Ram Chand Bazaru, a software developer and web designer from India. <br>
+            I specialize in building sleek, functional mobile and web applications with a strong focus on user
+            experience.<br>
+            With a passion for innovation, I blend technology and creativity to craft engaging, high-performance
+            apps.<br>
+            I'm also exploring AI and decentralized systems to push the boundaries of what's possible in tech.<br>
+            Let's connect and create something amazing together! </p>
+
+          <div class="info-section">
+            <a href="#" class="join-team">Resume</a>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+  </main>
+
+
+
+  <script>
+    // GSAP Animations
+    gsap.registerPlugin();
+
+    // Initial load animations
+    gsap.timeline()
+      .from("header", { y: -100, opacity: 0, duration: 1, ease: "power3.out" })
+      .from(".sidebar-text", { x: -50, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.5")
+      .from(".about-title", { x: -100, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.3")
+      .from(".main-text", { y: 50, opacity: 0, duration: 0.8, ease: "power2.out" }, "-=0.5")
+      .from(".team-info", { y: 30, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.3")
+      .from(".contact-info", { y: 30, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.4")
+      .from(".nav-dots", { x: -30, opacity: 0, duration: 0.6, ease: "power2.out" }, "-=0.3");
+
+    // Hover animations for interactive elements
+    const joinTeamLink = document.querySelector('.join-team');
+    const newsLink = document.querySelector('.news-section a');
+    const ctaButton = document.querySelector('.cta-button');
+
+    // Join team hover effect
+    joinTeamLink.addEventListener('mouseenter', () => {
+      gsap.to(joinTeamLink, { x: 10, duration: 0.3, ease: "power2.out" });
+    });
+
+    joinTeamLink.addEventListener('mouseleave', () => {
+      gsap.to(joinTeamLink, { x: 0, duration: 0.3, ease: "power2.out" });
+    });
+
+    // News link hover effect
+    newsLink.addEventListener('mouseenter', () => {
+      gsap.to(newsLink, { x: 10, duration: 0.3, ease: "power2.out" });
+    });
+
+    newsLink.addEventListener('mouseleave', () => {
+      gsap.to(newsLink, { x: 0, duration: 0.3, ease: "power2.out" });
+    });
+
+    // CTA button hover effect
+    ctaButton.addEventListener('mouseenter', () => {
+      gsap.to(ctaButton, {
+        scale: 1.05,
+        backgroundColor: "#5856eb",
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    });
+
+    ctaButton.addEventListener('mouseleave', () => {
+      gsap.to(ctaButton, {
+        scale: 1,
+        backgroundColor: "#6366f1",
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    });
+
+    // Navigation dots functionality
+    const navDots = document.querySelectorAll('.nav-dot');
+
+    navDots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        // Remove active class from all dots
+        navDots.forEach(d => d.classList.remove('active'));
+        // Add active class to clicked dot
+        dot.classList.add('active');
+
+        // Animate scroll or section highlight
+        gsap.to(window, {
+          scrollTo: { y: index * 300 },
+          duration: 1,
+          ease: "power2.inOut"
+        });
+      });
+    });
+
+    // Scroll-triggered animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Parallax effect for the about title
+    gsap.to(".about-title", {
+      y: -50,
+      scrollTrigger: {
+        trigger: ".about-title",
+        start: "top center",
+        end: "bottom center",
+        scrub: 1
+      }
+    });
+
+    // Fade in footer on scroll
+    gsap.from("footer", {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: "footer",
+        start: "top 90%",
+        end: "top 70%",
+        scrub: 1
+      }
+    });
+
+    // Text reveal animation on scroll
+    gsap.from(".main-text", {
+      clipPath: "inset(0 100% 0 0)",
+      duration: 1.5,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".main-text",
+        start: "top 80%",
+        end: "top 50%",
+        scrub: 1
+      }
+    });
+
+    // Stagger animation for info sections
+    gsap.from(".info-section > div", {
+      y: 30,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".info-section",
+        start: "top 80%",
+        end: "top 50%",
+        scrub: 1
+      }
+    });
+  </script>
+</body>
+
+</html>

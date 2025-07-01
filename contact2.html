@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lokesh - Contact</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f0ebda;
+      color: #1a1a1a;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #f0ebda;
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #000;
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #666;
+      font-size: 16px;
+      font-weight: 400;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #000;
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 80px 0 120px;
+      min-height: calc(100vh - 140px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .get-in-touch {
+      font-size: clamp(48px, 8vw, 120px);
+      font-weight: 900;
+      line-height: 0.9;
+      margin-top: 100px;
+
+      margin-bottom: 80px;
+      letter-spacing: -0.02em;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    .email-link {
+      font-size: clamp(20px, 3vw, 32px);
+      color: #1a1a1a;
+      text-decoration: underline;
+      text-underline-offset: 8px;
+      text-decoration-thickness: 2px;
+      margin-bottom: 80px;
+      display: inline-block;
+      font-weight: 400;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.3s ease;
+    }
+
+    .email-link:hover {
+      text-decoration-thickness: 3px;
+      text-underline-offset: 10px;
+      color: #333;
+    }
+
+    /* Social Section */
+    .social-section {
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .social-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a1a1a;
+      margin-bottom: 30px;
+      letter-spacing: 0.5px;
+    }
+
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px 40px;
+      max-width: 400px;
+    }
+
+    .social-link {
+      font-size: 14px;
+      color: #666;
+      text-decoration: none;
+      font-weight: 400;
+      transition: all 0.3s ease;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .social-link:hover {
+      color: #1a1a1a;
+      transform: translateX(5px);
+    }
+
+    .social-link::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      background-color: #1a1a1a;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .social-link:hover::before {
+      opacity: 1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-links {
+        gap: 20px;
+      }
+
+      .nav-links a {
+        font-size: 13px;
+      }
+
+      .main-content {
+        padding: 60px 0 80px;
+      }
+
+      .email-link {
+        margin-bottom: 60px;
+      }
+
+      .social-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 30px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0 15px;
+      }
+
+      .nav-links {
+        gap: 15px;
+      }
+
+      .main-content {
+        padding: 40px 0 60px;
+      }
+
+      .social-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+    }
+
+    /* Cursor Animation */
+    .cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(26, 26, 26, 0.1);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      transition: transform 0.2s ease;
+    }
+
+    .cursor.hover {
+      transform: scale(2);
+      background-color: rgba(26, 26, 26, 0.2);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cursor"></div>
+
+  <header>
+    <nav>
+      <a href="#" class="logo">Lokesh Ram Chand</a>
+      <div class="nav-links">
+        <a href="./index.html">Home</a>
+        <a href="./two.html">Projects</a>
+        <a href="./about2.html">About</a>
+        <a href="./contact2.html">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+
+  <main>
+    <div class="container">
+      <div class="main-content">
+        <h1 class="get-in-touch">GET IN TOUCH</h1>
+
+        <a href="mailto:lokeshramchand@gmail.com" class="email-link">lokeshramchand@gmail.com</a>
+
+        <div class="social-section">
+          <h2 class="social-title">Social:</h2>
+          <div class="social-grid">
+            <a href="https://www.linkedin.com/in/lokesh-ram-chand-b-b276bb291/" class="social-link">Linkedin</a>
+            <a href="https://github.com/lokeshramchand-ctrl" class="social-link">Github</a>
+            <a href="https://medium.com/@lokeshramchand" class="social-link">Medium</a>
+            <a href="https://leetcode.com/u/SJVT92KpEZ/" class="social-link">Leetcode</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // GSAP Animations
+    gsap.registerPlugin();
+
+    // Timeline for page load animations
+    const tl = gsap.timeline();
+
+    // Header animations
+    tl.to('.logo', {
+      opacity: 1,
+      x: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    })
+      .to('.nav-links li', {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'power3.out'
+      }, '-=0.5')
+
+      // Main content animations
+      .to('.get-in-touch', {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: 'power3.out'
+      }, '-=0.3')
+      .to('.email-link', {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power3.out'
+      }, '-=0.7')
+      .to('.social-section', {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power3.out'
+      }, '-=0.5')
+      .to('.social-link', {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: 'power3.out'
+      }, '-=0.4');
+
+    // Hover animations for interactive elements
+    const interactiveElements = document.querySelectorAll('a, .social-link');
+
+    interactiveElements.forEach(element => {
+      element.addEventListener('mouseenter', () => {
+        gsap.to(element, {
+          scale: 1.02,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      });
+
+      element.addEventListener('mouseleave', () => {
+        gsap.to(element, {
+          scale: 1,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      });
+    });
+
+    // Custom cursor animation
+    const cursor = document.querySelector('.cursor');
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateCursor() {
+      cursorX += (mouseX - cursorX) * 0.1;
+      cursorY += (mouseY - cursorY) * 0.1;
+
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    // Cursor hover effects
+    const hoverElements = document.querySelectorAll('a, button');
+
+    hoverElements.forEach(element => {
+      element.addEventListener('mouseenter', () => {
+        cursor.classList.add('hover');
+      });
+
+      element.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hover');
+      });
+    });
+
+    // Parallax scroll effect for main title
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * -0.5;
+
+      gsap.to('.get-in-touch', {
+        y: rate,
+        duration: 0.5,
+        ease: 'power1.out'
+      });
+    });
+
+    // Letter animation on hover for main title
+    const mainTitle = document.querySelector('.get-in-touch');
+
+    mainTitle.addEventListener('mouseenter', () => {
+      const letters = mainTitle.textContent.split('');
+      mainTitle.innerHTML = letters.map(letter =>
+        letter === ' ' ? ' ' : `<span class="letter">${letter}</span>`
+      ).join('');
+
+      gsap.to('.letter', {
+        y: -10,
+        duration: 0.3,
+        stagger: 0.02,
+        ease: 'power2.out',
+        yoyo: true,
+        repeat: 1
+      });
+    });
+
+    // Magnetic effect for social links
+    const socialLinks = document.querySelectorAll('.social-link');
+
+    socialLinks.forEach(link => {
+      link.addEventListener('mousemove', (e) => {
+        const rect = link.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        gsap.to(link, {
+          x: x * 0.3,
+          y: y * 0.3,
+          duration: 0.3,
+          ease: 'power2.out'
+        });
+      });
+
+      link.addEventListener('mouseleave', () => {
+        gsap.to(link, {
+          x: 0,
+          y: 0,
+          duration: 0.5,
+          ease: 'elastic.out(1, 0.3)'
+        });
+      });
+    });
+
+    // Page transition effect
+    window.addEventListener('beforeunload', () => {
+      gsap.to('body', {
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.inOut'
+      });
+    });
+  </script>
+</body>
+
+</html>

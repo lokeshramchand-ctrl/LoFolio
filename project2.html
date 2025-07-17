@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,7 +89,7 @@
       top: 80px;
       height: calc(100vh - 80px);
     }
- 
+
     .works-title {
       font-size: 120px;
       font-weight: 300;
@@ -286,6 +287,7 @@
     }
   </style>
 </head>
+
 <body>
   <!-- Cursor -->
   <div class="cursor"></div>
@@ -312,29 +314,25 @@
   <div class="main-container">
     <!-- Left Panel -->
     <div class="left-panel">
-      <h1 class="works-title">Works</h1>     
+      <h1 class="works-title">Works</h1>
     </div>
 
     <!-- Right Panel -->
     <div class="right-panel">
       <div class="navigation-section">
         <div class="nav-item">
-          <h2 class="nav-title">Velar</h2>
-          <div class="nav-icon">
-            <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=80&h=80&fit=crop" alt="Work Icon">
-          </div>
+          <a href="./velar.html" style="text-decoration: none; color: inherit;">
+            <h2 class="nav-title">Velar</h2>
+          </a>
+
         </div>
         <div class="nav-item">
           <h2 class="nav-title">LMS</h2>
-          <div class="nav-icon">
-            <img src="https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=80&h=80&fit=crop" alt="Exhibitions Icon">
-          </div>
+
         </div>
         <div class="nav-item">
           <h2 class="nav-title">Seko</h2>
-          <div class="nav-icon">
-            <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=80&h=80&fit=crop" alt="Workshop Icon">
-          </div>
+
         </div>
       </div>
     </div>
@@ -354,7 +352,7 @@
       element.addEventListener('mouseenter', () => {
         cursor.classList.add('hover');
       });
-      
+
       element.addEventListener('mouseleave', () => {
         cursor.classList.remove('hover');
       });
@@ -367,4 +365,5 @@
     });
   </script>
 </body>
+
 </html>

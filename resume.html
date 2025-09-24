@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume</title>
+  
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0ebda;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .resume {
+      background: white;
+      width: 100%;
+      border-radius: 10px;
+      max-width: 900px;
+      padding: 3rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 3rem;
+    }
+
+    .name-title h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .name-title p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .contact {
+      text-align: right;
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .contact a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Layout for sections */
+    .section {
+      display: flex;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      width: 25%;
+      font-size: 0.95rem;
+      color: #999;
+      font-weight: 400;
+    }
+
+    .section-content {
+      width: 75%;
+    }
+
+    /* Jobs / Projects */
+    .job {
+      margin-bottom: 1.8rem;
+    }
+
+    .job h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .job .details {
+      font-size: 0.9rem;
+      color: #777;
+      margin: 0.3rem 0 0.6rem;
+    }
+
+    .job p {
+      font-size: 0.92rem;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    /* Education */
+    .education h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .education .degree {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0.2rem 0;
+    }
+
+    .education .details {
+      font-size: 0.88rem;
+      color: #777;
+    }
+
+    /* Skills & Research */
+    .skills, .research {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.5rem 2rem;
+      font-size: 0.9rem;
+      color: #444;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="resume">
+    <!-- Header -->
+    <div class="header">
+      <div class="name-title">
+        <h1>Lokesh Ram Chand B</h1>
+        <p>Software Developer</p>
+      </div>
+      <div class="contact">
+        <a href="https://www.lokeshramchand.vercel.app" target="_blank">lokeshramchand.vercel.app</a><br>
+        <a href="mailto:lokeshramchand@gmail.com">lokeshramchand@gmail.com</a><br>
+        Hyderabad, India
+      </div>
+    </div>
+    
+    <!-- Education -->
+    <div class="section">
+      <div class="section-title">Education</div>
+      <div class="section-content education">
+        <h3>K L University</h3>
+        <div class="degree">Bachelor of Technology in Computer Science</div>
+        <div class="details">Hyderabad, India • 2023 - 2027</div>
+      </div>
+    </div>
+     <!-- Projects -->
+    <div class="section">
+      <div class="section-title">Projects</div>
+      <div class="section-content">
+        <div class="job">
+          <h3>Velar • Finance Tracker</h3>
+          <div class="details">Flutter • Nodejs • Azure</div>
+          <p>
+        Led end-to-end development of Velar, a voice-enabled finance app, integrating backend, NLP, and mobile systems.</br>
+        Built and Dockerized backend services (API, RabbitMQ, NLP engine) and deployed them on Azure for scalable performance</br>
+        Designed and implemented the Flutter app with speech-to-text, Google Sign-In, and auto-categorization for seamless transactions.<br>
+       Collaborated across backend, mobile, and cloud deployment using a human-centric design approach to simplify financial workflows.<br>
+        </div>
+        <!-- <div class="job">
+          <h3>Freelance Designer</h3>
+          <div class="details">Fall 2015 - Present • Atlanta, Ga</div>
+          <p>
+            I designed logos, websites, posters and various social media content for multiple clients. 
+            The majority of this work was completed remotely.
+          </p>
+        </div> -->
+      </div>
+    </div>
+    <!-- Experience -->
+    <!-- <div class="section">
+      <div class="section-title">Experience</div>
+      <div class="section-content">
+        <div class="job">
+          <h3>Uber • Product Design Intern</h3>
+          <div class="details">Summer 2018 • San Francisco, Ca</div>
+          <p>
+            I led the research, prototyping, usability testing, and design of Jump Ops tools for current & new markets. 
+            I also helped design the MVP Uber e-Scooter experience. During my internship I worked collaboratively with PM's, engineers, designers, and stakeholders to utilize a human-centric design approach. 
+            At the end of my internship, I presented my work to Uber's design leadership.
+          </p>
+        </div>
+      </div>
+    </div>
+ -->
+
+    <!-- Technical -->
+    <div class="section">
+      <div class="section-title">Technical</div>
+      <div class="section-content skills">
+        <div>React</div>
+        <div>Figma</div>
+        <div>CMS</div>
+        <div>Flutter</div>
+        <div>Nodejs</div>
+        <div>Django</div>
+        <div>TensorFlow</div>
+        <div>Azure</div>
+        <div>AWS</div>
+        <div>Docker</div>
+        <div>RabbitMQ</div>
+        <div>Redis</div>
+        <div>Data Structures</div>
+        <div>Html/CSS</div>
+      </div>
+    </div>
+
+    <!-- Research -->
+    <!-- <div class="section">
+      <div class="section-title">Research</div>
+      <div class="section-content research">
+        <div>User Interviews</div>
+        <div>Heuristic Evaluation</div>
+        <div>Contextual Inquiry</div>
+        <div>Task Analysis</div>
+        <div>Usability Testing</div>
+        <div>Benchmarking</div>
+        <div>Affinity Mapping</div>
+        <div>Ethnography</div>
+        <div>Journey Mapping</div>
+        <div>Observation</div>
+      </div>
+    </div> -->
+  </div>
+</body>
+</html>

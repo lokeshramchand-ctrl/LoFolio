@@ -1,236 +1,297 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resume</title>
-  
-  <!-- Inter Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <meta charset='utf-8'>
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f0ebda;
-      padding: 2rem;
-      display: flex;
-      justify-content: center;
-    }
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.4.1/css/bulma.min.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!--link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" /-->
 
-    .resume {
-      background: white;
-      width: 100%;
-      border-radius: 10px;
-      max-width: 900px;
-      padding: 3rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-    }
-
-    /* Header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 3rem;
-    }
-
-    .name-title h1 {
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-    }
-
-    .name-title p {
-      font-size: 0.95rem;
-      color: #555;
-    }
-
-    .contact {
-      text-align: right;
-      font-size: 0.9rem;
-      color: #555;
-      line-height: 1.6;
-    }
-
-    .contact a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* Layout for sections */
-    .section {
-      display: flex;
-      margin-bottom: 2.5rem;
-    }
-
-    .section-title {
-      width: 25%;
-      font-size: 0.95rem;
-      color: #999;
-      font-weight: 400;
-    }
-
-    .section-content {
-      width: 75%;
-    }
-
-    /* Jobs / Projects */
-    .job {
-      margin-bottom: 1.8rem;
-    }
-
-    .job h3 {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .job .details {
-      font-size: 0.9rem;
-      color: #777;
-      margin: 0.3rem 0 0.6rem;
-    }
-
-    .job p {
-      font-size: 0.92rem;
-      color: #444;
-      line-height: 1.6;
-    }
-
-    /* Education */
-    .education h3 {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .education .degree {
-      font-size: 0.9rem;
-      color: #555;
-      margin: 0.2rem 0;
-    }
-
-    .education .details {
-      font-size: 0.88rem;
-      color: #777;
-    }
-
-    /* Skills & Research */
-    .skills, .research {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 0.5rem 2rem;
-      font-size: 0.9rem;
-      color: #444;
-      line-height: 1.6;
-    }
-  </style>
+  <title>Lokesh</title>
 </head>
+
 <body>
-  <div class="resume">
-    <!-- Header -->
-    <div class="header">
-      <div class="name-title">
-        <h1>Lokesh Ram Chand B</h1>
-        <p>Software Developer</p>
+  <div class="columns" style="padding-top:20px">
+    <div class="column is-8 is-offset-2">
+
+      <div class="level content is-marginless">
+        <p class="title is-2">Lokesh Ram Chand</p>
+        <p class="subtitle is-5">
+          <a href="mailto:lokeshramchand@gmail.com" class="icon"><i class="fa fa-envelope-square"
+              aria-hidden="true"></i></a>
+          <a href="https://www.linkedin.com/in/lokeshramchand/" class="icon"><i class="fa fa-linkedin-square"
+              aria-hidden="true"></i></a>
+          <!--- <a href="https://www.facebook.com/lokeshramchand" class="icon"><i class="fa fa-facebook-square" aria-hidden="true"></i></a> -->
+          <a href="https://github.com/lokeshramchand-ctrl" class="icon"><i class="fa fa-github-square"
+              aria-hidden="true"></i></a>
+          <a href="kumarpallav_resume.pdf" class="icon" download><i class="fa fa-download" aria-hidden="true"></i></a>
+        </p>
       </div>
-      <div class="contact">
-        <a href="https://www.lokeshramchand.vercel.app" target="_blank">lokeshramchand.vercel.app</a><br>
-        <a href="mailto:lokeshramchand@gmail.com">lokeshramchand@gmail.com</a><br>
-        Hyderabad, India
-      </div>
-    </div>
-    
-    <!-- Education -->
-    <div class="section">
-      <div class="section-title">Education</div>
-      <div class="section-content education">
-        <h3>K L University</h3>
-        <div class="degree">Bachelor of Technology in Computer Science</div>
-        <div class="details">Hyderabad, India • 2023 - 2027</div>
-      </div>
-    </div>
-     <!-- Projects -->
-    <div class="section">
-      <div class="section-title">Projects</div>
-      <div class="section-content">
-        <div class="job">
-          <h3>Velar • Finance Tracker</h3>
-          <div class="details">Flutter • Nodejs • Azure</div>
-          <p>
-        Led end-to-end development of Velar, a voice-enabled finance app, integrating backend, NLP, and mobile systems.</br>
-        Built and Dockerized backend services (API, RabbitMQ, NLP engine) and deployed them on Azure for scalable performance</br>
-        Designed and implemented the Flutter app with speech-to-text, Google Sign-In, and auto-categorization for seamless transactions.<br>
-       Collaborated across backend, mobile, and cloud deployment using a human-centric design approach to simplify financial workflows.<br>
-        </div>
-        <!-- <div class="job">
-          <h3>Freelance Designer</h3>
-          <div class="details">Fall 2015 - Present • Atlanta, Ga</div>
-          <p>
-            I designed logos, websites, posters and various social media content for multiple clients. 
-            The majority of this work was completed remotely.
+
+      <div class="content">
+        <span class="heading">
+          <h3>Education</h3>
+        </span>
+
+        <div class="level">
+          <p class="is-marginless">KL University, Aziz Nagar<br><span class="content is-marginless"
+              style="font-size: 0.8rem">Bachelor of Computer Science and Engineering (with Hons.); CGPA 9.5/10</span>
           </p>
-        </div> -->
+          <p style="text-align: right; font-size: 0.8rem">Hyderabad, India<br><span class="content is-marginless">Jun
+              2023 - May 2027</span></p>
+        </div>
+
       </div>
-    </div>
-    <!-- Experience -->
-    <!-- <div class="section">
-      <div class="section-title">Experience</div>
-      <div class="section-content">
-        <div class="job">
-          <h3>Uber • Product Design Intern</h3>
-          <div class="details">Summer 2018 • San Francisco, Ca</div>
-          <p>
-            I led the research, prototyping, usability testing, and design of Jump Ops tools for current & new markets. 
-            I also helped design the MVP Uber e-Scooter experience. During my internship I worked collaboratively with PM's, engineers, designers, and stakeholders to utilize a human-centric design approach. 
-            At the end of my internship, I presented my work to Uber's design leadership.
+
+      <div class="content">
+        <span class="heading">
+          <h3>Experience</h3>
+        </span>
+
+        <div class="level is-marginless">
+          <p class="is-marginless">Water Watchers<br>
+            <span class="content is-marginless" style="font-size: 0.8rem">Volunteer — Web Developer & Designer</span>
+          </p>
+          <p style="text-align: right; font-size: 0.8rem">Remote<br>
+            <span class="content is-marginless">Sep 2025 - Present</span>
           </p>
         </div>
+
+        <ul style="margin-top: 0.2em; list-style-type: circle;">
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Redesigned the NGO’s entire website with a modern and responsive UI, improving load speed and accessibility
+            across devices by 45%.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Migrated legacy layouts to a clean CMS-based structure using NationBuilder, enabling easy content updates by
+            non-technical staff.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Built interactive dashboards and campaign pages using custom HTML, CSS, and JavaScript to display event
+            timelines and donation metrics.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Integrated smooth animations and micro-interactions using GSAP and ScrollTrigger to make storytelling more
+            engaging for visitors.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Collaborated with the Canadian design and communications team to ensure brand consistency and SEO
+            optimization across all landing pages.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Developed reusable page templates and modular components for campaign launches, reducing deployment time by
+            60%.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Conducted usability testing with volunteers to refine navigation flow and enhance accessibility compliance
+            (WCAG 2.1 standards).
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Improved CMS performance by optimizing image pipelines and minimizing unused CSS and scripts.
+          </li>
+
+        </ul>
+      </div>
+
+
+      <div class="content">
+        <span class="heading">
+          <h3>Projects</h3>
+        </span>
+
+        <div class="level is-marginless">
+          <p class="is-marginless">Velar<br>
+            <span class="content is-marginless" style="font-size: 0.8rem">Flutter · Node.js · RabbitMQ · MongoDB</span>
+          </p>
+        </div>
+
+        <ul style="margin-top: 0.2em; list-style-type: circle;">
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Developed a cross-platform finance tracking app using Flutter for seamless expense visualization and account
+            insights with a responsive UI and offline sync capabilities.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Built a secure backend using Node.js and Express, with MongoDB as the database to handle user transactions,
+            authentication, and data persistence efficiently.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Implemented real-time data synchronization and notification systems using RabbitMQ to ensure instant
+            reflection of financial activities across multiple devices.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Integrated intelligent categorization of expenses using regex-based transaction analysis and API-based bank
+            email parsing for automated classification.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Designed a modular architecture with RESTful API integration, supporting scalable data pipelines for
+            analytics and future ML model integration.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Enhanced user experience with dynamic visual dashboards, chart-based spending summaries, and secure
+            authentication using JWT.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Worked on deployment and CI/CD pipelines, containerizing services for development and staging environments
+            using Docker.
+          </li>
+
+        </ul>
+
+
+        <div class="level is-marginless">
+          <p class="is-marginless">Seko<br>
+            <span class="content is-marginless" style="font-size: 0.8rem">Flutter · Node.js · PostgreSQL</span>
+          </p>
+        </div>
+
+        <ul style="margin-top: 0.2em; list-style-type: circle;">
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Developed a full-stack eCommerce application from scratch using Flutter for the frontend and Node.js
+            (Express) for backend APIs, enabling seamless user experience across Android and iOS.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Designed and implemented a scalable PostgreSQL database schema to handle products, users, orders, and
+            payments with optimized relational queries.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Integrated Razorpay payment gateway and JWT-based authentication to ensure secure and reliable transactions.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Built dynamic product listing pages with search, filters, and category-based navigation using Flutter’s
+            state management architecture.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Implemented real-time cart synchronization between devices using REST APIs and WebSocket updates for a
+            seamless shopping experience.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Developed an admin panel to manage inventory, product details, and user data with analytics on daily sales
+            performance.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Deployed backend services on Render and integrated CI/CD pipelines for automatic deployment on code commits.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Focused on clean UI/UX using Cupertino and Material design principles to make the shopping flow intuitive
+            and responsive.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Optimized API response times by implementing caching and query indexing in PostgreSQL for faster product
+            retrieval.
+          </li>
+        </ul>
+
+        <div class="level is-marginless">
+          <p class="is-marginless">MapLayer<br>
+            <span class="content is-marginless" style="font-size: 0.8rem">React · GeoJSON</span>
+          </p>
+        </div>
+
+        <ul style="margin-top: 0.2em; list-style-type: circle;">
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Developed an interactive map visualization platform for the City of San Diego project using React and
+            Leaflet.js, allowing real-time rendering of spatial and demographic data.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Integrated GeoJSON datasets to dynamically render layers for environmental zones, infrastructure, and
+            municipal boundaries with filtering and highlighting capabilities.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Implemented responsive UI components for data overlays, map legends, and navigation controls to enhance
+            usability on both desktop and mobile devices.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Collaborated with data teams to process large GeoJSON files, optimizing rendering performance using lazy
+            loading and React memoization.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Designed a modular component architecture enabling seamless integration of multiple datasets such as water
+            systems, parks, and community centers.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Added interactive popups and hover-based details on map markers to visualize project-specific attributes and
+            metadata.
+          </li>
+
+          <li class="content is-marginless" style="font-size: 0.8rem">
+            Worked closely with the design team to ensure visual consistency and alignment with San Diego’s civic design
+            guidelines and accessibility standards.
+          </li>
+        </ul>
+
+<div class="content">
+  <span class="heading">
+    <h3>Skills</h3>
+  </span>
+
+  <p class="heading is-marginless">Languages</p>
+  <p style="font-size: 0.8rem">
+    Dart <br>
+    JavaScript <br>
+    TypeScript <br>
+    C++ <br>
+    Python <br>
+    SQL
+  </p>
+
+  <p class="heading is-marginless">Technologies</p>
+  <p style="font-size: 0.8rem">
+    Flutter <br>
+    Node.js <br>
+    Express.js <br>
+    MongoDB <br>
+    PostgreSQL <br>
+    RabbitMQ <br>
+    RESTful APIs <br>
+    Firebase <br>
+    Docker <br>
+    Git & GitHub
+  </p>
+</div>
+
+
+        <footer class="footer" style="background: inherit;">
+          <div class="content has-text-centered">
+            <p>
+              <a href="lokesh_resume.pdf" class="icon" download="">
+                <i class="fa fa-download" aria-hidden="true">
+                </i></a>
+            </p>
+          </div>
+        </footer>
+
       </div>
     </div>
- -->
 
-    <!-- Technical -->
-    <div class="section">
-      <div class="section-title">Technical</div>
-      <div class="section-content skills">
-        <div>React</div>
-        <div>Figma</div>
-        <div>CMS</div>
-        <div>Flutter</div>
-        <div>Nodejs</div>
-        <div>Django</div>
-        <div>TensorFlow</div>
-        <div>Azure</div>
-        <div>AWS</div>
-        <div>Docker</div>
-        <div>RabbitMQ</div>
-        <div>Redis</div>
-        <div>Data Structures</div>
-        <div>Html/CSS</div>
-      </div>
-    </div>
-
-    <!-- Research -->
-    <!-- <div class="section">
-      <div class="section-title">Research</div>
-      <div class="section-content research">
-        <div>User Interviews</div>
-        <div>Heuristic Evaluation</div>
-        <div>Contextual Inquiry</div>
-        <div>Task Analysis</div>
-        <div>Usability Testing</div>
-        <div>Benchmarking</div>
-        <div>Affinity Mapping</div>
-        <div>Ethnography</div>
-        <div>Journey Mapping</div>
-        <div>Observation</div>
-      </div>
-    </div> -->
-  </div>
 </body>
+
 </html>

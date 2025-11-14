@@ -37,6 +37,7 @@ CGPA: 9.5/10
 
 ---
 
+
 ## Projects
 
 ### Velar
@@ -88,3 +89,4 @@ Flutter • Node.js • Express.js • React.js • Django • HTML5 & CSS3 • 
 
 
 **📥 [Download Full Resume](Lokesh_Resume.pdf)**
+

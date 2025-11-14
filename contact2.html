@@ -4,32 +4,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="images/favicon.png">
-
-  <title>Lokesh - Contact</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <title>Contact — Lokesh Ram Chand</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
   <style>
+    :root {
+      --bg: #f0ebda;
+      --text: #1a1a1a;
+      --muted: #666;
+      --accent: #000;
+      --container-max: 1200px;
+      --header-h: 72px;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
-      font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: #f0ebda;
-      color: #1a1a1a;
-      line-height: 1.6;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .container {
-      max-width: 1200px;
+      max-width: var(--container-max);
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 clamp(20px, 4vw, 40px);
     }
 
     /* Header */
@@ -38,135 +52,212 @@
       top: 0;
       left: 0;
       right: 0;
-      background: #f0ebda;
-      backdrop-filter: blur(20px);
+      background: linear-gradient(180deg, rgba(240, 235, 218, 0.95), rgba(240, 235, 218, 0.8));
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
       z-index: 1000;
       padding: 20px 0;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      height: var(--header-h);
     }
 
     nav {
+      font-family: 'Raleway', -apple-system, BlinkMacSystemFont, sans-serif;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      max-width: 1200px;
+      max-width: var(--container-max);
       margin: 0 auto;
-      padding: 0 40px;
+      padding: 0 clamp(20px, 4vw, 40px);
+      height: 100%;
     }
 
     .logo {
-      font-size: 24px;
+      font-size: clamp(18px, 3vw, 24px);
       font-weight: 700;
-      color: #000;
+      color: var(--accent);
       text-decoration: none;
       letter-spacing: -0.02em;
+      will-change: transform;
     }
 
     .nav-links {
       display: flex;
-      gap: 40px;
+      gap: clamp(20px, 4vw, 40px);
       align-items: center;
     }
 
     .nav-links a {
       text-decoration: none;
-      color: #666;
-      font-size: 16px;
-      font-weight: 400;
-      transition: color 0.3s ease;
+      color: var(--muted);
+      font-size: clamp(14px, 2vw, 16px);
+      font-weight: 500;
+      transition: color 0.3s ease, transform 0.2s ease;
+      will-change: transform;
     }
 
     .nav-links a:hover {
-      color: #000;
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      background: transparent;
+      border: 0;
+      width: 44px;
+      height: 44px;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 1100;
+    }
+
+    .hamburger .bar {
+      display: block;
+      height: 2px;
+      width: 22px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.2s ease;
+    }
+
+    .hamburger .bar+.bar {
+      margin-top: 6px;
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.active .bar:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0.2);
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Mobile Nav */
+    #mobile-nav {
+      position: fixed;
+      inset: 0 0 0 auto;
+      width: min(86%, 360px);
+      max-width: 420px;
+      height: 100vh;
+      background: var(--bg);
+      padding: 96px 28px;
+      box-shadow: -18px 40px 80px rgba(0, 0, 0, 0.08);
+      transform: translateX(100%);
+      opacity: 0;
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+      z-index: 1050;
+      overflow-y: auto;
+    }
+
+    #mobile-nav.open {
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    #mobile-nav a {
+      display: block;
+      font-size: 18px;
+      color: var(--text);
+      text-decoration: none;
+      margin-bottom: 24px;
+      font-weight: 500;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    #mobile-nav a:hover {
+      transform: translateX(8px);
+      color: var(--accent);
     }
 
     /* Main Content */
     .main-content {
-      padding: 80px 0 120px;
-      min-height: calc(100vh - 140px);
+      margin-top: var(--header-h);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      padding: clamp(60px, 10vw, 120px) 0;
     }
 
     .get-in-touch {
-      font-size: clamp(48px, 8vw, 120px);
-      font-weight: 900;
+      font-family: 'Raleway', sans-serif;
+      font-size: clamp(48px, 12vw, 120px);
+      font-weight: 700;
       line-height: 0.9;
-      margin-top: 100px;
-
-      margin-bottom: 80px;
+      margin-bottom: clamp(40px, 8vw, 80px);
       letter-spacing: -0.02em;
-      opacity: 0;
-      transform: translateY(50px);
+      color: var(--accent);
+      will-change: transform;
     }
 
     .email-link {
-      font-size: clamp(20px, 3vw, 32px);
-      color: #1a1a1a;
+      font-size: clamp(20px, 4vw, 32px);
+      color: var(--text);
       text-decoration: underline;
+            font-family: Raleway, sans-serif;
+
       text-underline-offset: 8px;
       text-decoration-thickness: 2px;
-      margin-bottom: 80px;
+      margin-bottom: clamp(60px, 10vw, 80px);
       display: inline-block;
       font-weight: 400;
-      opacity: 0;
-      transform: translateY(30px);
       transition: all 0.3s ease;
+      will-change: transform;
     }
 
     .email-link:hover {
       text-decoration-thickness: 3px;
       text-underline-offset: 10px;
       color: #333;
+      transform: translateX(5px);
     }
 
     /* Social Section */
     .social-section {
-      opacity: 0;
-      transform: translateY(40px);
-    }
-
-    .social-title {
-      font-size: 14px;
-      font-weight: 500;
-      color: #1a1a1a;
-      margin-bottom: 30px;
-      letter-spacing: 0.5px;
+      margin-top: clamp(20px, 4vw, 40px);
     }
 
     .social-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 30px 40px;
-      max-width: 400px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: clamp(20px, 4vw, 30px);
+      max-width: 600px;
     }
 
     .social-link {
-      font-size: 24px;
-      color: #666;
+      font-size: clamp(20px, 3vw, 24px);
+      color: var(--muted);
+      font-family: Raleway, sans-serif;
       text-decoration: none;
       font-weight: 400;
       transition: all 0.3s ease;
       position: relative;
-      opacity: 0;
-      transform: translateY(20px);
+      padding-left: 20px;
+      will-change: transform;
     }
 
     .social-link:hover {
-      color: #1a1a1a;
-      transform: translateX(5px);
+      color: var(--text);
+      transform: translateX(8px);
     }
 
     .social-link::before {
       content: '';
       position: absolute;
-      left: -10px;
+      left: 0;
       top: 50%;
       transform: translateY(-50%);
-      width: 4px;
-      height: 4px;
-      background-color: #1a1a1a;
+      width: 6px;
+      height: 6px;
+      background-color: var(--text);
       border-radius: 50%;
       opacity: 0;
       transition: opacity 0.3s ease;
@@ -176,84 +267,151 @@
       opacity: 1;
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
+    /* Cursor */
+    .cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: rgba(26, 26, 26, 0.08);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      transition: transform 0.2s ease, background-color 0.2s;
+      transform: translate(-50%, -50%);
+      will-change: transform, left, top;
+      display: none;
+    }
+
+    .cursor.hover {
+      transform: translate(-50%, -50%) scale(2.5);
+      background-color: rgba(26, 26, 26, 0.15);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .cursor {
+        display: block;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hamburger {
+        display: flex;
+      }
+
       .nav-links {
-        gap: 20px;
+        display: none;
       }
 
-      .nav-links a {
-        font-size: 13px;
-      }
-
-      .main-content {
-        padding: 60px 0 80px;
+      .get-in-touch {
+        font-size: clamp(42px, 14vw, 80px);
+        margin-bottom: 50px;
       }
 
       .email-link {
-        margin-bottom: 60px;
+        font-size: clamp(18px, 5vw, 24px);
+        margin-bottom: 50px;
       }
 
       .social-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px 30px;
+        gap: 20px;
       }
     }
 
-    @media (max-width: 480px) {
-      .container {
-        padding: 0 15px;
+    @media (max-width: 600px) {
+      header {
+        height: 64px;
+        padding: 12px 0;
       }
 
-      .nav-links {
-        gap: 15px;
+      :root {
+        --header-h: 64px;
+      }
+
+      .get-in-touch {
+        font-size: clamp(36px, 16vw, 64px);
       }
 
       .main-content {
-        padding: 40px 0 60px;
+        padding: 40px 0;
       }
 
       .social-grid {
         grid-template-columns: 1fr;
         gap: 15px;
       }
+
+      .social-link {
+        font-size: 18px;
+      }
     }
 
-    /* Cursor Animation */
-    .cursor {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      background-color: rgba(26, 26, 26, 0.1);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: difference;
-      transition: transform 0.2s ease;
+    @media (max-width: 420px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .get-in-touch {
+        font-size: clamp(32px, 18vw, 56px);
+        margin-bottom: 30px;
+      }
+
+      .email-link {
+        font-size: 16px;
+        margin-bottom: 40px;
+      }
     }
 
-    .cursor.hover {
-      transform: scale(2);
-      background-color: rgba(26, 26, 26, 0.2);
+    /* Utility */
+    body.menu-open {
+      overflow: hidden;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
   </style>
 </head>
 
 <body>
-  <div class="cursor"></div>
+  <div class="cursor" aria-hidden="true"></div>
 
   <header>
     <nav>
-      <a href="#" class="logo">Lokesh Ram Chand</a>
+      <a href="./index.html" class="logo">Lokesh Ram Chand</a>
+
       <div class="nav-links">
         <a href="./index.html">Home</a>
         <a href="./project2.html">Projects</a>
         <a href="./about2.html">About</a>
-        <a href="./contact2.html">Contact</a>
+        <a href="./contact2.html" aria-current="page">Contact</a>
       </div>
+
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false"
+        aria-controls="mobile-nav">
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
+        <span class="bar" aria-hidden="true"></span>
+      </button>
     </nav>
   </header>
 
+  <div id="mobile-nav" role="dialog" aria-modal="true" aria-hidden="true">
+    <a href="./index.html">Home</a>
+    <a href="./project2.html">Projects</a>
+    <a href="./about2.html">About</a>
+    <a href="./contact2.html" style="font-weight: 600;">Contact</a>
+  </div>
 
   <main>
     <div class="container">
@@ -264,10 +422,10 @@
 
         <div class="social-section">
           <div class="social-grid">
-            <a href="https://www.linkedin.com/in/lokesh-ram-chand-b-b276bb291/" class="social-link">Linkedin</a>
-            <a href="https://github.com/lokeshramchand-ctrl" class="social-link">Github</a>
-            <a href="https://medium.com/@lokeshramchand" class="social-link">Medium</a>
-            <a href="https://leetcode.com/u/SJVT92KpEZ/" class="social-link">Leetcode</a>
+            <a href="https://www.linkedin.com/in/lokeshramchand/" target="_blank" rel="noopener" class="social-link">LinkedIn</a>
+            <a href="https://github.com/lokeshramchand-ctrl" target="_blank" rel="noopener" class="social-link">GitHub</a>
+            <a href="https://medium.com/@lokeshramchand" target="_blank" rel="noopener" class="social-link">Medium</a>
+            <a href="https://leetcode.com/u/SJVT92KpEZ/" target="_blank" rel="noopener" class="social-link">LeetCode</a>
           </div>
         </div>
       </div>
@@ -275,176 +433,117 @@
   </main>
 
   <script>
-    // GSAP Animations
-    gsap.registerPlugin();
+    // Register GSAP plugins
+    gsap.registerPlugin(ScrollTrigger);
 
-    // Timeline for page load animations
-    const tl = gsap.timeline();
-
-    // Header animations
-    tl.to('.logo', {
-      opacity: 1,
-      x: 0,
-      duration: 0.8,
-      ease: 'power3.out'
-    })
-      .to('.nav-links li', {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'power3.out'
-      }, '-=0.5')
-
-      // Main content animations
-      .to('.get-in-touch', {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: 'power3.out'
-      }, '-=0.3')
-      .to('.email-link', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power3.out'
-      }, '-=0.7')
-      .to('.social-section', {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: 'power3.out'
-      }, '-=0.5')
-      .to('.social-link', {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: 'power3.out'
-      }, '-=0.4');
-
-    // Hover animations for interactive elements
-    const interactiveElements = document.querySelectorAll('a, .social-link');
-
-    interactiveElements.forEach(element => {
-      element.addEventListener('mouseenter', () => {
-        gsap.to(element, {
-          scale: 1.02,
-          duration: 0.3,
-          ease: 'power2.out'
-        });
-      });
-
-      element.addEventListener('mouseleave', () => {
-        gsap.to(element, {
-          scale: 1,
-          duration: 0.3,
-          ease: 'power2.out'
-        });
-      });
-    });
-
-    // Custom cursor animation
+    // Elements
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobile-nav');
+    const mobileLinks = Array.from(mobileNav.querySelectorAll('a'));
     const cursor = document.querySelector('.cursor');
-    let mouseX = 0;
-    let mouseY = 0;
-    let cursorX = 0;
-    let cursorY = 0;
+    const logo = document.querySelector('.logo');
+    let menuOpen = false;
 
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
+    // Optimized cursor (only on hover-capable devices)
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      let mouseX = innerWidth / 2, mouseY = innerHeight / 2;
+      let cursorX = mouseX, cursorY = mouseY;
+      const qLeft = gsap.quickSetter(cursor, "left", "px");
+      const qTop = gsap.quickSetter(cursor, "top", "px");
 
-    function animateCursor() {
-      cursorX += (mouseX - cursorX) * 0.1;
-      cursorY += (mouseY - cursorY) * 0.1;
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
 
-      cursor.style.left = cursorX + 'px';
-      cursor.style.top = cursorY + 'px';
-
-      requestAnimationFrame(animateCursor);
+      function cursorLoop() {
+        cursorX += (mouseX - cursorX) * 0.18;
+        cursorY += (mouseY - cursorY) * 0.18;
+        qLeft(cursorX);
+        qTop(cursorY);
+        requestAnimationFrame(cursorLoop);
+      }
+      cursorLoop();
     }
-    animateCursor();
 
-    // Cursor hover effects
-    const hoverElements = document.querySelectorAll('a, button');
+    // Hamburger menu
+    function openMobile() {
+      menuOpen = true;
+      hamburger.classList.add('active');
+      mobileNav.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      mobileNav.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('menu-open');
+      mobileLinks[0]?.focus();
 
-    hoverElements.forEach(element => {
-      element.addEventListener('mouseenter', () => {
-        cursor.classList.add('hover');
+      gsap.fromTo(mobileLinks, { opacity: 0, x: 20 }, {
+        opacity: 1, x: 0, stagger: 0.08, duration: 0.4, ease: "power2.out", delay: 0.1
       });
+    }
 
-      element.addEventListener('mouseleave', () => {
-        cursor.classList.remove('hover');
-      });
+    function closeMobile() {
+      menuOpen = false;
+      hamburger.classList.remove('active');
+      mobileNav.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileNav.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('menu-open');
+      hamburger.focus();
+    }
+
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (!menuOpen) openMobile(); else closeMobile();
     });
 
-    // Parallax scroll effect for main title
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const rate = scrolled * -0.5;
+    mobileLinks.forEach(link => link.addEventListener('click', () => setTimeout(closeMobile, 60)));
 
-      gsap.to('.get-in-touch', {
-        y: rate,
-        duration: 0.5,
-        ease: 'power1.out'
-      });
+    document.addEventListener('click', (e) => {
+      if (!mobileNav.contains(e.target) && !hamburger.contains(e.target) && menuOpen) closeMobile();
     });
 
-    // Letter animation on hover for main title
-    const mainTitle = document.querySelector('.get-in-touch');
-
-    mainTitle.addEventListener('mouseenter', () => {
-      const letters = mainTitle.textContent.split('');
-      mainTitle.innerHTML = letters.map(letter =>
-        letter === ' ' ? ' ' : `<span class="letter">${letter}</span>`
-      ).join('');
-
-      gsap.to('.letter', {
-        y: -10,
-        duration: 0.3,
-        stagger: 0.02,
-        ease: 'power2.out',
-        yoyo: true,
-        repeat: 1
-      });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menuOpen) closeMobile();
     });
 
-    // Magnetic effect for social links
-    const socialLinks = document.querySelectorAll('.social-link');
-
-    socialLinks.forEach(link => {
-      link.addEventListener('mousemove', (e) => {
-        const rect = link.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-
-        gsap.to(link, {
-          x: x * 0.3,
-          y: y * 0.3,
-          duration: 0.3,
-          ease: 'power2.out'
+    // Cursor hover effects (only on hover-capable devices)
+    if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      const hoverTargets = document.querySelectorAll('a, .social-link, .logo, .email-link');
+      hoverTargets.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursor?.classList.add('hover');
+        });
+        el.addEventListener('mouseleave', () => {
+          cursor?.classList.remove('hover');
         });
       });
+    }
 
-      link.addEventListener('mouseleave', () => {
-        gsap.to(link, {
-          x: 0,
-          y: 0,
-          duration: 0.5,
-          ease: 'elastic.out(1, 0.3)'
-        });
-      });
+    // Logo micro bounce
+    logo.addEventListener('click', () => {
+      gsap.fromTo(logo, { rotate: -3 }, { rotate: 0, duration: 0.6, ease: "elastic.out(1, 0.5)" });
     });
 
-    // Page transition effect
-    window.addEventListener('beforeunload', () => {
-      gsap.to('body', {
-        opacity: 0,
-        duration: 0.5,
-        ease: 'power2.inOut'
-      });
+    // Main intro timeline
+    const introTL = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    introTL
+      .from('header', { y: -80, opacity: 0, duration: 0.8 }, 0.1)
+      .from('.get-in-touch', { y: 60, opacity: 0, duration: 1, ease: "power4.out" }, 0.3)
+     
+    // Magnetic effect for social links (only on hover-capable devices)
+
+
+    // Parallax scroll for title
+    gsap.to('.get-in-touch', {
+      y: -40,
+      ease: "none",
+      scrollTrigger: {
+        trigger: '.get-in-touch',
+        start: "top center",
+        end: "bottom top",
+        scrub: 1.5
+      }
     });
   </script>
 </body>

@@ -1,775 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lokesh Ram Chand</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="mobilestyle.css" />
+    <!-- FAVICON -->
+    <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
+    <!-- ICONS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <!-- SMOOTH LOCOMOTIVE SCROLLING -->
+    <link rel="stylesheet" href="locomotive.css" />
+  </head>
+  <body>
+    <!-- CODE FOR NAVIGATION BAR
+    <div class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="#">Home</a>
+      <a href="#">The Plug</a>
+      <a href="#">Ixperience</a>
+      <a href="#">Hudu</a>
+    </div> -->
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lo. • Product Developer</title>
+    <!-- THIS MINI CIRCLE WILL FOLLOW THE MOUSE POINTER ON DESKTOP -->
+    <div id="minicircle">
+      <div id="minicircle-text">VISIT</div>
+    </div>
 
-  <!-- GOOGLE FONT -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- ICONS -->
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
-
-  <!-- LOCOMOTIVE -->
-  <link rel="stylesheet" href="locomotive.css" />
-
-  <!-- MOBILE STYLE -->
-  <link rel="stylesheet" href="mobilestyle.css" />
-
-  <!-- INLINE STYLE.CSS -->
-  <style>
-    /* ---------------------------
-   Velar / Portfolio - Warm Sand Minimal
-   Apple-inspired visual system
-   Responsive, fluid, minimal aesthetic
-   --------------------------- */
-
-    /* Palette */
-    :root {
-      --sand-light: #f5f1e8;
-      --sand: #ebe6dc;
-      --sand-dark: #d9d3c7;
-      --ink: #1a1a1a;
-      --ink-soft: #4a4a4a;
-      --muted: #8c8c8c;
-      --glass: rgba(255, 255, 255, 0.6);
-      --accent: #f7d86a;
-      --shadow-1: rgba(26, 26, 26, 0.06);
-      --shadow-2: rgba(26, 26, 26, 0.08);
-      --radius-md: 20px;
-      --radius-sm: 8px;
-      --max-width: 1400px;
-    }
-
-    /* Fonts */
-    @font-face {
-      font-family: GeneralSansReg;
-      src: url(fonts/GeneralSans-Regular.otf);
-    }
-
-    @font-face {
-      font-family: GeneralSansMed;
-      src: url(fonts/GeneralSans-Medium.otf);
-    }
-
-    /* Base */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html,
-    body {
-      height: 100%;
-      width: 100%;
-      font-family: 'GeneralSansReg', system-ui, -apple-system, 'Segoe UI', Roboto;
-      background: var(--sand);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    /* Desktop vs Mobile */
-    @media (min-width: 767px) {
-      #mainmobile {
-        display: none;
-      }
-    }
-
-    @media (max-width: 766.9999px) {
-      #main {
-        display: none;
-      }
-    }
-
-    /* Minicircle */
-    #minicircle {
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--ink);
-      opacity: 0.12;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-      transition: transform .18s cubic-bezier(.2, .9, .28, 1), opacity .26s ease;
-      z-index: 1200;
-    }
-
-    #minicircle-text {
-      display: none;
-    }
-
-    /* Hero */
-    #main,
-    #mainmobile {
-      width: 100%;
-      height: auto;
-    }
-
-    #hero {
-      position: relative;
-      height: 100dvh;
-      min-height: 640px;
-      background: linear-gradient(180deg, var(--sand), var(--sand-light));
-      color: var(--ink);
-    }
-
-    /* Navigation */
-    #nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: clamp(16px, 3vw, 28px) 4vw;
-      backdrop-filter: blur(6px);
-    }
-
-    #nav a {
-      font-size: clamp(15px, 1.6vw, 18px);
-      font-weight: 500;
-    }
-
-    /* Heading */
-    #heading {
-      margin-top: clamp(60px, 9vw, 110px);
-      display: flex;
-      gap: 2vw;
-      padding-left: clamp(20px, 4vw, 40px);
-    }
-
-    #heading h1 {
-      font-family: GeneralSansMed;
-      text-transform: uppercase;
-      font-weight: 700;
-      line-height: 0.95;
-      opacity: 0.9;
-      letter-spacing: -0.02em;
-    }
-
-    #heading .bounding:first-child .boundingtext {
-      font-size: clamp(48px, 12vw, 120px);
-    }
-
-    #secondh1 {
-      font-size: clamp(40px, 10vw, 96px);
-    }
-
-    /* Meta */
-    .blocktext h5 {
-      font-size: clamp(12px, 1.2vw, 14px);
-      text-transform: uppercase;
-      color: var(--ink-soft);
-    }
-
-    /* Micro headings */
-    #chhoti-headings {
-      display: flex;
-      flex-direction: column;
-      align-items: end;
-      margin-top: clamp(28px, 5vw, 100px);
-      padding-right: clamp(16px, 3vw, 30px);
-      gap: 10px;
-    }
-
-    #chhoti-headings h5 {
-      font-size: clamp(11px, 1.2vw, 13px);
-      color: var(--ink-soft);
-    }
-
-    /* Hero footer */
-    #herofooter {
-      position: absolute;
-      bottom: clamp(18px, 3.5vh, 36px);
-      left: 2.5vw;
-      right: 2.5vw;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    #herofooter a {
-      text-transform: uppercase;
-      font-size: clamp(11px, 1.1vw, 13px);
-      color: var(--ink-soft);
-      font-weight: 600;
-      transition: .2s ease;
-    }
-
-    #herofooter a:hover {
-      color: var(--ink);
-      transform: translateY(-2px);
-    }
-
-    /* Work List */
-    #second {
-      padding-top: clamp(160px, 28vw, 220px);
-      padding-right: clamp(10px, 8vw, 140px);
-    }
-
-    .elem {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: clamp(18px, 3vw, 36px) clamp(14px, 3vw, 48px);
-      border-top: 1px solid var(--sand-dark);
-      position: relative;
-      transition: .25s;
-    }
-
-    .elem h1 {
-      font-size: clamp(28px, 7.6vw, 76px);
-      text-transform: uppercase;
-      opacity: .85;
-    }
-
-    .elem:hover {
-      background: rgba(255, 255, 255, 0.3);
-    }
-
-    .elem:hover h1 {
-      opacity: .5;
-      padding-left: 24px;
-    }
-
-    /* Hover images */
-    .elem img {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      height: 140%;
-      opacity: 0;
-      pointer-events: none;
-      mix-blend-mode: multiply;
-      transition: .25s;
-    }
-
-    .elem:hover img {
-      opacity: .06;
-      transform: translate(-50%, -50%) scale(1.02);
-    }
-
-    /* About */
-    .about {
-      display: flex;
-      gap: clamp(20px, 6vw, 80px);
-      align-items: center;
-      padding: clamp(40px, 8vw, 120px) clamp(24px, 6vw, 80px);
-      padding-left: clamp(140px, 32vw, 40vw);
-    }
-
-    .about img {
-      width: clamp(120px, 16vw, 200px);
-      border-radius: 10px;
-      box-shadow: 0 12px 30px var(--shadow-1);
-    }
-
-    /* About text */
-    .right-content {
-      padding-left: clamp(0px, 4vw, 40px);
-    }
-
-    .main-text {
-      font-size: clamp(16px, 2.5vw, 24px);
-      color: var(--muted);
-      line-height: 1.6;
-      font-weight: 300;
-      margin-bottom: clamp(40px, 8vw, 80px);
-    }
-
-    /* Subscribe */
-    .subscribe {
-      padding: clamp(18px, 4vw, 36px);
-    }
-
-    .subscribe h5 {
-      opacity: .7;
-      text-transform: uppercase;
-    }
-
-    .subscribe h3 {
-      margin-top: 12px;
-    }
-
-    /* Footer */
-    .footer {
-      display: flex;
-      justify-content: space-between;
-      padding: clamp(20px, 3vw, 40px);
-    }
-
-    .footer-left {
-      display: flex;
-      gap: 20px;
-    }
-
-    .footer-right {
-      display: flex;
-      gap: 24px;
-    }
-
-    /* Animation containers */
-    .bounding {
-      overflow: hidden;
-    }
-
-    .boundingtext {
-      transform: translateY(100%);
-    }
-
-    /* Underline animation */
-    .hover-underline-animation {
-      position: relative;
-    }
-
-    .hover-underline-animation::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: -3px;
-      height: 2px;
-      width: 100%;
-      background: var(--sand);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: .22s;
-    }
-
-    .hover-underline-animation:hover::after {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-
-    /* Responsive */
-    @media (max-width:1024px) {
-      .about {
-        padding-left: 14vw;
-      }
-    }
-
-    @media (max-width:768px) {
-      .about {
-        flex-direction: column-reverse;
-        padding-left: 18px;
-        padding-right: 18px;
-      }
-
-      .about img {
-        width: 40vw;
-      }
-    }
-
-    @media (max-width:480px) {
-      #hero {
-        min-height: 60dvh;
-      }
-
-      .footer {
-        flex-direction: column;
-        gap: 12px;
-      }
-    }
-  </style>
-
-</head>
-
-<body>
-  <div id="minicircle">
-    <div id="minicircle-text">VISIT</div>
-  </div>
-
-  <div id="main">
-    <div id="hero">
-      <div id="nav">
-        <a href="#">Lo.</a>
-        <a href="#js-target" data-scroll-to>
-          <h4>WORK</h4>
-        </a>
-      </div>
-
-      <div id="heading">
-        <div class="bounding">
-          <h1 class="boundingtext">Software</h1>
+    <!-- DESKTOP CODE STARTS FROM HERE. IT WILL NOT BE VISIBLE ON MOBILE DEVICES -->
+    <div id="main">
+      <div id="hero">
+        <div id="nav">
+          <!-- <div class="bounding"> -->
+          <!-- <div class="boundingtext"> -->
+          <a href="#">Lo.</a>
+          <!-- </div></div> -->
+          <!-- <span onclick="openNav()"><a href="" onclick="openNav()"> -->
+            <a href="#js-target" data-scroll-to><h4>WORK</h4></a>
+          <!-- </a></span> -->
         </div>
-        <div class="blocktext">
+        <div id="heading">
           <div class="bounding">
-            <h1 id="secondh1" class="boundingtext">Developer</h1>
+            <h1 class="boundingtext">Software</h1>
           </div>
-          <div class="bounding">
-            <h5 class="boundingtext">Based in India</h5>
+          <div class="blocktext">
+            <div class="bounding">
+              <h1 id="secondh1" class="boundingtext">Developer</h1>
+            </div>
+            <div class="bounding">
+              <h5 class="boundingtext">Based in India</h5>
+            </div>
+          </div>
+        </div>
+        <div id="herofooter">
+          <!-- <div class="bounding"> -->
+          <!-- <div class="boundingtext"> -->
+         
+          <!-- </div> -->
+          <!-- </div> -->
+          <!-- <div class="bounding"> -->
+          <!-- <div class="boundingtext"> -->
+          <a
+            href="https://lokeshramchand.com/resume"
+            class="hover-underline-animation"
+            >resume <i class="ri-arrow-right-up-line"></i
+          ></a>
+          <!-- </div> -->
+          <!-- </div> -->
+          <div id="icon-set">
+           <a href="#js-target" data-scroll-to>
+            <div id="circle"><i class="ri-arrow-down-line"></i></div></a>
+            <a href="#js-target" data-scroll-to> <div id="circle"><i class="ri-arrow-down-line"></i></div></a>
           </div>
         </div>
       </div>
-
-      <div id="chhoti-headings">
-        <div class="bounding">
-          <h5 class="boundingtext">Available for Freelance</h5>
-        </div>
-        <div class="bounding">
-          <h5 class="boundingtext">Work from May 23'</h5>
+      
+      <div id="second">
+        <section id="js-target"></section>
+        <a href=""
+          ><div class="elem">
+            <img src="assets/plug.png" alt="" />
+            <h1>The Plug</h1>
+            <h5>2022</h5>
+          </div></a
+        >
+        <a href=""
+          ><div class="elem">
+            <img src="assets/ixperience.png" alt="" />
+            <h1>Ixperience</h1>
+            <h5>2022</h5>
+          </div></a
+        >
+        <a href=""
+          ><div class="elem elemlast">
+            <img src="assets/hudu.png" alt="" />
+            <h1>Hudu</h1>
+            <h5>2022</h5>
+          </div></a
+        >
+        <br />
+      </div>
+      <div class="about">
+        <img src="assets/cynthia.png" alt="" />
+        <div class="main-text">
+          <p>
+          Hey, I'm Lokesh Ram Chand Bazaru, a software developer and web designer from India. <br>
+            I specialize in building sleek, functional mobile and web applications with a strong focus on user
+            experience.<br>
+            With a passion for innovation, I blend technology and creativity to craft engaging, high-performance
+            apps.<br>
+            I'm also exploring AI and decentralized systems to push the boundaries of what's possible in tech.<br>
+            Let's connect and create something amazing together!
+          </p>
         </div>
       </div>
-
-      <div id="herofooter">
-
-        <a href="https://dhruvbadaya.com/cynthiaugwu/" class="hover-underline-animation">resume<i
-            class="ri-arrow-right-up-line"></i>
-        </a>
-
-
+      <div class="subscribe">
+        <h5>(forgot to mention my email)</h5>
+        <a href="https://dhruvbadaya.com/cynthiaugwu/"
+          ><h3 class="hover-underline-animation">
+            lokeshramchand@gmail.com
+            <i class="ri-arrow-right-up-line"></i></h3
+        ></a>
+      </div>
+      <div class="footer">
+        <div class="footer-left">
+        </div>
+        <div class="footer-right">
+          <a href="https://dhruvbadaya.com/cynthiaugwu/">medium</a>
+          <a href="https://dhruvbadaya.com/cynthiaugwu/">instagram</a>
+          <a href="https://dhruvbadaya.com/cynthiaugwu/">linkedin</a>
+          <a href="https://dhruvbadaya.com/cynthiaugwu/">github</a>
+        </div>
       </div>
     </div>
 
-    <div id="second">
-      <section id="js-target"></section>
+    <!-- MOBILE CODE STARTS FROM HERE AND IS INDEPENDENT OF THE DESKTOP CODE -->
+    <div id="mainmobile">
+      <!-- <div id="main"> -->
+      <div id="hero">
+        <div class="mobile-banner">
+          This website is better on a desktop / laptop. 🧑‍💻
+        </div>
+        <div id="nav">
+          <!-- <div class="bounding"> -->
+          <!-- <div class="boundingtext"> -->
+          <a href="#">Lo.</a>
+          <!-- </div></div> -->
+          <a href="#js-target2" data-scroll-to><h4 class="menu">WORK</h4></a>
+        </div>
+        <div id="heading">
+          <div class="bounding">
+            <h1 class="boundingtext">Software</h1>
+          </div>
+          <div class="blocktext">
+            <div class="bounding">
+              <h1 id="secondh1" class="boundingtext">Developer</h1>
+            </div>
+            <div class="bounding">
+              <h5 class="boundingtext">Based in India</h5>
+            </div>
+          </div>
+        </div>
+        <div id="herofooter">
+          <!-- <div class="bounding"> -->
+          <!-- <div class="boundingtext"> -->
+          <!-- </div> -->
+          <!-- </div> -->
 
-      <a href="">
+          <!-- <div class="bounding"> -->
+          <!-- <div class="boundingtext"> -->
+          <a
+            href="https://lokeshramchand.com/resume"
+            class="hover-underline-animation"
+            >resume <i class="ri-arrow-right-up-line"></i
+          ></a>
+          <!-- </div> -->
+          <!-- </div> -->
+        </div>
+      </div>
+
+      <div id="second">
+        <section id="js-target2"></section>
         <div class="elem">
           <img src="assets/plug.png" alt="" />
           <h1>The Plug</h1>
           <h5>2022</h5>
         </div>
-      </a>
 
-      <a href="">
         <div class="elem">
           <img src="assets/ixperience.png" alt="" />
           <h1>Ixperience</h1>
           <h5>2022</h5>
         </div>
-      </a>
-
-      <a href="">
         <div class="elem elemlast">
           <img src="assets/hudu.png" alt="" />
           <h1>Hudu</h1>
           <h5>2022</h5>
         </div>
-      </a>
-
-      <br />
-    </div>
-
-    <div class="about">
-      <img src="assets/cynthia.png" alt="" />
-      <div class="right-content">
-        <p class="main-text">
-          Hey, I'm Lokesh Ram Chand Bazaru, a software developer and web designer from India. <br>
-          I specialize in building sleek, functional mobile and web applications with a strong focus on user
-          experience.<br>
-          With a passion for innovation, I blend technology and creativity to craft engaging, high-performance
-          apps.<br>
-          I'm also exploring AI and decentralized systems to push the boundaries of what's possible in tech.<br>
-          Let's connect and create something amazing together!
-        </p>
+        <br />
       </div>
-    </div>
-
-    <div class="subscribe">
-      <h5>(forgot to mention)</h5>
-      <a href="https://dhruvbadaya.com/cynthiaugwu/">
-        <h3 class="hover-underline-animation">
-          Subscribe to my YouTube Channel
-          <i class="ri-arrow-right-up-line"></i>
-        </h3>
-      </a>
-    </div>
-
-    <div class="footer">
-
-      <div class="footer-right">
-        <a href="https://dhruvbadaya.com/cynthiaugwu/">INSTAGRAM</a>
-        <a href="https://dhruvbadaya.com/cynthiaugwu/">LINKEDIN</a>
-        <a href="https://dhruvbadaya.com/cynthiaugwu/">GITHUB</a>
-      </div>
-    </div>
-  </div>
-
-  <div id="mainmobile">
-    <div id="hero">
-      <div class="mobile-banner">
-        This website is better on a desktop / laptop. 🧑‍💻
-      </div>
-
-      <div id="nav">
-        <a href="#">Lo.</a>
-        <a href="#js-target2" data-scroll-to>
-          <h4 class="menu">WORK</h4>
-        </a>
-      </div>
-
-      <div id="heading">
-        <div class="bounding">
-          <h1 class="boundingtext">Software</h1>
-        </div>
-        <div class="blocktext">
-          <div class="bounding">
-            <h1 id="secondh1" class="boundingtext">Developer</h1>
-          </div>
-          <div class="bounding">
-            <h5 class="boundingtext">Based in India</h5>
-          </div>
+      <div class="about">
+        <img src="assets/cynthia.png" alt="" />
+        <div id="textabout">
+          <h5>(About Me)</h5>
+          <p>
+            Hey, I'm Lokesh Ram Chand Bazaru, a software developer and web designer from India. <br>
+            I specialize in building sleek, functional mobile and web applications with a strong focus on user
+            experience.<br>
+            With a passion for innovation, I blend technology and creativity to craft engaging, high-performance
+            apps.<br>
+            I'm also exploring AI and decentralized systems to push the boundaries of what's possible in tech.<br>
+            Let's connect and create something amazing together!
+          </p>
+          <a href="https://dhruvbadaya.com/cynthiaugwu/">Let's Talk</a>
         </div>
       </div>
-
-
-      <div id="herofooter">
-
-        <a href="https://dhruvbadaya.com/cynthiaugwu/" class="hover-underline-animation">protopie ambasssador <i
-            class="ri-arrow-right-up-line"></i>
-        </a>
+      <div class="subscribe">
+        <h5>(forgot to mention)</h5>
+        <a href="https://dhruvbadaya.com/cynthiaugwu/"
+          ><h3 class="hover-underline-animation">
+            Subscribe to my YouTube Channel
+            <i class="ri-arrow-right-up-line"></i></h3
+        ></a>
       </div>
-    </div>
+      <div class="footer">
 
-    <div id="second">
-      <section id="js-target2"></section>
-
-      <div class="elem">
-        <img src="assets/plug.png" alt="" />
-        <h1>The Plug</h1>
-        <h5>2022</h5>
-      </div>
-
-      <div class="elem">
-        <img src="assets/ixperience.png" alt="" />
-        <h1>Ixperience</h1>
-        <h5>2022</h5>
-      </div>
-
-      <div class="elem elemlast">
-        <img src="assets/hudu.png" alt="" />
-        <h1>Hudu</h1>
-        <h5>2022</h5>
-      </div>
-      <br />
-    </div>
-
-    <div class="about">
-      <img src="assets/cynthia.png" alt="" />
-      <div id="textabout">
-        <h5>(About Me)</h5>
-        <p>
-          I'm a product designer with a passion for creating products that not
-          only look good but also solve real problems. When I'm not sketching
-          ideas on paper, you can find me binge-watching a Netflix series or
-          playing video games. My design philosophy is simple: make it
-          visually appealing, functional, and bring a smile to people's faces.
-          I'm the designer you want on your team if you want to make people
-          say 'I need that in my life!'.
-        </p>
-        <a href="https://dhruvbadaya.com/cynthiaugwu/">Let's Talk</a>
-      </div>
-    </div>
-
-    <div class="subscribe">
-      <h5>(forgot to mention)</h5>
-      <a href="https://dhruvbadaya.com/cynthiaugwu/">
-        <h3 class="hover-underline-animation">
-          Subscribe to my YouTube Channel
-          <i class="ri-arrow-right-up-line"></i>
-        </h3>
-      </a>
-    </div>
-
-    <div class="footer">
-      <div class="footer-left">
-        <h5>2023 &copy;</h5>
-        <h5 id="time2">00:05 AM EST</h5>
-      </div>
-      <div class="footer-right">
-        <a href="https://dhruvbadaya.com/cynthiaugwu/">MEDIUM</a>
-        <a href="https://dhruvbadaya.com/cynthiaugwu/">LINKEDIN</a>
-        <div class="hidemobile">
-          <a href="https://dhruvbadaya.com/cynthiaugwu/">GITHUB</a>
+        <div class="footer-right">
+          <a href="https://dhruvbadaya.com/cynthiaugwu/">DRIBBBLE</a>
+          <a href="https://dhruvbadaya.com/cynthiaugwu/">INSTAGRAM</a>
+          <a href="https://dhruvbadaya.com/cynthiaugwu/">LINKEDIN</a>
+          <div class="hidemobile"><a href="https://dhruvbadaya.com/cynthiaugwu/">TWITTER</a></div>
         </div>
       </div>
+      <!-- </div> -->
     </div>
-  </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js" crossorigin="anonymous"
-    referrerpolicy="no-referrer"></script>
-  <script>
-    // -----------------------------
-    // Smooth Custom Cursor
-    // -----------------------------
-    const miniCircle = document.getElementById("minicircle");
-    let mouseX = 0, mouseY = 0;
+    <!-- SCRIPTS BELOW -->
 
-    window.addEventListener("mousemove", (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
+    <!-- GSAP -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"
+      integrity="sha512-cOH8ndwGgPo+K7pTvMrqYbmI8u8k6Sho3js0gOqVWTmQMlLIi6TbqGWRTpf1ga8ci9H3iPsvDLr4X7xwhC/+DQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
 
-    gsap.ticker.add(() => {
-      gsap.to(miniCircle, {
-        x: mouseX,
-        y: mouseY,
-        duration: 0.25,
-        ease: "expo.out"
-      });
-    });
-
-    // -----------------------------
-    // Intro Animation
-    // -----------------------------
-    gsap.set(".boundingtext", { y: "100%" });
-
-    gsap.to(".boundingtext", {
-      y: 0,
-      duration: 1.3,
-      ease: "expo.out",
-      stagger: 0.1,
-      delay: 0.2
-    });
-
-    gsap.from("#nav a", {
-      opacity: 0,
-      y: -20,
-      duration: 1,
-      ease: "expo.out",
-      stagger: 0.1,
-      delay: 0.6
-    });
-
-    // subtle fade-in for hero footer
-    gsap.from("#herofooter a", {
-      opacity: 0,
-      y: 20,
-      duration: 1,
-      ease: "expo.out",
-      stagger: 0.1,
-      delay: 0.9
-    });
-
-    // -----------------------------
-    // Soft Parallax hero heading
-    // -----------------------------
-    gsap.to("#heading", {
-      y: -40,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#hero",
-        start: "top top",
-        end: "bottom top",
-        scrub: true
-      }
-    });
-
-    // -----------------------------
-    // Work List Hover Image Follow
-    // -----------------------------
-    document.querySelectorAll(".elem").forEach((elem) => {
-      const img = elem.querySelector("img");
-
-      elem.addEventListener("mousemove", (e) => {
-        const rect = elem.getBoundingClientRect();
-        const xPos = e.clientX - rect.left;
-        const yPos = e.clientY - rect.top;
-
-        gsap.to(img, {
-          opacity: 0.12,
-          x: xPos - img.width / 2,
-          y: yPos - img.height / 2,
-          scale: 1.05,
-          duration: 0.25,
-          ease: "power3.out"
-        });
-      });
-
-      elem.addEventListener("mouseleave", () => {
-        gsap.to(img, {
-          opacity: 0,
-          scale: 1,
-          duration: 0.25,
-          ease: "power3.out"
-        });
-      });
-    });
-
-    // -----------------------------
-    // Scroll reveal for sections
-    // -----------------------------
-    const revealItems = document.querySelectorAll(
-      ".elem, .about, .subscribe, .footer"
-    );
-
-    revealItems.forEach((item) => {
-      gsap.from(item, {
-        opacity: 0,
-        y: 60,
-        duration: 1.2,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: item,
-          start: "top 80%"
-        }
-      });
-    });
-
-    // -----------------------------
-    // About Image Parallax
-    // -----------------------------
-    gsap.to(".about img", {
-      y: -40,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".about",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true
-      }
-    });
-
-    // -----------------------------
-    // Slight hover lift effect for links
-    // -----------------------------
-    document.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("mouseenter", () => {
-        gsap.to(link, {
-          y: -2,
-          duration: 0.25,
-          ease: "power2.out"
-        });
-      });
-
-      link.addEventListener("mouseleave", () => {
-        gsap.to(link, {
-          y: 0,
-          duration: 0.25,
-          ease: "power2.out"
-        });
-      });
-    });
-
-    // -----------------------------
-    // Hero title shadow reveal (Apple feel)
-    // -----------------------------
-    gsap.from("#heading h1", {
-      textShadow: "0px 0px 60px rgba(0,0,0,0.15)",
-      duration: 1.6,
-      ease: "expo.out",
-      delay: 0.3
-    });
-  </script>
-
-  <script src="locomotive-scroll.min.js"></script>
-  <script src="script.js"></script>
-</body>
-
+    <!-- SMOOTH LOCOMOTIVE SCROLLING -->
+    <script src="locomotive-scroll.min.js"></script>
+    <script src="script.js"></script> 
+  </body>
 </html>

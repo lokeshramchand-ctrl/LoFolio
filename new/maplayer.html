@@ -168,6 +168,40 @@
             object-fit: cover;
             position: absolute; top: -10%; left: 0;
         }
+                /* --- 6. ARCHITECTURE VISUAL SECTION --- */
+        .visual-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5vw;
+        }
+        .visual-content { flex: 0.8; }
+        .visual-media { 
+            flex: 1.2; 
+            height: 60vh; 
+            position: relative; 
+            overflow: hidden; 
+            border-radius: 2rem;
+            background: #080808;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Abstract Diagram Nodes */
+        .node {
+            padding: 12px 24px;
+            border: 1px solid #333;
+            border-radius: 50px;
+            background: #111;
+            font-size: 0.9rem;
+            color: #888;
+            position: absolute;
+            z-index: 2;
+        }
+        .node.active { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 20px rgba(0, 240, 255, 0.1); }
+
 
         /* --- 7. HORIZONTAL SCROLL SHOWCASE --- */
         .showcase-wrapper {
@@ -355,7 +389,7 @@
                 Rendering raw GeoJSON crashes browsers. MapLayer implements a dynamic pipeline where the backend slices data into lightweight vector tiles. These are cached at the edge and reassembled on the client GPU.
             </p>
         </div>
-<div class="visual-media">
+        <div class="visual-media">
             <div class="node active" style="top: 45%; left: 15%;">Email Hook</div>
             <div class="node" style="top: 45%; left: 45%;">RabbitMQ</div>
             <div class="node active" style="top: 30%; left: 75%;">Parser</div>

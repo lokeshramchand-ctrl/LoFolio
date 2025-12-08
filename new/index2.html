@@ -1,245 +1,590 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lokesh Ram Chand</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="mobilestyle.css" />
-  <!-- FAVICON -->
-  <link rel="shortcut icon" href="/images/favicon.png" type="image/x-icon" />
-  <!-- ICONS -->
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
-  <!-- SMOOTH LOCOMOTIVE SCROLLING -->
-  <link rel="stylesheet" href="locomotive.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lokesh Ram Chand | Creative Developer</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. SETTINGS & RESET --- */
+        :root {
+            --bg: #0b0b0b;
+            --text: #e0e0e0;
+            --acc: #888;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Hide default cursor */
+        }
+
+        html, body {
+            width: 100%;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'General Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* GRAIN OVERLAY - High-end Texture */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9000;
+            opacity: 0.05;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- 2. PRELOADER --- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        
+        .counter {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 8vw;
+            font-weight: 600;
+        }
+
+        /* --- 3. CUSTOM CURSOR --- */
+        #cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            background-color: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
+        }
+
+        /* --- 4. NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 4vw;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            mix-blend-mode: difference;
+            color: white;
+        }
+
+        .logo {
+            font-family: 'Clash Display', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .menu-items {
+            display: flex;
+            gap: 40px;
+        }
+
+        .menu-link {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: white;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+
+        .menu-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* --- 5. HERO SECTION --- */
+        #hero {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 4vw;
+            position: relative;
+        }
+
+        .hero-line {
+            overflow: hidden;
+            line-height: 0.9;
+        }
+
+        .hero-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 13vw;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #f0f0f0;
+            transform: translateY(100%); /* Start hidden */
+        }
+
+        .hero-title.outline {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+        }
+
+        .hero-footer {
+            position: absolute;
+            bottom: 50px;
+            left: 4vw;
+            right: 4vw;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--acc);
+            text-transform: uppercase;
+            overflow: hidden;
+        }
+
+        /* --- 6. WORK SECTION --- */
+        #work {
+            padding: 10vh 4vw;
+            position: relative;
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            color: var(--acc);
+            margin-bottom: 50px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        .project-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-item {
+            padding: 3vw 0;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            transition: opacity 0.3s;
+        }
+        
+        .project-item:last-child {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project-item:hover {
+            opacity: 1;
+        }
+
+        .project-list:hover .project-item {
+            opacity: 0.3;
+        }
+        
+        .project-list:hover .project-item:hover {
+            opacity: 1;
+        }
+
+        .p-name {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 5vw;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+
+        .project-item:hover .p-name {
+            transform: translateX(20px);
+            color: #fff;
+        }
+
+        .p-cat {
+            font-size: 1rem;
+            color: var(--acc);
+        }
+
+        /* FLOATING PREVIEW */
+        .preview-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 350px;
+            height: 250px;
+            border-radius: 4px;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
+        }
+
+        .preview-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- 7. ABOUT SECTION --- */
+        #about {
+            padding: 15vh 4vw;
+        }
+
+        .about-text {
+            font-size: 3.5vw;
+            line-height: 1.2;
+            width: 90%;
+            color: #666; /* Base color dim */
+        }
+        
+        .about-text span {
+            color: #fff; /* Highlight color */
+            transition: color 0.3s;
+        }
+
+        /* --- 8. FOOTER --- */
+        footer {
+            height: 80vh;
+            padding: 0 4vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #0b0b0b;
+        }
+
+        .footer-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 12vw;
+            line-height: 0.9;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 50px;
+        }
+
+        .socials {
+            display: flex;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .social-link {
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 15px 30px;
+            border-radius: 100px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .social-link:hover {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        /* --- MOBILE TWEAKS --- */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 18vw; }
+            .p-name { font-size: 9vw; }
+            .about-text { font-size: 1.8rem; }
+            .footer-title { font-size: 18vw; }
+            .preview-img, #cursor { display: none; }
+            * { cursor: auto; }
+            .menu-items { display: none; } /* Simplified for demo */
+        }
+    </style>
 </head>
-
 <body>
-  <!-- CODE FOR NAVIGATION BAR
-    <div class="sidenav">
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a href="#">Home</a>
-      <a href="#">The Plug</a>
-      <a href="#">Ixperience</a>
-      <a href="#">Hudu</a>
-    </div> -->
 
-  <!-- THIS MINI CIRCLE WILL FOLLOW THE MOUSE POINTER ON DESKTOP -->
-  <div id="minicircle">
-    <div id="minicircle-text">VISIT</div>
-  </div>
+    <div class="noise-overlay"></div>
+    <div id="cursor"></div>
 
-  <!-- DESKTOP CODE STARTS FROM HERE. IT WILL NOT BE VISIBLE ON MOBILE DEVICES -->
-  <div id="main">
-    <div id="hero">
-      <div id="nav">
-        <!-- <div class="bounding"> -->
-        <!-- <div class="boundingtext"> -->
-        <a href="#">Lo.</a>
-        <!-- </div></div> -->
-        <!-- <span onclick="openNav()"><a href="" onclick="openNav()"> -->
-        <a href="#js-target" data-scroll-to>
-          <h4>PROJECTS</h4>
-        </a>
-        <!-- </a></span> -->
-      </div>
-      <div id="heading">
-        <div class="bounding">
-          <h1 class="boundingtext">Software</h1>
-        </div>
-        <div class="blocktext">
-          <div class="bounding">
-            <h1 id="secondh1" class="boundingtext">Developer</h1>
-          </div>
-          <div class="bounding">
-            <h5 class="boundingtext">Based in India</h5>
-          </div>
-        </div>
-      </div>
-      <div id="herofooter">
-        <!-- <div class="bounding"> -->
-        <!-- <div class="boundingtext"> -->
-
-        <!-- </div> -->
-        <!-- </div> -->
-        <!-- <div class="bounding"> -->
-        <!-- <div class="boundingtext"> -->
-        <a href="./re.html" class="hover-underline-animation">resume <i class="ri-arrow-right-up-line"></i></a>
-        <!-- </div> -->
-        <!-- </div> -->
-
-      </div>
+    <div id="loader">
+        <div class="counter">0</div>
     </div>
 
-    <div id="second">
-      <section id="js-target"></section>
-      <a href="https://c80kwksk4cwg4gwsg0g8g4g8.deploy.priyatham.in/" target="_blank" rel="noopener noreferrer">
-        <div class="elem">
-          <h1>SEKO</h1>
-          <h5>2025</h5>
-        </div>
-      </a>
-      <a href="">
-        <div class="elem">
-          <h1>VELAR</h1>
-          <h5>2024</h5>
-        </div>
-      </a>
-      <a href="">
-        <div class="elem elemlast">
-          <h1>MAPLAYER</h1>
-          <h5>2025</h5>
-        </div>
-      </a>
-      <br />
-    </div>
-    <div class="about">
-      <div class="main-text">
-        <p>
-          Hey, I'm Lokesh Ram Chand Bazaru, a software developer and web designer from India. <br>
-          I specialize in building sleek, functional mobile and web applications with a strong focus on user
-          experience.<br>
-          With a passion for innovation, I blend technology and creativity to craft engaging, high-performance
-          apps.<br>
-          I'm also exploring AI and decentralized systems to push the boundaries of what's possible in tech.<br>
-          Let's connect and create something amazing together!
-        </p>
-      </div>
-    </div>
-    <div class="subscribe">
-      <h5>(forgot to mention my email)</h5>
-      <a href="https://dhruvbadaya.com/cynthiaugwu/">
-        <h3 class="hover-underline-animation">
-          lokeshramchand@gmail.com
-          <i class="ri-arrow-right-up-line"></i>
-        </h3>
-      </a>
-    </div>
-    <div class="footer">
-      <div class="footer-left">
-      </div>
-      <div class="footer-right">
-        <a href="./re.html">RESUME</a>
-        <a href="https://medium.com/@lokeshramchand">medium</a>
-        <a href="https://www.instagram.com/lokeshramchand/">instagram</a>
-        <a href="https://www.linkedin.com/in/lokeshramchand/">linkedin</a>
-        <a href="https://github.com/lokeshramchand-ctrl">github</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- MOBILE CODE STARTS FROM HERE AND IS INDEPENDENT OF THE DESKTOP CODE -->
-  <div id="mainmobile">
-    <!-- <div id="main"> -->
-    <div id="hero">
-      <div class="mobile-banner">
-        This website is better on a desktop / laptop. 🧑‍💻
-      </div>
-      <div id="nav">
-        <!-- <div class="bounding"> -->
-        <!-- <div class="boundingtext"> -->
-        <a href="#">Lo.</a>
-        <!-- </div></div> -->
-        <a href="#js-target2" data-scroll-to>
-          <h4 class="menu">PROJECTS</h4>
-        </a>
-      </div>
-      <div id="heading">
-        <div class="bounding">
-          <h1 class="boundingtext">Software</h1>
-        </div>
-        <div class="blocktext">
-          <div class="bounding">
-            <h1 id="secondh1" class="boundingtext">Developer</h1>
-          </div>
-          <div class="bounding">
-            <h5 class="boundingtext">Based in India</h5>
-          </div>
-        </div>
-      </div>
-      <div id="herofooter">
-        <!-- <div class="bounding"> -->
-        <!-- <div class="boundingtext"> -->
-        <!-- </div> -->
-        <!-- </div> -->
-
-        <!-- <div class="bounding"> -->
-        <!-- <div class="boundingtext"> -->
-        <a href="https://lokeshramchand.com/resume" class="hover-underline-animation">resume <i
-            class="ri-arrow-right-up-line"></i></a>
-        <!-- </div> -->
-        <!-- </div> -->
-      </div>
+    <div class="preview-img">
+        <img src="" id="p-img" alt="work">
     </div>
 
-    <div id="second">
-      <section id="js-target2"></section>
-      <div class="elem">
-        <img src="assets/plug.png" alt="" />
-        <h1>The Plug</h1>
-        <h5>2022</h5>
-      </div>
+    <div id="main">
+        
+        <nav>
+            <a href="#" class="logo magnet">Lo.</a>
+            <div class="menu-items">
+                <a href="#work" class="menu-link magnet">Projects</a>
+                <a href="#about" class="menu-link magnet">About</a>
+                <a href="./re.html" class="menu-link magnet">Resume</a>
+            </div>
+        </nav>
 
-      <div class="elem">
-        <img src="assets/ixperience.png" alt="" />
-        <h1>Ixperience</h1>
-        <h5>2022</h5>
-      </div>
-      <div class="elem elemlast">
-        <img src="assets/hudu.png" alt="" />
-        <h1>Hudu</h1>
-        <h5>2022</h5>
-      </div>
-      <br />
+        <section id="hero">
+            <div class="hero-line"><h1 class="hero-title">Software</h1></div>
+            <div class="hero-line"><h1 class="hero-title outline">Developer</h1></div>
+            <div class="hero-line"><h1 class="hero-title">& Designer</h1></div>
+            
+            <div class="hero-footer">
+                <span class="reveal-text">Based in India</span>
+                <span class="reveal-text">Scroll to explore</span>
+            </div>
+        </section>
+
+        <section id="work">
+            <span class="section-label">Selected Works (22-25)</span>
+            <div class="project-list">
+                
+                <a href="https://c80kwksk4cwg4gwsg0g8g4g8.deploy.priyatham.in/" target="_blank" class="project-item" data-img="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop">
+                    <div class="p-name">Seko</div>
+                    <div class="p-cat">Immersive Web / 2025</div>
+                </a>
+
+                <a href="#" class="project-item" data-img="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1000&auto=format&fit=crop">
+                    <div class="p-name">Velar</div>
+                    <div class="p-cat">Fintech App / 2024</div>
+                </a>
+
+                <a href="#" class="project-item" data-img="https://images.unsplash.com/photo-1558655146-d09347e0b7a8?q=80&w=1000&auto=format&fit=crop">
+                    <div class="p-name">Maplayer</div>
+                    <div class="p-cat">AI Integration / 2025</div>
+                </a>
+
+                <a href="#" class="project-item" data-img="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=1000&auto=format&fit=crop">
+                    <div class="p-name">The Plug</div>
+                    <div class="p-cat">E-Commerce / 2022</div>
+                </a>
+
+            </div>
+        </section>
+
+        <section id="about">
+            <span class="section-label">About Me</span>
+            <p class="about-text">
+                I'm Lokesh Ram Chand. I craft <span>high-end digital experiences</span> that merge art with code. 
+                Focusing on <span>micro-interactions</span> and fluid motion, I build applications that feel 
+                <span>alive</span>. Currently pushing boundaries in AI and decentralized web.
+            </p>
+        </section>
+
+        <footer>
+            <div class="hero-line">
+                <h1 class="footer-title">Let's Talk</h1>
+            </div>
+            <a href="mailto:lokeshramchand@gmail.com" style="font-size: 1.5rem; color: #888;">lokeshramchand@gmail.com</a>
+            
+            <div class="socials">
+                <a href="https://linkedin.com/in/lokeshramchand" class="social-link magnet">LinkedIn</a>
+                <a href="https://github.com/lokeshramchand-ctrl" class="social-link magnet">Github</a>
+                <a href="https://instagram.com/lokeshramchand" class="social-link magnet">Instagram</a>
+            </div>
+        </footer>
+
     </div>
-    <div class="about">
-      <div id="textabout">
-        <h5>(About Me)</h5>
-        <p>
-          Hey, I'm Lokesh Ram Chand Bazaru, a software developer and web designer from India. <br>
-          I specialize in building sleek, functional mobile and web applications with a strong focus on user
-          experience.<br>
-          With a passion for innovation, I blend technology and creativity to craft engaging, high-performance
-          apps.<br>
-          I'm also exploring AI and decentralized systems to push the boundaries of what's possible in tech.<br>
-          Let's connect and create something amazing together!
-        </p>
-        <a href="https://dhruvbadaya.com/cynthiaugwu/">Let's Talk</a>
-      </div>
-    </div>
-    <div class="subscribe">
-      <h5>(forgot to mention)</h5>
-      <a href="https://dhruvbadaya.com/cynthiaugwu/">
-        <h3 class="hover-underline-animation">
-          Subscribe to my YouTube Channel
-          <i class="ri-arrow-right-up-line"></i>
-        </h3>
-      </a>
-    </div>
-    <div class="footer">
 
-      <div class="footer-right">
-        <a href="./resume.html">RESUME</a>
-        <a href="https://medium.com/@lokeshramchand">medium</a>
-        <a href="https://www.instagram.com/lokeshramchand/">instagram</a>
-        <a href="https://www.linkedin.com/in/lokeshramchand/">linkedin</a>
-        <a href="https://github.com/lokeshramchand-ctrl">github</a>
-      </div>
-    </div>
-    <!-- </div> -->
-  </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 
-  <!-- SCRIPTS BELOW -->
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
 
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"
-    integrity="sha512-cOH8ndwGgPo+K7pTvMrqYbmI8u8k6Sho3js0gOqVWTmQMlLIi6TbqGWRTpf1ga8ci9H3iPsvDLr4X7xwhC/+DQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        // 1. PRELOADER ANIMATION
+        function startLoader() {
+            let counterElement = document.querySelector(".counter");
+            let currentValue = 0;
 
-  <!-- SMOOTH LOCOMOTIVE SCROLLING -->
-  <script src="locomotive-scroll.min.js"></script>
-  <script src="script.js"></script>
+            function updateCounter() {
+                if(currentValue === 100) return;
+                currentValue += Math.floor(Math.random() * 10) + 1;
+                if(currentValue > 100) currentValue = 100;
+                counterElement.textContent = currentValue;
+                
+                let delay = Math.floor(Math.random() * 200) + 50;
+                setTimeout(updateCounter, delay);
+            }
+            updateCounter();
+
+            const tl = gsap.timeline();
+            tl.to(".counter", {
+                delay: 2.5,
+                opacity: 0,
+            })
+            .to("#loader", {
+                height: 0,
+                duration: 1,
+                ease: "power4.inOut"
+            })
+            .to(".hero-title", {
+                y: 0,
+                stagger: 0.1,
+                duration: 1,
+                ease: "power4.out"
+            }, "-=0.5")
+            .from(".reveal-text", {
+                y: 20,
+                opacity: 0,
+                stagger: 0.1,
+            }, "-=0.5");
+        }
+        startLoader();
+
+        // 2. SMOOTH SCROLL (LENIS)
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            smooth: true,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // 3. CURSOR & MAGNETIC EFFECT
+        const cursor = document.getElementById("cursor");
+        
+        // Mouse Move
+        window.addEventListener("mousemove", (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+            });
+        });
+
+        // Magnetic Buttons
+        const magnets = document.querySelectorAll(".magnet");
+        magnets.forEach((magnet) => {
+            magnet.addEventListener("mousemove", (e) => {
+                const rect = magnet.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+
+                gsap.to(magnet, {
+                    x: x * 0.3,
+                    y: y * 0.3,
+                    duration: 0.3,
+                });
+                gsap.to(cursor, { scale: 4 });
+            });
+
+            magnet.addEventListener("mouseleave", () => {
+                gsap.to(magnet, { x: 0, y: 0 });
+                gsap.to(cursor, { scale: 1 });
+            });
+        });
+
+        // 4. FLOATING IMAGE PREVIEW (PERFORMANCE OPTIMIZED)
+        const projectItems = document.querySelectorAll(".project-item");
+        const previewImg = document.querySelector(".preview-img");
+        const pImg = document.getElementById("p-img");
+
+        // Use quickTo for high performance mouse tracking
+        const xTo = gsap.quickTo(previewImg, "x", {duration: 0.4, ease: "power3"});
+        const yTo = gsap.quickTo(previewImg, "y", {duration: 0.4, ease: "power3"});
+
+        projectItems.forEach((item) => {
+            item.addEventListener("mouseenter", () => {
+                const imgUrl = item.getAttribute("data-img");
+                pImg.src = imgUrl;
+                
+                gsap.to(previewImg, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.3
+                });
+            });
+
+            item.addEventListener("mouseleave", () => {
+                gsap.to(previewImg, {
+                    opacity: 0,
+                    scale: 0.5,
+                    duration: 0.3
+                });
+            });
+
+            item.addEventListener("mousemove", (e) => {
+                xTo(e.clientX);
+                yTo(e.clientY);
+            });
+        });
+
+        // 5. TEXT HIGHLIGHT EFFECT ON SCROLL
+        gsap.utils.toArray(".about-text span").forEach((span) => {
+            gsap.to(span, {
+                scrollTrigger: {
+                    trigger: span,
+                    start: "top 80%",
+                    end: "bottom 60%",
+                    scrub: true,
+                },
+                color: "#fff",
+            });
+        });
+        
+        // 6. SKEW EFFECT ON SCROLL
+        let proxy = { skew: 0 },
+        skewSetter = gsap.quickSetter(".project-item", "skewY", "deg"),
+        clamp = gsap.utils.clamp(-20, 20);
+
+        ScrollTrigger.create({
+            onUpdate: (self) => {
+                let skew = clamp(self.getVelocity() / -300);
+                if (Math.abs(skew) > Math.abs(proxy.skew)) {
+                    proxy.skew = skew;
+                    gsap.to(proxy, {
+                        skew: 0,
+                        duration: 0.8,
+                        ease: "power3",
+                        overwrite: true,
+                        onUpdate: () => skewSetter(proxy.skew)
+                    });
+                }
+            }
+        });
+
+    </script>
 </body>
-
 </html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seko Skills UI</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #000;
+    font-family: Inter, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    height: 100vh;
+    color: white;
+  }
+
+  .card {
+    width: 350px;
+    height: 450px;
+    background: radial-gradient(circle at 50% 40%, #0f0f0f, #000);
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    overflow: hidden;
+    padding: 32px;
+    box-shadow:
+      inset 0px 0px 40px rgba(255,255,255,0.03),
+      0px 0px 40px rgba(255,255,255,0.03);
+  }
+
+  /* 🔩 Screw elements */
+  .screw {
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(145deg,#888,#444);
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: inset 0px 0px 5px rgba(0,0,0,0.6);
+  }
+  .screw:nth-child(1) { top: 18px; left: 18px; }
+  .screw:nth-child(2) { top: 18px; right: 18px; }
+  .screw:nth-child(3) { bottom: 18px; left: 18px; }
+  .screw:nth-child(4) { bottom: 18px; right: 18px; }
+
+  /* rotating mechanical ring */
+  .dial {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.04);
+    pointer-events: none;
+    animation: dialRotate 14s linear infinite;
+    opacity: .25;
+  }
+
+  @keyframes dialRotate {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  .dial::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: inherit;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.1) 0px,
+      rgba(255,255,255,0.1) 2px,
+      transparent 2px,
+      transparent 16px
+    );
+    mask: radial-gradient(circle, transparent 68%, black 70%);
+  }
+
+  /* CLOCK CENTER DOT */
+  .center-dot {
+    width: 12px;
+    height: 12px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    box-shadow: 0 0 15px white;
+    opacity: .7;
+  }
+
+  /* TEXT SLIDER (unchanged behavior) */
+  .loop-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .loop {
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+    position: absolute;
+    animation: scroll 8s linear infinite;
+  }
+
+  .loop:hover { animation-play-state: paused; }
+
+  @keyframes scroll {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-50%); }
+  }
+
+  .loop-item {
+    font-size: 1.55rem;
+    font-weight: 600;
+    opacity: 0.7;
+    text-align: center;
+    transition: .25s;
+  }
+
+  .loop-item:hover {
+    opacity: 1;
+    letter-spacing: 1.2px;
+  }
+
+  /* Left card text and stars remain same */
+  h1 {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    font-size: 36px;
+    width: 250px;
+    font-weight: 700;
+  }
+
+  /* Tiny glowing stars */
+  .stars span {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+    filter: blur(1px);
+    animation: twinkle 2s infinite alternate;
+    opacity: 0.7;
+  }
+
+  @keyframes twinkle {
+    from { transform: scale(1); opacity: .3; }
+    to   { transform: scale(1.6); opacity: 1; }
+  }
+
+  .stars span:nth-child(1) { top:20%; left:30%; animation-delay:.2s; }
+  .stars span:nth-child(2) { top:55%; left:10%; animation-delay:.8s; }
+  .stars span:nth-child(3) { top:75%; left:60%; animation-delay:1.5s; }
+  .stars span:nth-child(4) { top:25%; left:70%; animation-delay:1s; }
+
+</style>
+</head>
+
+<body>
+
+<!-- LEFT CARD -->
+<div class="card">
+  <div class="screw"></div><div class="screw"></div><div class="screw"></div><div class="screw"></div>
+
+  <div class="stars">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <h1>everything i dabble in</h1>
+</div>
+
+<!-- RIGHT CARD WITH CLOCK DESIGN -->
+<div class="card">
+  <div class="screw"></div><div class="screw"></div><div class="screw"></div><div class="screw"></div>
+
+  <div class="dial"></div>
+  <div class="center-dot"></div>
+
+  <div class="loop-container">
+    <div class="loop">
+      <div class="loop-item">interaction design</div>
+      <div class="loop-item">web & mobile responsive</div>
+      <div class="loop-item">branding</div>
+      <div class="loop-item">illustration</div>
+      <div class="loop-item">content</div>
+      <!-- Duplicate for infinite feel -->
+      <div class="loop-item">interaction design</div>
+      <div class="loop-item">web & mobile responsive</div>
+      <div class="loop-item">branding</div>
+      <div class="loop-item">illustration</div>
+      <div class="loop-item">content</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

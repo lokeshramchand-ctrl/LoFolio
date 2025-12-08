@@ -1,38 +1,279 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <title>Page Not Found</title>
-  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
-<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Arvo'><link rel="stylesheet" href="./errorpagestyle/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon | Lokesh Ram Chand</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
 
+    <style>
+        /* --- 1. SHARED VARIABLES (Matches Portfolio) --- */
+        :root {
+            /* Dark Mode */
+            --bg: #0b0b0b;
+            --text: #e0e0e0;
+            --acc: #888;
+            --border: rgba(255, 255, 255, 0.1);
+            --overlay: rgba(255, 255, 255, 0.03);
+            --cursor-base: #fff;
+        }
+
+        [data-theme="light"] {
+            --bg: #f4f4f4;
+            --text: #1a1a1a;
+            --acc: #555;
+            --border: rgba(0, 0, 0, 0.1);
+            --overlay: rgba(0, 0, 0, 0.03);
+            --cursor-base: #fff; /* Keep white for difference blend mode */
+        }
+
+        /* --- 2. RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+
+        body {
+            width: 100%; height: 100vh;
+            background-color: var(--bg); color: var(--text);
+            font-family: 'General Sans', sans-serif;
+            overflow: hidden; /* No scrolling on coming soon */
+            transition: background-color 0.5s ease, color 0.5s ease;
+            display: flex; flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        button { border: none; background: none; cursor: none; color: inherit; }
+
+        /* --- 3. UTILS --- */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9000; opacity: 0.04;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
+
+        #cursor {
+            position: fixed; top: 0; left: 0; width: 15px; height: 15px;
+            background-color: var(--cursor-base); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, transform 0.1s;
+        }
+
+        /* --- 4. NAVIGATION --- */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 5vw; width: 100%; z-index: 100;
+        }
+
+        .nav-btn {
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 20px; border: 1px solid var(--border);
+            border-radius: 50px; transition: all 0.3s;
+        }
+        .nav-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+        .theme-btn { font-size: 1.2rem; padding: 10px; }
+
+        /* --- 5. CENTER CONTENT --- */
+        main {
+            flex: 1; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            position: relative; padding: 0 5vw;
+        }
+
+        /* ABSTRACT SVG ANIMATION */
+        .reactor-container {
+            width: 200px; height: 200px; margin-bottom: 40px;
+            position: relative; opacity: 0; /* Fade in */
+        }
+        
+        .reactor-svg {
+            width: 100%; height: 100%;
+            animation: spin-slow 20s linear infinite;
+        }
+
+        .ring {
+            fill: none;
+            stroke: var(--text);
+            stroke-width: 1;
+            opacity: 0.3;
+            transform-origin: center;
+        }
+        
+        .ring-1 { animation: spin 4s linear infinite; stroke-dasharray: 100 200; }
+        .ring-2 { animation: spin-rev 7s linear infinite; stroke-dasharray: 50 150; stroke-width: 0.5; }
+        .ring-3 { animation: pulse 3s ease-in-out infinite; opacity: 0.8; }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin-rev { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
+        @keyframes spin-slow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 1; } }
+
+        /* TEXT */
+        .status-wrapper { overflow: hidden; text-align: center; }
+        
+        h1 {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(3rem, 8vw, 8rem);
+            line-height: 1; text-transform: uppercase; font-weight: 600;
+            transform: translateY(100%); /* Reveal animation */
+        }
+
+        .outline {
+            color: transparent; -webkit-text-stroke: 1px var(--text);
+            opacity: 0.5;
+        }
+
+        .meta-data {
+            margin-top: 30px;
+            display: flex; gap: 40px;
+            font-size: 0.9rem; color: var(--acc);
+            text-transform: uppercase; letter-spacing: 1px;
+            opacity: 0;
+        }
+
+        .progress-block { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .progress-bar {
+            width: 100px; height: 2px; background: var(--border);
+            position: relative; overflow: hidden;
+        }
+        .progress-fill {
+            position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+            background: var(--text);
+        }
+
+        /* --- 6. RESPONSIVE --- */
+        @media (max-width: 768px) {
+            #cursor { display: none; } * { cursor: auto; }
+            .reactor-container { width: 150px; height: 150px; }
+            .meta-data { flex-direction: column; gap: 15px; align-items: center; }
+        }
+    </style>
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<section class="page_404">
-	<div class="container">
-		<div class="row">	
-		<div class="col-sm-12 ">
-		<div class="col-sm-10 col-sm-offset-1  text-center">
-		<div class="four_zero_four_bg">
-			<h1 class="text-center ">404</h1>
-		</div>
-		
-		<div class="contant_box_404">
-		<h3 class="h2">
-		Look like you're lost
-		</h3>
-		
-		<p>the page you are looking for not avaible!</p>
-		
-		<a href="./index.html" class="link_404">Go to Home</a>
-	</div>
-		</div>
-		</div>
-		</div>
-	</div>
-</section>
-<!-- partial -->
-  
+
+    <div class="noise-overlay"></div>
+    <div id="cursor"></div>
+
+    <nav>
+        <button class="nav-btn magnet" onclick="window.history.back()">
+            <i class="ri-arrow-left-line"></i> Go Back
+        </button>
+
+        <button class="nav-btn theme-btn magnet" onclick="toggleTheme()" aria-label="Toggle Theme">
+            <i class="ri-moon-line" id="theme-icon"></i>
+        </button>
+    </nav>
+
+    <main>
+        <div class="reactor-container">
+            <svg class="reactor-svg" viewBox="0 0 100 100">
+                <circle class="ring ring-1" cx="50" cy="50" r="45" />
+                <circle class="ring ring-2" cx="50" cy="50" r="30" />
+                <circle class="ring ring-3" cx="50" cy="50" r="10" style="fill: var(--text); stroke: none;" />
+                <line x1="50" y1="0" x2="50" y2="100" stroke="var(--border)" stroke-width="0.5" />
+                <line x1="0" y1="50" x2="100" y2="50" stroke="var(--border)" stroke-width="0.5" />
+            </svg>
+        </div>
+
+        <div class="status-wrapper">
+            <h1>Work in</h1>
+        </div>
+        <div class="status-wrapper">
+            <h1 class="outline">Progress</h1>
+        </div>
+
+        <div class="meta-data">
+            <span>Cooking something spicy</span>
+            <div class="progress-block">
+                <span>Loading Assets... <span id="percent">0%</span></span>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+            <span>Est. 2025</span>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <script>
+        // --- 1. THEME LOGIC (COPIED FROM PREVIOUS PAGES) ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            const currentTheme = html.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                icon.className = 'ri-sun-line';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                icon.className = 'ri-moon-line';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+
+        // --- 2. CURSOR LOGIC ---
+        if (window.matchMedia("(min-width: 769px)").matches) {
+            const cursor = document.getElementById("cursor");
+            window.addEventListener("mousemove", (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            });
+
+            document.querySelectorAll(".magnet").forEach((magnet) => {
+                magnet.addEventListener("mousemove", (e) => {
+                    const rect = magnet.getBoundingClientRect();
+                    gsap.to(magnet, { 
+                        x: (e.clientX - rect.left - rect.width / 2) * 0.3, 
+                        y: (e.clientY - rect.top - rect.height / 2) * 0.3, 
+                        duration: 0.3 
+                    });
+                    gsap.to(cursor, { scale: 3 });
+                });
+                magnet.addEventListener("mouseleave", () => {
+                    gsap.to(magnet, { x: 0, y: 0 });
+                    gsap.to(cursor, { scale: 1 });
+                });
+            });
+        }
+
+        // --- 3. REVEAL ANIMATIONS ---
+        const tl = gsap.timeline();
+
+        // Animate Container
+        tl.to(".reactor-container", { opacity: 1, duration: 2, ease: "power2.inOut" })
+          .to(".nav-btn", { opacity: 1, duration: 0.5 }, "-=1.5")
+          
+          // Animate Text
+          .to("h1", { y: 0, duration: 1, stagger: 0.1, ease: "power4.out" }, "-=1")
+          
+          // Animate Footer Data
+          .to(".meta-data", { opacity: 1, y: 0, duration: 1 }, "-=0.5");
+
+        // --- 4. FAKE LOADING PROGRESS ---
+        const targetPercent = Math.floor(Math.random() * (95 - 60) + 60); // Random # between 60-95
+        const percentEl = document.getElementById('percent');
+        const barFill = document.querySelector('.progress-fill');
+        
+        let current = 0;
+        const interval = setInterval(() => {
+            current += Math.floor(Math.random() * 3);
+            if(current >= targetPercent) {
+                current = targetPercent;
+                clearInterval(interval);
+            }
+            percentEl.textContent = current + "%";
+            barFill.style.width = current + "%";
+        }, 100);
+
+    </script>
 </body>
 </html>

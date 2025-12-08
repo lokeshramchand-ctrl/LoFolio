@@ -1,28 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lokesh Ram Chand | Creative Developer</title>
     
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    
     <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
 
     <style>
-        /* --- 1. SETTINGS & RESET --- */
+        /* --- 1. VARIABLES & THEMES --- */
         :root {
+            /* Dark Mode (Default) */
             --bg: #0b0b0b;
             --text: #e0e0e0;
             --acc: #888;
             --border: rgba(255, 255, 255, 0.1);
+            --cursor: #fff;
+            --nav-bg: rgba(11, 11, 11, 0.8);
+            --overlay: rgba(255, 255, 255, 0.03);
         }
 
+        [data-theme="light"] {
+            --bg: #f4f4f4;
+            --text: #1a1a1a;
+            --acc: #555;
+            --border: rgba(0, 0, 0, 0.1);
+            --cursor: #000;
+            --nav-bg: rgba(244, 244, 244, 0.8);
+            --overlay: rgba(0, 0, 0, 0.03);
+        }
+
+        /* --- 2. RESET --- */
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none; /* Hide default cursor */
+            margin: 0; padding: 0; box-sizing: border-box;
+            cursor: none; /* Custom cursor */
         }
 
         html, body {
@@ -31,307 +43,191 @@
             color: var(--text);
             font-family: 'General Sans', sans-serif;
             overflow-x: hidden;
-        }
-
-        /* GRAIN OVERLAY - High-end Texture */
-        .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9000;
-            opacity: 0.05;
-            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
+        button { border: none; background: none; cursor: none; color: inherit; }
 
-        /* --- 2. PRELOADER --- */
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: #000;
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-        }
-        
-        .counter {
-            font-family: 'Clash Display', sans-serif;
-            font-size: 8vw;
-            font-weight: 600;
+        /* --- 3. UTILITIES --- */
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 9000; opacity: 0.04;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
         }
 
-        /* --- 3. CUSTOM CURSOR --- */
+        /* --- 4. CUSTOM CURSOR --- */
         #cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 15px;
-            height: 15px;
-            background-color: white;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
+            position: fixed; top: 0; left: 0; width: 15px; height: 15px;
+            background-color: var(--text); border-radius: 50%;
+            pointer-events: none; z-index: 9999;
             mix-blend-mode: difference;
             transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s;
+            transition: width 0.3s, height 0.3s, transform 0.1s;
         }
 
-        /* --- 4. NAVIGATION --- */
+        /* --- 5. NAVIGATION --- */
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 4vw;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-            mix-blend-mode: difference;
-            color: white;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 5vw; position: fixed; width: 100%; top: 0;
+            z-index: 100; backdrop-filter: blur(10px);
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.5s ease;
         }
 
         .logo {
-            font-family: 'Clash Display', sans-serif;
-            font-weight: 600;
-            font-size: 1.5rem;
-            letter-spacing: -0.5px;
+            font-family: 'Clash Display', sans-serif; font-weight: 600;
+            font-size: 1.5rem; letter-spacing: -0.5px;
         }
 
-        .menu-items {
-            display: flex;
-            gap: 40px;
-        }
+        .nav-right { display: flex; align-items: center; gap: 30px; }
+
+        .menu-items { display: flex; gap: 30px; }
 
         .menu-link {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
+            position: relative; overflow: hidden;
         }
-
         .menu-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: white;
-            transform: scaleX(0);
-            transform-origin: right;
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 1px;
+            background: var(--text); transform: scaleX(0); transform-origin: right;
             transition: transform 0.4s ease;
         }
+        .menu-link:hover::after { transform: scaleX(1); transform-origin: left; }
 
-        .menu-link:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
+        /* THEME TOGGLE */
+        .theme-btn {
+            font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
         }
 
-        /* --- 5. HERO SECTION --- */
+        /* MOBILE MENU ICON */
+        .menu-icon { display: none; font-size: 1.5rem; z-index: 102; }
+
+        /* MOBILE OVERLAY */
+        .mobile-menu {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--bg); z-index: 101; display: flex;
+            flex-direction: column; justify-content: center; align-items: center;
+            gap: 40px; transform: translateY(-100%); transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+        .mobile-menu.active { transform: translateY(0); }
+        .mobile-link { font-family: 'Clash Display', sans-serif; font-size: 3rem; color: var(--text); }
+
+        /* --- 6. HERO --- */
         #hero {
-            height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 4vw;
-            position: relative;
+            height: 100vh; width: 100%; display: flex; flex-direction: column;
+            justify-content: center; padding: 0 5vw; position: relative;
         }
 
-        .hero-line {
-            overflow: hidden;
-            line-height: 0.9;
-        }
-
+        .hero-line { overflow: hidden; line-height: 1; }
         .hero-title {
             font-family: 'Clash Display', sans-serif;
-            font-size: 13vw;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: #f0f0f0;
-            transform: translateY(100%); /* Start hidden */
+            font-size: clamp(3rem, 13vw, 10rem); /* Responsive Font */
+            font-weight: 600; text-transform: uppercase;
+            color: var(--text); transform: translateY(100%);
         }
-
         .hero-title.outline {
-            color: transparent;
-            -webkit-text-stroke: 1px rgba(255,255,255,0.4);
+            color: transparent; -webkit-text-stroke: 1px var(--text);
+            opacity: 0.5;
         }
 
         .hero-footer {
-            position: absolute;
-            bottom: 50px;
-            left: 4vw;
-            right: 4vw;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.9rem;
-            color: var(--acc);
-            text-transform: uppercase;
-            overflow: hidden;
+            position: absolute; bottom: 40px; left: 5vw; right: 5vw;
+            display: flex; justify-content: space-between;
+            font-size: 0.9rem; color: var(--acc); text-transform: uppercase;
         }
 
-        /* --- 6. WORK SECTION --- */
-        #work {
-            padding: 10vh 4vw;
-            position: relative;
-        }
-
+        /* --- 7. WORK --- */
+        #work { padding: 100px 5vw; position: relative; }
         .section-label {
-            font-size: 0.9rem;
-            color: var(--acc);
-            margin-bottom: 50px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: block;
-        }
-
-        .project-list {
-            display: flex;
-            flex-direction: column;
+            font-size: 0.9rem; color: var(--acc); margin-bottom: 40px;
+            text-transform: uppercase; letter-spacing: 1px; display: block;
         }
 
         .project-item {
-            padding: 3vw 0;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
+            padding: 40px 0; border-top: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
             transition: opacity 0.3s;
         }
-        
-        .project-item:last-child {
-            border-bottom: 1px solid var(--border);
-        }
-
-        .project-item:hover {
-            opacity: 1;
-        }
-
-        .project-list:hover .project-item {
-            opacity: 0.3;
-        }
-        
-        .project-list:hover .project-item:hover {
-            opacity: 1;
-        }
+        .project-item:last-child { border-bottom: 1px solid var(--border); }
+        .project-item:hover { opacity: 1; }
+        .project-list:hover .project-item { opacity: 0.4; }
+        .project-list:hover .project-item:hover { opacity: 1; }
 
         .p-name {
             font-family: 'Clash Display', sans-serif;
-            font-size: 5vw;
-            text-transform: uppercase;
-            font-weight: 500;
+            font-size: clamp(2rem, 5vw, 5rem);
+            text-transform: uppercase; font-weight: 500;
             transition: transform 0.3s ease;
         }
-
-        .project-item:hover .p-name {
-            transform: translateX(20px);
-            color: #fff;
-        }
-
-        .p-cat {
-            font-size: 1rem;
-            color: var(--acc);
-        }
+        .project-item:hover .p-name { transform: translateX(20px); }
+        .p-cat { font-size: 0.9rem; color: var(--acc); text-align: right; }
 
         /* FLOATING PREVIEW */
         .preview-img {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 350px;
-            height: 250px;
-            border-radius: 4px;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 10;
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.5);
+            position: fixed; width: 300px; height: 200px;
+            border-radius: 8px; overflow: hidden; pointer-events: none;
+            z-index: 10; opacity: 0; transform: translate(-50%, -50%) scale(0.5);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
         }
+        .preview-img img { width: 100%; height: 100%; object-fit: cover; }
 
-        .preview-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* --- 7. ABOUT SECTION --- */
-        #about {
-            padding: 15vh 4vw;
-        }
-
+        /* --- 8. ABOUT --- */
+        #about { padding: 100px 5vw; }
         .about-text {
-            font-size: 3.5vw;
-            line-height: 1.2;
-            width: 90%;
-            color: #666; /* Base color dim */
+            font-size: clamp(1.5rem, 3.5vw, 3.5rem);
+            line-height: 1.3; width: 100%;
+            color: var(--acc);
         }
-        
-        .about-text span {
-            color: #fff; /* Highlight color */
-            transition: color 0.3s;
-        }
+        .about-text span { color: var(--text); transition: color 0.3s; }
 
-        /* --- 8. FOOTER --- */
+        /* --- 9. FOOTER --- */
         footer {
-            height: 80vh;
-            padding: 0 4vw;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: #0b0b0b;
+            min-height: 80vh; padding: 100px 5vw; display: flex;
+            flex-direction: column; justify-content: center;
         }
-
         .footer-title {
             font-family: 'Clash Display', sans-serif;
-            font-size: 12vw;
-            line-height: 0.9;
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 50px;
+            font-size: clamp(4rem, 12vw, 12rem);
+            line-height: 0.9; text-transform: uppercase;
+            font-weight: 600; margin-bottom: 40px;
         }
-
-        .socials {
-            display: flex;
-            gap: 30px;
-            margin-top: 50px;
-        }
-        
+        .socials { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 50px; }
         .social-link {
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 15px 30px;
-            border-radius: 100px;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            font-size: 0.9rem;
+            border: 1px solid var(--border); padding: 12px 28px;
+            border-radius: 100px; transition: all 0.3s;
+            text-transform: uppercase; font-size: 0.85rem;
         }
-
         .social-link:hover {
-            background: white;
-            color: black;
-            border-color: white;
+            background: var(--text); color: var(--bg); border-color: var(--text);
         }
 
-        /* --- MOBILE TWEAKS --- */
+        /* --- 10. LOADER --- */
+        #loader {
+            position: fixed; inset: 0; background: var(--bg); z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .counter { font-family: 'Clash Display', sans-serif; font-size: 10vw; font-weight: 600; }
+
+        /* --- MEDIA QUERIES --- */
         @media (max-width: 768px) {
-            .hero-title { font-size: 18vw; }
-            .p-name { font-size: 9vw; }
-            .about-text { font-size: 1.8rem; }
-            .footer-title { font-size: 18vw; }
-            .preview-img, #cursor { display: none; }
-            * { cursor: auto; }
-            .menu-items { display: none; } /* Simplified for demo */
+            .menu-items { display: none; }
+            .menu-icon { display: block; }
+            
+            /* Disable Custom Cursor on Touch */
+            #cursor, .preview-img { display: none !important; }
+            * { cursor: auto !important; }
+
+            /* Layout Adjustments */
+            .project-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .project-item:hover .p-name { transform: translateX(10px); }
+            .p-cat { text-align: left; opacity: 0.7; }
+            
+            .hero-footer { flex-direction: column; gap: 10px; align-items: flex-start; }
+            
+            nav { padding: 20px 5vw; }
         }
     </style>
 </head>
@@ -344,6 +240,12 @@
         <div class="counter">0</div>
     </div>
 
+    <div class="mobile-menu">
+        <a href="#work" class="mobile-link" onclick="toggleMenu()">Projects</a>
+        <a href="#about" class="mobile-link" onclick="toggleMenu()">About</a>
+        <a href="./re.html" class="mobile-link" onclick="toggleMenu()">Resume</a>
+    </div>
+
     <div class="preview-img">
         <img src="" id="p-img" alt="work">
     </div>
@@ -352,10 +254,21 @@
         
         <nav>
             <a href="#" class="logo magnet">Lo.</a>
-            <div class="menu-items">
-                <a href="#work" class="menu-link magnet">Projects</a>
-                <a href="#about" class="menu-link magnet">About</a>
-                <a href="./re.html" class="menu-link magnet">Resume</a>
+            
+            <div class="nav-right">
+                <div class="menu-items">
+                    <a href="#work" class="menu-link magnet">Projects</a>
+                    <a href="#about" class="menu-link magnet">About</a>
+                    <a href="./re.html" class="menu-link magnet">Resume</a>
+                </div>
+                
+                <button class="theme-btn magnet" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <i class="ri-moon-line" id="theme-icon"></i>
+                </button>
+
+                <button class="menu-icon" onclick="toggleMenu()" aria-label="Menu">
+                    <i class="ri-menu-4-line"></i>
+                </button>
             </div>
         </nav>
 
@@ -402,7 +315,7 @@
             <p class="about-text">
                 I'm Lokesh Ram Chand. I craft <span>high-end digital experiences</span> that merge art with code. 
                 Focusing on <span>micro-interactions</span> and fluid motion, I build applications that feel 
-                <span>alive</span>. Currently pushing boundaries in AI and decentralized web.
+                <span>alive</span>.
             </p>
         </section>
 
@@ -410,7 +323,7 @@
             <div class="hero-line">
                 <h1 class="footer-title">Let's Talk</h1>
             </div>
-            <a href="mailto:lokeshramchand@gmail.com" style="font-size: 1.5rem; color: #888;">lokeshramchand@gmail.com</a>
+            <a href="mailto:lokeshramchand@gmail.com" style="font-size: clamp(1rem, 2vw, 1.5rem); color: var(--acc);">lokeshramchand@gmail.com</a>
             
             <div class="socials">
                 <a href="https://linkedin.com/in/lokeshramchand" class="social-link magnet">LinkedIn</a>
@@ -428,7 +341,37 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // 1. PRELOADER ANIMATION
+        // --- 1. THEME SWITCHER LOGIC ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            const currentTheme = html.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                icon.className = 'ri-sun-line';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                icon.className = 'ri-moon-line';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Check Local Storage on Load
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+        }
+
+        // --- 2. MOBILE MENU ---
+        function toggleMenu() {
+            const menu = document.querySelector('.mobile-menu');
+            menu.classList.toggle('active');
+        }
+
+        // --- 3. PRELOADER ---
         function startLoader() {
             let counterElement = document.querySelector(".counter");
             let currentValue = 0;
@@ -445,126 +388,76 @@
             updateCounter();
 
             const tl = gsap.timeline();
-            tl.to(".counter", {
-                delay: 2.5,
-                opacity: 0,
-            })
-            .to("#loader", {
-                height: 0,
-                duration: 1,
-                ease: "power4.inOut"
-            })
-            .to(".hero-title", {
-                y: 0,
-                stagger: 0.1,
-                duration: 1,
-                ease: "power4.out"
-            }, "-=0.5")
-            .from(".reveal-text", {
-                y: 20,
-                opacity: 0,
-                stagger: 0.1,
-            }, "-=0.5");
+            tl.to(".counter", { delay: 2.5, opacity: 0 })
+              .to("#loader", { height: 0, duration: 1, ease: "power4.inOut" })
+              .to(".hero-title", { y: 0, stagger: 0.1, duration: 1, ease: "power4.out" }, "-=0.5")
+              .from(".reveal-text", { y: 20, opacity: 0, stagger: 0.1 }, "-=0.5");
         }
         startLoader();
 
-        // 2. SMOOTH SCROLL (LENIS)
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            smooth: true,
-        });
-
+        // --- 4. SMOOTH SCROLL ---
+        const lenis = new Lenis();
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
 
-        // 3. CURSOR & MAGNETIC EFFECT
-        const cursor = document.getElementById("cursor");
-        
-        // Mouse Move
-        window.addEventListener("mousemove", (e) => {
-            gsap.to(cursor, {
-                x: e.clientX,
-                y: e.clientY,
-                duration: 0.1,
+        // --- 5. CURSOR & MAGNETS (Desktop Only) ---
+        if (window.matchMedia("(min-width: 769px)").matches) {
+            const cursor = document.getElementById("cursor");
+            
+            window.addEventListener("mousemove", (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
             });
-        });
 
-        // Magnetic Buttons
-        const magnets = document.querySelectorAll(".magnet");
-        magnets.forEach((magnet) => {
-            magnet.addEventListener("mousemove", (e) => {
-                const rect = magnet.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-
-                gsap.to(magnet, {
-                    x: x * 0.3,
-                    y: y * 0.3,
-                    duration: 0.3,
+            document.querySelectorAll(".magnet").forEach((magnet) => {
+                magnet.addEventListener("mousemove", (e) => {
+                    const rect = magnet.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(magnet, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+                    gsap.to(cursor, { scale: 3 });
                 });
-                gsap.to(cursor, { scale: 4 });
-            });
 
-            magnet.addEventListener("mouseleave", () => {
-                gsap.to(magnet, { x: 0, y: 0 });
-                gsap.to(cursor, { scale: 1 });
-            });
-        });
-
-        // 4. FLOATING IMAGE PREVIEW (PERFORMANCE OPTIMIZED)
-        const projectItems = document.querySelectorAll(".project-item");
-        const previewImg = document.querySelector(".preview-img");
-        const pImg = document.getElementById("p-img");
-
-        // Use quickTo for high performance mouse tracking
-        const xTo = gsap.quickTo(previewImg, "x", {duration: 0.4, ease: "power3"});
-        const yTo = gsap.quickTo(previewImg, "y", {duration: 0.4, ease: "power3"});
-
-        projectItems.forEach((item) => {
-            item.addEventListener("mouseenter", () => {
-                const imgUrl = item.getAttribute("data-img");
-                pImg.src = imgUrl;
-                
-                gsap.to(previewImg, {
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.3
+                magnet.addEventListener("mouseleave", () => {
+                    gsap.to(magnet, { x: 0, y: 0 });
+                    gsap.to(cursor, { scale: 1 });
                 });
             });
 
-            item.addEventListener("mouseleave", () => {
-                gsap.to(previewImg, {
-                    opacity: 0,
-                    scale: 0.5,
-                    duration: 0.3
+            // FLOATING IMAGE
+            const projectItems = document.querySelectorAll(".project-item");
+            const previewImg = document.querySelector(".preview-img");
+            const pImg = document.getElementById("p-img");
+            const xTo = gsap.quickTo(previewImg, "x", {duration: 0.4, ease: "power3"});
+            const yTo = gsap.quickTo(previewImg, "y", {duration: 0.4, ease: "power3"});
+
+            projectItems.forEach((item) => {
+                item.addEventListener("mouseenter", () => {
+                    const imgUrl = item.getAttribute("data-img");
+                    pImg.src = imgUrl;
+                    gsap.to(previewImg, { opacity: 1, scale: 1, duration: 0.3 });
+                });
+                item.addEventListener("mouseleave", () => {
+                    gsap.to(previewImg, { opacity: 0, scale: 0.5, duration: 0.3 });
+                });
+                item.addEventListener("mousemove", (e) => {
+                    xTo(e.clientX);
+                    yTo(e.clientY);
                 });
             });
+        }
 
-            item.addEventListener("mousemove", (e) => {
-                xTo(e.clientX);
-                yTo(e.clientY);
-            });
-        });
-
-        // 5. TEXT HIGHLIGHT EFFECT ON SCROLL
+        // --- 6. SCROLL ANIMATIONS ---
         gsap.utils.toArray(".about-text span").forEach((span) => {
             gsap.to(span, {
-                scrollTrigger: {
-                    trigger: span,
-                    start: "top 80%",
-                    end: "bottom 60%",
-                    scrub: true,
-                },
-                color: "#fff",
+                scrollTrigger: { trigger: span, start: "top 80%", end: "bottom 60%", scrub: true },
+                color: "var(--text)"
             });
         });
         
-        // 6. SKEW EFFECT ON SCROLL
+        // Skew Effect
         let proxy = { skew: 0 },
         skewSetter = gsap.quickSetter(".project-item", "skewY", "deg"),
         clamp = gsap.utils.clamp(-20, 20);
@@ -575,10 +468,7 @@
                 if (Math.abs(skew) > Math.abs(proxy.skew)) {
                     proxy.skew = skew;
                     gsap.to(proxy, {
-                        skew: 0,
-                        duration: 0.8,
-                        ease: "power3",
-                        overwrite: true,
+                        skew: 0, duration: 0.8, ease: "power3", overwrite: true,
                         onUpdate: () => skewSetter(proxy.skew)
                     });
                 }

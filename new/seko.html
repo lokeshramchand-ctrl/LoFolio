@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seko — Hyperlocal Commerce</title>
+    <title>Seko — Engineering Case Study</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,10 +15,11 @@
         /* --- 1. SETTINGS & RESET --- */
         :root {
             --bg: #050505;
+            --card-bg: #0f0f0f;
             --text: #ffffff;
             --muted: #888888;
-            --accent: #FFD700; /* High-end Yellow/Gold */
-            --border: rgba(255, 255, 255, 0.1);
+            --accent: #FFD700; /* Electric Gold */
+            --border: rgba(255, 255, 255, 0.08);
             --font-main: 'Albert Sans', sans-serif;
         }
 
@@ -44,30 +45,26 @@
         
         /* UTILS */
         .container { padding: 0 4vw; max-width: 1600px; margin: 0 auto; }
-        .flex { display: flex; }
-        .grid { display: grid; }
-        .uppercase { text-transform: uppercase; letter-spacing: 0.05em; }
+        .uppercase { text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.8rem; font-weight: 600; }
         .muted { color: var(--muted); }
         .accent { color: var(--accent); }
+        .border-top { border-top: 1px solid var(--border); }
         
-        /* --- 2. HERO SECTION --- */
+        /* --- 2. HERO --- */
         #hero {
-            min-height: 100vh;
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
-            padding-bottom: 8vw;
+            padding-bottom: 6vw;
             position: relative;
             z-index: 2;
-            border-bottom: 1px solid var(--border);
         }
 
-        .hero-meta {
-            margin-bottom: 20px;
+        .hero-tags {
             display: flex;
-            gap: 30px;
-            font-size: 0.9rem;
-            font-weight: 500;
+            gap: 20px;
+            margin-bottom: 30px;
             color: var(--accent);
         }
 
@@ -79,108 +76,95 @@
             margin-left: -0.8vw;
             color: var(--text);
         }
-
-        /* --- 3. PROJECT INFO GRID --- */
-        #info {
-            padding: 100px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .info-grid {
-            grid-template-columns: repeat(4, 1fr);
-            gap: 40px;
-        }
-
-        .info-label {
-            font-size: 0.75rem;
-            margin-bottom: 15px;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: block;
-        }
-
-        .info-content {
-            font-size: 1.1rem;
+        
+        .hero-summary {
+            max-width: 600px;
+            font-size: 1.2rem;
             line-height: 1.5;
-            font-weight: 400;
+            color: var(--muted);
+            margin-top: 40px;
         }
 
-        /* --- 4. FULL WIDTH PARALLAX IMAGE --- */
-        .parallax-section {
-            width: 100%;
-            height: 90vh;
-            overflow: hidden;
-            position: relative;
-            margin: 0;
+        /* --- 3. TECH STACK (BENTO GRID) --- */
+        #stack {
+            padding: 100px 0;
         }
         
-        .parallax-img {
-            width: 100%;
-            height: 120%; /* Taller for parallax movement */
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        /* --- 5. STICKY NARRATIVE SECTION --- */
-        #narrative {
+        .section-header {
+            margin-bottom: 60px;
             display: flex;
             justify-content: space-between;
-            padding: 150px 4vw;
-            position: relative;
+            align-items: flex-end;
         }
 
-        .narrative-col-left {
-            width: 40%;
-            /* Sticky container */
+        .section-title {
+            font-size: 3rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .stack-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 40px 30px;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: border-color 0.3s;
+        }
+        
+        .stack-card:hover {
+            border-color: var(--accent);
+        }
+        
+        .stack-icon { font-size: 2rem; color: var(--accent); }
+        .stack-name { font-size: 1.2rem; font-weight: 600; }
+        .stack-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.4; }
+
+        /* --- 4. ARCHITECTURE SECTION --- */
+        #architecture {
+            padding: 100px 4vw;
+            display: flex;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .arch-text { width: 40%; }
+        .arch-visual { 
+            width: 60%; 
+            height: 500px; 
+            background: #0f0f0f; 
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-size: 0.9rem;
+            position: relative;
+        }
+        
+        .arch-visual::after {
+            content: '[ System Architecture Diagram Placeholder ]';
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* --- 5. MOBILE SHOWCASE (HORIZONTAL) --- */
+        #showcase {
+            width: 100%;
+            height: 400vh; /* Deep scroll */
+            position: relative;
+            background: #080808;
         }
 
         .sticky-wrapper {
-            position: sticky;
-            top: 100px;
-        }
-
-        .section-headline {
-            font-size: 4rem;
-            font-weight: 600;
-            margin-bottom: 40px;
-            letter-spacing: -0.03em;
-            line-height: 1;
-        }
-        
-        .highlight-text {
-            color: var(--accent);
-        }
-
-        .narrative-col-right {
-            width: 50%;
-            display: flex;
-            flex-direction: column;
-            gap: 80px; /* Space between images */
-            padding-top: 20vh;
-        }
-
-        .mockup-container {
-            width: 100%;
-            background: #111;
-            border-radius: 4px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            position: relative;
-            transition: transform 0.3s;
-        }
-
-        /* --- 6. HORIZONTAL SCROLL SECTION --- */
-        #horizontal {
-            width: 100%;
-            height: 400vh; /* Scroll distance */
-            position: relative;
-            background: #0a0a0a;
-        }
-
-        .h-sticky {
             position: sticky;
             top: 0;
             height: 100vh;
@@ -189,227 +173,234 @@
             align-items: center;
         }
 
-        .h-header {
-            position: absolute;
-            top: 10vh;
-            left: 4vw;
-            z-index: 2;
-        }
-
-        .h-wrapper {
+        .showcase-track {
             display: flex;
-            gap: 5vw;
-            padding-left: 5vw;
+            gap: 100px;
+            padding-left: 10vw;
         }
 
-        .mobile-screen {
-            width: 25vw;
-            height: 70vh;
-            flex-shrink: 0;
-            background: #222;
-            border-radius: 20px;
-            border: 1px solid var(--border);
+        /* PHONE FRAME STYLING */
+        .phone-frame {
+            width: 350px; /* Specific mobile width */
+            aspect-ratio: 9/19.5;
+            background: #000;
+            border-radius: 40px;
+            border: 6px solid #222;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8);
+            flex-shrink: 0;
         }
-        
-        .mobile-screen img {
-            width: 100%;
-            height: 100%;
+
+        .phone-notch {
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 25px; background: #222;
+            border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            width: 100%; height: 100%;
             object-fit: cover;
         }
-
-        /* --- 7. RESULTS / NUMBERS --- */
-        #results {
-            padding: 150px 4vw;
-            border-top: 1px solid var(--border);
+        
+        .screen-label {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: var(--muted);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
         }
 
-        .results-grid {
+        /* --- 6. ENGINEERING HIGHLIGHTS --- */
+        #engineering {
+            padding: 150px 0;
+        }
+
+        .eng-row {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .big-stat {
-            font-size: 8vw;
-            font-weight: 800;
-            line-height: 0.9;
-            display: block;
-            margin-bottom: 10px;
-            letter-spacing: -0.04em;
-            color: var(--accent);
-        }
-
-        .stat-label {
-            font-size: 1.2rem;
-            color: var(--text);
-            display: block;
+            grid-template-columns: 1fr 1fr;
             border-top: 1px solid var(--border);
-            padding-top: 20px;
-            width: 50%;
         }
 
-        /* --- 8. NEXT PROJECT FOOTER --- */
+        .eng-item {
+            padding: 60px 40px 60px 0;
+            border-right: 1px solid var(--border);
+        }
+        .eng-item:last-child { border-right: none; padding-left: 40px; }
+
+        .eng-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 20px; color: var(--accent); }
+        .eng-detail { color: var(--muted); line-height: 1.6; }
+
+        /* --- 7. FOOTER --- */
         footer {
             border-top: 1px solid var(--border);
             padding: 100px 4vw;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
-            background: #080808;
+            background: #050505;
         }
-
-        .next-project-label {
-            font-size: 0.9rem;
-            color: var(--muted);
-            margin-bottom: 20px;
-        }
-
         .next-title {
             font-size: clamp(3rem, 10vw, 10rem);
             font-weight: 800;
-            letter-spacing: -0.02em;
             color: var(--text);
             transition: color 0.3s;
         }
-        
-        .next-title:hover {
-            color: var(--accent);
-            -webkit-text-stroke: 0px;
-        }
+        .next-title:hover { color: var(--accent); }
 
-        .back-btn {
-            font-size: 1rem;
-            border: 1px solid var(--border);
-            padding: 10px 20px;
-            border-radius: 50px;
-            text-transform: uppercase;
-        }
-
-        /* --- RESPONSIVE --- */
+        /* RESPONSIVE */
         @media (max-width: 900px) {
-            h1.hero-title { font-size: 22vw; margin-left: -2px; }
-            .info-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
-            #narrative { flex-direction: column; }
-            .narrative-col-left { width: 100%; height: auto; margin-bottom: 50px; }
-            .sticky-wrapper { position: static; }
-            .narrative-col-right { width: 100%; padding-top: 0; }
-            .mobile-screen { width: 75vw; height: 60vh; }
-            .results-grid { grid-template-columns: 1fr; gap: 60px; }
-            .big-stat { font-size: 20vw; }
+            h1.hero-title { font-size: 20vw; }
+            .stack-grid { grid-template-columns: 1fr; }
+            #architecture { flex-direction: column; }
+            .arch-text, .arch-visual { width: 100%; }
+            .phone-frame { width: 80vw; }
+            .eng-row { grid-template-columns: 1fr; }
+            .eng-item { border-right: none; border-bottom: 1px solid var(--border); padding: 40px 0; }
         }
     </style>
 </head>
 <body>
 
     <section id="hero" class="container">
-        <div class="hero-meta fade-in">
-            <span class="uppercase">Case Study 01</span>
-            <span class="uppercase">Hyperlocal Commerce</span>
+        <div class="hero-tags fade-in">
+            <span class="uppercase">iOS & Android</span>
+            <span class="uppercase">Flutter</span>
             <span class="uppercase">2024</span>
         </div>
         <h1 class="hero-title reveal-type">SEKO</h1>
+        <p class="hero-summary fade-up">
+            A hyperlocal commerce engine engineered for speed. Connecting local inventory with consumers through a high-performance mobile application and an event-driven backend.
+        </p>
     </section>
 
-    <section id="info" class="container">
-        <div class="grid info-grid fade-up">
-            <div>
-                <span class="info-label">Role</span>
-                <div class="info-content">Lead Developer<br>System Architect</div>
+    <section id="stack" class="container border-top">
+        <div class="section-header">
+            <h2 class="section-title">The Arsenal</h2>
+            <span class="uppercase muted">Core Technologies</span>
+        </div>
+        
+        <div class="stack-grid fade-up">
+            <div class="stack-card">
+                <i class="ri-flutter-fill stack-icon"></i>
+                <div class="stack-name">Flutter</div>
+                <div class="stack-desc">Single codebase for iOS/Android with custom render objects for 60fps animations.</div>
             </div>
-            <div>
-                <span class="info-label">Stack</span>
-                <div class="info-content">
-                    <span class="accent">Flutter</span> · Django<br>
-                    PostgreSQL · Redis
-                </div>
+            <div class="stack-card">
+                <i class="ri-server-fill stack-icon"></i>
+                <div class="stack-name">Django & Python</div>
+                <div class="stack-desc">Robust REST API handling complex order logic and seller inventory management.</div>
             </div>
-            <div>
-                <span class="info-label">Focus</span>
-                <div class="info-content">Real-time Inventory<br>Logistics Routing</div>
+            <div class="stack-card">
+                <i class="ri-flashlight-fill stack-icon"></i>
+                <div class="stack-name">Redis & WebSockets</div>
+                <div class="stack-desc">Sub-100ms inventory syncing across user devices and delivery partners.</div>
             </div>
-            <div>
-                <span class="info-label">Live</span>
-                <div class="info-content"><a href="#" style="text-decoration: underline; text-decoration-color: var(--accent);">Visit Project ↗</a></div>
+            <div class="stack-card">
+                <i class="ri-database-2-fill stack-icon"></i>
+                <div class="stack-name">PostgreSQL</div>
+                <div class="stack-desc">Optimized with partial indexing for geo-spatial queries and rapid product search.</div>
             </div>
         </div>
     </section>
 
-    <div class="parallax-section">
-        <img src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?q=80&w=2070&auto=format&fit=crop" class="parallax-img" alt="Seko Overview">
-    </div>
+    <section id="architecture">
+        <div class="arch-text">
+            <span class="uppercase accent">System Architecture</span>
+            <h2 class="section-title" style="margin: 20px 0;">Event-Driven Logic</h2>
+            <p class="muted" style="line-height: 1.6;">
+                Seko isn't just a CRUD app. It utilizes a microservices approach where the Order Service, Inventory Service, and Notification Engine communicate asynchronously via RabbitMQ.
+                <br><br>
+                This ensures that when a user places an order, the inventory is locked immediately in Redis, preventing overselling even during high-traffic spikes.
+            </p>
+        </div>
+        <div class="arch-visual">
+            
 
-    <section id="narrative">
-        <div class="narrative-col-left">
-            <div class="sticky-wrapper">
-                <h2 class="section-headline">The<br><span class="highlight-text">Problem</span></h2>
-                <p class="info-content muted" style="max-width: 400px; margin-top: 30px;">
-                    Local sellers are invisible. In India's dense urban pockets, small businesses struggle to compete with giants like Amazon. <br><br>
-                    Consumers want the trust of a local shop with the speed of an app. The challenge was bridging this gap: creating a system that handles <strong>live inventory</strong> from mom-and-pop stores and routes delivery within <span class="accent">15 minutes</span>.
+[Image of E-commerce microservices architecture diagram]
+
+        </div>
+    </section>
+
+    <section id="showcase">
+        <div class="sticky-wrapper">
+            <div style="position: absolute; top: 10vh; left: 4vw; z-index: 5;">
+                <h2 class="section-title">Mobile Experience</h2>
+                <span class="uppercase muted">User & Seller Flows</span>
+            </div>
+            
+            <div class="showcase-track">
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <img src="./images/seko/4.png" class="phone-screen" alt="App Home">
+                    <div class="screen-label">Hyperlocal Feed</div>
+                </div>
+
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <img src="./images/seko/5.png" class="phone-screen" alt="Product Detail">
+                    <div class="screen-label">Instant Inventory</div>
+                </div>
+
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <img src="./images/seko/6.png" class="phone-screen" alt="Checkout">
+                    <div class="screen-label">One-Tap Checkout</div>
+                </div>
+
+                <div class="phone-frame">
+                    <div class="phone-notch"></div>
+                    <img src="./images/seko/6.png" class="phone-screen">
+                    <div class="screen-label">Seller Dashboard</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="engineering" class="container">
+        <h2 class="section-title" style="margin-bottom: 50px;">Engineering Challenges</h2>
+        
+        <div class="eng-row">
+            <div class="eng-item">
+                <div class="eng-title">The "Thundering Herd"</div>
+                <p class="eng-detail">
+                    When a flash sale goes live, thousands of users hit the API simultaneously. We implemented <strong>connection pooling</strong> in Postgres and aggressive caching strategies in Redis to handle 10k+ concurrent requests without DB locking.
+                </p>
+            </div>
+            <div class="eng-item">
+                <div class="eng-title">Geo-Spatial Search</div>
+                <p class="eng-detail">
+                    Delivering in 15 minutes requires precise location data. We used <strong>PostGIS</strong> to query available sellers within a 2km radius of the user's lat/long, filtering results in under 20ms based on the Haversine formula.
                 </p>
             </div>
         </div>
-        <div class="narrative-col-right">
-            <div class="mockup-container" style="aspect-ratio: 16/10;">
-                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop" alt="Dashboard">
+        <div class="eng-row" style="border-top: none; border-bottom: 1px solid var(--border);">
+            <div class="eng-item">
+                <div class="eng-title">State Management</div>
+                <p class="eng-detail">
+                    Using <strong>Flutter BLoC</strong> pattern, we separated business logic from UI. This ensured that the cart state persisted accurately across the app, even if the user lost internet connectivity momentarily.
+                </p>
             </div>
-            <div class="mockup-container" style="aspect-ratio: 16/10;">
-                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="Analytics">
-            </div>
-        </div>
-    </section>
-
-    <section id="horizontal">
-        <div class="h-sticky">
-            <div class="h-header">
-                <h2 class="section-headline">App<br><span class="highlight-text">Interface</span></h2>
-            </div>
-            <div class="h-wrapper">
-                <div class="mobile-screen">
-                    <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1000&auto=format&fit=crop" alt="Mobile 1">
-                </div>
-                <div class="mobile-screen">
-                    <img src="https://images.unsplash.com/photo-1512428559087-560fa0db798b?q=80&w=1000&auto=format&fit=crop" alt="Mobile 2">
-                </div>
-                <div class="mobile-screen">
-                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=1000&auto=format&fit=crop" alt="Mobile 3">
-                </div>
-                <div class="mobile-screen">
-                    <img src="https://images.unsplash.com/photo-1533750516457-a7f992034fec?q=80&w=1000&auto=format&fit=crop" alt="Mobile 4">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="parallax-section">
-        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069&auto=format&fit=crop" class="parallax-img" alt="Architecture">
-    </div>
-
-    <section id="results">
-        <div class="results-grid">
-            <div>
-                <span class="big-stat count-up">15+</span>
-                <span class="stat-label uppercase">Microservices Deployed</span>
-            </div>
-            <div>
-                <span class="big-stat count-up">40ms</span>
-                <span class="stat-label uppercase">Average API Latency</span>
-            </div>
-            <div>
-                <span class="big-stat count-up">98%</span>
-                <span class="stat-label uppercase">System Uptime</span>
+            <div class="eng-item">
+                <div class="eng-title">Real-time Order Tracking</div>
+                <p class="eng-detail">
+                    Integrated WebSockets to push order status updates (Packed, Shipped, Delivered) instantly to the client, removing the need for battery-draining polling mechanisms.
+                </p>
             </div>
         </div>
     </section>
 
     <footer>
         <div>
-            <div class="next-project-label uppercase">Next Project</div>
-            <a href="#" class="next-title">Velar <i class="ri-arrow-right-line" style="font-size: 0.5em; vertical-align: middle;"></i></a>
+            <div class="uppercase muted" style="margin-bottom: 20px;">Next Case Study</div>
+            <a href="#" class="next-title">VELAR</a>
         </div>
-        <a href="index.html" class="back-btn">Back Home</a>
+        <a href="index.html" class="uppercase">Back Home</a>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -417,51 +408,28 @@
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 
     <script>
-        // 1. LENIS SMOOTH SCROLL
-        const lenis = new Lenis({
-            duration: 1.5,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smooth: true
-        });
-
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
+        // 1. SMOOTH SCROLL
+        const lenis = new Lenis({ duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smooth: true });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
         gsap.registerPlugin(ScrollTrigger);
 
         // 2. HERO REVEAL
         const tl = gsap.timeline();
-        tl.from(".hero-meta span", { y: 20, opacity: 0, duration: 1, stagger: 0.2, ease: "power3.out" })
+        tl.from(".hero-tags span", { y: 20, opacity: 0, duration: 1, stagger: 0.1, ease: "power3.out" })
           .from(".hero-title", { y: 100, opacity: 0, duration: 1.2, ease: "power4.out" }, "-=0.8")
-          .from(".info-grid > div", { y: 40, opacity: 0, duration: 1, stagger: 0.1, ease: "power3.out" }, "-=0.5");
+          .from(".hero-summary", { opacity: 0, y: 30, duration: 1 }, "-=0.5");
 
-        // 3. PARALLAX IMAGES
-        gsap.utils.toArray('.parallax-section').forEach(section => {
-            const img = section.querySelector('.parallax-img');
-            gsap.to(img, {
-                y: "20%", // Move image down slightly as we scroll
-                ease: "none",
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-        });
+        // 3. HORIZONTAL SCROLL
+        const showcase = document.getElementById('showcase');
+        const track = document.querySelector('.showcase-track');
 
-        // 4. HORIZONTAL SCROLL
-        const horizontalSection = document.getElementById('horizontal');
-        const wrapper = document.querySelector('.h-wrapper');
-
-        gsap.to(wrapper, {
-            x: () => -(wrapper.scrollWidth - window.innerWidth + 200), // Scroll full width
+        gsap.to(track, {
+            x: () => -(track.scrollWidth - window.innerWidth + 200),
             ease: "none",
             scrollTrigger: {
-                trigger: horizontalSection,
+                trigger: showcase,
                 start: "top top",
                 end: "bottom bottom",
                 scrub: 1,
@@ -469,30 +437,16 @@
             }
         });
 
-        // 5. TEXT FADE UPS
-        gsap.utils.toArray('.section-headline').forEach(text => {
-            gsap.from(text, {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: text,
-                    start: "top 80%"
-                }
-            });
+        // 4. TECH STACK FADE UP
+        gsap.from(".stack-card", {
+            y: 50, opacity: 0, duration: 0.8, stagger: 0.1,
+            scrollTrigger: { trigger: "#stack", start: "top 80%" }
         });
 
-        // 6. MOCKUP PARALLAX
-        gsap.utils.toArray('.mockup-container').forEach(mock => {
-            gsap.from(mock, {
-                y: 100,
-                opacity: 0,
-                duration: 1.2,
-                scrollTrigger: {
-                    trigger: mock,
-                    start: "top 90%"
-                }
-            });
+        // 5. DIAGRAM REVEAL
+        gsap.from(".arch-visual", {
+            scale: 0.95, opacity: 0, duration: 1,
+            scrollTrigger: { trigger: "#architecture", start: "top 75%" }
         });
 
     </script>

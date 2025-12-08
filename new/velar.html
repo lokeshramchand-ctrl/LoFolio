@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velar | Intelligent Finance Automation</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* --- RESET & VARIABLES --- */
+        :root {
+            --bg-color: #050505;
+            --surface-color: #0f0f0f;
+            --surface-hover: #161616;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent-teal: #00F0FF; /* Cyberpunk Teal */
+            --accent-glow: rgba(0, 240, 255, 0.15);
+            --border-color: #222;
+            --font-head: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- TYPOGRAPHY --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-head);
+            line-height: 1.1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #fff, var(--accent-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .highlight {
+            color: var(--accent-teal);
+        }
+
+        /* --- UTILS --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .section-padding {
+            padding: 8rem 0;
+        }
+
+        /* --- BACKGROUND NOISE/GRID --- */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* --- HEADER / HERO --- */
+        header {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            opacity: 0; /* JS handles reveal */
+            transform: translateY(30px);
+        }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+        }
+
+        .mouse {
+            width: 24px;
+            height: 40px;
+            border: 2px solid var(--text-muted);
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .wheel {
+            width: 4px;
+            height: 4px;
+            background: var(--accent-teal);
+            border-radius: 50%;
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scrollWheel 2s infinite;
+        }
+
+        @keyframes scrollWheel {
+            0% { top: 6px; opacity: 1; }
+            100% { top: 20px; opacity: 0; }
+        }
+
+        /* --- MOCKUP PHONES (CSS ONLY) --- */
+        /* Used in Hero and Features */
+        .phone-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            z-index: 1;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .phone-frame {
+            width: 300px;
+            height: 600px;
+            background: #000;
+            border: 4px solid #333;
+            border-radius: 40px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.1);
+            overflow: hidden;
+        }
+
+        /* Fake UI inside phone */
+        .screen-ui {
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: #111;
+        }
+        .ui-header { height: 40px; width: 50%; background: #222; border-radius: 8px; margin-bottom: 20px; }
+        .ui-card-lg { height: 120px; width: 100%; background: linear-gradient(135deg, #1a1a1a, #222); border-radius: 16px; position: relative; overflow:hidden;}
+        .ui-card-lg::after { content:''; position: absolute; bottom:0; left:0; width: 100%; height: 4px; background: var(--accent-teal); }
+        .ui-row { height: 50px; width: 100%; background: #1a1a1a; border-radius: 12px; display: flex; align-items: center; padding: 0 10px; justify-content: space-between; }
+        .ui-row::before { content:''; width: 30px; height: 30px; background: #333; border-radius: 50%; }
+        .ui-row::after { content:''; width: 50px; height: 10px; background: #333; border-radius: 4px; }
+        
+        /* Floating abstract shapes for "Tech" feel */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+        }
+        .orb-1 { width: 300px; height: 300px; background: rgba(0, 240, 255, 0.1); top: -50px; right: -50px; }
+        .orb-2 { width: 200px; height: 200px; background: rgba(100, 100, 255, 0.05); bottom: 10%; left: 10%; }
+
+
+        /* --- PROBLEM / SOLUTION --- */
+        .prob-sol-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .text-block h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .text-block p {
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* --- BENTO GRID FEATURES --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, minmax(250px, auto));
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .bento-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .bento-card:hover {
+            border-color: var(--accent-teal);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        /* Spans */
+        .span-2 { grid-column: span 2; }
+        .span-row-2 { grid-row: span 2; }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-teal);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .card-visual {
+            margin-top: 1rem;
+            height: 100px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            width: 100%;
+            position: relative;
+        }
+
+        /* Specialized card visuals */
+        .visual-regex::before {
+            content: '/[A-Z]{3}\\s\\d{2}/g';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: monospace;
+            color: var(--accent-teal);
+            opacity: 0.5;
+        }
+        
+        .visual-graph {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 10px;
+            height: 100%;
+        }
+        .bar { width: 10px; background: #333; border-radius: 4px; }
+        .bar:nth-child(1) { height: 40%; }
+        .bar:nth-child(2) { height: 70%; background: var(--accent-teal); }
+        .bar:nth-child(3) { height: 50%; }
+        .bar:nth-child(4) { height: 90%; }
+
+
+        /* --- TECH STACK & DEVOPS --- */
+        .tech-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .tech-pill {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            transition: 0.3s;
+        }
+        .tech-pill:hover {
+            border-color: var(--accent-teal);
+            color: var(--accent-teal);
+            background: rgba(0, 240, 255, 0.05);
+        }
+
+        .pipeline-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            margin-top: 3rem;
+            overflow-x: auto;
+        }
+        .pipe-step {
+            text-align: center;
+            min-width: 100px;
+        }
+        .pipe-arrow {
+            color: var(--accent-teal);
+            font-size: 1.5rem;
+        }
+        .pipe-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            background: var(--accent-teal);
+            color: #000;
+            font-weight: 700;
+            border-radius: 50px;
+            font-family: var(--font-head);
+            margin-top: 2rem;
+            transition: transform 0.2s;
+        }
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 3rem; }
+            .prob-sol-grid { grid-template-columns: 1fr; }
+            .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .span-2, .span-row-2 { grid-column: span 1; grid-row: span 1; }
+            .phone-wrapper { display: none; } /* Hide phone bg on small screens */
+            .pipeline-diagram { flex-direction: column; gap: 2rem; }
+            .pipe-arrow { transform: rotate(90deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <header>
+        <div class="phone-wrapper" id="heroPhone">
+            <div class="phone-frame">
+                <div class="screen-ui">
+                    <div class="ui-header"></div>
+                    <div class="ui-card-lg"></div>
+                    <div class="ui-row"></div>
+                    <div class="ui-row"></div>
+                    <div class="ui-row"></div>
+                    <div class="ui-row"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container hero-content">
+            <h1 class="hero-title">Automate your <br><span class="gradient-text">Financial Life</span></h1>
+            <p class="hero-sub">Velar converts unstructured bank emails into actionable financial insights. Built with Node.js, Flutter, and machine learning principles.</p>
+            <div class="tech-strip" style="justify-content: center; opacity: 0; transform: translateY(20px);" id="heroTags">
+                <span class="tech-pill">Flutter</span>
+                <span class="tech-pill">Node.js</span>
+                <span class="tech-pill">RabbitMQ</span>
+                <span class="tech-pill">Docker</span>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="mouse"><div class="wheel"></div></div>
+            <span style="font-size: 0.8rem; letter-spacing: 2px;">SCROLL</span>
+        </div>
+    </header>
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="prob-sol-grid">
+                <div class="text-block" id="probText">
+                    <h4 class="highlight">The Problem</h4>
+                    <h2>Manual Tracking is Broken</h2>
+                    <p>Bank emails are messy. Manual spreadsheets are time-consuming. Traditional apps require too much user input, leading to inaccurate data and eventual abandonment.</p>
+                </div>
+                <div class="stat-card" id="probCard">
+                    <h3>The Velar Solution</h3>
+                    <p style="margin-top: 1rem; color: #fff;">An intelligent engine that parses, categories, and visualizes expenses automatically.</p>
+                    <ul style="margin-top: 1rem; color: var(--text-muted); line-height: 2;">
+                        <li>✓ Regex Email Parsing</li>
+                        <li>✓ Self-Learning Categorization</li>
+                        <li>✓ Real-time Sync</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" id="features">
+        <div class="container">
+            <h2 style="margin-bottom: 3rem; text-align: center;">Engineering <span class="gradient-text">Excellence</span></h2>
+            
+            <div class="bento-grid">
+                <div class="bento-card span-2">
+                    <div>
+                        <div class="card-icon">⚡</div>
+                        <h3 class="card-title">Regex-Based Transaction Parser</h3>
+                        <p class="card-desc">The core engine. Converts unstructured bank emails into structured JSON data. Extracts merchant, amount, and dates with high precision.</p>
+                    </div>
+                    <div class="card-visual visual-regex"></div>
+                </div>
+
+                <div class="bento-card">
+                    <div class="card-icon">🐇</div>
+                    <h3 class="card-title">RabbitMQ Sync</h3>
+                    <p class="card-desc">Decoupled architecture. Ensures immediate synchronization between the Flutter frontend and backend workers.</p>
+                </div>
+
+                <div class="bento-card span-row-2">
+                    <div class="card-icon">📊</div>
+                    <h3 class="card-title">Analytics Dashboard</h3>
+                    <p class="card-desc">Full visualization layer showing income vs expenses, category breakdowns, and saving projections.</p>
+                    <div class="card-visual visual-graph" style="height: 200px; margin-top: auto;">
+                        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                    </div>
+                </div>
+
+                <div class="bento-card">
+                    <div class="card-icon">🧠</div>
+                    <h3 class="card-title">Self-Learning Model</h3>
+                    <p class="card-desc">System learns from user corrections, updating category weights to improve future auto-classification.</p>
+                </div>
+
+                <div class="bento-card">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">CI/CD Pipeline</h3>
+                    <p class="card-desc">Dockerized microservices deployed via GitHub Actions. Reduced manual deployment time by 70%.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" style="background: rgba(255,255,255,0.01);">
+        <div class="container">
+            <div class="text-block" style="text-align: center; max-width: 700px; margin: 0 auto;">
+                <h4 class="highlight">Under the Hood</h4>
+                <h2>Production-Grade Architecture</h2>
+                <p>Velar isn't just a prototype. It is built to scale with industry-standard DevOps practices.</p>
+            </div>
+
+            <div class="pipeline-diagram">
+                <div class="pipe-step">
+                    <span class="pipe-icon">💻</span>
+                    <strong>Push Code</strong>
+                    <div style="font-size: 0.8rem; color: #666;">GitHub</div>
+                </div>
+                <div class="pipe-arrow">➜</div>
+                <div class="pipe-step">
+                    <span class="pipe-icon">⚙️</span>
+                    <strong>Actions</strong>
+                    <div style="font-size: 0.8rem; color: #666;">Build & Test</div>
+                </div>
+                <div class="pipe-arrow">➜</div>
+                <div class="pipe-step">
+                    <span class="pipe-icon">🐳</span>
+                    <strong>Docker</strong>
+                    <div style="font-size: 0.8rem; color: #666;">Containerize</div>
+                </div>
+                <div class="pipe-arrow">➜</div>
+                <div class="pipe-step">
+                    <span class="pipe-icon">☁️</span>
+                    <strong>Deploy</strong>
+                    <div style="font-size: 0.8rem; color: #666;">Live Server</div>
+                </div>
+            </div>
+            
+            <div class="tech-strip" style="justify-content: center; margin-top: 3rem;">
+                <div class="tech-pill">MongoDB</div>
+                <div class="tech-pill">Express</div>
+                <div class="tech-pill">Node.js</div>
+                <div class="tech-pill">Flutter</div>
+                <div class="tech-pill">RabbitMQ</div>
+                <div class="tech-pill">GitHub Actions</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h2>Ready to optimize your portfolio?</h2>
+            <p style="color: var(--text-muted); margin-top: 1rem;">View the source code or contact me.</p>
+            <a href="#" class="cta-btn">View on GitHub</a>
+            <p style="margin-top: 3rem; font-size: 0.8rem; color: #444;">&copy; 2024 Velar Project. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Hero Animations
+        const tl = gsap.timeline();
+
+        tl.to(".hero-title", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out"
+        })
+        .to(".hero-sub", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out"
+        }, "-=0.6")
+        .to("#heroTags", {
+            opacity: 1,
+            y: 0,
+            duration: 0.8
+        }, "-=0.6")
+        .to(".phone-wrapper", {
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "expo.out"
+        }, "-=1")
+        .to(".scroll-indicator", {
+            opacity: 1,
+            duration: 1
+        }, "-=0.5");
+
+        // 2. Parallax Phone Effect in Hero
+        gsap.to("#heroPhone", {
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "bottom top",
+                scrub: 1
+            },
+            y: 100,
+            rotate: 5
+        });
+
+        // 3. Problem/Solution Section
+        gsap.from("#probText", {
+            scrollTrigger: {
+                trigger: ".prob-sol-grid",
+                start: "top 80%",
+            },
+            x: -50,
+            opacity: 0,
+            duration: 1
+        });
+        
+        gsap.from("#probCard", {
+            scrollTrigger: {
+                trigger: ".prob-sol-grid",
+                start: "top 80%",
+            },
+            x: 50,
+            opacity: 0,
+            duration: 1,
+            delay: 0.2
+        });
+
+        // 4. Bento Grid Stagger
+        gsap.from(".bento-card", {
+            scrollTrigger: {
+                trigger: ".bento-grid",
+                start: "top 85%",
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power2.out"
+        });
+
+        // 5. Pipeline Diagram
+        gsap.from(".pipe-step", {
+            scrollTrigger: {
+                trigger: ".pipeline-diagram",
+                start: "top 85%",
+            },
+            scale: 0.5,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.2,
+            ease: "back.out(1.7)"
+        });
+
+    </script>
+</body>
+</html>

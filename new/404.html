@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coming Soon | Lokesh Ram Chand</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
+        rel="stylesheet">
 
     <style>
         /* --- 1. SHARED VARIABLES (Matches Portfolio) --- */
@@ -26,35 +29,66 @@
             --acc: #555;
             --border: rgba(0, 0, 0, 0.1);
             --overlay: rgba(0, 0, 0, 0.03);
-            --cursor-base: #fff; /* Keep white for difference blend mode */
+            --cursor-base: #fff;
+            /* Keep white for difference blend mode */
         }
 
         /* --- 2. RESET --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-
-        body {
-            width: 100%; height: 100vh;
-            background-color: var(--bg); color: var(--text);
-            font-family: 'General Sans', sans-serif;
-            overflow: hidden; /* No scrolling on coming soon */
-            transition: background-color 0.5s ease, color 0.5s ease;
-            display: flex; flex-direction: column;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
         }
 
-        a { text-decoration: none; color: inherit; }
-        button { border: none; background: none; cursor: none; color: inherit; }
+        body {
+            width: 100%;
+            height: 100vh;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'General Sans', sans-serif;
+            overflow: hidden;
+            /* No scrolling on coming soon */
+            transition: background-color 0.5s ease, color 0.5s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: none;
+            color: inherit;
+        }
 
         /* --- 3. UTILS --- */
         .noise-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9000; opacity: 0.04;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9000;
+            opacity: 0.04;
             background-image: url("https://grainy-gradients.vercel.app/noise.svg");
         }
 
         #cursor {
-            position: fixed; top: 0; left: 0; width: 15px; height: 15px;
-            background-color: var(--cursor-base); border-radius: 50%;
-            pointer-events: none; z-index: 9999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            background-color: var(--cursor-base);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
             mix-blend-mode: difference;
             transform: translate(-50%, -50%);
             transition: width 0.3s, height 0.3s, transform 0.1s;
@@ -62,35 +96,62 @@
 
         /* --- 4. NAVIGATION --- */
         nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 30px 5vw; width: 100%; z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 5vw;
+            width: 100%;
+            z-index: 100;
         }
 
         .nav-btn {
-            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
-            display: flex; align-items: center; gap: 10px;
-            padding: 10px 20px; border: 1px solid var(--border);
-            border-radius: 50px; transition: all 0.3s;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            transition: all 0.3s;
         }
-        .nav-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-        .theme-btn { font-size: 1.2rem; padding: 10px; }
+        .nav-btn:hover {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
+        }
+
+        .theme-btn {
+            font-size: 1.2rem;
+            padding: 10px;
+        }
 
         /* --- 5. CENTER CONTENT --- */
         main {
-            flex: 1; display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            position: relative; padding: 0 5vw;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 0 5vw;
         }
 
         /* ABSTRACT SVG ANIMATION */
         .reactor-container {
-            width: 200px; height: 200px; margin-bottom: 40px;
-            position: relative; opacity: 0; /* Fade in */
+            width: 200px;
+            height: 200px;
+            margin-bottom: 40px;
+            position: relative;
+            opacity: 0;
+            /* Fade in */
         }
-        
+
         .reactor-svg {
-            width: 100%; height: 100%;
+            width: 100%;
+            height: 100%;
             animation: spin-slow 20s linear infinite;
         }
 
@@ -101,57 +162,148 @@
             opacity: 0.3;
             transform-origin: center;
         }
-        
-        .ring-1 { animation: spin 4s linear infinite; stroke-dasharray: 100 200; }
-        .ring-2 { animation: spin-rev 7s linear infinite; stroke-dasharray: 50 150; stroke-width: 0.5; }
-        .ring-3 { animation: pulse 3s ease-in-out infinite; opacity: 0.8; }
 
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes spin-rev { 0% { transform: rotate(360deg); } 100% { transform: rotate(0deg); } }
-        @keyframes spin-slow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes pulse { 0%, 100% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 1; } }
+        .ring-1 {
+            animation: spin 4s linear infinite;
+            stroke-dasharray: 100 200;
+        }
+
+        .ring-2 {
+            animation: spin-rev 7s linear infinite;
+            stroke-dasharray: 50 150;
+            stroke-width: 0.5;
+        }
+
+        .ring-3 {
+            animation: pulse 3s ease-in-out infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin-rev {
+            0% {
+                transform: rotate(360deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        @keyframes spin-slow {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
 
         /* TEXT */
-        .status-wrapper { overflow: hidden; text-align: center; }
-        
+        .status-wrapper {
+            overflow: hidden;
+            text-align: center;
+        }
+
         h1 {
             font-family: 'Clash Display', sans-serif;
             font-size: clamp(3rem, 8vw, 8rem);
-            line-height: 1; text-transform: uppercase; font-weight: 600;
-            transform: translateY(100%); /* Reveal animation */
+            line-height: 1;
+            text-transform: uppercase;
+            font-weight: 600;
+            transform: translateY(100%);
+            /* Reveal animation */
         }
 
         .outline {
-            color: transparent; -webkit-text-stroke: 1px var(--text);
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text);
             opacity: 0.5;
         }
 
         .meta-data {
             margin-top: 30px;
-            display: flex; gap: 40px;
-            font-size: 0.9rem; color: var(--acc);
-            text-transform: uppercase; letter-spacing: 1px;
+            display: flex;
+            gap: 40px;
+            font-size: 0.9rem;
+            color: var(--acc);
+            text-transform: uppercase;
+            letter-spacing: 1px;
             opacity: 0;
         }
 
-        .progress-block { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .progress-bar {
-            width: 100px; height: 2px; background: var(--border);
-            position: relative; overflow: hidden;
+        .progress-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
         }
+
+        .progress-bar {
+            width: 100px;
+            height: 2px;
+            background: var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
         .progress-fill {
-            position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
             background: var(--text);
         }
 
         /* --- 6. RESPONSIVE --- */
         @media (max-width: 768px) {
-            #cursor { display: none; } * { cursor: auto; }
-            .reactor-container { width: 150px; height: 150px; }
-            .meta-data { flex-direction: column; gap: 15px; align-items: center; }
+            #cursor {
+                display: none;
+            }
+
+            * {
+                cursor: auto;
+            }
+
+            .reactor-container {
+                width: 150px;
+                height: 150px;
+            }
+
+            .meta-data {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="noise-overlay"></div>
@@ -185,7 +337,7 @@
             <h1 class="outline">Progress</h1>
         </div>
 
-        
+
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -196,7 +348,7 @@
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
             const currentTheme = html.getAttribute('data-theme');
-            
+
             if (currentTheme === 'dark') {
                 html.setAttribute('data-theme', 'light');
                 icon.className = 'ri-sun-line';
@@ -222,10 +374,10 @@
             document.querySelectorAll(".magnet").forEach((magnet) => {
                 magnet.addEventListener("mousemove", (e) => {
                     const rect = magnet.getBoundingClientRect();
-                    gsap.to(magnet, { 
-                        x: (e.clientX - rect.left - rect.width / 2) * 0.3, 
-                        y: (e.clientY - rect.top - rect.height / 2) * 0.3, 
-                        duration: 0.3 
+                    gsap.to(magnet, {
+                        x: (e.clientX - rect.left - rect.width / 2) * 0.3,
+                        y: (e.clientY - rect.top - rect.height / 2) * 0.3,
+                        duration: 0.3
                     });
                     gsap.to(cursor, { scale: 3 });
                 });
@@ -241,23 +393,23 @@
 
         // Animate Container
         tl.to(".reactor-container", { opacity: 1, duration: 2, ease: "power2.inOut" })
-          .to(".nav-btn", { opacity: 1, duration: 0.5 }, "-=1.5")
-          
-          // Animate Text
-          .to("h1", { y: 0, duration: 1, stagger: 0.1, ease: "power4.out" }, "-=1")
-          
-          // Animate Footer Data
-          .to(".meta-data", { opacity: 1, y: 0, duration: 1 }, "-=0.5");
+            .to(".nav-btn", { opacity: 1, duration: 0.5 }, "-=1.5")
+
+            // Animate Text
+            .to("h1", { y: 0, duration: 1, stagger: 0.1, ease: "power4.out" }, "-=1")
+
+            // Animate Footer Data
+            .to(".meta-data", { opacity: 1, y: 0, duration: 1 }, "-=0.5");
 
         // --- 4. FAKE LOADING PROGRESS ---
         const targetPercent = Math.floor(Math.random() * (95 - 60) + 60); // Random # between 60-95
         const percentEl = document.getElementById('percent');
         const barFill = document.querySelector('.progress-fill');
-        
+
         let current = 0;
         const interval = setInterval(() => {
             current += Math.floor(Math.random() * 3);
-            if(current >= targetPercent) {
+            if (current >= targetPercent) {
                 current = targetPercent;
                 clearInterval(interval);
             }
@@ -267,4 +419,5 @@
 
     </script>
 </body>
+
 </html>

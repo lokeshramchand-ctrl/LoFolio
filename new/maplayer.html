@@ -329,183 +329,186 @@
     </style>
 </head>
 <body>
+<div class="ambient-glow"></div>
 
-    <div class="ambient-glow"></div>
+<section class="hero container">
+    <div class="hero-meta">
+        <span class="anim-meta">React</span>
+        <span class="anim-meta">&nbsp;—&nbsp;</span>
+        <span class="anim-meta">WebGL</span>
+        <span class="anim-meta">&nbsp;—&nbsp;</span>
+        <span class="anim-meta">2024</span>
+    </div>
+    
+    <div class="hero-title-wrapper">
+        <div class="hero-title-line"><h1 class="hero-title anim-title">MapLayer</h1></div>
+    </div>
 
-    <section class="hero container">
-        <div class="hero-meta">
-            <span class="anim-meta">React</span>
-            <span class="anim-meta">&nbsp;—&nbsp;</span>
-            <span class="anim-meta">WebGL</span>
-            <span class="anim-meta">&nbsp;—&nbsp;</span>
-            <span class="anim-meta">2024</span>
-        </div>
-        
-        <div class="hero-title-wrapper">
-            <div class="hero-title-line"><h1 class="hero-title anim-title">MapLayer</h1></div>
-        </div>
+    <p class="hero-desc anim-fade">
+        MapLayer is a high-performance geospatial engine built to enable interactive analysis over very large spatial datasets. 
+        Many mapping tools struggle with millions of points or detailed vector geometry; MapLayer uses efficient vector tiling, 
+        GPU-accelerated rendering, and on-client processing to sustain 60fps interactions for exploration and analytics.
+    </p>
 
-        <p class="hero-desc anim-fade">
-            A high-performance geospatial engine designed for complex analysis. Rendering millions of data points at 60fps using custom WebGL shaders and dynamic vector tiling.
-        </p>
+    <div class="line-sep anim-line"></div>
+</section>
 
-        <div class="line-sep anim-line"></div>
-    </section>
+<section class="container section-padding">
+    <div style="margin-bottom: 4rem;">
+        <h2 style="font-size: 3rem;">Core Stack</h2>
+    </div>
 
-    <section class="container section-padding">
-        <div style="margin-bottom: 4rem;">
-            <h2 style="font-size: 3rem;">Core Stack</h2>
-        </div>
-
-        <div class="bento-grid" id="bentoGrid">
-            <div class="bento-card span-2">
-                <i class="ri-reactjs-line bento-icon"></i>
-                <div>
-                    <h3 class="bento-title">React & Mapbox GL</h3>
-                    <p class="bento-text">Declarative state management handling complex viewport transitions and WebGL layer lifecycle.</p>
-                </div>
-            </div>
-            <div class="bento-card dark-card">
-                <i class="ri-server-fill bento-icon"></i>
-                <div>
-                    <h3 class="bento-title">Golang & MVT</h3>
-                    <p class="bento-text">High-throughput tile server slicing SQL data into binary Protocol Buffers (MVT) on the fly.</p>
-                </div>
-            </div>
-            <div class="bento-card">
-                <i class="ri-database-2-line bento-icon"></i>
-                <div>
-                    <h3 class="bento-title">PostGIS</h3>
-                    <p class="bento-text">Spatial indexing (GiST) allows sub-50ms geometry intersection queries on 2M+ rows.</p>
-                </div>
-            </div>
-            <div class="bento-card span-2">
-                <i class="ri-cpu-line bento-icon"></i>
-                <div>
-                    <h3 class="bento-title">WebAssembly</h3>
-                    <p class="bento-text">Off-main-thread spatial calculations. Heavy polygon rendering logic runs in WASM to prevent UI jank.</p>
-                </div>
+    <div class="bento-grid" id="bentoGrid">
+        <div class="bento-card span-2">
+            <i class="ri-reactjs-line bento-icon"></i>
+            <div>
+                <h3 class="bento-title">React & Mapbox GL</h3>
+                <p class="bento-text">Declarative UI and map lifecycle management that coordinates viewport state, layer composition, and WebGL resource handling for responsive interactions.</p>
             </div>
         </div>
-    </section>
-
-    <section class="container section-padding visual-section">
-        <div class="visual-content">
-            <span style="color: var(--accent); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: block; margin-bottom: 1rem;">Architecture</span>
-            <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); margin-bottom: 2rem;">Vector Pipeline.</h2>
-            <p style="font-size: 1.1rem; max-width: 450px;">
-                Rendering raw GeoJSON crashes browsers. MapLayer implements a dynamic pipeline where the backend slices data into lightweight vector tiles. These are cached at the edge and reassembled on the client GPU.
-            </p>
-        </div>
-        <div class="visual-media">
-            <div class="node active" style="top: 45%; left: 15%;">Email Hook</div>
-            <div class="node" style="top: 45%; left: 45%;">RabbitMQ</div>
-            <div class="node active" style="top: 30%; left: 75%;">Parser</div>
-            <div class="node active" style="top: 60%; left: 75%;">MongoDB</div>
-            
-            <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
-                <line x1="25%" y1="50%" x2="45%" y2="50%" stroke="#333" stroke-width="2" stroke-dasharray="5,5" />
-                <line x1="60%" y1="50%" x2="75%" y2="35%" stroke="#333" stroke-width="2" />
-                <line x1="60%" y1="50%" x2="75%" y2="65%" stroke="#333" stroke-width="2" />
-            </svg>
-            
-        </div>
-    </section>
-
-    <div class="showcase-wrapper" id="showcase">
-        <div class="showcase-sticky">
-            <div class="container" style="margin-bottom: 2rem;">
-                <h2 style="font-size: 2rem;">Interface Design</h2>
+        <div class="bento-card dark-card">
+            <i class="ri-server-fill bento-icon"></i>
+            <div>
+                <h3 class="bento-title">Golang & MVT</h3>
+                <p class="bento-text">A high-throughput tile service that converts spatial SQL into Mapbox Vector Tiles (MVT) on demand, enabling fine-grained data streaming to the client.</p>
             </div>
-            
-            <div class="showcase-track">
-                
-                <div class="browser">
-                    <div class="browser-header">
-                        <div class="dots"><span></span><span></span><span></span></div>
-                        <div class="url">maplayer.io/explore</div>
-                    </div>
-                    <div class="browser-content" style="display: flex; align-items: center; justify-content: center;">
-                        <div style="text-align: center;">
-                            <h2 style="font-size: 3rem; margin-bottom: 1rem;">Explore the City.</h2>
-                            <div style="background: #111; border: 1px solid #333; padding: 1rem 2rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; width: 400px; color: #888;">
-                                <i class="ri-search-line"></i>
-                                <span>Search address or coordinates...</span>
-                            </div>
-                        </div>
-                        <div style="position: absolute; bottom: 0; width: 100%; height: 100px; background: linear-gradient(to top, #000, transparent);"></div>
-                    </div>
-                </div>
-
-                <div class="browser">
-                    <div class="browser-header">
-                        <div class="dots"><span></span><span></span><span></span></div>
-                        <div class="url">maplayer.io/analytics</div>
-                    </div>
-                    <div class="browser-content">
-                        <div style="position: absolute; inset: 0; opacity: 0.6;">
-                            
-                        </div>
-                        
-                        <div style="position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 1.5rem; border-radius: 12px; border: 1px solid #333; width: 220px;">
-                            <div style="font-size: 0.75rem; color: #666; text-transform: uppercase; margin-bottom: 1rem;">Layers</div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.9rem;">
-                                <span>Zoning</span>
-                                <div style="width: 24px; height: 14px; background: var(--accent); border-radius: 10px;"></div>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.9rem;">
-                                <span>Parcels</span>
-                                <div style="width: 24px; height: 14px; background: #333; border-radius: 10px;"></div>
-                            </div>
-                             <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
-                                <span>Transit</span>
-                                <div style="width: 24px; height: 14px; background: #333; border-radius: 10px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="browser">
-                    <div class="browser-header">
-                        <div class="dots"><span></span><span></span><span></span></div>
-                        <div class="url">maplayer.io/3d-view</div>
-                    </div>
-                    <div class="browser-content" style="display: flex; align-items: center; justify-content: center; background: #080808;">
-                         <h3 style="color: #333;">3D Terrain Rendering Demo</h3>
-                    </div>
-                </div>
-
+        </div>
+        <div class="bento-card">
+            <i class="ri-database-2-line bento-icon"></i>
+            <div>
+                <h3 class="bento-title">PostGIS</h3>
+                <p class="bento-text">Spatial indexing and geometry functions (GiST) power sub-50ms intersection and nearest-neighbor queries on millions of features.</p>
+            </div>
+        </div>
+        <div class="bento-card span-2">
+            <i class="ri-cpu-line bento-icon"></i>
+            <div>
+                <h3 class="bento-title">WebAssembly</h3>
+                <p class="bento-text">Off-main-thread spatial processing and heavy geometry simplification run in WASM to prevent UI jank and maintain a fluid map experience.</p>
             </div>
         </div>
     </div>
+</section>
 
-    <section class="container section-padding">
-        <h2 style="font-size: 3rem; margin-bottom: 4rem;">Technical Deep Dive</h2>
+<section class="container section-padding visual-section">
+    <div class="visual-content">
+        <span style="color: var(--accent); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: block; margin-bottom: 1rem;">Architecture</span>
+        <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); margin-bottom: 2rem;">Vector Pipeline.</h2>
+        <p style="font-size: 1.1rem; max-width: 450px;">
+            Sending raw GeoJSON to the browser does not scale. MapLayer implements a vector pipeline where the backend slices large datasets 
+            into compact, cached vector tiles. Clients request only visible tiles; the browser assembles them on the GPU, applying 
+            simplification and styling for interactive, real-time rendering.
+        </p>
+    </div>
+    <div class="visual-media">
+        <div class="node active" style="top: 45%; left: 15%;">Client</div>
+        <div class="node" style="top: 45%; left: 45%;">Tile Service</div>
+        <div class="node active" style="top: 30%; left: 75%;">Edge Cache / CDN</div>
+        <div class="node active" style="top: 60%; left: 75%;">GPU Renderer</div>
         
-        <div class="eng-list">
-            <div class="eng-item">
-                <div><span class="eng-num">01</span></div>
-                <div>
-                    <h3 class="eng-head">Client-Side Clustering</h3>
-                    <p>Rendering 10,000 markers kills DOM performance. I implemented <strong>Supercluster</strong> inside a Web Worker to mathematically group points off the main thread, updating clusters dynamically as the user zooms without freezing the UI.</p>
+        <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
+            <line x1="25%" y1="50%" x2="45%" y2="50%" stroke="#333" stroke-width="2" stroke-dasharray="5,5" />
+            <line x1="60%" y1="50%" x2="75%" y2="35%" stroke="#333" stroke-width="2" />
+            <line x1="60%" y1="50%" x2="75%" y2="65%" stroke="#333" stroke-width="2" />
+        </svg>
+        
+    </div>
+</section>
+
+<div class="showcase-wrapper" id="showcase">
+    <div class="showcase-sticky">
+        <div class="container" style="margin-bottom: 2rem;">
+            <h2 style="font-size: 2rem;">Interface Design</h2>
+        </div>
+        
+        <div class="showcase-track">
+            
+            <div class="browser">
+                <div class="browser-header">
+                    <div class="dots"><span></span><span></span><span></span></div>
+                    <div class="url">maplayer.io/explore</div>
+                </div>
+                <div class="browser-content" style="display: flex; align-items: center; justify-content: center;">
+                    <div style="text-align: center;">
+                        <h2 style="font-size: 3rem; margin-bottom: 1rem;">Explore the City.</h2>
+                        <div style="background: #111; border: 1px solid #333; padding: 1rem 2rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; width: 400px; color: #888;">
+                            <i class="ri-search-line"></i>
+                            <span>Search address, parcel ID, or coordinates</span>
+                        </div>
+                    </div>
+                    <div style="position: absolute; bottom: 0; width: 100%; height: 100px; background: linear-gradient(to top, #000, transparent);"></div>
                 </div>
             </div>
-            <div class="eng-item">
-                <div><span class="eng-num">02</span></div>
-                <div>
-                    <h3 class="eng-head">Offline Synchronization</h3>
-                    <p>Utilized Service Workers and <strong>IndexedDB</strong> to cache vector tiles and form data. Field agents can collect data offline, which syncs via a "Conflict Resolution" queue when connection is restored.</p>
+
+            <div class="browser">
+                <div class="browser-header">
+                    <div class="dots"><span></span><span></span><span></span></div>
+                    <div class="url">maplayer.io/analytics</div>
+                </div>
+                <div class="browser-content">
+                    <div style="position: absolute; inset: 0; opacity: 0.6;">
+                        
+                    </div>
+                    
+                    <div style="position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 1.5rem; border-radius: 12px; border: 1px solid #333; width: 220px;">
+                        <div style="font-size: 0.75rem; color: #666; text-transform: uppercase; margin-bottom: 1rem;">Layers</div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.9rem;">
+                            <span>Zoning</span>
+                            <div style="width: 24px; height: 14px; background: var(--accent); border-radius: 10px;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.9rem;">
+                            <span>Parcels</span>
+                            <div style="width: 24px; height: 14px; background: #333; border-radius: 10px;"></div>
+                        </div>
+                         <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span>Transit</span>
+                            <div style="width: 24px; height: 14px; background: #333; border-radius: 10px;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="eng-item">
-                <div><span class="eng-num">03</span></div>
-                <div>
-                    <h3 class="eng-head">3D Terrain Extrusion</h3>
-                    <p>Parsed RGB-encoded height maps in custom WebGL shaders to render 3D topography directly from 2D satellite imagery, avoiding heavy 3D model assets.</p>
+
+            <div class="browser">
+                <div class="browser-header">
+                    <div class="dots"><span></span><span></span><span></span></div>
+                    <div class="url">maplayer.io/3d-view</div>
                 </div>
+                <div class="browser-content" style="display: flex; align-items: center; justify-content: center; background: #080808;">
+                     <h3 style="color: #333;">3D Terrain Rendering Demo</h3>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<section class="container section-padding">
+    <h2 style="font-size: 3rem; margin-bottom: 4rem;">Technical Deep Dive</h2>
+    
+    <div class="eng-list">
+        <div class="eng-item">
+            <div><span class="eng-num">01</span></div>
+            <div>
+                <h3 class="eng-head">Client-Side Clustering</h3>
+                <p>Rendering tens of thousands of points in the DOM kills performance. MapLayer runs Supercluster inside a Web Worker to cluster points off the main thread, updating clusters dynamically as the user changes zoom without blocking interactions.</p>
             </div>
         </div>
-    </section>
+        <div class="eng-item">
+            <div><span class="eng-num">02</span></div>
+            <div>
+                <h3 class="eng-head">Offline Synchronization</h3>
+                <p>Using Service Workers and IndexedDB, MapLayer caches recently used vector tiles and user annotations. Field agents can continue working offline; the client queues edits and reconciles them against the server with a conflict-resolution strategy when connectivity returns.</p>
+            </div>
+        </div>
+        <div class="eng-item">
+            <div><span class="eng-num">03</span></div>
+            <div>
+                <h3 class="eng-head">3D Terrain Extrusion</h3>
+                <p>To render believable topography without heavy models, MapLayer decodes RGB height maps in custom WebGL shaders and extrudes terrain on the GPU, producing detailed 3D visualizations with minimal bandwidth overhead.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
     <footer class="footer container">
         <p class="footer-sub">Next Case Study</p>

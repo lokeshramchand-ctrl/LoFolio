@@ -503,7 +503,6 @@
             analytics.
         </p>
 
-        <div class="line-sep anim-line"></div>
     </section>
 
     <section class="container section-padding">
@@ -523,9 +522,8 @@
             <div class="bento-card dark-card">
                 <i class="ri-server-fill bento-icon"></i>
                 <div>
-                    <h3 class="bento-title">Golang & MVT</h3>
-                    <p class="bento-text">A high-throughput tile service that converts spatial SQL into Mapbox Vector
-                        Tiles (MVT) on demand, enabling fine-grained data streaming to the client.</p>
+                    <h3 class="bento-title">GSAP</h3>
+                    <p class="bento-text">Orchestrates fluid scroll-triggered animations, parallax effects, and UI micro-interactions with precise easing curves for a polished, performance-optimized user experience.</p>
                 </div>
             </div>
             <div class="bento-card">
@@ -536,14 +534,7 @@
                         nearest-neighbor queries on millions of features.</p>
                 </div>
             </div>
-            <div class="bento-card span-2">
-                <i class="ri-cpu-line bento-icon"></i>
-                <div>
-                    <h3 class="bento-title">WebAssembly</h3>
-                    <p class="bento-text">Off-main-thread spatial processing and heavy geometry simplification run in
-                        WASM to prevent UI jank and maintain a fluid map experience.</p>
-                </div>
-            </div>
+            
         </div>
     </section>
 
@@ -560,19 +551,68 @@
                 simplification and styling for interactive, real-time rendering.
             </p>
         </div>
-        <div class="visual-media">
-            <div class="node active" style="top: 45%; left: 15%;">Client</div>
-            <div class="node" style="top: 45%; left: 45%;">Tile Service</div>
-            <div class="node active" style="top: 30%; left: 75%;">Edge Cache / CDN</div>
-            <div class="node active" style="top: 60%; left: 75%;">GPU Renderer</div>
+<div class="visual-media">
+    <!-- Client Node -->
+    <div class="node active" style="top: 35%; left: 10%;">
+        Client<br>
+        <span style="font-size: 0.75rem; color: #666;">Browser</span>
+    </div>
+    
+    <!-- Tile Service Node -->
+    <div class="node active" style="top: 35%; left: 42%;">
+        Tile Service<br>
+        <span style="font-size: 0.75rem; color: #666;">(Vector)</span>
+    </div>
+    
+    <!-- Edge Cache / CDN Node -->
+    <div class="node active" style="top: 35%; left: 75%;">
+        Edge Cache<br>
+        <span style="font-size: 0.75rem; color: #666;">CDN</span>
+    </div>
+    
+    <!-- PostGIS Database Node -->
+    <div class="node active" style="top: 65%; left: 42%;">
+        PostGIS<br>
+        <span style="font-size: 0.75rem; color: #666;">Database</span>
+    </div>
 
-            <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
-                <line x1="25%" y1="50%" x2="45%" y2="50%" stroke="#333" stroke-width="2" stroke-dasharray="5,5" />
-                <line x1="60%" y1="50%" x2="75%" y2="35%" stroke="#333" stroke-width="2" />
-                <line x1="60%" y1="50%" x2="75%" y2="65%" stroke="#333" stroke-width="2" />
-            </svg>
-
-        </div>
+    <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
+        <!-- Client to Tile Service (Forward Arrow) -->
+        <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                <polygon points="0 0, 10 3, 0 6" fill="var(--accent)" />
+            </marker>
+            <marker id="arrowhead-back" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
+                <polygon points="10 0, 0 3, 10 6" fill="#666" />
+            </marker>
+        </defs>
+        
+        <!-- Client → Tile Service -->
+        <line x1="22%" y1="40%" x2="42%" y2="40%" 
+              stroke="var(--accent)" stroke-width="2" 
+              marker-end="url(#arrowhead)" />
+        
+        <!-- Client ← Tile Service (return path) -->
+        <line x1="22%" y1="44%" x2="42%" y2="44%" 
+              stroke="#666" stroke-width="2" stroke-dasharray="4,4"
+              marker-end="url(#arrowhead-back)" />
+        
+        <!-- Tile Service → Edge Cache -->
+        <line x1="54%" y1="40%" x2="74%" y2="40%" 
+              stroke="var(--accent)" stroke-width="2" 
+              marker-end="url(#arrowhead)" />
+        
+        <!-- Tile Service ← Edge Cache (return path) -->
+        <line x1="54%" y1="44%" x2="74%" y2="44%" 
+              stroke="#666" stroke-width="2" stroke-dasharray="4,4"
+              marker-end="url(#arrowhead-back)" />
+        
+        <!-- Tile Service ↓ PostGIS Database -->
+        <line x1="48%" y1="48%" x2="48%" y2="62%" 
+              stroke="var(--accent)" stroke-width="2" 
+              marker-end="url(#arrowhead)" />
+    </svg>
+</div>
     </section>
 
     <div class="showcase-wrapper" id="showcase">

@@ -376,21 +376,27 @@
             margin: 0 auto;
         }
 
-.browser-content {
-    position: relative;
-    overflow: hidden; /* Critical: keeps image inside border-radius */
-    background: #000; /* Fallback color */
-    /* Remove padding if you want edge-to-edge */
-    height: 400px; /* Or whatever height your specific design needs */
-}
+        .browser-content {
+            position: relative;
+            overflow: hidden;
+            /* Critical: keeps image inside border-radius */
+            background: #000;
+            /* Fallback color */
+            /* Remove padding if you want edge-to-edge */
+            height: 400px;
+            /* Or whatever height your specific design needs */
+        }
 
-.mockup-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures image covers area without stretching */
-    object-position: top center; /* Focuses on the top navigation usually */
-    display: block; /* Removes tiny bottom whitespace */
-}
+        .mockup-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Ensures image covers area without stretching */
+            object-position: top center;
+            /* Focuses on the top navigation usually */
+            display: block;
+            /* Removes tiny bottom whitespace */
+        }
 
         /* --- 8. ENGINEERING LIST --- */
         .eng-list {
@@ -634,203 +640,212 @@
                     <div class="browser-header">
                         <div class="dots"><span></span><span></span><span></span></div>
                         <div class="url">maplayer.io/explore</div>
-                    </div>
-                    <div class="browser-content">
-                        <img src="../images/maplayer/1.png" alt="Intro" class="mockup-img">
-                </div>
-            </div>
-
-            <div class="browser">
-                <div class="browser-header">
-                    <div class="dots"><span></span><span></span><span></span></div>
-                    <div class="url">maplayer.io/analytics</div>
-                </div>
-                <div class="browser-content">
-                    <div style="position: absolute; inset: 0; opacity: 0.6;">
-
+                        <div class="browser-content">
+                            <img src="https://placehold.co/600x400/111/444?text=Test+Image" alt="Intro"
+                                class="mockup-img">
+                        </div>
                     </div>
 
-                    <div
-                        style="position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 1.5rem; border-radius: 12px; border: 1px solid #333; width: 220px;">
-                        <div style="font-size: 0.75rem; color: #666; text-transform: uppercase; margin-bottom: 1rem;">
-                            Layers</div>
-                        <div
-                            style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.9rem;">
-                            <span>Zoning</span>
-                            <div style="width: 24px; height: 14px; background: var(--accent); border-radius: 10px;">
+                    <div class="browser">
+                        <div class="browser-header">
+                            <div class="dots"><span></span><span></span><span></span></div>
+                            <div class="url">maplayer.io/analytics</div>
+                        </div>
+                        <div class="browser-content">
+                            <div style="position: absolute; inset: 0; opacity: 0.6;">
+
+                            </div>
+
+                            <div
+                                style="position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); padding: 1.5rem; border-radius: 12px; border: 1px solid #333; width: 220px;">
+                                <div
+                                    style="font-size: 0.75rem; color: #666; text-transform: uppercase; margin-bottom: 1rem;">
+                                    Layers</div>
+                                <div
+                                    style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.9rem;">
+                                    <span>Zoning</span>
+                                    <div
+                                        style="width: 24px; height: 14px; background: var(--accent); border-radius: 10px;">
+                                    </div>
+                                </div>
+                                <div
+                                    style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.9rem;">
+                                    <span>Parcels</span>
+                                    <div style="width: 24px; height: 14px; background: #333; border-radius: 10px;">
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                                    <span>Transit</span>
+                                    <div style="width: 24px; height: 14px; background: #333; border-radius: 10px;">
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div
-                            style="display: flex; justify-content: space-between; margin-bottom: 0.8rem; font-size: 0.9rem;">
-                            <span>Parcels</span>
-                            <div style="width: 24px; height: 14px; background: #333; border-radius: 10px;"></div>
+                    </div>
+
+                    <div class="browser">
+                        <div class="browser-header">
+                            <div class="dots"><span></span><span></span><span></span></div>
+                            <div class="url">maplayer.io/3d-view</div>
                         </div>
-                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
-                            <span>Transit</span>
-                            <div style="width: 24px; height: 14px; background: #333; border-radius: 10px;"></div>
+                        <div class="browser-content"
+                            style="display: flex; align-items: center; justify-content: center; background: #080808;">
+                            <h3 style="color: #333;">3D Terrain Rendering Demo</h3>
                         </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <section class="container section-padding">
+            <h2 style="font-size: 3rem; margin-bottom: 4rem;">Technical Deep Dive</h2>
+
+            <div class="eng-list">
+                <div class="eng-item">
+                    <div><span class="eng-num">01</span></div>
+                    <div>
+                        <h3 class="eng-head">Client-Side Clustering</h3>
+                        <p>Rendering tens of thousands of points in the DOM kills performance. MapLayer runs
+                            Supercluster
+                            inside a Web Worker to cluster points off the main thread, updating clusters dynamically as
+                            the
+                            user changes zoom without blocking interactions.</p>
+                    </div>
+                </div>
+                <div class="eng-item">
+                    <div><span class="eng-num">02</span></div>
+                    <div>
+                        <h3 class="eng-head">Offline Synchronization</h3>
+                        <p>Using Service Workers and IndexedDB, MapLayer caches recently used vector tiles and user
+                            annotations. Field agents can continue working offline; the client queues edits and
+                            reconciles
+                            them against the server with a conflict-resolution strategy when connectivity returns.</p>
+                    </div>
+                </div>
+                <div class="eng-item">
+                    <div><span class="eng-num">03</span></div>
+                    <div>
+                        <h3 class="eng-head">3D Terrain Extrusion</h3>
+                        <p>To render believable topography without heavy models, MapLayer decodes RGB height maps in
+                            custom
+                            WebGL shaders and extrudes terrain on the GPU, producing detailed 3D visualizations with
+                            minimal
+                            bandwidth overhead.</p>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="browser">
-                <div class="browser-header">
-                    <div class="dots"><span></span><span></span><span></span></div>
-                    <div class="url">maplayer.io/3d-view</div>
-                </div>
-                <div class="browser-content"
-                    style="display: flex; align-items: center; justify-content: center; background: #080808;">
-                    <h3 style="color: #333;">3D Terrain Rendering Demo</h3>
-                </div>
+        <footer class="footer container">
+            <p class="footer-sub">Next Case Study</p>
+            <a href="./seko.html" class="footer-cta">SEKO</a>
+            <div
+                style="position: absolute; bottom: 5vh; width: 100%; display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; padding: 0 5vw; left: 0;">
+                <span>&copy; 2024</span>
+                <a href="index.html">Back to Home</a>
             </div>
+        </footer>
 
-        </div>
-    </div>
-    </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 
-    <section class="container section-padding">
-        <h2 style="font-size: 3rem; margin-bottom: 4rem;">Technical Deep Dive</h2>
+        <script>
+            // 1. LENIS SMOOTH SCROLL
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                smooth: true
+            });
+            function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+            requestAnimationFrame(raf);
 
-        <div class="eng-list">
-            <div class="eng-item">
-                <div><span class="eng-num">01</span></div>
-                <div>
-                    <h3 class="eng-head">Client-Side Clustering</h3>
-                    <p>Rendering tens of thousands of points in the DOM kills performance. MapLayer runs Supercluster
-                        inside a Web Worker to cluster points off the main thread, updating clusters dynamically as the
-                        user changes zoom without blocking interactions.</p>
-                </div>
-            </div>
-            <div class="eng-item">
-                <div><span class="eng-num">02</span></div>
-                <div>
-                    <h3 class="eng-head">Offline Synchronization</h3>
-                    <p>Using Service Workers and IndexedDB, MapLayer caches recently used vector tiles and user
-                        annotations. Field agents can continue working offline; the client queues edits and reconciles
-                        them against the server with a conflict-resolution strategy when connectivity returns.</p>
-                </div>
-            </div>
-            <div class="eng-item">
-                <div><span class="eng-num">03</span></div>
-                <div>
-                    <h3 class="eng-head">3D Terrain Extrusion</h3>
-                    <p>To render believable topography without heavy models, MapLayer decodes RGB height maps in custom
-                        WebGL shaders and extrudes terrain on the GPU, producing detailed 3D visualizations with minimal
-                        bandwidth overhead.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            gsap.registerPlugin(ScrollTrigger);
 
-    <footer class="footer container">
-        <p class="footer-sub">Next Case Study</p>
-        <a href="./seko.html" class="footer-cta">SEKO</a>
-        <div
-            style="position: absolute; bottom: 5vh; width: 100%; display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; padding: 0 5vw; left: 0;">
-            <span>&copy; 2024</span>
-            <a href="index.html">Back to Home</a>
-        </div>
-    </footer>
+            // 2. HERO ANIMATIONS
+            const tl = gsap.timeline();
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-
-    <script>
-        // 1. LENIS SMOOTH SCROLL
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            smooth: true
-        });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        gsap.registerPlugin(ScrollTrigger);
-
-        // 2. HERO ANIMATIONS
-        const tl = gsap.timeline();
-
-        // Staggered Text Reveal for Title
-        tl.from(".anim-title", {
-            y: 150,
-            skewY: 7,
-            duration: 1.5,
-            stagger: 0.1,
-            ease: "power4.out"
-        })
-            .from(".anim-meta", {
-                opacity: 0,
-                y: 20,
-                duration: 0.8,
-                stagger: 0.05,
-                ease: "power2.out"
-            }, "-=1")
-            .from(".anim-fade", {
-                opacity: 0,
-                y: 30,
-                duration: 1,
-                ease: "power2.out"
-            }, "-=0.8")
-            .from(".anim-line", {
-                scaleX: 0,
+            // Staggered Text Reveal for Title
+            tl.from(".anim-title", {
+                y: 150,
+                skewY: 7,
                 duration: 1.5,
-                ease: "expo.out"
-            }, "-=1");
-
-        // 3. MOUSE MOVE EFFECT ON BENTO GRID
-        const grid = document.getElementById("bentoGrid");
-        grid.onmousemove = e => {
-            for (const card of document.getElementsByClassName("bento-card")) {
-                const rect = card.getBoundingClientRect(),
-                    x = e.clientX - rect.left,
-                    y = e.clientY - rect.top;
-                card.style.setProperty("--mouse-x", `${x}px`);
-                card.style.setProperty("--mouse-y", `${y}px`);
-            }
-        };
-
-        // 4. PARALLAX VISUAL
-        gsap.to(".visual-img", {
-            y: "20%",
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".visual-section",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            }
-        });
-
-        // 5. HORIZONTAL SCROLL
-        const track = document.querySelector(".showcase-track");
-        gsap.to(track, {
-            x: () => -(track.scrollWidth - window.innerWidth + 100),
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".showcase-wrapper",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 1,
-                invalidateOnRefresh: true
-            }
-        });
-
-        // 6. ENGINEERING LIST REVEAL
-        gsap.utils.toArray(".eng-item").forEach(item => {
-            gsap.from(item, {
-                opacity: 0,
-                y: 50,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: item,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
+                stagger: 0.1,
+                ease: "power4.out"
             })
-        });
+                .from(".anim-meta", {
+                    opacity: 0,
+                    y: 20,
+                    duration: 0.8,
+                    stagger: 0.05,
+                    ease: "power2.out"
+                }, "-=1")
+                .from(".anim-fade", {
+                    opacity: 0,
+                    y: 30,
+                    duration: 1,
+                    ease: "power2.out"
+                }, "-=0.8")
+                .from(".anim-line", {
+                    scaleX: 0,
+                    duration: 1.5,
+                    ease: "expo.out"
+                }, "-=1");
 
-    </script>
+            // 3. MOUSE MOVE EFFECT ON BENTO GRID
+            const grid = document.getElementById("bentoGrid");
+            grid.onmousemove = e => {
+                for (const card of document.getElementsByClassName("bento-card")) {
+                    const rect = card.getBoundingClientRect(),
+                        x = e.clientX - rect.left,
+                        y = e.clientY - rect.top;
+                    card.style.setProperty("--mouse-x", `${x}px`);
+                    card.style.setProperty("--mouse-y", `${y}px`);
+                }
+            };
+
+            // 4. PARALLAX VISUAL
+            gsap.to(".visual-img", {
+                y: "20%",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".visual-section",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+
+            // 5. HORIZONTAL SCROLL
+            const track = document.querySelector(".showcase-track");
+            gsap.to(track, {
+                x: () => -(track.scrollWidth - window.innerWidth + 100),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".showcase-wrapper",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 1,
+                    invalidateOnRefresh: true
+                }
+            });
+
+            // 6. ENGINEERING LIST REVEAL
+            gsap.utils.toArray(".eng-item").forEach(item => {
+                gsap.from(item, {
+                    opacity: 0,
+                    y: 50,
+                    duration: 1,
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                })
+            });
+
+        </script>
 </body>
 
 </html>

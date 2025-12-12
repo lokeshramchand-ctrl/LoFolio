@@ -556,78 +556,70 @@
         </div>
     </section>
 
-    <section class="container section-padding visual-section">
-        <div class="visual-content">
-            <span
-                style="color: var(--accent); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: block; margin-bottom: 1rem;">Architecture</span>
-            <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); margin-bottom: 2rem;">Vector Pipeline.</h2>
-            <p style="font-size: 1.1rem; max-width: 450px;">
-                Sending raw GeoJSON to the browser does not scale. MapLayer implements a vector pipeline where the
-                backend slices large datasets
-                into compact, cached vector tiles. Clients request only visible tiles; the browser assembles them on the
-                GPU, applying
-                simplification and styling for interactive, real-time rendering.
-            </p>
+  <section class="container section-padding visual-section">
+    <div class="visual-content">
+        <span
+            style="color: var(--accent); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: block; margin-bottom: 1rem;">Architecture</span>
+        <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); margin-bottom: 2rem;">System Architecture.</h2>
+        <p style="font-size: 1.1rem; max-width: 450px;">
+            MapLayer leverages a streamlined client-side architecture that directly fetches GeoJSON from external GIS providers.
+            The React frontend orchestrates map rendering, layer management, and UI interactions, with OpenLayers handling
+            the visualization engine and OpenStreetMap providing base tiles.
+        </p>
+    </div>
+    <div class="visual-media">
+        <!-- User Browser Node (Top) -->
+        <div class="node active" style="top: 8%; left: 50%; transform: translateX(-50%);">
+            User Browser<br>
         </div>
-        <div class="visual-media">
-            <!-- Client Node -->
-            <div class="node active" style="top: 35%; left: 10%;">
-                Client<br>
-                <span style="font-size: 0.75rem; color: #666;">Browser</span>
-            </div>
 
-            <!-- Tile Service Node -->
-            <div class="node active" style="top: 35%; left: 42%;">
-                Tile Service<br>
-                <span style="font-size: 0.75rem; color: #666;">(Vector)</span>
-            </div>
-
-            <!-- Edge Cache / CDN Node -->
-            <div class="node active" style="top: 35%; left: 75%;">
-                Edge Cache<br>
-                <span style="font-size: 0.75rem; color: #666;">CDN</span>
-            </div>
-
-            <!-- PostGIS Database Node -->
-            <div class="node active" style="top: 65%; left: 42%;">
-                PostGIS<br>
-                <span style="font-size: 0.75rem; color: #666;">Database</span>
-            </div>
-
-            <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
-                <!-- Client to Tile Service (Forward Arrow) -->
-                <defs>
-                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                        <polygon points="0 0, 10 3, 0 6" fill="var(--accent)" />
-                    </marker>
-                    <marker id="arrowhead-back" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
-                        <polygon points="10 0, 0 3, 10 6" fill="#666" />
-                    </marker>
-                </defs>
-
-                <!-- Client → Tile Service -->
-                <line x1="22%" y1="40%" x2="42%" y2="40%" stroke="var(--accent)" stroke-width="2"
-                    marker-end="url(#arrowhead)" />
-
-                <!-- Client ← Tile Service (return path) -->
-                <line x1="22%" y1="44%" x2="42%" y2="44%" stroke="#666" stroke-width="2" stroke-dasharray="4,4"
-                    marker-end="url(#arrowhead-back)" />
-
-                <!-- Tile Service → Edge Cache -->
-                <line x1="54%" y1="40%" x2="74%" y2="40%" stroke="var(--accent)" stroke-width="2"
-                    marker-end="url(#arrowhead)" />
-
-                <!-- Tile Service ← Edge Cache (return path) -->
-                <line x1="54%" y1="44%" x2="74%" y2="44%" stroke="#666" stroke-width="2" stroke-dasharray="4,4"
-                    marker-end="url(#arrowhead-back)" />
-
-                <!-- Tile Service ↓ PostGIS Database -->
-                <line x1="48%" y1="48%" x2="48%" y2="62%" stroke="var(--accent)" stroke-width="2"
-                    marker-end="url(#arrowhead)" />
-            </svg>
+        <!-- React Frontend Node -->
+        <div class="node active" style="top: 30%; left: 50%; transform: translateX(-50%); padding: 16px 28px;">
+            React Frontend<br>
         </div>
-    </section>
 
+        <!-- External GIS Data Providers Node -->
+        <div class="node active" style="top: 55%; left: 50%; transform: translateX(-50%); padding: 16px 24px;">
+            GIS Data Providers<br>
+        </div>
+
+        <!-- Map Tiles Node (Bottom) -->
+        <div class="node active" style="top: 80%; left: 50%; transform: translateX(-50%);">
+            OpenStreetMap<br>
+        </div>
+
+        <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="var(--accent)" />
+                </marker>
+                <marker id="arrowhead-back" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
+                    <polygon points="10 0, 0 3, 10 6" fill="#666" />
+                </marker>
+            </defs>
+
+            <!-- User Browser → React Frontend -->
+            <line x1="50%" y1="16%" x2="50%" y2="28%" 
+                  stroke="var(--accent)" stroke-width="2" 
+                  marker-end="url(#arrowhead)" />
+
+
+
+            <!-- React Frontend → GIS Data Providers -->
+            <line x1="50%" y1="40%" x2="50%" y2="52%" 
+                  stroke="var(--accent)" stroke-width="2" 
+                  marker-end="url(#arrowhead)" />
+
+
+
+            <!-- GIS Data Providers → Map Tiles -->
+            <line x1="50%" y1="66%" x2="50%" y2="78%" 
+                  stroke="var(--accent)" stroke-width="2" 
+                  marker-end="url(#arrowhead)" />
+
+        </svg>
+    </div>
+</section>
    
     <div class="showcase-wrapper" id="showcase">
         <div class="showcase-sticky">

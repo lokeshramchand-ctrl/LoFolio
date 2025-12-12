@@ -565,40 +565,88 @@
         <div class="visual-content">
             <span
                 style="color: var(--accent); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: block; margin-bottom: 1rem;">System
-                Design</span>
-            <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); margin-bottom: 2rem;">Event-Driven Logic.</h2>
+                Architecture</span>
+            <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); margin-bottom: 2rem;">Full-Stack Flow.</h2>
             <p style="font-size: 1.1rem; max-width: 450px;">
-                SEKO is built to handle the realities of fast-moving local commerce. Instead of functioning as a simple
-                CRUD
-                system, it uses an event-driven microservices model where Order, Inventory, and Notification services
-                communicate
-                asynchronously via RabbitMQ. This ensures accurate stock counts even during rush-hour spikes when
-                hundreds of residents
-                attempt to place orders simultaneously.
+                SEKO follows a layered architecture where the Flutter app communicates with a Django backend through
+                NGINX. PostgreSQL handles persistent storage, Redis manages caching and sessions, while Celery processes
+                background tasks asynchronously. The shopkeeper accesses an admin dashboard to manage inventory and
+                orders
+                in real-time.
             </p>
         </div>
 
         <div class="visual-media">
-            <div class="node active" style="top: 30%; left: 10%;">Order Service</div>
-            <div class="node" style="top: 30%; left: 40%;">RabbitMQ</div>
-            <div class="node active" style="top: 20%; left: 70%;">Inventory</div>
-            <div class="node active" style="top: 60%; left: 70%;">Notification</div>
+            <!-- Flutter App Node (Top) -->
+            <div class="node active" style="top: 8%; left: 50%; transform: translateX(-50%); padding: 14px 24px;">
+                Flutter App<br>
+            </div>
 
-            <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: -1;">
-                <line x1="20%" y1="35%" x2="40%" y2="35%" stroke="#333" stroke-width="2" />
-                <line x1="55%" y1="35%" x2="70%" y2="25%" stroke="#333" stroke-width="2" />
-                <line x1="55%" y1="35%" x2="70%" y2="65%" stroke="#333" stroke-width="2" />
+            <!-- Django Backend Node (Center) -->
+            <div class="node active" style="top: 32%; left: 50%; transform: translateX(-50%); padding: 16px 28px;">
+                Django Backend<br>
+            </div>
+
+            <!-- PostgreSQL Node (Bottom Left) -->
+            <div class="node active" style="top: 60%; left: 12%; padding: 12px 18px;">
+                PostgreSQL<br>
+            </div>
+
+            <!-- Redis Node (Bottom Center) -->
+            <div class="node active" style="top: 60%; left: 50%; transform: translateX(-50%); padding: 12px 18px;">
+                Redis<br>
+            </div>
+
+            <div class="node active" style="top: 60%; right: 12%; padding: 12px 18px;">
+                Admin Dashboard<br>
+            </div>
+
+
+
+            <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
+                <defs>
+                    <marker id="arrowhead-gold" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="var(--accent)" />
+                    </marker>
+                    <marker id="arrowhead-dim" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
+                        <polygon points="10 0, 0 3, 10 6" fill="#444" />
+                    </marker>
+                </defs>
+
+                <!-- Flutter App → Django Backend -->
+                <line x1="50%" y1="16%" x2="50%" y2="30%" stroke="var(--accent)" stroke-width="2.5"
+                    marker-end="url(#arrowhead-gold)" />
+
+
+
+                <!-- Django Backend → PostgreSQL -->
+                <line x1="43%" y1="40%" x2="22%" y2="57%" stroke="var(--accent)" stroke-width="2.5"
+                    marker-end="url(#arrowhead-gold)" />
+
+
+
+                <!-- Django Backend → Redis -->
+                <line x1="50%" y1="42%" x2="50%" y2="57%" stroke="var(--accent)" stroke-width="2.5"
+                    marker-end="url(#arrowhead-gold)" />
+
+
+                <!-- Django Backend → Celery -->
+                <line x1="57%" y1="40%" x2="78%" y2="57%" stroke="var(--accent)" stroke-width="2.5"
+                    marker-end="url(#arrowhead-gold)" />
+
+
+
             </svg>
         </div>
     </section>
 
-    <div class="showcase-wrapper" id="showcase">
-        <div class="showcase-sticky">
-            <div class="container" style="margin-bottom: 2rem;">
-                <h2 style="font-size: 2rem;">Mobile Experience</h2>
-            </div>
+    <!-- <div class="showcase-wrapper" id="showcase">
+        <div class="showcase-sticky"> -->
+    <div class="container" style="margin-bottom: 2rem;">
+        <h2 style="font-size: 2rem;">Mobile Experience -- Coming Soon</h2>
+    </div>
 
-            <div class="showcase-track">
+    <!-- <div class="showcase-track">
 
                 <div class="phone">
                     <div class="phone-content">
@@ -665,8 +713,8 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
+            </div> -->
+    </div>
     </div>
 
     <section class="container section-padding">
@@ -794,19 +842,19 @@
             }
         };
 
-        // // 4. HORIZONTAL SCROLL
-        // const track = document.querySelector(".showcase-track");
-        // gsap.to(track, {
-        //     x: () => -(track.scrollWidth - window.innerWidth + 100),
-        //     ease: "none",
-        //     scrollTrigger: {
-        //         trigger: ".showcase-wrapper",
-        //         start: "top top",
-        //         end: "bottom bottom",
-        //         scrub: 1,
-        //         invalidateOnRefresh: true
-        //     }
-        // });
+        // 4. HORIZONTAL SCROLL
+        const track = document.querySelector(".showcase-track");
+        gsap.to(track, {
+            x: () => -(track.scrollWidth - window.innerWidth + 100),
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".showcase-wrapper",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1,
+                invalidateOnRefresh: true
+            }
+        });
 
         // 5. ENGINEERING LIST REVEAL
         gsap.utils.toArray(".eng-item").forEach(item => {

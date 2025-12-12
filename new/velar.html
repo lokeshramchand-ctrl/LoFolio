@@ -12,7 +12,7 @@
         href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    
+
     <script src="nav.js" defer></script>
 
     <style>
@@ -24,7 +24,8 @@
             --surface-highlight: #141414;
             --text-primary: #ffffff;
             --text-secondary: #888888;
-            --accent: #00F0FF; /* Cyber Teal */
+            --accent: #00F0FF;
+            /* Cyber Teal */
             --border: rgba(255, 255, 255, 0.08);
             --nav-bg: rgba(3, 3, 3, 0.8);
             --font-main: 'General Sans', sans-serif;
@@ -38,7 +39,8 @@
             --surface-highlight: #e4e4e7;
             --text-primary: #18181b;
             --text-secondary: #52525b;
-            --accent: #0097a7; /* Darker teal for visibility on white */
+            --accent: #0097a7;
+            /* Darker teal for visibility on white */
             --border: rgba(0, 0, 0, 0.08);
             --nav-bg: rgba(255, 255, 255, 0.8);
         }
@@ -137,7 +139,8 @@
             background: var(--nav-bg);
             border-bottom: 1px solid var(--border);
             transition: background 0.3s ease;
-            margin: 0 !important; /* Override global margin */
+            margin: 0 !important;
+            /* Override global margin */
         }
 
         .logo {
@@ -167,7 +170,8 @@
             transition: color 0.3s;
         }
 
-        .menu-link:hover, .menu-link.active {
+        .menu-link:hover,
+        .menu-link.active {
             color: var(--text-primary);
         }
 
@@ -280,7 +284,8 @@
             font-size: clamp(1.1rem, 1.5vw, 1.5rem);
             margin-top: 4vh;
             margin-left: auto;
-            color: var(--text-secondary); /* Updated to variable for light mode */
+            color: var(--text-secondary);
+            /* Updated to variable for light mode */
         }
 
         /* --- 6. BENTO GRID TECH STACK --- */
@@ -353,14 +358,17 @@
         .dark-card {
             background: #000;
         }
-        
+
         [data-theme="light"] .dark-card {
-            background: #111; /* Keep dark card dark even in light mode for contrast, or invert */
+            background: #111;
+            /* Keep dark card dark even in light mode for contrast, or invert */
             color: #fff;
         }
+
         [data-theme="light"] .dark-card .bento-text {
             color: #aaa;
         }
+
         [data-theme="light"] .dark-card .bento-icon {
             color: #fff;
         }
@@ -498,9 +506,14 @@
             .hero-title {
                 font-size: 16vw;
             }
-            
-            .menu-items { display: none; }
-            .menu-icon { display: block; }
+
+            .menu-items {
+                display: none;
+            }
+
+            .menu-icon {
+                display: block;
+            }
         }
     </style>
 </head>

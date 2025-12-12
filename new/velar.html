@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -12,20 +12,35 @@
         href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
         rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-<script src="nav.js" defer></script>
+    
+    <script src="nav.js" defer></script>
+
     <style>
         /* --- 1. CORE & VARIABLES --- */
         :root {
+            /* DARK MODE (DEFAULT) */
             --bg: #030303;
             --surface: #0a0a0a;
             --surface-highlight: #141414;
             --text-primary: #ffffff;
             --text-secondary: #888888;
-            --accent: #00F0FF;
-            /* Cyber Teal */
+            --accent: #00F0FF; /* Cyber Teal */
             --border: rgba(255, 255, 255, 0.08);
+            --nav-bg: rgba(3, 3, 3, 0.8);
             --font-main: 'General Sans', sans-serif;
             --easing: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* LIGHT MODE OVERRIDES */
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --surface: #f4f4f5;
+            --surface-highlight: #e4e4e7;
+            --text-primary: #18181b;
+            --text-secondary: #52525b;
+            --accent: #0097a7; /* Darker teal for visibility on white */
+            --border: rgba(0, 0, 0, 0.08);
+            --nav-bg: rgba(255, 255, 255, 0.8);
         }
 
         * {
@@ -56,6 +71,7 @@
             font-family: var(--font-main);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* --- 2. GLOBAL STYLES --- */
@@ -64,7 +80,6 @@
             max-width: 1800px;
             margin: 0 auto;
             padding: 0 5vw;
-            /* Fluid Padding */
         }
 
         .section-padding {
@@ -107,7 +122,115 @@
             transform-origin: left;
         }
 
-        /* --- 3. BACKGROUND AMBIENCE --- */
+        /* --- 3. NAVBAR STYLES (REQUIRED FOR NAV.JS) --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 5vw;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s ease;
+            margin: 0 !important; /* Override global margin */
+        }
+
+        .logo {
+            font-family: 'Clash Display', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .menu-items {
+            display: flex;
+            gap: 30px;
+        }
+
+        .menu-link {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
+
+        .menu-link:hover, .menu-link.active {
+            color: var(--text-primary);
+        }
+
+        /* Theme Toggle */
+        .theme-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .theme-btn:hover {
+            background: var(--surface);
+            border-color: var(--accent);
+        }
+
+        /* Mobile Menu */
+        .menu-icon {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            transform: translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+            margin: 0 !important;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-link {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 3rem;
+            color: var(--text-primary);
+        }
+
+        /* --- 4. BACKGROUND AMBIENCE --- */
         .ambient-glow {
             position: fixed;
             top: -20vh;
@@ -121,7 +244,7 @@
             opacity: 0.6;
         }
 
-        /* --- 4. HERO SECTION --- */
+        /* --- 5. HERO SECTION --- */
         .hero {
             height: 100vh;
             display: flex;
@@ -157,10 +280,10 @@
             font-size: clamp(1.1rem, 1.5vw, 1.5rem);
             margin-top: 4vh;
             margin-left: auto;
-            color: #ccc;
+            color: var(--text-secondary); /* Updated to variable for light mode */
         }
 
-        /* --- 5. BENTO GRID TECH STACK --- */
+        /* --- 6. BENTO GRID TECH STACK --- */
         .bento-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -178,11 +301,15 @@
             min-height: 350px;
             position: relative;
             overflow: hidden;
-            transition: border-color 0.4s var(--easing);
+            transition: border-color 0.4s var(--easing), background 0.3s;
         }
 
         .bento-card:hover {
             border-color: rgba(0, 240, 255, 0.2);
+        }
+
+        [data-theme="light"] .bento-card:hover {
+            border-color: var(--accent);
         }
 
         /* Card Hover Gradient Effect */
@@ -216,6 +343,7 @@
 
         .bento-text {
             font-size: 0.95rem;
+            color: var(--text-secondary);
         }
 
         .span-2 {
@@ -225,8 +353,19 @@
         .dark-card {
             background: #000;
         }
+        
+        [data-theme="light"] .dark-card {
+            background: #111; /* Keep dark card dark even in light mode for contrast, or invert */
+            color: #fff;
+        }
+        [data-theme="light"] .dark-card .bento-text {
+            color: #aaa;
+        }
+        [data-theme="light"] .dark-card .bento-icon {
+            color: #fff;
+        }
 
-        /* --- 6. ARCHITECTURE VISUAL SECTION --- */
+        /* --- 7. ARCHITECTURE VISUAL SECTION --- */
         .visual-section {
             display: flex;
             align-items: center;
@@ -244,7 +383,7 @@
             position: relative;
             overflow: hidden;
             border-radius: 2rem;
-            background: #080808;
+            background: var(--surface);
             border: 1px solid var(--border);
             display: flex;
             align-items: center;
@@ -254,11 +393,11 @@
         /* Abstract Diagram Nodes */
         .node {
             padding: 12px 24px;
-            border: 1px solid #333;
+            border: 1px solid var(--border);
             border-radius: 50px;
-            background: #111;
+            background: var(--surface-highlight);
             font-size: 0.9rem;
-            color: #888;
+            color: var(--text-secondary);
             position: absolute;
             z-index: 2;
         }
@@ -267,131 +406,6 @@
             border-color: var(--accent);
             color: var(--accent);
             box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
-        }
-
-        /* --- 7. HORIZONTAL SCROLL SHOWCASE (PHONES) --- */
-        .showcase-wrapper {
-            height: 400vh;
-            /* Scroll space */
-            position: relative;
-        }
-
-        .showcase-sticky {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: var(--bg);
-        }
-
-        .showcase-track {
-            display: flex;
-            gap: 8vw;
-            padding-left: 5vw;
-            will-change: transform;
-            align-items: center;
-        }
-
-        /* Mobile Phone Mockup */
-        .phone {
-            width: 340px;
-            height: 700px;
-            background: #000;
-            border-radius: 45px;
-            border: 8px solid #1a1a1a;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-            overflow: hidden;
-            position: relative;
-        }
-
-        /* Dynamic Island */
-        .phone::after {
-            content: '';
-            position: absolute;
-            top: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 28px;
-            background: #000;
-            border-radius: 14px;
-            z-index: 10;
-        }
-
-        .phone-content {
-            flex: 1;
-            background: #111;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            padding-top: 50px;
-        }
-
-        /* CSS UI Elements for Phones */
-        .ui-head {
-            padding: 0 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .ui-avatar {
-            width: 35px;
-            height: 35px;
-            background: #333;
-            border-radius: 50%;
-        }
-
-        .ui-card {
-            background: #1a1a1a;
-            margin: 0 20px 15px 20px;
-            border-radius: 16px;
-            padding: 20px;
-        }
-
-        .ui-card-lg {
-            height: 180px;
-            background: linear-gradient(135deg, #1f1f1f, #111);
-            position: relative;
-            border: 1px solid #333;
-        }
-
-        .ui-card-lg::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--accent);
-        }
-
-        .ui-row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .ui-icon {
-            width: 40px;
-            height: 40px;
-            background: #222;
-            border-radius: 12px;
-        }
-
-        .ui-bar {
-            height: 8px;
-            background: #333;
-            border-radius: 4px;
-            flex: 1;
         }
 
         /* --- 8. ENGINEERING LIST --- */
@@ -408,7 +422,7 @@
         }
 
         .eng-item:hover {
-            background: rgba(255, 255, 255, 0.01);
+            background: var(--surface);
         }
 
         .eng-num {
@@ -437,8 +451,7 @@
         .footer-cta {
             font-size: 10vw;
             font-weight: 600;
-                        font-family: 'Clash Display', sans-serif;
-
+            font-family: 'Clash Display', sans-serif;
             line-height: 1;
             color: var(--text-primary);
             transition: color 0.4s var(--easing);
@@ -477,11 +490,6 @@
                 height: 50vh;
             }
 
-            .phone {
-                width: 280px;
-                height: 580px;
-            }
-
             .eng-item {
                 grid-template-columns: 1fr;
                 gap: 1rem;
@@ -490,6 +498,9 @@
             .hero-title {
                 font-size: 16vw;
             }
+            
+            .menu-items { display: none; }
+            .menu-icon { display: block; }
         }
     </style>
 </head>
@@ -580,176 +591,53 @@
                 categorize, and store the transaction without interrupting user activity.
             </p>
         </div>
-<div class="visual-media">
-    <!-- Flutter App Node (Top) -->
-    <div class="node active" style="top: 8%; left: 50%; transform: translateX(-50%); padding: 14px 24px;">
-        Flutter App<br>
-        <span style="font-size: 0.7rem; color: #666;">Mobile Client</span>
-    </div>
+        <div class="visual-media">
+            <div class="node active" style="top: 8%; left: 50%; transform: translateX(-50%); padding: 14px 24px;">
+                Flutter App<br>
+                <span style="font-size: 0.7rem; opacity: 0.8;">Mobile Client</span>
+            </div>
 
-    <!-- Node.js Backend (Center) -->
-    <div class="node active" style="top: 35%; left: 50%; transform: translateX(-50%); padding: 16px 28px;">
-        Node.js Backend<br>
-        <span style="font-size: 0.7rem; color: #666;">Express API</span>
-    </div>
+            <div class="node active" style="top: 35%; left: 50%; transform: translateX(-50%); padding: 16px 28px;">
+                Node.js Backend<br>
+                <span style="font-size: 0.7rem; opacity: 0.8;">Express API</span>
+            </div>
 
-    <!-- NLP Service Node (Right) -->
-    <div class="node active" style="top: 35%; right: 10%; padding: 12px 20px;">
-        NLP Service<br>
-        <span style="font-size: 0.7rem; color: #666;">Flask ML</span>
-    </div>
+            <div class="node active" style="top: 35%; right: 10%; padding: 12px 20px;">
+                NLP Service<br>
+                <span style="font-size: 0.7rem; opacity: 0.8;">Flask ML</span>
+            </div>
 
-    <!-- MongoDB Node (Bottom) -->
-    <div class="node active" style="top: 65%; left: 50%; transform: translateX(-50%); padding: 14px 24px;">
-        MongoDB<br>
-        <span style="font-size: 0.7rem; color: #666;">Database</span>
-    </div>
+            <div class="node active" style="top: 65%; left: 50%; transform: translateX(-50%); padding: 14px 24px;">
+                MongoDB<br>
+                <span style="font-size: 0.7rem; opacity: 0.8;">Database</span>
+            </div>
 
-    <!-- Gmail API Node (Left) -->
-    <div class="node active" style="top: 35%; left: 10%; padding: 12px 18px;">
-        Gmail API<br>
-        <span style="font-size: 0.7rem; color: #666;">OAuth</span>
-    </div>
+            <div class="node active" style="top: 35%; left: 10%; padding: 12px 18px;">
+                Gmail API<br>
+                <span style="font-size: 0.7rem; opacity: 0.8;">OAuth</span>
+            </div>
 
-    <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
-        <defs>
-            <marker id="arrowhead-cyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                <polygon points="0 0, 10 3, 0 6" fill="var(--accent)" />
-            </marker>
-            <marker id="arrowhead-dim" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto">
-                <polygon points="10 0, 0 3, 10 6" fill="#444" />
-            </marker>
-        </defs>
+            <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
+                <defs>
+                    <marker id="arrowhead-cyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="var(--accent)" />
+                    </marker>
+                </defs>
 
-        <!-- Flutter App → Node.js Backend -->
-        <line x1="50%" y1="20%" x2="50%" y2="40%" 
-              stroke="var(--accent)" stroke-width="2.5"
-               />
+                <line x1="50%" y1="20%" x2="50%" y2="40%" stroke="var(--accent)" stroke-width="2.5" />
 
+                <line x1="20%" y1="40%" x2="40%" y2="40%" stroke="var(--accent)" stroke-width="2.5" />
 
+                <line x1="50%" y1="40%" x2="80%" y2="40%" stroke="var(--accent)" stroke-width="2.5" />
 
-        <!-- Gmail API → Node.js Backend -->
-        <line x1="20%" y1="40%" x2="40%" y2="40%" 
-              stroke="var(--accent)" stroke-width="2.5"
-             />
-
-        <!-- Node.js Backend → NLP Service -->
-        <line x1="50%" y1="40%" x2="80%" y2="40%" 
-              stroke="var(--accent)" stroke-width="2.5"
-         />
-
-
-
-        <!-- Node.js Backend → MongoDB -->
-        <line x1="50%" y1="50%" x2="50%" y2="70%" 
-              stroke="var(--accent)" stroke-width="2.5"
-              />
-
-
-    </svg>
-</div>
+                <line x1="50%" y1="50%" x2="50%" y2="70%" stroke="var(--accent)" stroke-width="2.5" />
+            </svg>
+        </div>
     </section>
 
-    <!-- <div class="showcase-wrapper" id="showcase">
-        <div class="showcase-sticky"> -->
-            <div class="container" style="margin-bottom: 2rem;">
-                <h2 style="font-size: 2rem;">Interface Design -- Coming Soon</h2>
-            </div>
-
-            <!-- <div class="showcase-track">
-
-                <div class="phone">
-                    <div class="phone-content">
-                        <div class="ui-head">
-                            <h3 style="font-size: 1.2rem;">Overview</h3>
-                            <div class="ui-avatar"></div>
-                        </div>
-                        <div class="ui-card ui-card-lg">
-                            <div style="position: absolute; top: 20px; left: 20px;">
-                                <div style="font-size: 0.8rem; color: #888;">Total Balance</div>
-                                <div style="font-size: 1.5rem; font-weight: 600; margin-top: 5px;">₹12,450.00</div>
-                            </div>
-                        </div>
-                        <div class="ui-card" style="display: flex; justify-content: space-between;">
-                            <span>Income</span>
-                            <span style="color: var(--accent);">+₹4,200</span>
-                        </div>
-                        <div class="ui-card" style="display: flex; justify-content: space-between;">
-                            <span>Expense</span>
-                            <span style="color: #ff4444;">-₹1,850</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="phone">
-                    <div class="phone-content">
-                        <div class="ui-head">
-                            <h3 style="font-size: 1.2rem;">Recent</h3>
-                        </div>
-
-                        <div class="ui-card" style="display: flex; gap: 15px; align-items: center;">
-                            <div class="ui-icon"></div>
-                            <div style="flex: 1;">
-                                <div style="font-size: 0.9rem;">Uber Trip</div>
-                                <div style="font-size: 0.7rem; color: #666;">Transport</div>
-                            </div>
-                            <div style="font-size: 0.9rem;">-₹14.50</div>
-                        </div>
-
-                        <div class="ui-card" style="display: flex; gap: 15px; align-items: center;">
-                            <div class="ui-icon"></div>
-                            <div style="flex: 1;">
-                                <div style="font-size: 0.9rem;">Spotify</div>
-                                <div style="font-size: 0.7rem; color: #666;">Subscription</div>
-                            </div>
-                            <div style="font-size: 0.9rem;">-₹9.99</div>
-                        </div>
-
-                        <div class="ui-card" style="display: flex; gap: 15px; align-items: center;">
-                            <div class="ui-icon"></div>
-                            <div style="flex: 1;">
-                                <div style="font-size: 0.9rem;">Salary</div>
-                                <div style="font-size: 0.7rem; color: #666;">Income</div>
-                            </div>
-                            <div style="font-size: 0.9rem; color: var(--accent);">+₹3,200</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="phone">
-                    <div class="phone-content" style="align-items: center;">
-                        <h3 style="margin-bottom: 40px; width: 100%; padding-left: 25px;">Breakdown</h3>
-                        <p style="padding: 0 30px; margin-bottom: 1.5rem; font-size: 0.9rem;">
-                            Velar organizes every parsed transaction into categories, enabling clear visualization of
-                            where
-                            money flows each month. This breakdown updates automatically as new emails are ingested.
-                        </p>
-                        <div
-                            style="width: 200px; height: 200px; border-radius: 50%; background: conic-gradient(var(--accent) 0% 35%, #333 35% 60%, #1a1a1a 60% 100%); position: relative; margin-bottom: 40px;">
-                            <div
-                                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 140px; height: 140px; background: #000; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                <span style="font-size: 1.5rem; font-weight: 600;">35%</span>
-                            </div>
-                        </div>
-                        <div style="width: 100%; padding: 0 30px;">
-                            <div class="ui-row">
-                                <div style="width: 10px; height: 10px; background: var(--accent); border-radius: 50%;">
-                                </div>
-                                <span style="font-size: 0.9rem; flex: 1;">Dining</span>
-                                <span style="font-size: 0.9rem;">₹450</span>
-                            </div>
-                            <div class="ui-row">
-                                <div style="width: 10px; height: 10px; background: #333; border-radius: 50%;"></div>
-                                <span style="font-size: 0.9rem; flex: 1;">Rent</span>
-                                <span style="font-size: 0.9rem;">₹1200</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div> -->
+    <div class="container" style="margin-bottom: 6rem; text-align: center;">
+        <h2 style="font-size: 2rem; color: var(--text-secondary);">Interface Design — Coming Soon</h2>
+    </div>
 
     <section class="container section-padding">
         <h2 style="font-size: 3rem; margin-bottom: 4rem;">Technical Deep Dive</h2>
@@ -860,20 +748,6 @@
                 card.style.setProperty("--mouse-y", `${y}px`);
             }
         };
-
-        // 4. HORIZONTAL SCROLL
-        // const track = document.querySelector(".showcase-track");
-        // gsap.to(track, {
-        //     x: () => -(track.scrollWidth - window.innerWidth + 100),
-        //     ease: "none",
-        //     scrollTrigger: {
-        //         trigger: ".showcase-wrapper",
-        //         start: "top top",
-        //         end: "bottom bottom",
-        //         scrub: 1,
-        //         invalidateOnRefresh: true
-        //     }
-        // });
 
         // 5. ENGINEERING LIST REVEAL
         gsap.utils.toArray(".eng-item").forEach(item => {

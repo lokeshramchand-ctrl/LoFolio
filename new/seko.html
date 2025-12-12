@@ -794,19 +794,19 @@
             }
         };
 
-        // 4. HORIZONTAL SCROLL
-        const track = document.querySelector(".showcase-track");
-        gsap.to(track, {
-            x: () => -(track.scrollWidth - window.innerWidth + 100),
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".showcase-wrapper",
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 1,
-                invalidateOnRefresh: true
-            }
-        });
+        // // 4. HORIZONTAL SCROLL
+        // const track = document.querySelector(".showcase-track");
+        // gsap.to(track, {
+        //     x: () => -(track.scrollWidth - window.innerWidth + 100),
+        //     ease: "none",
+        //     scrollTrigger: {
+        //         trigger: ".showcase-wrapper",
+        //         start: "top top",
+        //         end: "bottom bottom",
+        //         scrub: 1,
+        //         invalidateOnRefresh: true
+        //     }
+        // });
 
         // 5. ENGINEERING LIST REVEAL
         gsap.utils.toArray(".eng-item").forEach(item => {

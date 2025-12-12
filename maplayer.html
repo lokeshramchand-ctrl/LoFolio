@@ -38,7 +38,7 @@
             --surface-highlight: #e4e4e7;
             --text-primary: #18181b;
             --text-secondary: #52525b;
-            --accent: #00c853; /* Darker green for visibility on white */
+            --accent: #059669; /* Darker green for visibility on white */
             --border: rgba(0, 0, 0, 0.08);
             --nav-bg: rgba(255, 255, 255, 0.8);
         }
@@ -127,7 +127,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 5px 5vw;
+            padding: 20px 5vw;
             position: fixed;
             width: 100%;
             top: 0;
@@ -281,6 +281,44 @@
             margin-top: 4vh;
             margin-left: auto;
             color: var(--text-secondary);
+        }
+
+        /* Link Button */
+        .hero-link-wrapper {
+            margin-left: auto;
+            margin-top: 2rem;
+            display: flex;
+            justify-content: flex-end;
+            max-width: 600px;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 24px;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .project-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0, 255, 102, 0.05);
+            padding-right: 30px; /* Expands slightly on hover */
+        }
+
+        .project-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .project-link:hover i {
+            transform: translateX(5px) rotate(-45deg);
         }
 
         /* --- 6. BENTO GRID TECH STACK --- */
@@ -594,6 +632,11 @@
 
             .menu-items { display: none; }
             .menu-icon { display: block; }
+            
+            .hero-link-wrapper {
+                justify-content: flex-start;
+                margin-left: 0;
+            }
         }
     </style>
 </head>
@@ -624,6 +667,12 @@
             GPU-accelerated rendering, and on-client processing to sustain 60fps interactions for exploration and
             analytics.
         </p>
+
+        <div class="hero-link-wrapper anim-fade">
+            <a href="https://h48s4cw8wsocw88g440soo4c.deploy.priyatham.in/" target="_blank" class="project-link">
+                Visit Project <i class="ri-arrow-right-line"></i>
+            </a>
+        </div>
 
     </section>
 

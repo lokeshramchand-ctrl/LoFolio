@@ -1,1390 +1,769 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Velar – AI-Powered Finance Companion</title>
-  <link rel="icon" type="image/png" href="images/favicon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velar — Automated Finance</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <script src="nav.js" defer></script>
 
-    :root {
-      --bg-color: #f0ebda;
-      --text-primary: #37352f;
-      --text-secondary: #787774;
-      --text-muted: #9b9a97;
-      --border-color: #e9e9e7;
-      --hover-bg: #f0ebda;
-      --block-spacing: 4px;
-      --code-bg: #f6f5f4;
-      --code-border: #e9e9e7;
-    }
+    <style>
+        /* --- 1. CORE & VARIABLES --- */
+        :root {
+            /* DARK MODE (DEFAULT) */
+            --bg: #030303;
+            --surface: #0a0a0a;
+            --surface-highlight: #141414;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --accent: #00F0FF; /* Cyber Teal */
+            --border: rgba(255, 255, 255, 0.08);
+            --nav-bg: rgba(3, 3, 3, 0.8);
+            --font-main: 'General Sans', sans-serif;
+            --easing: cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-primary);
-      line-height: 1.5;
-      min-height: 100vh;
-      font-size: 16px;
-      padding-top:100px;
-    }
+        /* LIGHT MODE OVERRIDES */
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --surface: #f4f4f5;
+            --surface-highlight: #e4e4e7;
+            --text-primary: #18181b;
+            --text-secondary: #52525b;
+            --accent: #0097a7; /* Darker teal for visibility on white */
+            --border: rgba(0, 0, 0, 0.08);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+        }
 
-    .page-container {
-      max-width: 708px;
-      margin: 0 auto;
-      padding: 96px 32px 64px;
-      min-height: 100vh;
-    }
+        * {
+            margin: 5px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
 
-    /* Header Section */
-    .page-header {
-      margin-bottom: 48px;
-    }
+        html.lenis {
+            height: auto;
+        }
 
-    .page-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-      display: inline-block;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
+        .lenis.lenis-smooth {
+            scroll-behavior: auto;
+        }
 
-    .page-icon:hover {
-      transform: scale(1.1);
-    }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
 
-    .page-title {
-      font-size: 40px;
-      font-weight: 700;
-      line-height: 1.2;
-      color: var(--text-primary);
-      border: none;
-      outline: none;
-      background: transparent;
-      width: 100%;
-      padding: 8px 0;
-      margin-bottom: 8px;
-      cursor: text;
-      transition: background-color 0.2s ease;
-    }
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
 
-    .page-subtitle {
-      font-size: 20px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 24px;
-      line-height: 1.4;
-    }
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
 
-    .page-title:hover,
-    .page-title:focus {
-      background-color: var(--hover-bg);
-    }
+        /* --- 2. GLOBAL STYLES --- */
+        .container {
+            width: 100%;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 0 5vw;
+        }
 
-    .page-title::placeholder {
-      color: var(--text-muted);
-    }
+        .section-padding {
+            padding: 15vh 0;
+        }
 
-    /* Status Badge */
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #e8f5e8;
-      color: #2d7d32;
-      padding: 6px 12px;
-      border-radius: 16px;
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 24px;
-    }
+        h1 {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 8.5vw;
+            font-weight: 600;
+            text-transform: uppercase;
+            line-height: 0.9;
+            letter-spacing: -2px;
+        }
 
-    /* Project Meta */
-    .project-meta {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin-bottom: 32px;
-      padding: 16px;
-      background: var(--code-bg);
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-    }
+        h2,
+        h3,
+        h4 {
+            line-height: 1;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
 
-    .meta-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+        p {
+            font-weight: 300;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
 
-    .meta-label {
-      font-weight: 600;
-      color: var(--text-primary);
-      font-size: 14px;
-    }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
 
-    .meta-value {
-      color: var(--text-secondary);
-      font-size: 14px;
-    }
+        .line-sep {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            margin: 2vh 0;
+            transform-origin: left;
+        }
 
-    /* Content Blocks */
-    .content-block {
-      margin-bottom: var(--block-spacing);
-      padding: 6px 0;
-      border-radius: 3px;
-      transition: background-color 0.15s ease;
-      position: relative;
-    }
+        /* --- 3. NAVBAR STYLES (REQUIRED FOR NAV.JS) --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 5vw;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s ease;
+            margin: 0 !important; /* Override global margin */
+        }
 
-    .content-block:hover {
-      background-color: var(--hover-bg);
-    }
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: #f0ebda;
-      backdrop-filter: blur(20px);
-      z-index: 1000;
-      padding: 20px 0;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
+        .logo {
+            font-family: 'Clash Display', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
 
-    nav {
-      font-family: 'Raleway', sans-serif;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
 
-    .logo {
-      font-size: 24px;
-      font-weight: 700;
-      color: #000;
-      text-decoration: none;
-      letter-spacing: -0.02em;
-    }
+        .menu-items {
+            display: flex;
+            gap: 30px;
+        }
 
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      align-items: center;
-    }
+        .menu-link {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            color: var(--text-secondary);
+            transition: color 0.3s;
+        }
 
-    .nav-links a {
-      text-decoration: none;
-      color: #666;
-      font-size: 16px;
-      font-weight: 400;
-      transition: color 0.3s ease;
-    }
+        .menu-link:hover, .menu-link.active {
+            color: var(--text-primary);
+        }
 
-    .nav-links a:hover {
-      color: #000;
-    }
+        /* Theme Toggle */
+        .theme-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
 
-    .content-block:hover::before {
-      content: '⋮⋮';
-      position: absolute;
-      left: -28px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-      font-size: 14px;
-      line-height: 1;
-      opacity: 0.6;
-    }
+        .theme-btn:hover {
+            background: var(--surface);
+            border-color: var(--accent);
+        }
 
-    .block-paragraph {
-      font-size: 16px;
-      line-height: 1.6;
-      color: var(--text-primary);
-      margin-bottom: 16px;
-    }
+        /* Mobile Menu */
+        .menu-icon {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
 
-    .block-heading {
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin: 32px 0 16px 0;
-      line-height: 1.3;
-    }
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 99;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            transform: translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+            margin: 0 !important;
+        }
 
-    .block-heading:first-child {
-      margin-top: 0;
-    }
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
 
-    .block-heading::before {
-      color: var(--text-muted);
-      font-weight: 400;
-    }
+        .mobile-link {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 3rem;
+            color: var(--text-primary);
+        }
 
-    .block-heading-2 {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin: 24px 0 12px 0;
-      line-height: 1.3;
-    }
+        /* --- 4. BACKGROUND AMBIENCE --- */
+        .ambient-glow {
+            position: fixed;
+            top: -20vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80vw;
+            height: 80vh;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.08) 0%, transparent 60%);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.6;
+        }
 
-    .block-heading-2::before {
-      color: var(--text-muted);
-      font-weight: 400;
-    }
+        /* --- 5. HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
 
-    /* Lists */
-    .block-list {
-      margin-left: 24px;
-      margin-bottom: 16px;
-    }
+        .hero-meta {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.9rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 2vh;
+            overflow: hidden;
+        }
 
-    .block-list li {
-      margin-bottom: 8px;
-      line-height: 1.6;
-      color: var(--text-primary);
-    }
+        .hero-title-line {
+            overflow: hidden;
+        }
 
-    .block-list li::marker {
-      color: var(--text-secondary);
-    }
+        .hero-title {
+            font-size: clamp(4rem, 15vw, 13rem);
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-left: -0.05em;
+        }
 
-    /* Code blocks */
-    .block-code {
-      background-color: var(--code-bg);
-      border: 1px solid var(--code-border);
-      border-radius: 6px;
-      padding: 16px;
-      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
-      font-size: 14px;
-      line-height: 1.5;
-      color: var(--text-primary);
-      overflow-x: auto;
-      white-space: pre-wrap;
-      margin: 16px 0;
-    }
+        .hero-desc {
+            max-width: 600px;
+            font-size: clamp(1.1rem, 1.5vw, 1.5rem);
+            margin-top: 4vh;
+            margin-left: auto;
+            color: var(--text-secondary); /* Updated to variable for light mode */
+        }
 
-    .inline-code {
-      background-color: var(--code-bg);
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
-      font-size: 14px;
-      color: #eb5757;
-    }
+        /* --- 6. BENTO GRID TECH STACK --- */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
 
-    /* Divider */
-    .block-divider {
-      height: 1px;
-      background-color: var(--border-color);
-      margin: 32px 0;
-      border: none;
-    }
+        .bento-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 350px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.4s var(--easing), background 0.3s;
+        }
 
-    /* Architecture Diagram */
-    .architecture-diagram {
-      background: var(--code-bg);
-      border: 1px solid var(--code-border);
-      border-radius: 6px;
-      padding: 20px;
-      margin: 16px 0;
-      font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
-      font-size: 12px;
-      line-height: 1.4;
-      color: var(--text-primary);
-      overflow-x: auto;
-      white-space: pre;
-    }
+        .bento-card:hover {
+            border-color: rgba(0, 240, 255, 0.2);
+        }
 
-    /* Tech Stack Grid */
-    .tech-stack {
-      display: grid;
-      gap: 12px;
-      margin-top: 16px;
-    }
+        [data-theme="light"] .bento-card:hover {
+            border-color: var(--accent);
+        }
 
-    .tech-item {
-      display: flex;
-      align-items: center;
-      padding: 8px 0;
-    }
+        /* Card Hover Gradient Effect */
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(0, 240, 255, 0.06), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
 
-    .tech-label {
-      font-weight: 600;
-      color: var(--text-primary);
-      min-width: 140px;
-    }
+        .bento-card:hover::before {
+            opacity: 1;
+        }
 
-    .tech-value {
-      color: var(--text-secondary);
-    }
+        .bento-icon {
+            font-size: 2.5rem;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+        }
 
-    /* Metrics Grid */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin: 16px 0;
-    }
+        .bento-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
 
-    .metric-card {
-      background: var(--code-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 16px;
-      text-align: center;
-    }
+        .bento-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
 
-    .metric-value {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
+        .span-2 {
+            grid-column: span 2;
+        }
 
-    .metric-label {
-      font-size: 14px;
-      color: var(--text-secondary);
-    }
+        .dark-card {
+            background: #000;
+        }
+        
+        [data-theme="light"] .dark-card {
+            background: #111; /* Keep dark card dark even in light mode for contrast, or invert */
+            color: #fff;
+        }
+        [data-theme="light"] .dark-card .bento-text {
+            color: #aaa;
+        }
+        [data-theme="light"] .dark-card .bento-icon {
+            color: #fff;
+        }
 
-    /* Callout boxes */
-    .callout {
-      background: var(--code-bg);
-      border: 1px solid var(--border-color);
-      border-left: 4px solid #2196f3;
-      border-radius: 6px;
-      padding: 16px;
-      margin: 16px 0;
-    }
+        /* --- 7. ARCHITECTURE VISUAL SECTION --- */
+        .visual-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 5vw;
+        }
 
-    .callout-problem {
-      border-left-color: #ff9800;
-    }
+        .visual-content {
+            flex: 0.8;
+        }
 
-    .callout-solution {
-      border-left-color: #4caf50;
-    }
+        .visual-media {
+            flex: 1.2;
+            height: 60vh;
+            position: relative;
+            overflow: hidden;
+            border-radius: 2rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .callout-title {
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 8px;
-    }
+        /* Abstract Diagram Nodes */
+        .node {
+            padding: 12px 24px;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            background: var(--surface-highlight);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            position: absolute;
+            z-index: 2;
+        }
 
-    /* Links */
-    .link {
-      color: #2196f3;
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.2s ease;
-    }
+        .node.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+        }
 
-    .link:hover {
-      border-bottom-color: #2196f3;
-    }
+        /* --- 8. ENGINEERING LIST --- */
+        .eng-list {
+            border-top: 1px solid var(--border);
+        }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .page-container {
-        padding: 64px 20px 32px;
-      }
+        .eng-item {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
 
-      .page-title {
-        font-size: 32px;
-      }
+        .eng-item:hover {
+            background: var(--surface);
+        }
 
-      .content-block:hover::before {
-        display: none;
-      }
+        .eng-num {
+            font-family: monospace;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            display: block;
+        }
 
-      .project-meta {
-        grid-template-columns: 1fr;
-      }
+        .eng-head {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
 
-      .metrics-grid {
-        grid-template-columns: 1fr;
-      }
-    }
+        /* --- 9. FOOTER --- */
+        .footer {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
 
-    /* Smooth animations */
-    * {
-      transition: background-color 0.15s ease, color 0.15s ease;
-    }
-  </style>
+        .footer-cta {
+            font-size: 10vw;
+            font-weight: 600;
+            font-family: 'Clash Display', sans-serif;
+            line-height: 1;
+            color: var(--text-primary);
+            transition: color 0.4s var(--easing);
+        }
+
+        .footer-cta:hover {
+            color: var(--accent);
+        }
+
+        .footer-sub {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 6vw;
+            }
+
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .span-2 {
+                grid-column: auto;
+            }
+
+            .visual-section {
+                flex-direction: column;
+                gap: 3rem;
+            }
+
+            .visual-media {
+                width: 100%;
+                height: 50vh;
+            }
+
+            .eng-item {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .hero-title {
+                font-size: 16vw;
+            }
+            
+            .menu-items { display: none; }
+            .menu-icon { display: block; }
+        }
+    </style>
 </head>
 
 <body>
-    <header>
-    <nav>
-      <a href="#" class="logo">Lokesh Ram Chand</a>
-      <div class="nav-links">
-        <a href="./index.html">Home</a>
-        <a href="./project2.html">Projects</a>
-        <a href="./about2.html">About</a>
-        <a href="./contact2.html">Contact</a>
-      </div>
-    </nav>
-  </header>
-  <div class="page-container">
-    <div class="page-header">
-      <div class="page-icon">💸</div>
-      <h1 class="page-title" contenteditable="true" placeholder="Untitled">Velar Finance App</h1>
-      <div class="page-subtitle">Intelligent Personal Finance Management System</div>
 
-      <div class="status-badge">
-        ✅ Completed
-      </div>
+    <div class="ambient-glow"></div>
 
-      <div class="project-meta">
-        <div class="meta-item">
-          <div class="meta-label">Duration</div>
-          <div class="meta-value">Q3 2024</div>
+    <section class="hero container">
+        <div class="hero-meta">
+            <span class="anim-meta">Flutter</span>
+            <span class="anim-meta">&nbsp;—&nbsp;</span>
+            <span class="anim-meta">Node.js</span>
+            <span class="anim-meta">&nbsp;—&nbsp;</span>
+            <span class="anim-meta">2024</span>
         </div>
-        <div class="meta-item">
-          <div class="meta-label">Team Size</div>
-          <div class="meta-value">1 (Solo Project)</div>
+
+        <div class="hero-title-wrapper">
+            <div class="hero-title-line">
+                <h1 class="hero-title anim-title">VELAR</h1>
+            </div>
         </div>
-        <div class="meta-item">
-          <div class="meta-label">Repository</div>
-          <div class="meta-value">Coming Soon</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="content-block">
-      <h2 class="block-heading">📋 Project Overview</h2>
-    </div>
-
-    <div class="content-block">
-      <p class="block-paragraph"><strong>Velar</strong> is a comprehensive full-stack finance application that
-        revolutionizes expense tracking through intelligent auto-categorization. The project combines modern mobile
-        development, robust backend architecture, and machine learning to deliver an intuitive financial management
-        experience.</p>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">🎯 Problem Statement</h2>
-    </div>
-
-    <div class="content-block">
-      <p class="block-paragraph">Traditional finance applications suffer from several key usability issues:</p>
-      <ul class="block-list">
-        <li><strong>Cognitive Overhead</strong>: Users must manually categorize every expense</li>
-        <li><strong>Outdated UX</strong>: Most apps feel dated and unintuitive</li>
-        <li><strong>Complex Workflows</strong>: Multiple steps required for simple expense entry</li>
-        <li><strong>Poor Visual Feedback</strong>: Overwhelming charts and unclear data presentation</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">💡 Solution Approach</h2>
-    </div>
-
-    <div class="content-block">
-      <p class="block-paragraph">Velar addresses these challenges through:</p>
-      <ul class="block-list">
-        <li><strong>AI-Powered Categorization</strong>: Automatic expense classification using machine learning</li>
-        <li><strong>Minimal Input Design</strong>: Only name and amount required</li>
-        <li><strong>Modern UI/UX</strong>: Flutter-based premium interface</li>
-        <li><strong>Intelligent Insights</strong>: Clean, actionable spending analytics</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">🚀 Key Features</h2>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Core Functionality</h3>
-      <ul class="block-list">
-        <li><strong>Auto-Categorization Engine</strong>: ML-powered expense classification</li>
-        <li><strong>Effortless Entry</strong>: Single-step expense addition</li>
-        <li><strong>Real-time Analytics</strong>: Instant spending insights</li>
-        <li><strong>Cross-platform Support</strong>: Native mobile experience</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Technical Highlights</h3>
-      <ul class="block-list">
-        <li><strong>Microservices Architecture</strong>: Decoupled ML and business logic</li>
-        <li><strong>RESTful API Design</strong>: Scalable backend architecture</li>
-        <li><strong>NoSQL Database</strong>: Flexible data storage with MongoDB</li>
-        <li><strong>Responsive Design</strong>: Premium Flutter UI components</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">🏗️ System Architecture</h2>
-    </div>
-
-    <div class="content-block">
-      <div class="architecture-diagram">┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-        │ │ │ │ │ │
-        │ Flutter App │◄──►│ Node.js API │◄──►│ Flask ML API │
-        │ (Frontend) │ │ (Backend) │ │ (Prediction) │
-        │ │ │ │ │ │
-        └─────────────────┘ └─────────────────┘ └─────────────────┘
-        │
-        ▼
-        ┌─────────────────┐
-        │ │
-        │ MongoDB │
-        │ (Database) │
-        │ │
-        └─────────────────┘</div>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Architecture Components</h3>
-    </div>
-
-    <div class="content-block">
-      <p class="block-paragraph"><strong>Frontend Layer (Flutter)</strong></p>
-      <ul class="block-list">
-        <li>Cross-platform mobile application</li>
-        <li>Material Design 3 components</li>
-        <li>Animated transitions and micro-interactions</li>
-        <li>State management with built-in setState</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <p class="block-paragraph"><strong>Backend Layer (Node.js + Express)</strong></p>
-      <ul class="block-list">
-        <li>RESTful API endpoints</li>
-        <li>Request orchestration and validation</li>
-        <li>Database operations and business logic</li>
-        <li>Integration with ML microservice</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <p class="block-paragraph"><strong>Machine Learning Service (Flask)</strong></p>
-      <ul class="block-list">
-        <li>Lightweight prediction API</li>
-        <li>Pre-trained model serving</li>
-        <li>Stateless and scalable design</li>
-        <li>Real-time inference capabilities</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <p class="block-paragraph"><strong>Data Layer (MongoDB)</strong></p>
-      <ul class="block-list">
-        <li>NoSQL document storage</li>
-        <li>Flexible schema design</li>
-        <li>Efficient querying and indexing</li>
-        <li>Horizontal scaling capabilities</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">🤖 Machine Learning Implementation</h2>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Dataset Preparation</h3>
-      <div class="block-code">import pandas as pd
-        from sklearn.model_selection import train_test_split
-        from sklearn.feature_extraction.text import TfidfVectorizer
-        from sklearn.naive_bayes import MultinomialNB
-
-        # Data preprocessing
-        df = pd.read_csv("transactions.csv")[['Description', 'Category']]
-        df['Description'] = df['Description'].str.lower().str.replace('[^a-z\s]', '', regex=True)
-        df['Category'] = df['Category'].str.lower().str.replace('[^a-z\s]', '', regex=True)</div>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Model Training Pipeline</h3>
-      <div class="block-code"># Feature extraction
-        vectorizer = TfidfVectorizer()
-        X_train_vec = vectorizer.fit_transform(X_train)
-        X_test_vec = vectorizer.transform(X_test)
-
-        # Model training
-        model = MultinomialNB()
-        model.fit(X_train_vec, y_train)
-
-        # Model evaluation
-        y_pred = model.predict(X_test_vec)
-        print(classification_report(y_test, y_pred))</div>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Model Deployment</h3>
-      <div class="block-code"># Flask API endpoint
-        @app.route("/api/predict", methods=["POST"])
-        def predict():
-        description = request.json.get("description", "")
-        if not description:
-        return jsonify({"error": "Description is required"}), 400
-
-        X = vectorizer.transform([description])
-        prediction = model.predict(X)[0]
-        return jsonify({"category": prediction})</div>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">🔧 Technical Implementation</h2>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Backend API (Node.js)</h3>
-      <div class="block-code">// Transaction creation endpoint
-        app.post('/api/transaction/add', async (req, res) => {
-        try {
-        const { description, amount } = req.body;
-
-        // Call ML service for categorization
-        const predictRes = await axios.post('http://localhost:5000/api/predict', {
-        description,
-        });
-
-        const category = predictRes.data.category || 'Other';
-        const newTransaction = new Transaction({ description, amount, category });
-        await newTransaction.save();
-
-        res.status(200).json({
-        message: 'Transaction saved with category',
-        data: newTransaction,
-        });
-        } catch (err) {
-        res.status(500).json({ error: err.message });
-        }
-        });</div>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Database Schema (MongoDB)</h3>
-      <div class="block-code">const transactionSchema = new mongoose.Schema({
-        description: { type: String, required: true },
-        amount: { type: Number, required: true },
-        category: { type: String, required: true },
-        date: { type: Date, default: Date.now },
-        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
-        });</div>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Frontend Integration (Flutter)</h3>
-      <div class="block-code">// Expense submission
-        final response = await http.post(
-        Uri.parse('http://your-node-server/api/transaction/add'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-        'description': _expenseName,
-        'amount': _amount,
-        }),
-        );</div>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">🛠️ Technology Stack</h2>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Frontend</h3>
-      <div class="tech-stack">
-        <div class="tech-item">
-          <span class="tech-label">Flutter:</span>
-          <span class="tech-value">Cross-platform mobile framework</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Dart:</span>
-          <span class="tech-value">Programming language for Flutter</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Google Fonts:</span>
-          <span class="tech-value">Typography system</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">fl_chart:</span>
-          <span class="tech-value">Advanced charting library</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Backend</h3>
-      <div class="tech-stack">
-        <div class="tech-item">
-          <span class="tech-label">Node.js:</span>
-          <span class="tech-value">JavaScript runtime environment</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Express.js:</span>
-          <span class="tech-value">Web application framework</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">MongoDB:</span>
-          <span class="tech-value">NoSQL database</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Mongoose:</span>
-          <span class="tech-value">MongoDB object modeling</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Axios:</span>
-          <span class="tech-value">HTTP client library</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Machine Learning</h3>
-      <div class="tech-stack">
-        <div class="tech-item">
-          <span class="tech-label">Python:</span>
-          <span class="tech-value">Programming language</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Flask:</span>
-          <span class="tech-value">Lightweight web framework</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Scikit-learn:</span>
-          <span class="tech-value">Machine learning library</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">TF-IDF:</span>
-          <span class="tech-value">Text feature extraction</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Multinomial Naive Bayes:</span>
-          <span class="tech-value">Classification algorithm</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">🔍 Key Challenges & Solutions</h2>
-    </div>
-
-    <div class="content-block">
-      <div class="callout callout-problem">
-        <div class="callout-title">Challenge 1: Model Accuracy</div>
-        <p><strong>Problem:</strong> Achieving reliable expense categorization across diverse transaction descriptions
+        <p class="hero-desc anim-fade">
+            Velar is a personal finance system built to eliminate manual expense tracking. Most users receive dozens of
+            transactional emails every month but rarely organize them. Velar bridges this gap by converting unstructured
+            email data into structured financial intelligence with automated parsing, instant classification, and clear
+            visual analytics.
         </p>
-      </div>
-      <div class="callout callout-solution">
-        <div class="callout-title">Solution:</div>
-        <ul class="block-list">
-          <li>Implemented comprehensive data preprocessing pipeline</li>
-          <li>Used TF-IDF vectorization for feature extraction</li>
-          <li>Optimized model hyperparameters through cross-validation</li>
-          <li>Achieved 89% classification accuracy on test dataset</li>
-        </ul>
-      </div>
-    </div>
 
-    <div class="content-block">
-      <div class="callout callout-problem">
-        <div class="callout-title">Challenge 2: Real-time Performance</div>
-        <p><strong>Problem:</strong> Maintaining responsive UI during ML inference</p>
-      </div>
-      <div class="callout callout-solution">
-        <div class="callout-title">Solution:</div>
-        <ul class="block-list">
-          <li>Implemented asynchronous API calls</li>
-          <li>Added loading states and error handling</li>
-          <li>Optimized model serving through Flask caching</li>
-          <li>Reduced average response time to <500ms< /li>
-        </ul>
-      </div>
-    </div>
+    </section>
 
-    <div class="content-block">
-      <div class="callout callout-problem">
-        <div class="callout-title">Challenge 3: Cross-platform Consistency</div>
-        <p><strong>Problem:</strong> Ensuring consistent UX across different mobile platforms</p>
-      </div>
-      <div class="callout callout-solution">
-        <div class="callout-title">Solution:</div>
-        <ul class="block-list">
-          <li>Leveraged Flutter's native compilation</li>
-          <li>Implemented platform-specific adaptations</li>
-          <li>Extensive testing on iOS and Android devices</li>
-          <li>Maintained 60fps performance across platforms</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">📈 Performance Metrics</h2>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Machine Learning Model</h3>
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-value">89%</div>
-          <div class="metric-label">Accuracy</div>
+    <section class="container section-padding">
+        <div style="margin-bottom: 4rem;">
+            <h2 style="font-size: 3rem;">Core Arsenal</h2>
         </div>
-        <div class="metric-card">
-          <div class="metric-value">0.87</div>
-          <div class="metric-label">Precision</div>
+
+        <div class="bento-grid" id="bentoGrid">
+            <div class="bento-card span-2">
+                <i class="ri-flutter-fill bento-icon"></i>
+                <div>
+                    <h3 class="bento-title">Flutter Mobile</h3>
+                    <p class="bento-text">A cross-platform application designed for clarity, providing dashboards,
+                        category breakdowns, and spending insights that update in real time.</p>
+                </div>
+            </div>
+            <div class="bento-card dark-card">
+                <i class="ri-code-s-slash-fill bento-icon"></i>
+                <div>
+                    <h3 class="bento-title">Node.js Parser</h3>
+                    <p class="bento-text">A high-accuracy email parser that extracts merchant, amount, date, and
+                        category
+                        from inconsistent and unstructured bank emails using an advanced Regex interpretation pipeline.
+                    </p>
+                </div>
+            </div>
+            <div class="bento-card">
+                <i class="ri-arrow-left-right-fill bento-icon"></i>
+                <div>
+                    <h3 class="bento-title">RabbitMQ</h3>
+                    <p class="bento-text">Decouples heavy parsing and analytics from the UI. Incoming emails are
+                        processed
+                        in background workers, ensuring the app remains smooth and responsive.</p>
+                </div>
+            </div>
+            <div class="bento-card span-2">
+                <i class="ri-container-line bento-icon"></i>
+                <div>
+                    <h3 class="bento-title">Docker & CI/CD</h3>
+                    <p class="bento-text">Every service runs inside a container with automated testing and deployment
+                        pipelines, enabling consistent environments and rapid releases.</p>
+                </div>
+            </div>
         </div>
-        <div class="metric-card">
-          <div class="metric-value">0.89</div>
-          <div class="metric-label">Recall</div>
+    </section>
+
+    <section class="container section-padding visual-section">
+        <div class="visual-content">
+            <span
+                style="color: var(--accent); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: block; margin-bottom: 1rem;">System
+                Design</span>
+            <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); margin-bottom: 2rem;">Async Ingestion.</h2>
+            <p style="font-size: 1.1rem; max-width: 450px;">
+                Financial parsing is compute-heavy. Instead of blocking the UI, Velar routes every incoming email
+                through an
+                asynchronous ingestion pipeline. The Email Hook forwards raw content to RabbitMQ, where worker nodes
+                clean,
+                categorize, and store the transaction without interrupting user activity.
+            </p>
         </div>
-        <div class="metric-card">
-          <div class="metric-value">0.88</div>
-          <div class="metric-label">F1-Score</div>
+        <div class="visual-media">
+            <div class="node active" style="top: 8%; left: 50%; transform: translateX(-50%); padding: 14px 24px;">
+                Flutter App<br>
+                <span style="font-size: 0.7rem; opacity: 0.8;">Mobile Client</span>
+            </div>
+
+            <div class="node active" style="top: 35%; left: 50%; transform: translateX(-50%); padding: 16px 28px;">
+                Node.js Backend<br>
+                <span style="font-size: 0.7rem; opacity: 0.8;">Express API</span>
+            </div>
+
+            <div class="node active" style="top: 35%; right: 10%; padding: 12px 20px;">
+                NLP Service<br>
+                <span style="font-size: 0.7rem; opacity: 0.8;">Flask ML</span>
+            </div>
+
+            <div class="node active" style="top: 65%; left: 50%; transform: translateX(-50%); padding: 14px 24px;">
+                MongoDB<br>
+                <span style="font-size: 0.7rem; opacity: 0.8;">Database</span>
+            </div>
+
+            <div class="node active" style="top: 35%; left: 10%; padding: 12px 18px;">
+                Gmail API<br>
+                <span style="font-size: 0.7rem; opacity: 0.8;">OAuth</span>
+            </div>
+
+            <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
+                <defs>
+                    <marker id="arrowhead-cyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="var(--accent)" />
+                    </marker>
+                </defs>
+
+                <line x1="50%" y1="20%" x2="50%" y2="40%" stroke="var(--accent)" stroke-width="2.5" />
+
+                <line x1="20%" y1="40%" x2="40%" y2="40%" stroke="var(--accent)" stroke-width="2.5" />
+
+                <line x1="50%" y1="40%" x2="80%" y2="40%" stroke="var(--accent)" stroke-width="2.5" />
+
+                <line x1="50%" y1="50%" x2="50%" y2="70%" stroke="var(--accent)" stroke-width="2.5" />
+            </svg>
         </div>
-        <div class="metric-card">
-          <div class="metric-value">12s</div>
-          <div class="metric-label">Training Time</div>
+    </section>
+
+    <div class="container" style="margin-bottom: 6rem; text-align: center;">
+        <h2 style="font-size: 2rem; color: var(--text-secondary);">Interface Design — Coming Soon</h2>
+    </div>
+
+    <section class="container section-padding">
+        <h2 style="font-size: 3rem; margin-bottom: 4rem;">Technical Deep Dive</h2>
+
+        <div class="eng-list">
+            <div class="eng-item">
+                <div><span class="eng-num">01</span></div>
+                <div>
+                    <h3 class="eng-head">Regex Parsing Engine</h3>
+                    <p>
+                        Bank emails vary widely in format and structure. Velar uses a custom regex engine capable of
+                        identifying transactional patterns with high accuracy, extracting merchant names, dates,
+                        amounts, and references even from noisy email bodies.
+                    </p>
+                </div>
+            </div>
+
+            <div class="eng-item">
+                <div><span class="eng-num">02</span></div>
+                <div>
+                    <h3 class="eng-head">Self-Learning Categorizer</h3>
+                    <p>
+                        Velar improves over time. When users correct a miscategorized transaction, the system adjusts
+                        merchant-category weightings. This lightweight adaptive model avoids heavy ML pipelines while
+                        still delivering improving accuracy.
+                    </p>
+                </div>
+            </div>
+
+            <div class="eng-item">
+                <div><span class="eng-num">03</span></div>
+                <div>
+                    <h3 class="eng-head">Automated Deployment</h3>
+                    <p>
+                        The backend is fully containerized with Docker, and a CI/CD pipeline automates testing and
+                        deployment. Every commit triggers validation, image building, and registry updates, reducing
+                        deployment effort by 70 percent.
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="metric-card">
-          <div class="metric-value">&lt;100ms</div>
-          <div class="metric-label">Inference Time</div>
+    </section>
+
+
+    <footer class="footer container">
+        <p class="footer-sub">Next Case Study</p>
+        <a href="./maplayer.html" class="footer-cta">MAPLAYER</a>
+        <div
+            style="position: absolute; bottom: 5vh; width: 100%; display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; padding: 0 5vw; left: 0;">
+            <span>&copy; 2024</span>
+            <a href="index.html">Back to Home</a>
         </div>
-      </div>
-    </div>
-    <div class="content-block">
-      <h3 class="block-heading-2">Application Performance</h3>
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-value">&lt;500ms</div>
-          <div class="metric-label">API Response Time</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">&lt;50ms</div>
-          <div class="metric-label">Database Query Time</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">60fps</div>
-          <div class="metric-label">UI Render Time</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">&lt;128MB</div>
-          <div class="metric-label">Memory Usage</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">45MB</div>
-          <div class="metric-label">App Size (Android)</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">52MB</div>
-          <div class="metric-label">App Size (iOS)</div>
-        </div>
-      </div>
-    </div>
+    </footer>
 
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 
-    <div class="content-block">
-      <h2 class="block-heading">📊 Data Visualization</h2>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Category Breakdown Component</h3>
-      <div class="block-code">LinearProgressIndicator(
-        value: category['percentage'] / 100,
-        backgroundColor: surfaceColor,
-        valueColor: AlwaysStoppedAnimation&lt;Color&gt;(
-        category['color'],
-        ),
-        borderRadius: BorderRadius.circular(4),
-        )</div>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Analytics Dashboard</h3>
-      <ul class="block-list">
-        <li><strong>Visual Progress Bars</strong>: Category-wise spending breakdown</li>
-        <li><strong>Interactive Charts</strong>: Monthly and weekly spending trends</li>
-        <li><strong>Real-time Updates</strong>: Dynamic data refresh</li>
-        <li><strong>Responsive Design</strong>: Optimized for various screen sizes</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">🚀 Future Enhancements</h2>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Planned Features</h3>
-      <ul class="block-list">
-        <li><strong>Multi-user Support</strong>: Family expense tracking</li>
-        <li><strong>Budget Alerts</strong>: Proactive spending notifications</li>
-        <li><strong>Receipt Scanning</strong>: OCR-based expense entry</li>
-        <li><strong>Predictive Analytics</strong>: Future spending forecasts</li>
-        <li><strong>Bank Integration</strong>: Automatic transaction import</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Technical Improvements</h3>
-      <ul class="block-list">
-        <li><strong>Containerization</strong>: Docker deployment</li>
-        <li><strong>CI/CD Pipeline</strong>: Automated testing and deployment</li>
-        <li><strong>Real-time Sync</strong>: WebSocket implementation</li>
-        <li><strong>Advanced ML</strong>: Deep learning models</li>
-        <li><strong>Cloud Deployment</strong>: AWS/Azure hosting</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">📚 Learning Outcomes</h2>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Technical Skills Developed</h3>
-      <ul class="block-list">
-        <li><strong>Full-stack Development</strong>: End-to-end application development</li>
-        <li><strong>Machine Learning</strong>: Practical ML model implementation</li>
-        <li><strong>Mobile Development</strong>: Flutter framework mastery</li>
-        <li><strong>API Design</strong>: RESTful service architecture</li>
-        <li><strong>Database Management</strong>: NoSQL database optimization</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Professional Skills Enhanced</h3>
-      <ul class="block-list">
-        <li><strong>Problem Solving</strong>: Complex system design and debugging</li>
-        <li><strong>Project Management</strong>: Solo project coordination</li>
-        <li><strong>Documentation</strong>: Technical writing and communication</li>
-        <li><strong>User Experience</strong>: UI/UX design principles</li>
-        <li><strong>Code Quality</strong>: Best practices and maintainability</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">🎯 Project Impact</h2>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">User Experience Improvements</h3>
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-value">85%</div>
-          <div class="metric-label">Reduction in Entry Time</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">90%</div>
-          <div class="metric-label">Categorization Accuracy</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">Zero</div>
-          <div class="metric-label">Learning Curve</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-value">Real-time</div>
-          <div class="metric-label">Instant Insights</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Technical Achievements</h3>
-      <ul class="block-list">
-        <li><strong>Microservices Architecture</strong>: Scalable system design</li>
-        <li><strong>ML Integration</strong>: Practical AI implementation</li>
-        <li><strong>Cross-platform Development</strong>: Unified codebase</li>
-        <li><strong>Performance Optimization</strong>: Sub-second response times</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">📖 Documentation & Resources</h2>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Technical Documentation</h3>
-      <ul class="block-list">
-        <li>API Reference Guide</li>
-        <li>Database Schema Documentation</li>
-        <li>ML Model Training Guide</li>
-        <li>Deployment Instructions</li>
-        <li>Testing Procedures</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Code Quality</h3>
-      <div class="tech-stack">
-        <div class="tech-item">
-          <span class="tech-label">Code Coverage:</span>
-          <span class="tech-value">85%</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Linting:</span>
-          <span class="tech-value">ESLint + Prettier</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Type Safety:</span>
-          <span class="tech-value">TypeScript implementation</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Error Handling:</span>
-          <span class="tech-value">Comprehensive error management</span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Security:</span>
-          <span class="tech-value">Input validation and sanitization</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">🤝 Collaboration & Development</h2>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Development Workflow</h3>
-      <ul class="block-list">
-        <li><strong>Version Control</strong>: Git with feature branches</li>
-        <li><strong>Code Review</strong>: Self-review and documentation</li>
-        <li><strong>Testing</strong>: Unit and integration tests</li>
-        <li><strong>Documentation</strong>: Inline comments and README</li>
-        <li><strong>Deployment</strong>: Manual deployment process</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <h3 class="block-heading-2">Project Management</h3>
-      <ul class="block-list">
-        <li><strong>Agile Methodology</strong>: Sprint-based development</li>
-        <li><strong>Task Tracking</strong>: GitHub Issues</li>
-        <li><strong>Progress Monitoring</strong>: Weekly milestone reviews</li>
-        <li><strong>Quality Assurance</strong>: Manual testing procedures</li>
-      </ul>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <h2 class="block-heading">📞 Contact & Repository</h2>
-    </div>
-
-    <div class="content-block">
-      <div class="tech-stack">
-        <div class="tech-item">
-          <span class="tech-label">GitHub  : </span>
-          <span class="tech-value"><a href="https://github.com/lokeshramchand-ctrl/Velar.git" class="link">  github.com/velar</a></span></span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">Technical Blog :</span>
-          <span class="tech-value"><a href="https://medium.com/@lokeshramchand/how-i-combined-ml-clean-ui-and-apis-to-simplify-personal-finance-4c141fbf4089" class="link">medium.com/velar</a></span>
-        </div>
-        <div class="tech-item">
-          <span class="tech-label">LinkedIn :</span>
-          <span class="tech-value"><a
-              href="https://www.linkedin.com/posts/lokeshramchand_introducing-velar-a-modern-finance-companion-activity-7344183029189267456-o97U?utm_source=social_share_send&utm_medium=member_desktop_web&rcm=ACoAAEbC448B6Ncrs1Z_NVguGKm9ZIKm_5gWpqA"
-              class="link">linkedin.com/lokeshramchand/velar</a></span>
-        </div>
-      </div>
-    </div>
-
-    <div class="content-block">
-      <hr class="block-divider">
-    </div>
-
-    <div class="content-block">
-      <div class="callout">
-        <div class="callout-title">🎉 Project Completion</div>
-        <p>Velar Finance App successfully demonstrates the integration of modern mobile development, machine learning,
-          and user-centered design principles. The project achieved its core objectives of simplifying expense tracking
-          through intelligent automation while maintaining high performance and user experience standards.</p>
-      </div>
-    </div>
-
-    <div class="content-block">
-      <p class="block-paragraph"
-        style="text-align: center; color: var(--text-muted); font-style: italic; margin-top: 48px;">
-        "Building the future of personal finance management, one intelligent feature at a time."
-      </p>
-    </div>
-
-  </div>
-
-  <script>
-    // Add smooth scroll behavior
-      class AutoHideNavbar {
-            constructor() {
-                this.navbar = document.getElementById('navbar');
-                this.hideTimeout = null;
-                this.hideDelay = 3000; // 3 seconds
-                this.isHovered = false;
-                
-                this.init();
-            }
-
-            init() {
-                // Start the initial timer
-                this.startHideTimer();
-                
-                // Mouse movement detection
-                document.addEventListener('mousemove', () => {
-                    this.showNavbar();
-                    this.startHideTimer();
-                });
-
-                // Hover detection for navbar
-                this.navbar.addEventListener('mouseenter', () => {
-                    this.isHovered = true;
-                    this.clearHideTimer();
-                    this.showNavbar();
-                });
-
-                this.navbar.addEventListener('mouseleave', () => {
-                    this.isHovered = false;
-                    this.startHideTimer();
-                });
-
-                // Scroll detection
-                window.addEventListener('scroll', () => {
-                    this.showNavbar();
-                    this.startHideTimer();
-                });
-
-                // Focus events (for keyboard navigation)
-                document.addEventListener('focusin', (e) => {
-                    if (this.navbar.contains(e.target)) {
-                        this.showNavbar();
-                        this.clearHideTimer();
-                    }
-                });
-
-                document.addEventListener('focusout', (e) => {
-                    if (this.navbar.contains(e.relatedTarget) === false) {
-                        this.startHideTimer();
-                    }
-                });
-            }
-
-            startHideTimer() {
-                this.clearHideTimer();
-                
-                if (!this.isHovered) {
-                    this.hideTimeout = setTimeout(() => {
-                        this.hideNavbar();
-                    }, this.hideDelay);
-                }
-            }
-
-            clearHideTimer() {
-                if (this.hideTimeout) {
-                    clearTimeout(this.hideTimeout);
-                    this.hideTimeout = null;
-                }
-            }
-
-            showNavbar() {
-                this.navbar.classList.remove('hidden');
-            }
-
-            hideNavbar() {
-                if (!this.isHovered) {
-                    this.navbar.classList.add('hidden');
-                }
-            }
-        }
-
-        // Initialize the auto-hide navbar when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            new AutoHideNavbar();
+    <script>
+        // 1. LENIS SMOOTH SCROLL
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true
         });
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 2. HERO ANIMATIONS
+        const tl = gsap.timeline();
+
+        tl.from(".anim-title", {
+            y: 150,
+            skewY: 7,
+            duration: 1.5,
+            stagger: 0.1,
+            ease: "power4.out"
+        })
+            .from(".anim-meta", {
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
+                stagger: 0.05,
+                ease: "power2.out"
+            }, "-=1")
+            .from(".anim-fade", {
+                opacity: 0,
+                y: 30,
+                duration: 1,
+                ease: "power2.out"
+            }, "-=0.8")
+            .from(".anim-line", {
+                scaleX: 0,
+                duration: 1.5,
+                ease: "expo.out"
+            }, "-=1");
+
+        // 3. MOUSE MOVE EFFECT ON BENTO GRID
+        const grid = document.getElementById("bentoGrid");
+        grid.onmousemove = e => {
+            for (const card of document.getElementsByClassName("bento-card")) {
+                const rect = card.getBoundingClientRect(),
+                    x = e.clientX - rect.left,
+                    y = e.clientY - rect.top;
+                card.style.setProperty("--mouse-x", `${x}px`);
+                card.style.setProperty("--mouse-y", `${y}px`);
+            }
+        };
+
+        // 5. ENGINEERING LIST REVEAL
+        gsap.utils.toArray(".eng-item").forEach(item => {
+            gsap.from(item, {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                }
+            })
         });
-      });
-    });
 
-    // Add interactive code block copy functionality
-    document.querySelectorAll('.block-code').forEach(block => {
-      block.addEventListener('click', function () {
-        navigator.clipboard.writeText(this.textContent);
-
-        // Visual feedback
-        const originalBg = this.style.backgroundColor;
-        this.style.backgroundColor = '#e8f5e8';
-        setTimeout(() => {
-          this.style.backgroundColor = originalBg;
-        }, 200);
-      });
-    });
-
-    // Add hover effect for metrics cards
-    document.querySelectorAll('.metric-card').forEach(card => {
-      card.addEventListener('mouseenter', function () {
-        this.style.transform = 'translateY(-2px)';
-        this.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-      });
-
-      card.addEventListener('mouseleave', function () {
-        this.style.transform = 'translateY(0)';
-        this.style.boxShadow = 'none';
-      });
-    });
-
-    // Add fade-in animation on scroll
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.content-block').forEach(block => {
-      block.style.opacity = '0';
-      block.style.transform = 'translateY(20px)';
-      block.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      observer.observe(block);
-    });
-
-    // Add typing effect to the title
-    const title = document.querySelector('.page-title');
-    if (title) {
-      const originalText = title.textContent;
-      title.textContent = '';
-      let i = 0;
-
-      function typeWriter() {
-        if (i < originalText.length) {
-          title.textContent += originalText.charAt(i);
-          i++;
-          setTimeout(typeWriter, 100);
-        }
-      }
-
-      setTimeout(typeWriter, 500);
-    }
-  </script>
-
-  <style>
-    /* Additional styles for smooth animations */
-    .metric-card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-
-
-    .content-block {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-
-
-    @keyframes blink {
-
-      0%,
-      50% {
-        border-color: var(--text-primary);
-      }
-
-      51%,
-      100% {
-        border-color: transparent;
-      }
-    }
-
-    /* Smooth transitions for all interactive elements */
-    .tech-item:hover .tech-label {
-      color: #2196f3;
-    }
-
-    .callout {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .callout::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, transparent 0%, rgba(33, 150, 243, 0.05) 100%);
-      pointer-events: none;
-    }
-  </style>
+    </script>
 </body>
 
 </html>

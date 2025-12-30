@@ -588,28 +588,33 @@
         }
 
         // --- 3. PRELOADER ---
-        function startLoader() {
-            let counterElement = document.querySelector(".counter");
-            let currentValue = 0;
+ function startLoader() {
+    let counterElement = document.querySelector(".counter");
+    let currentValue = 0;
 
-            function updateCounter() {
-                if (currentValue === 100) return;
-                currentValue += Math.floor(Math.random() * 10) + 1;
-                if (currentValue > 100) currentValue = 100;
-                counterElement.textContent = currentValue;
+    function updateCounter() {
+        if (currentValue === 100) return;
 
-                let delay = Math.floor(Math.random() * 200) + 50;
-                setTimeout(updateCounter, delay);
-            }
-            updateCounter();
+        // INCREASED INCREMENT: Jumps by 5-15 instead of 1-10
+        currentValue += Math.floor(Math.random() * 10) + 5; 
+        
+        if (currentValue > 100) currentValue = 100;
+        counterElement.textContent = currentValue;
 
-            const tl = gsap.timeline();
-            tl.to(".counter", { delay: 2.5, opacity: 0 })
-                .to("#loader", { height: 0, duration: 1, ease: "power4.inOut" })
-                .to(".hero-title", { y: 0, stagger: 0.1, duration: 1, ease: "power4.out" }, "-=0.5")
-                .from(".reveal-text", { y: 20, opacity: 0, stagger: 0.1 }, "-=0.5");
-        }
-        startLoader();
+        // REDUCED DELAY: 20ms to 80ms (previous was 50ms to 250ms)
+        let delay = Math.floor(Math.random() * 100) + 20; 
+        setTimeout(updateCounter, delay);
+    }
+    updateCounter();
+
+    const tl = gsap.timeline();
+    // OPTIONAL: Reduced delay from 2.5 to 1.5 so the GSAP animation starts sooner
+    tl.to(".counter", { delay: 1.5, opacity: 0 })
+        .to("#loader", { height: 0, duration: 1, ease: "power4.inOut" })
+        .to(".hero-title", { y: 0, stagger: 0.1, duration: 1, ease: "power4.out" }, "-=0.5")
+        .from(".reveal-text", { y: 20, opacity: 0, stagger: 0.1 }, "-=0.5");
+}
+startLoader();
 
         // --- 4. SMOOTH SCROLL ---
         const lenis = new Lenis();

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const navHTML = `
     <nav>
-        <a href="./first.html" class="logo magnet">Lokesh Ram Chand B</a>
+        <a href="./index.html" class="logo magnet">Lokesh Ram Chand B</a>
 
         <div class="nav-right">
             <div class="menu-items">

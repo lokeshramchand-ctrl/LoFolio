@@ -1,223 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lokesh Ram Chand</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0b0b0b;
-            --text: #e0e0e0;
-            --acc: #888;
-            --border: rgba(255, 255, 255, 0.1);
-            --overlay: rgba(255, 255, 255, 0.03);
-            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lokesh Ram Chand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --text: #e0e0e0;
+      --acc: #888;
+      --border: rgba(255, 255, 255, 0.1);
+      --overlay: rgba(255, 255, 255, 0.03);
+      --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', sans-serif;
-            overflow: hidden; /* Single screen feel */
-            line-height: 1.6;
-        }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+      /* Single screen feel */
+      line-height: 1.6;
+    }
 
-        /* Subtle Grain Overlay */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-            opacity: 0.03;
-            pointer-events: none;
-            z-index: 99;
-        }
+    /* Subtle Grain Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 99;
+    }
 
-        main {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 10% 8%;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
+    main {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10% 8%;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+    }
 
-        /* Profile Photo in Corner */
-        .profile-img {
-            position: absolute;
-            top: 40px;
-            right: 40px;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: var(--overlay);
-            border: 1px solid var(--border);
-            object-fit: cover;
-            animation: fadeIn 1.2s ease forwards;
-        }
+    /* Profile Photo in Corner */
+    .profile-img {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--overlay);
+      border: 1px solid var(--border);
+      object-fit: cover;
+      animation: fadeIn 1.2s ease forwards;
+    }
 
-        header h1 {
-            font-weight: 400;
-            font-size: clamp(2rem, 5vw, 4rem);
-            letter-spacing: -0.02em;
-            margin-bottom: 1.5rem;
-            animation: slideUp 0.8s ease forwards;
-        }
+    header h1 {
+      font-weight: 400;
+      font-size: clamp(2rem, 5vw, 4rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      animation: slideUp 0.8s ease forwards;
+    }
 
-        .summary {
-            max-width: 500px;
-            font-weight: 300;
-            color: var(--acc);
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-            animation: slideUp 1s ease forwards;
-        }
+    .summary {
+      max-width: 500px;
+      font-weight: 300;
+      color: var(--acc);
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+      animation: slideUp 1s ease forwards;
+    }
 
-        /* Project Links */
-        .project-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 4rem;
-        }
+    /* Project Links */
+    .project-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 4rem;
+    }
 
-        .project-item {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            animation: slideUp 1.2s ease forwards;
-        }
+    .project-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      animation: slideUp 1.2s ease forwards;
+    }
 
-        .project-name {
-            font-weight: 600;
-            min-width: 100px;
-        }
+    .project-name {
+      font-weight: 600;
+      min-width: 100px;
+    }
 
-        .github-link, .resume-link {
-            text-decoration: none;
-            color: var(--acc);
-            font-size: 0.9rem;
-            border-bottom: 1px solid transparent;
-            transition: var(--transition);
-        }
+    .github-link,
+    .resume-link {
+      text-decoration: none;
+      color: var(--acc);
+      font-size: 0.9rem;
+      border-bottom: 1px solid transparent;
+      transition: var(--transition);
+    }
 
-        .github-link:hover, .resume-link:hover {
-            color: var(--text);
-            border-bottom: 1px solid var(--text);
-        }
+    .github-link:hover,
+    .resume-link:hover {
+      color: var(--text);
+      border-bottom: 1px solid var(--text);
+    }
 
-        /* The Big Button */
-        .cta-container {
-            animation: slideUp 1.4s ease forwards;
-        }
+    /* The Big Button */
+    .cta-container {
+      animation: slideUp 1.4s ease forwards;
+    }
 
-        .main-cta {
-            display: inline-flex;
-            align-items: center;
-            padding: 20px 40px;
-            background: var(--text);
-            color: var(--bg);
-            text-decoration: none;
-            font-weight: 600;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: var(--transition);
-            border: 1px solid var(--text);
-        }
+    .main-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 20px 40px;
+      background: var(--text);
+      color: var(--bg);
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: var(--transition);
+      border: 1px solid var(--text);
+    }
 
-        .main-cta:hover {
-            background: transparent;
-            color: var(--text);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
-        }
+    .main-cta:hover {
+      background: transparent;
+      color: var(--text);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
+    }
 
-        /* Animations */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* Animations */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        /* Hover Reveal Effect */
-        .project-item:hover .project-name {
-            padding-left: 10px;
-            transition: var(--transition);
-        }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
 
-        @media (max-width: 768px) {
-            main { padding: 20px; justify-content: flex-end; padding-bottom: 60px; }
-            .profile-img { top: 20px; right: 20px; width: 60px; height: 60px; }
-            header h1 { font-size: 2.5rem; }
-        }
-    </style>
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Hover Reveal Effect */
+    .project-item:hover .project-name {
+      padding-left: 10px;
+      transition: var(--transition);
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding: 20px;
+        justify-content: flex-end;
+        padding-bottom: 60px;
+      }
+
+      .profile-img {
+        top: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-    <img src="YOUR_PHOTO_URL.jpg" alt="Profile" class="profile-img">
 
-    <main>
-        <header>
-            <h1 id="name">Lokesh Ram Chand B</h1>
-            <p class="summary">
-                I am a [Your Role] focused on building scalable, high-performance web applications. 
-                I specialize in [Tech 1] and [Tech 2], bridging the gap between design and code. 
-                Obsessed with clean architecture and seamless user experiences. 
-                Currently exploring the intersection of [Interest] and software engineering.
-            </p>
-        </header>
+  <main>
+    <header>
+      <h1 id="name">Lokesh Ram Chand B</h1>
+      <p class="summary">
+        I'm Lokesh Ram Chand, <span>a CS student</span> who builds <span>full-stack applications</span> that blend
+        <span>stunning UI/UX</span> with robust <span>backend architecture</span>.
+        Focusing on <span>micro-interactions</span> and seamless functionality, I create experiences that are both
+        <span>beautiful and powerful</span>.
+      </p>
+    </header>
 
-        <ul class="project-list">
-            <li class="project-item">
-                <span class="project-name">Velar</span>
-                <a href="#" class="github-link">Github &rarr;</a>
-            </li>
-            <li class="project-item">
-                <span class="project-name">Aegis</span>
-                <a href="#" class="github-link">Github &rarr;</a>
-            </li>
-            <li class="project-item">
-                <span class="project-name">MapLayer</span>
-                <a href="#" class="github-link">Github &rarr;</a>
-            </li>
-            <li class="project-item">
-                <span class="project-name">Seko</span>
-                <a href="#" class="github-link">Github &rarr;</a>
-            </li>
-            <li class="project-item" style="margin-top: 10px;">
-                <span class="project-name">Resume</span>
-                <a href="#" class="resume-link">View PDF &nearrow;</a>
-            </li>
-        </ul>
+    <ul class="project-list">
+      <li class="project-item">
+        <span class="project-name">Velar</span>
+        <a href="#" class="github-link">Github &rarr;</a>
+      </li>
+      <li class="project-item">
+        <span class="project-name">Aegis</span>
+        <a href="#" class="github-link">Github &rarr;</a>
+      </li>
+      <li class="project-item">
+        <span class="project-name">MapLayer</span>
+        <a href="#" class="github-link">Github &rarr;</a>
+      </li>
+      <li class="project-item">
+        <span class="project-name">Seko</span>
+        <a href="#" class="github-link">Github &rarr;</a>
+      </li>
+      <li class="project-item" style="margin-top: 10px;">
+        <span class="project-name">Resume</span>
+        <a href="#" class="resume-link">View PDF &nearrow;</a>
+      </li>
 
-        <div class="cta-container">
-            <a href="./first.html" class="main-cta">
-                VIEW DETAILED PORTFOLIO
-            </a>
-        </div>
-    </main>
 
-    <script>
-        // Smooth reveal of elements on load
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log("Minimal Portfolio Loaded.");
-        });
-    </script>
+    </ul>
+
+    <div class="cta-container">
+      <a href="./first.html" class="main-cta">
+        VIEW DETAILED PORTFOLIO
+      </a>
+    </div>
+  </main>
+
+  <script>
+    // Smooth reveal of elements on load
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log("Minimal Portfolio Loaded.");
+    });
+  </script>
 </body>
+
 </html>

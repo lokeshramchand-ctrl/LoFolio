@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     const navHTML = `
     <nav>
-        <a href="./index.html" class="logo magnet">Lokesh Ram Chand B</a>
+        <a href="./first.html" class="logo magnet">Lokesh Ram Chand B</a>
 
         <div class="nav-right">
             <div class="menu-items">
-                <a href="./index.html#work" class="menu-link magnet">Projects</a>
-                <a href="./index.html#about" class="menu-link magnet">About</a>
+                <a href="./first.html#work" class="menu-link magnet">Projects</a>
+                <a href="./first.html#about" class="menu-link magnet">About</a>
                 <a href="./re.html" class="menu-link magnet">Resume</a>
             </div>
 
@@ -21,8 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
     </nav>
     
     <div class="mobile-menu">
-        <a href="./index.html#work" class="mobile-link">Projects</a>
-        <a href="./index.html#about" class="mobile-link">About</a>
+        <a href="./first.html#work" class="mobile-link">Projects</a>
+        <a href="./first.html#about" class="mobile-link">About</a>
         <a href="./re.html" class="mobile-link">Resume</a>
     </div>
     `;

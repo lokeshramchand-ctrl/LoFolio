@@ -1,369 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="images/favicon.png">
-  <title>Lokesh Ram Chand</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Minimal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0b0b;
+            --text: #e0e0e0;
+            --acc: #888;
+            --border: rgba(255, 255, 255, 0.1);
+            --overlay: rgba(255, 255, 255, 0.03);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <style>
-       :root{
-      --bg: #f0ebda;
-      --text: #1a1a1a;
-      --muted: #666;
-      --accent: #000;
-      --container-max: 1400px;
-      --header-height: 72px;
-    }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* Single screen feel */
+            line-height: 1.6;
+        }
 
-    * { margin:0; padding:0; box-sizing:border-box; }
-    html,body { height:100%; }
-    body {
-      font-family: 'Raleway', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      min-height:100vh;
-    }
+        /* Subtle Grain Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 99;
+        }
 
-    .container {
-      max-width: var(--container-max);
-      margin: 0 auto;
-      padding: 0 28px;
-      width:100%;
-    }
+        main {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 10% 8%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
 
-    /* HEADER */
-    header {
-      position: fixed;
-      inset: 0 0 auto 0;
-      background: linear-gradient(180deg, rgba(240,235,218,0.85), rgba(240,235,218,0.6));
-      backdrop-filter: blur(8px);
-      z-index: 1200;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
+        /* Profile Photo in Corner */
+        .profile-img {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--overlay);
+            border: 1px solid var(--border);
+            object-fit: cover;
+            animation: fadeIn 1.2s ease forwards;
+        }
 
-    nav {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      height: var(--header-height);
-    }
+        header h1 {
+            font-weight: 400;
+            font-size: clamp(2rem, 5vw, 4rem);
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            animation: slideUp 0.8s ease forwards;
+        }
 
-    .logo {
-      font-size:20px;
-      font-weight:800;
-      color:var(--accent);
-      text-decoration:none;
-      letter-spacing:-0.02em;
-    }
+        .summary {
+            max-width: 500px;
+            font-weight: 300;
+            color: var(--acc);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            animation: slideUp 1s ease forwards;
+        }
 
-    /* NAV LINKS - desktop layout */
-    .nav-links {
-      display:flex;
-      gap:28px;
-      align-items:center;
-      transition: transform 0.35s cubic-bezier(.2,.9,.2,1), opacity 0.3s;
-    }
+        /* Project Links */
+        .project-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 4rem;
+        }
 
-    .nav-links a {
-      text-decoration:none;
-      color:var(--muted);
-      font-size:15px;
-      font-weight:500;
-      padding:8px 4px;
-      border-radius:6px;
-      transition: color .18s ease, background .18s ease;
-    }
-    .nav-links a:hover, .nav-links a:focus {
-      color:var(--accent);
-      outline:none;
-    }
+        .project-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            animation: slideUp 1.2s ease forwards;
+        }
 
-    /* HAMBURGER */
-    .hamburger {
-      display:none;
-      width:36px;
-      height:32px;
-      position:relative;
-      border:0;
-      background:transparent;
-      cursor:pointer;
-      align-items:center;
-      justify-content:center;
-      padding:6px;
-    }
-    .hamburger .bar {
-      display:block;
-      width:100%;
-      height:2px;
-      background:var(--text);
-      border-radius:2px;
-      transform-origin:center;
-      transition:transform .32s ease, opacity .25s ease, background .25s;
-    }
-    .hamburger .bar + .bar { margin-top:6px; }
+        .project-name {
+            font-weight: 600;
+            min-width: 100px;
+        }
 
-    .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .hamburger.active .bar:nth-child(2) { opacity:0; transform:scaleX(.2); }
-    .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        .github-link, .resume-link {
+            text-decoration: none;
+            color: var(--acc);
+            font-size: 0.9rem;
+            border-bottom: 1px solid transparent;
+            transition: var(--transition);
+        }
 
-    /* MOBILE NAV: slide panel */
-    .mobile-nav {
-      display:none;
-    }
+        .github-link:hover, .resume-link:hover {
+            color: var(--text);
+            border-bottom: 1px solid var(--text);
+        }
 
-    @media (max-width: 900px) {
-      .hamburger { display:flex; }
-      .nav-links {
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100vh;
-        width: min(86%, 420px);
-        max-width:420px;
-        background: var(--bg);
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 120px 28px;
-        gap:20px;
-        transform: translateX(100%);
-        opacity: 0;
-        pointer-events: none;
-        box-shadow: -20px 40px 80px rgba(0,0,0,0.06);
-        display:flex;
-      }
+        /* The Big Button */
+        .cta-container {
+            animation: slideUp 1.4s ease forwards;
+        }
 
-      .nav-links.open {
-        transform: translateX(0);
-        opacity: 1;
-        pointer-events: all;
-      }
+        .main-cta {
+            display: inline-flex;
+            align-items: center;
+            padding: 20px 40px;
+            background: var(--text);
+            color: var(--bg);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: var(--transition);
+            border: 1px solid var(--text);
+        }
 
-      /* make nav links larger on mobile */
-      .nav-links a { font-size:18px; color:var(--text); padding:8px 0; }
-    }
+        .main-cta:hover {
+            background: transparent;
+            color: var(--text);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.05);
+        }
 
-    /* HERO / MAIN */
-    .main-content { padding-top: calc(var(--header-height) + 40px); min-height:calc(100vh - var(--header-height) - 24px); display:flex; align-items:center; }
+        /* Animations */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-    .hero-section {
-      width:100%;
-      display:grid;
-      grid-template-columns: 1fr auto;
-      gap:64px;
-      align-items:center;
-    }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-    .hero-text { max-width:780px; }
-    .main-title {
-      font-size: clamp(48px, 7vw, 140px);
-      font-weight:800;
-      line-height:1.02;
-      letter-spacing:-0.03em;
-      margin-bottom:8px;
-    }
+        /* Hover Reveal Effect */
+        .project-item:hover .project-name {
+            padding-left: 10px;
+            transition: var(--transition);
+        }
 
-    .hero-description {
-      font-family: 'Inter', sans-serif;
-      font-size:18px;
-      color:var(--muted);
-      font-weight:400;
-      line-height:1.5;
-    }
-
-    /* Responsive behavior */
-    @media (max-width: 1100px) {
-      .hero-section { gap:40px; grid-template-columns: 1fr; }
-      .hero-description { margin-top:16px; }
-    }
-
-    @media (max-width: 600px) {
-      .container { padding: 0 18px; }
-      .logo { font-size:18px; }
-      .main-title { font-size: clamp(36px, 12vw, 90px); }
-      .hero-description { font-size:16px; }
-      header { padding:10px 0; }
-    }
-
-    /* CUSTOM CURSOR: hide on touch devices */
-    .cursor {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      background-color: rgba(26,26,26,0.08);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      mix-blend-mode: difference;
-      transition: transform 0.18s ease, background-color 0.18s;
-      transform: translate(-50%, -50%);
-      will-change: transform, left, top;
-    }
-    .cursor.hover { transform: translate(-50%,-50%) scale(2.8); background-color: rgba(26,26,26,0.16); }
-
-    @media (hover: none), (pointer: coarse) {
-      .cursor { display:none; }
-    }
-
-    /* utility */
-    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
-    body.menu-open { overflow:hidden; touch-action:none; }
-  </style>
+        @media (max-width: 768px) {
+            main { padding: 20px; justify-content: flex-end; padding-bottom: 60px; }
+            .profile-img { top: 20px; right: 20px; width: 60px; height: 60px; }
+            header h1 { font-size: 2.5rem; }
+        }
+    </style>
 </head>
-
 <body>
- <div class="cursor" aria-hidden="true"></div>
 
-  <header>
-    <div class="container">
-      <nav>
-        <a href="#" class="logo">Lokesh Ram Chand</a>
+    <img src="YOUR_PHOTO_URL.jpg" alt="Profile" class="profile-img">
 
-        <!-- Hamburger Button (accessible) -->
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
-          <span class="bar" aria-hidden="true"></span>
-          <span class="bar" aria-hidden="true"></span>
-          <span class="bar" aria-hidden="true"></span>
-        </button>
+    <main>
+        <header>
+            <h1 id="name">Your Name</h1>
+            <p class="summary">
+                I am a [Your Role] focused on building scalable, high-performance web applications. 
+                I specialize in [Tech 1] and [Tech 2], bridging the gap between design and code. 
+                Obsessed with clean architecture and seamless user experiences. 
+                Currently exploring the intersection of [Interest] and software engineering.
+            </p>
+        </header>
 
-        <!-- Navigation Links -->
-        <div class="nav-links" id="nav-links" role="navigation" aria-label="Main navigation">
-          <a href="./index.html">Home</a>
-          <a href="./project2.html">Projects</a>
-          <a href="./about2.html">About</a>
-          <a href="./contact2.html">Contact</a>
+        <ul class="project-list">
+            <li class="project-item">
+                <span class="project-name">Velar</span>
+                <a href="#" class="github-link">Github &rarr;</a>
+            </li>
+            <li class="project-item">
+                <span class="project-name">Aegis</span>
+                <a href="#" class="github-link">Github &rarr;</a>
+            </li>
+            <li class="project-item">
+                <span class="project-name">MapLayer</span>
+                <a href="#" class="github-link">Github &rarr;</a>
+            </li>
+            <li class="project-item">
+                <span class="project-name">Seko</span>
+                <a href="#" class="github-link">Github &rarr;</a>
+            </li>
+            <li class="project-item" style="margin-top: 10px;">
+                <span class="project-name">Resume</span>
+                <a href="#" class="resume-link">View PDF &nearrow;</a>
+            </li>
+        </ul>
+
+        <div class="cta-container">
+            <a href="./first.html" class="main-cta">
+                VIEW DETAILED PORTFOLIO
+            </a>
         </div>
-      </nav>
-    </div>
-  </header>
+    </main>
 
-  <main>
-    <div class="container">
-      <div class="main-content">
-        <div class="hero-section">
-          <div class="hero-text">
-            <h1 class="main-title">
-              <span class="title-line"><span class="title-word">Software</span></span>
-              <span class="title-line"><span class="title-word">Developer</span></span>
-            </h1>
-          </div>
-          <div class="hero-description" aria-hidden="false">
-            <p>specialized in Web Development,</p>
-            <p>UX / UI, Mobile Development</p>
-            <p>Full-Stack Development.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-  <script>
-  const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('nav-links');
-    const focusableLinks = Array.from(navLinks.querySelectorAll('a'));
-    const cursor = document.querySelector('.cursor');
-    let menuOpen = false;
-
-    function openMenu() {
-      menuOpen = true;
-      hamburger.classList.add('active');
-      navLinks.classList.add('open');
-      hamburger.setAttribute('aria-expanded', 'true');
-      document.body.classList.add('menu-open');
-
-      // animate panel and links with GSAP
-      gsap.killTweensOf(navLinks);
-      gsap.to(navLinks, { duration: 0.45, x: 0, opacity: 1, ease: "power3.out" });
-      gsap.fromTo(focusableLinks, { opacity: 0, y: 14 }, { opacity: 1, y: 0, stagger: 0.06, duration: 0.36, delay: 0.06 });
-
-      // move focus to first link for accessibility
-      focusableLinks[0]?.focus();
-    }
-
-    function closeMenu() {
-      menuOpen = false;
-      hamburger.classList.remove('active');
-      navLinks.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('menu-open');
-
-      gsap.to(navLinks, { duration: 0.35, x: "100%", opacity: 0, ease: "power2.in" });
-      // return focus to hamburger
-      hamburger.focus();
-    }
-
-    hamburger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (!menuOpen) openMenu(); else closeMenu();
-    });
-
-    // Close menu when clicking any link
-    focusableLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        // small delay so SPA transitions can start
-        setTimeout(closeMenu, 80);
-      });
-      // enlarge cursor on hover for desktop
-      link.addEventListener('mouseenter', () => cursor?.classList?.add('hover'));
-      link.addEventListener('mouseleave', () => cursor?.classList?.remove('hover'));
-    });
-
-    // Close on Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && menuOpen) closeMenu();
-      // trap focus in menu when open (simple)
-      if (menuOpen && e.key === 'Tab') {
-        const first = focusableLinks[0];
-        const last = focusableLinks[focusableLinks.length - 1];
-        if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      }
-    });
-
-    // click outside to close (mobile)
-    document.addEventListener('click', (e) => {
-      if (!menuOpen) return;
-      if (!navLinks.contains(e.target) && e.target !== hamburger && !hamburger.contains(e.target)) {
-        closeMenu();
-      }
-    });
-
-    // Cursor animation (kept from your version) with small optimization
-    let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      // show cursor only when not touch device
-      if (cursor && window.matchMedia("(hover: hover)").matches) cursor.style.display = 'block';
-    });
-
-    function animateCursor() {
-      cursorX += (mouseX - cursorX) * 0.16;
-      cursorY += (mouseY - cursorY) * 0.16;
-      if (cursor) {
-        cursor.style.left = (cursorX) + 'px';
-        cursor.style.top = (cursorY) + 'px';
-      }
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    // Small tweak: disable custom cursor for touch devices
-    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) {
-      cursor?.style?.setProperty('display','none');
-    }
-  </script>
+    <script>
+        // Smooth reveal of elements on load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("Minimal Portfolio Loaded.");
+        });
+    </script>
 </body>
 </html>

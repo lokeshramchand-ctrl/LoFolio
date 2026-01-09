@@ -7,265 +7,326 @@
   <title>Lokesh Ram Chand</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0b0b0b;
-      --text: #e0e0e0;
-      --acc: #888;
-      --border: rgba(255, 255, 255, 0.1);
-      --overlay: rgba(255, 255, 255, 0.03);
-      --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      --bg: #000000;
+      --card: #0a0a0c;
+      --text: #ffffff;
+      --sub: #86868b;
+      --border: rgba(255, 255, 255, 0.08);
+      --accent: #ffffff;
+      --transition-main: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      --spring: all 0.5s cubic-bezier(0.43, 0.13, 0.23, 0.96);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    [data-theme="light"] {
+      --bg: #f5f5f7;
+      --card: #ffffff;
+      --text: #1d1d1f;
+      --sub: #86868b;
+      --border: rgba(0, 0, 0, 0.08);
+      --accent: #000000;
     }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
     body {
       background-color: var(--bg);
       color: var(--text);
       font-family: 'Inter', sans-serif;
-      overflow: hidden;
-      line-height: 1.6;
+      transition: background-color 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px 160px;
+      letter-spacing: -0.011em;
+      overflow-x: hidden;
     }
 
-    /* Subtle Grain Overlay */
-    body::before {
-      content: "";
+    /* Keyframes */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes dockRise {
+      from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+      to { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+
+    /* Theme Toggle Animation */
+    .theme-btn {
       position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-      opacity: 0.03;
-      pointer-events: none;
-      z-index: 99;
-    }
-
-    main {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 10% 8%;
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    /* Profile Photo in Corner */
-    .profile-img {
-      position: absolute;
-      top: 40px;
-      right: 40px;
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: var(--overlay);
+      top: 30px;
+      right: 30px;
+      z-index: 2000;
+      background: var(--card);
       border: 1px solid var(--border);
-      object-fit: cover;
-      animation: fadeIn 1.2s ease forwards;
-    }
-
-    header h1 {
-      font-weight: 400;
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      letter-spacing: -0.03em;
-      margin-bottom: 0.5rem;
-      animation: slideUp 0.8s ease forwards;
-    }
-
-    /* Social Icons Styles */
-    .social-bar {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 2rem;
-      animation: slideUp 0.9s ease forwards;
-      opacity: 0;
-      animation-fill-mode: forwards;
-    }
-
-    .social-icon {
-      color: white;
-      text-decoration: none;
-      transition: var(--transition);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
       display: flex;
       align-items: center;
-    }
-
-    .social-icon svg {
-      width: 20px;
-      height: 20px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .social-icon:hover {
-      transform: translateY(-3px);
-      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
-    }
-
-    .summary {
-      max-width: 550px;
-      font-weight: 300;
-      color: var(--acc);
-      font-size: 1.1rem;
-      margin-bottom: 3rem;
-      animation: slideUp 1s ease forwards;
-    }
-
-    .summary span {
+      justify-content: center;
       color: var(--text);
+      transition: var(--transition-main);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
     }
 
-    /* Project Links */
-    .project-list {
-      list-style: none;
+    .theme-btn:hover { transform: scale(1.1) rotate(15deg); }
+
+    /* Layout & Containers */
+    .container {
+      width: 100%;
+      max-width: 1100px;
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      margin-bottom: 4rem;
+      gap: 32px;
     }
 
-    .project-item {
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(180px, auto);
+      gap: 20px;
+    }
+
+    /* Animated Tile Base */
+    .tile {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      padding: 35px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--spring);
+      animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .tile:hover {
+      border-color: var(--text);
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    /* Staggered Delay for Entrance */
+    .tile:nth-child(1) { animation-delay: 0.1s; }
+    .tile:nth-child(2) { animation-delay: 0.2s; }
+    .tile:nth-child(3) { animation-delay: 0.3s; }
+    .tile:nth-child(4) { animation-delay: 0.4s; }
+
+    .bio { grid-column: span 8; grid-row: span 2; }
+    .util { grid-column: span 4; grid-row: span 1; }
+    .social { grid-column: span 2; grid-row: span 1; align-items: center; justify-content: center; }
+
+    /* Typography */
+    .label { 
+      font-size: 11px; font-weight: 600; text-transform: uppercase; 
+      letter-spacing: 0.1em; color: var(--sub); margin-bottom: 12px;
+      animation: fadeInUp 1s 0.5s both;
+    }
+    
+    .bio h1 { font-size: clamp(34px, 5vw, 54px); font-weight: 600; letter-spacing: -0.05em; margin-bottom: 20px; line-height: 1.05; }
+    .bio p { font-size: clamp(18px, 2vw, 21px); color: var(--sub); line-height: 1.4; font-weight: 400; max-width: 550px; }
+    .bio p span { color: var(--text); }
+    .value { font-size: 18px; font-weight: 500; }
+
+    /* Horizontal Projects with Smooth Reveal */
+    .project-scroll {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 10px 5px;
+      animation: fadeInUp 1s 0.6s both;
+    }
+    .project-scroll::-webkit-scrollbar { display: none; }
+
+    .project-card {
+      min-width: 340px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 32px;
+      border-radius: 32px;
+      text-decoration: none;
+      color: inherit;
+      transition: var(--spring);
+    }
+    .project-card:hover { border-color: var(--text); transform: scale(0.98); }
+    .project-card h3 { font-size: 22px; margin-bottom: 12px; font-weight: 600; }
+    .project-card p { font-size: 15px; color: var(--sub); line-height: 1.5; }
+
+    /* DOCK CTA (Animated) */
+    .fixed-footer {
+      position: fixed;
+      bottom: 35px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 40px);
+      max-width: 500px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: rgba(var(--card), 0.7);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      padding: 10px;
+      border-radius: 40px;
+      border: 1px solid var(--border);
+      z-index: 1000;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+      animation: dockRise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+    }
+
+    .btn {
+      height: 52px;
+      border-radius: 26px;
       display: flex;
       align-items: center;
-      gap: 20px;
-      animation: slideUp 1.2s ease forwards;
-    }
-
-    .project-name {
-      font-weight: 600;
-      min-width: 100px;
-    }
-
-    .github-link, .resume-link {
-      text-decoration: none;
-      color: var(--acc);
-      font-size: 0.9rem;
-      border-bottom: 1px solid transparent;
-      transition: var(--transition);
-    }
-
-    .github-link:hover, .resume-link:hover {
-      color: var(--text);
-      border-bottom: 1px solid var(--text);
-    }
-
-    /* The Big Button */
-    .cta-container {
-      animation: slideUp 1.4s ease forwards;
-    }
-
-    .main-cta {
-      display: inline-flex;
-      align-items: center;
-      padding: 22px 45px;
-      background: var(--text);
-      color: var(--bg);
+      justify-content: center;
       text-decoration: none;
       font-weight: 600;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      letter-spacing: 0.05em;
-      transition: var(--transition);
-      border: 1px solid var(--text);
+      font-size: 14px;
+      transition: var(--spring);
+    }
+    .btn-main { background: var(--text); color: var(--bg); }
+    .btn-sub { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn:hover { transform: scale(1.03); opacity: 0.85; }
+
+    /* Interaction State */
+    .status-dot { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--sub); }
+    .dot { 
+        width: 8px; height: 8px; background: #32d74b; border-radius: 50%; 
+        box-shadow: 0 0 10px rgba(50, 215, 75, 0.5);
+        animation: pulse 2s infinite;
     }
 
-    .main-cta:hover {
-      background: transparent;
-      color: var(--text);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 40px rgba(255, 255, 255, 0.1);
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
     }
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .project-item:hover .project-name {
-      padding-left: 8px;
-      transition: var(--transition);
-    }
-
-    @media (max-width: 768px) {
-      main { padding: 20px; justify-content: flex-end; padding-bottom: 60px; }
-      .profile-img { top: 20px; right: 20px; width: 60px; height: 60px; }
-      header h1 { font-size: 2.8rem; }
+    @media (max-width: 850px) {
+      .bento-grid { display: flex; flex-direction: column; }
+      .bio h1 { font-size: 32px; }
+      .fixed-footer { bottom: 20px; width: calc(100% - 30px); }
+      .project-card { min-width: 85vw; }
     }
   </style>
 </head>
 
-<body>
+<body data-theme="dark">
 
-  <main>
-    <header>
-      <h1>Lokesh Ram Chand B</h1>
-      
-      <div class="social-bar">
-        <a href="https://www.linkedin.com/in/lokeshramchand/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-        </a>
-        <a href="https://github.com/lokeshramchand-ctrl" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
-          <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-        </a>
-        <a href="https://x.com/LokeshRamC" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="X (Twitter)">
-          <svg viewBox="0 0 24 24"><path d="M4 4l11.733 16h4.267l-11.733 -16z M4 20l6.768 -6.768 M13.232 10.768l6.768 -6.768"></path></svg>
-        </a>
+  <button class="theme-btn" onclick="toggleTheme()" id="theme-toggle">
+    <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></svg>
+  </button>
+
+  <div class="container">
+    <div class="bento-grid">
+      <div class="tile bio">
+        <div>
+          <div class="label">Engineering & Design</div>
+          <h1>Lokesh Ram Chand</h1>
+          <p>Crafting <span>digital products</span> with focused intent and high visual fidelity. Currently exploring the intersection of <span>AI and UX</span>.</p>
+        </div>
+        <div class="status-dot">
+          <div class="dot"></div> Currently Online — India
+        </div>
       </div>
 
-      <p class="summary">
-        I'm Lokesh Ram Chand, <span>a CS student</span> who builds <span>full-stack applications</span> that blend
-        <span>stunning UI/UX</span> with robust <span>backend architecture</span>.
-        Focusing on <span>micro-interactions</span> and seamless functionality, I create experiences that are both
-        <span>beautiful and powerful</span>.
-      </p>
-    </header>
+      <div class="tile util">
+        <div>
+          <div class="label">Local Time</div>
+          <div class="value" id="local-time">00:00</div>
+        </div>
+        <div>
+          <div class="label">Focus</div>
+          <div class="value">Full Stack Dev</div>
+        </div>
+      </div>
 
-    <ul class="project-list">
-      <li class="project-item">
-        <span class="project-name">Velar(Finance)</span>
-        <a href="https://github.com/lokeshramchand-ctrl/Velar" target="_blank" rel="noopener noreferrer" class="github-link">Github &rarr;</a>
-      </li>
-      <li class="project-item">
-        <span class="project-name">Aegis(Security)</span>
-        <a href="https://github.com/lokeshramchand-ctrl/Aegis" target="_blank" rel="noopener noreferrer" class="github-link">Github &rarr;</a>
-      </li>
-      <li class="project-item">
-        <span class="project-name">MapLayer(ArcGIS)</span>
-        <a href="https://github.com/lokeshramchand-ctrl/MapLayer" target="_blank" rel="noopener noreferrer" class="github-link">Github &rarr;</a>
-      </li>
-      <li class="project-item">
-        <span class="project-name">Seko(Ecommerce)</span>
-        <a href="https://github.com/lokeshramchand-ctrl/Seko" target="_blank" rel="noopener noreferrer" class="github-link">Github &rarr;</a>
-      </li>
-      <li class="project-item" style="margin-top: 10px;">
-        <span class="project-name">Resume</span>
-        <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="resume-link">View PDF &nearrow;</a>
-      </li>
-    </ul>
+      <a href="https://github.com/lokeshramchand-ctrl" target="_blank" class="tile social">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+      </a>
 
-    <div class="cta-container">
-      <a href="./first.html" target="_blank" rel="noopener noreferrer" class="main-cta">
-        VIEW DETAILED PORTFOLIO
+      <a href="https://www.linkedin.com/in/lokeshramchand/" target="_blank" class="tile social">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
       </a>
     </div>
-  </main>
+
+    <div class="label" style="margin-top: 10px; margin-left: 10px;">Selected Works</div>
+    <div class="project-scroll">
+      <a href="#" class="project-card">
+        <h3>Velar</h3>
+        <p>A high-performance financial interface built for real-time clarity.</p>
+      </a>
+      <a href="#" class="project-card">
+        <h3>Aegis</h3>
+        <p>Strategic security layers designed for decentralized architectures.</p>
+      </a>
+      <a href="#" class="project-card">
+        <h3>MapLayer</h3>
+        <p>Geospatial data engine focused on spatial storytelling.</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="fixed-footer">
+    <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" class="btn btn-sub">Resume</a>
+    <a href="./first.html" target="_blank" class="btn btn-main">Portfolio</a>
+  </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log("Portfolio Interactive.");
-    });
+    const body = document.body;
+    const themeIcon = document.getElementById('theme-icon');
+
+    const moon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+    const sun = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+
+    function setTheme(theme) {
+      body.setAttribute('data-theme', theme);
+      themeIcon.innerHTML = theme === 'light' ? moon : sun;
+      // Add a small bounce to toggle on switch
+      document.getElementById('theme-toggle').style.transform = 'scale(0.8)';
+      setTimeout(() => { document.getElementById('theme-toggle').style.transform = 'scale(1)'; }, 100);
+    }
+
+    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    setTheme(prefersLight ? 'light' : 'dark');
+
+    function toggleTheme() {
+      const current = body.getAttribute('data-theme');
+      setTheme(current === 'light' ? 'dark' : 'light');
+    }
+
+    function updateTime() {
+      const timeElement = document.getElementById('local-time');
+      const now = new Date();
+      timeElement.innerText = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Intersection Observer to trigger animations when user scrolls back up/down (if page gets longer)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.tile, .project-card').forEach(el => observer.observe(el));
   </script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,14 @@
     <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@500;700&display=swap"
+        rel="stylesheet">
     <!-- Essential Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
     <style>
         /* --- Centralized Theme Architecture --- */
         :root {
@@ -20,9 +23,9 @@
             --bg: #000000;
             --surface: #080808;
             --surface-secondary: #111111;
-            --accent: #5e6ad2; 
+            --accent: #5e6ad2;
             --text-primary: #ffffff;
-            --text-secondary: #a1a1aa; 
+            --text-secondary: #a1a1aa;
             --text-muted: #3f3f46;
             --border: rgba(255, 255, 255, 0.04);
             --nav-bg: rgba(8, 8, 8, 0.4);
@@ -34,9 +37,9 @@
             --bg: #fbfbfb;
             --surface: #ffffff;
             --surface-secondary: #f4f4f5;
-            --accent: #4f46e5; 
+            --accent: #4f46e5;
             --text-primary: #09090b;
-            --text-secondary: #52525b; 
+            --text-secondary: #52525b;
             --text-muted: #a1a1aa;
             --border: rgba(0, 0, 0, 0.06);
             --nav-bg: rgba(251, 251, 251, 0.6);
@@ -45,10 +48,10 @@
 
         /* Spacing & Fonts */
         :root {
-            --font-signature: 'Inter', sans-serif; 
-            --font-editorial: 'Inter', sans-serif; 
-            --font-system: 'Inter', sans-serif; 
-            --font-mono: 'JetBrains Mono', monospace; 
+            --font-signature: 'Inter', sans-serif;
+            --font-editorial: 'Inter', sans-serif;
+            --font-system: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
             --container-max: 1100px;
         }
 
@@ -60,14 +63,15 @@
         }
 
         html {
-            scroll-behavior: initial; /* GSAP handles smooth scroll feel better */
+            scroll-behavior: initial;
+            /* GSAP handles smooth scroll feel better */
         }
 
         body {
             background-color: var(--bg);
             color: var(--text-primary);
             font-family: var(--font-system);
-            line-height: 1.6; 
+            line-height: 1.6;
             overflow-x: hidden;
             transition: background-color 0.4s ease, color 0.4s ease;
         }
@@ -120,7 +124,8 @@
             text-transform: uppercase;
         }
 
-        nav a:hover, nav a.active {
+        nav a:hover,
+        nav a.active {
             color: var(--text-primary);
             background: rgba(255, 255, 255, 0.04);
         }
@@ -169,7 +174,7 @@
             font-size: clamp(2.5rem, 8vw, 6rem);
             line-height: 1;
             font-weight: 800;
-            letter-spacing: -0.05em; 
+            letter-spacing: -0.05em;
             margin-bottom: 2.5rem;
         }
 
@@ -216,7 +221,7 @@
         .project-grid {
             display: flex;
             flex-direction: column;
-            gap: 15rem; 
+            gap: 15rem;
         }
 
         .project-card {
@@ -273,6 +278,16 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0.6rem;
+        }
+
+        .project-image {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.92;
+            filter: saturate(0.95) contrast(1.05);
         }
 
         .tech-pill {
@@ -420,24 +435,38 @@
         }
 
         /* --- Utilities --- */
-        .reveal { opacity: 0; }
+        .reveal {
+            opacity: 0;
+        }
 
         @media (max-width: 1024px) {
-            .project-card, .about-wrap {
+
+            .project-card,
+            .about-wrap {
                 grid-template-columns: 1fr;
                 gap: 4rem;
             }
-            .hero h1 { font-size: 3.5rem; }
-            .section-header { margin-bottom: 5rem; }
-            .about-section { padding: 10rem 0; }
+
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+
+            .section-header {
+                margin-bottom: 5rem;
+            }
+
+            .about-section {
+                padding: 10rem 0;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- Inline script to prevent theme flash -->
     <script>
-        (function() {
+        (function () {
             const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
             document.documentElement.setAttribute('data-theme', savedTheme);
         })();
@@ -462,11 +491,13 @@
         <section class="hero" id="home">
             <span class="hero-tag">Core.Engineering</span>
             <h1>
-                Lokesh Ram Chand.<br/>
+                Lokesh Ram Chand.<br />
                 <span class="dim">Full-stack systems engineer.</span>
             </h1>
             <p class="hero-positioning">
-                I build and scale <strong>resilient digital infrastructure</strong> for high-growth ventures. Focused on distributed systems, performance bottlenecks, and shipping code that stays in production.
+                I build <strong>production-grade software systems</strong> focused on reliability, performance, and
+                real-world usage. My work centers on distributed systems, backend engineering, and products that scale
+                beyond prototypes.
             </p>
             <div>
                 <a href="#projects" class="btn-minimal">System Index <i data-lucide="arrow-right" size="18"></i></a>
@@ -477,65 +508,110 @@
         <section id="projects" class="container">
             <div class="section-header reveal">
                 <span class="hero-tag">Proof</span>
-                <h2>Production Systems</h2>
+                <h2>System Case Studies</h2>
             </div>
 
             <div class="project-grid">
-                <!-- Project 1 -->
+
+                <!-- Velar -->
                 <div class="project-card reveal">
                     <div class="project-info">
-                        <h3>Vortex Data Engine</h3>
-                        <p class="project-desc">A real-time orchestration platform for enterprise logistics. Eliminated garbage collection pauses during peak loads by implementing a custom zero-copy buffer system.</p>
+                        <h3>Velar — AI-Assisted Finance App</h3>
+                        <p class="project-desc">
+                            A personal finance management platform that simplifies expense tracking using automation,
+                            natural language processing, and intuitive dashboards. Velar combines voice input, email
+                            parsing, and smart categorization to reduce manual data entry.
+                        </p>
                         <div class="project-metrics">
                             <div class="metric">
-                                <span class="metric-val">10K+ EPS</span>
-                                <span class="metric-label">Throughput</span>
+                                <span class="metric-val">Hybrid NLP</span>
+                                <span class="metric-label">ML + Rules</span>
                             </div>
                             <div class="metric">
-                                <span class="metric-val">512MB RAM</span>
-                                <span class="metric-label">Node Constraint</span>
+                                <span class="metric-val">Multi-Platform</span>
+                                <span class="metric-label">Flutter Client</span>
                             </div>
                         </div>
                         <div class="tech-list">
-                            <span class="tech-pill">Go</span>
-                            <span class="tech-pill">Redis</span>
-                            <span class="tech-pill">GCP</span>
+                            <span class="tech-pill">Flutter (Dart)</span>
+                            <span class="tech-pill">Node.js</span>
+                            <span class="tech-pill">MongoDB</span>
+                            <span class="tech-pill">RabbitMQ</span>
                         </div>
                     </div>
                     <div class="project-visual">
                         <div class="visual-bg"></div>
-                        <i data-lucide="terminal" size="40" class="visual-icon"></i>
+                        <i data-lucide="credit-card" size="40" class="visual-icon"></i>
                     </div>
                 </div>
 
-                <!-- Project 2 -->
+                <!-- MapLayer -->
                 <div class="project-card reveal">
                     <div class="project-info">
-                        <h3>Sentinel Protocol</h3>
-                        <p class="project-desc">Zero-trust IAM framework for regulated fintech. Implemented stateless session management using Ed25519 signatures to eliminate database lookups on the critical auth path.</p>
+                        <h3>MapLayer — Web Mapping Interface</h3>
+                        <p class="project-desc">
+                            A lightweight React-based geospatial visualization tool that renders GeoJSON datasets
+                            using OpenLayers. Designed to make spatial data exploration easy without heavy GIS software.
+                        </p>
                         <div class="project-metrics">
                             <div class="metric">
-                                <span class="metric-val">O(1) AUTH</span>
-                                <span class="metric-label">Complexity</span>
+                                <span class="metric-val">OpenLayers</span>
+                                <span class="metric-label">Map Rendering</span>
                             </div>
                             <div class="metric">
-                                <span class="metric-val">500K+ MAU</span>
-                                <span class="metric-label">Active Scale</span>
+                                <span class="metric-val">Dockerized</span>
+                                <span class="metric-label">Deployment</span>
                             </div>
                         </div>
                         <div class="tech-list">
-                            <span class="tech-pill">TypeScript</span>
-                            <span class="tech-pill">Node.js</span>
-                            <span class="tech-pill">Postgres</span>
+                            <span class="tech-pill">React (TypeScript)</span>
+                            <span class="tech-pill">OpenLayers</span>
+                            <span class="tech-pill">Docker</span>
+                            <span class="tech-pill">GeoJSON</span>
                         </div>
                     </div>
                     <div class="project-visual">
                         <div class="visual-bg"></div>
-                        <i data-lucide="database" size="40" class="visual-icon"></i>
+                        <img src="/images/maplayer/2.png" alt="MapLayer interface" class="project-image">
                     </div>
                 </div>
             </div>
+
+            <!-- Fortyl -->
+            <div class="project-card reveal">
+                <div class="project-info">
+                    <h3>Fortyl — Secure Auth Platform</h3>
+                    <p class="project-desc">
+                        A modular authentication system built with Spring Boot supporting password login,
+                        JWT sessions, and TOTP-based multi-factor authentication. Designed to be clear,
+                        extendable, and suitable for applications needing stronger auth guarantees.
+                    </p>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-val">JWT + MFA</span>
+                            <span class="metric-label">Secure Login</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-val">Modular</span>
+                            <span class="metric-label">Backend Architecture</span>
+                        </div>
+                    </div>
+                    <div class="tech-list">
+                        <span class="tech-pill">Spring Boot</span>
+                        <span class="tech-pill">TOTP / MFA</span>
+                        <span class="tech-pill">JWT Auth</span>
+                        <span class="tech-pill">Java</span>
+                    </div>
+                </div>
+                <div class="project-visual">
+                    <div class="visual-bg"></div>
+                    <i data-lucide="shield-lock" size="40" class="visual-icon"></i>
+                </div>
+            </div>
+
+            </div>
         </section>
+
 
         <!-- Section: About -->
         <section id="about" class="container about-section">
@@ -543,8 +619,11 @@
                 <div class="about-content reveal">
                     <span class="hero-tag">Principles</span>
                     <h2>Engineering over abstractions.</h2>
-                    <p>Software is a liability until it's in production. I optimize for maintainability and mean-time-to-recovery (MTTR) over clever abstractions. I believe in boring, proven technology for critical systems and first-principles debugging.</p>
-                    <p>I focus on the "critical path"—ensuring that core systems remain performant and predictable under load, while maintaining a clean, auditable codebase.</p>
+                    <p>Software only becomes valuable when it works reliably for real users.I prioritize
+                        maintainability, debuggability, and system reliability over clever abstractions. I believe in
+                        boring, proven technology for critical systems and first-principles debugging.</p>
+                    <p>I focus on the "critical path"—ensuring that core systems remain performant and predictable under
+                        load, while maintaining a clean, auditable codebase.</p>
                 </div>
                 <div class="about-stats reveal">
                     <div class="tech-category">
@@ -581,8 +660,9 @@
     <footer>
         <div class="cta-box reveal">
             <span class="hero-tag">Contact</span>
-            <h2>Available for systems-level challenges.</h2>
-            <a href="mailto:hello@lokesh.dev" class="btn-minimal">Initiate Connection <i data-lucide="mail" size="18"></i></a>
+            <h2>Open to building and contributing to serious engineering problems.</h2>
+            <a href="mailto:lokeshramchand@gmail.com" class="btn-minimal">Initiate Connection <i data-lucide="mail"
+                    size="18"></i></a>
         </div>
 
         <div class="footer-bottom">
@@ -623,7 +703,7 @@
         themeBtn.addEventListener('click', () => {
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
+
             html.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             updateIcons(newTheme);
@@ -649,11 +729,11 @@
 
             // Reveal Sections
             document.querySelectorAll(".reveal").forEach(el => {
-                gsap.fromTo(el, 
+                gsap.fromTo(el,
                     { opacity: 0, y: 25 },
-                    { 
-                        opacity: 1, 
-                        y: 0, 
+                    {
+                        opacity: 1,
+                        y: 0,
                         duration: 1.2,
                         ease: "power2.out",
                         scrollTrigger: {
@@ -687,4 +767,5 @@
         };
     </script>
 </body>
+
 </html>

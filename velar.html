@@ -18,27 +18,25 @@
     <style>
         /* --- 1. CORE & VARIABLES --- */
         :root {
-            /* DARK MODE (DEFAULT) */
             --bg: #030303;
             --surface: #0a0a0a;
             --surface-highlight: #141414;
             --text-primary: #ffffff;
             --text-secondary: #888888;
-            --accent: #00F0FF; /* Cyber Teal */
+            --accent: #00F0FF; 
             --border: rgba(255, 255, 255, 0.08);
             --nav-bg: rgba(3, 3, 3, 0.8);
             --font-main: 'General Sans', sans-serif;
             --easing: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* LIGHT MODE OVERRIDES */
         [data-theme="light"] {
             --bg: #ffffff;
             --surface: #f4f4f5;
             --surface-highlight: #e4e4e7;
             --text-primary: #18181b;
             --text-secondary: #52525b;
-            --accent: #0097a7; /* Darker teal for visibility on white */
+            --accent: #0097a7;
             --border: rgba(0, 0, 0, 0.08);
             --nav-bg: rgba(255, 255, 255, 0.8);
         }
@@ -49,21 +47,12 @@
             box-sizing: border-box;
         }
 
-        html.lenis {
-            height: auto;
-        }
+        /* Normalize for specific containers to prevent margin issues */
+        .mockup-wrap *, .iphone-frame * { margin: 0; padding: 0; }
 
-        .lenis.lenis-smooth {
-            scroll-behavior: auto;
-        }
-
-        .lenis.lenis-smooth [data-lenis-prevent] {
-            overscroll-behavior: contain;
-        }
-
-        .lenis.lenis-stopped {
-            overflow: hidden;
-        }
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-stopped { overflow: hidden; }
 
         body {
             background-color: var(--bg);
@@ -74,7 +63,6 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* --- 2. GLOBAL STYLES --- */
         .container {
             width: 100%;
             max-width: 1800px;
@@ -82,9 +70,7 @@
             padding: 0 5vw;
         }
 
-        .section-padding {
-            padding: 15vh 0;
-        }
+        .section-padding { padding: 15vh 0; }
 
         h1 {
             font-family: 'Clash Display', sans-serif;
@@ -95,34 +81,11 @@
             letter-spacing: -2px;
         }
 
-        h2,
-        h3,
-        h4 {
-            line-height: 1;
-            font-weight: 500;
-            letter-spacing: -0.02em;
-        }
+        h2, h3, h4 { line-height: 1; font-weight: 500; letter-spacing: -0.02em; }
+        p { font-weight: 300; color: var(--text-secondary); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; }
 
-        p {
-            font-weight: 300;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .line-sep {
-            width: 100%;
-            height: 1px;
-            background: var(--border);
-            margin: 2vh 0;
-            transform-origin: left;
-        }
-
-        /* --- 3. NAVBAR STYLES (REQUIRED FOR NAV.JS) --- */
+        /* --- NAVBAR --- */
         nav {
             display: flex;
             justify-content: space-between;
@@ -136,101 +99,12 @@
             backdrop-filter: blur(10px);
             background: var(--nav-bg);
             border-bottom: 1px solid var(--border);
-            transition: background 0.3s ease;
-            margin: 0 !important; /* Override global margin */
-        }
-
-        .logo {
-            font-family: 'Clash Display', sans-serif;
-            font-weight: 600;
-            font-size: 1.5rem;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .menu-items {
-            display: flex;
-            gap: 30px;
-        }
-
-        .menu-link {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            color: var(--text-secondary);
-            transition: color 0.3s;
-        }
-
-        .menu-link:hover, .menu-link.active {
-            color: var(--text-primary);
-        }
-
-        /* Theme Toggle */
-        .theme-btn {
-            background: none;
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .theme-btn:hover {
-            background: var(--surface);
-            border-color: var(--accent);
-        }
-
-        /* Mobile Menu */
-        .menu-icon {
-            display: none;
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            cursor: pointer;
-        }
-
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: var(--bg);
-            z-index: 99;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            transform: translateY(-100%);
-            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
             margin: 0 !important;
         }
 
-        .mobile-menu.active {
-            transform: translateY(0);
-        }
+        .logo { font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 1.5rem; letter-spacing: -0.5px; }
 
-        .mobile-link {
-            font-family: 'Clash Display', sans-serif;
-            font-size: 3rem;
-            color: var(--text-primary);
-        }
-
-        /* --- 4. BACKGROUND AMBIENCE --- */
+        /* --- BACKGROUND AMBIENCE --- */
         .ambient-glow {
             position: fixed;
             top: -20vh;
@@ -244,52 +118,119 @@
             opacity: 0.6;
         }
 
-        /* --- 5. HERO SECTION --- */
-        .hero {
-            height: 100vh;
+        /* --- HERO --- */
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; }
+        .hero-meta { display: flex; gap: 2rem; font-size: 0.9rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2vh; overflow: hidden; }
+        .hero-title { font-size: clamp(4rem, 15vw, 13rem); font-weight: 600; color: var(--text-primary); margin-left: -0.05em; }
+        .hero-desc { max-width: 600px; font-size: clamp(1.1rem, 1.5vw, 1.5rem); margin-top: 4vh; margin-left: auto; color: var(--text-secondary); }
+
+        /* --- MOCKUP SECTION --- */
+        .mockup-section {
+            background: #000;
+            height: 140vh;
             display: flex;
-            flex-direction: column;
+            align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+            perspective: 2000px;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .mockup-wrap {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+
+        /* Cinematic Background Elements */
+        .mockup-bg-glow {
+            position: absolute;
+            width: 120vw;
+            height: 120vh;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* iPhone 15 Pro CSS Construction */
+        .iphone-frame {
+            width: 300px;
+            height: 610px;
+            background: #121212;
+            border-radius: 54px;
+            border: 10px solid #282828; /* Titanium-like border */
+            position: absolute;
+            box-shadow: 
+                0 50px 100px -20px rgba(0,0,0,0.8),
+                0 30px 60px -30px rgba(0,0,0,0.9),
+                inset 0 0 15px rgba(255,255,255,0.05);
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.6s var(--easing);
+        }
+
+        .iphone-screen {
+            width: 100%;
+            height: 100%;
+            background: #080808;
+            border-radius: 44px;
+            overflow: hidden;
             position: relative;
         }
 
-        .hero-meta {
-            display: flex;
-            gap: 2rem;
-            font-size: 0.9rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 2vh;
-            overflow: hidden;
+        .iphone-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
         }
 
-        .hero-title-line {
-            overflow: hidden;
+        /* Dynamic Island */
+        .dynamic-island {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95px;
+            height: 26px;
+            background: #000;
+            border-radius: 20px;
+            z-index: 10;
         }
 
-        .hero-title {
-            font-size: clamp(4rem, 15vw, 13rem);
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-left: -0.05em;
+        /* Screen Reflection */
+        .screen-reflection {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.02) 100%);
+            pointer-events: none;
+            z-index: 5;
         }
 
-        .hero-desc {
-            max-width: 600px;
-            font-size: clamp(1.1rem, 1.5vw, 1.5rem);
-            margin-top: 4vh;
-            margin-left: auto;
-            color: var(--text-secondary); /* Updated to variable for light mode */
+        /* Device Specific Positioning */
+        .phone-left {
+            transform: translate3d(-340px, 60px, -100px) rotateY(25deg) rotateX(10deg);
+            z-index: 1;
+        }
+        .phone-center {
+            transform: translate3d(0, -40px, 100px) rotateY(0deg) rotateX(5deg);
+            z-index: 3;
+        }
+        .phone-right {
+            transform: translate3d(340px, 100px, -50px) rotateY(-20deg) rotateX(15deg);
+            z-index: 2;
         }
 
-        /* --- 6. BENTO GRID TECH STACK --- */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
+        /* --- BENTO GRID --- */
+        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         .bento-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -303,204 +244,28 @@
             overflow: hidden;
             transition: border-color 0.4s var(--easing), background 0.3s;
         }
+        .bento-icon { font-size: 2.5rem; color: var(--text-primary); margin-bottom: 2rem; }
+        .span-2 { grid-column: span 2; }
+        .dark-card { background: #000; }
 
-        .bento-card:hover {
-            border-color: rgba(0, 240, 255, 0.2);
-        }
+        /* --- ENGINEERING LIST --- */
+        .eng-item { display: grid; grid-template-columns: 1fr 2fr; padding: 4rem 0; border-bottom: 1px solid var(--border); }
+        .eng-num { font-family: monospace; color: var(--accent); margin-bottom: 1rem; display: block; }
+        .eng-head { font-size: 2rem; margin-bottom: 1rem; }
 
-        [data-theme="light"] .bento-card:hover {
-            border-color: var(--accent);
-        }
-
-        /* Card Hover Gradient Effect */
-        .bento-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(0, 240, 255, 0.06), transparent 40%);
-            opacity: 0;
-            transition: opacity 0.4s;
-            pointer-events: none;
-        }
-
-        .bento-card:hover::before {
-            opacity: 1;
-        }
-
-        .bento-icon {
-            font-size: 2.5rem;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
-        }
-
-        .bento-title {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .bento-text {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-        }
-
-        .span-2 {
-            grid-column: span 2;
-        }
-
-        .dark-card {
-            background: #000;
-        }
-        
-        [data-theme="light"] .dark-card {
-            background: #111; /* Keep dark card dark even in light mode for contrast, or invert */
-            color: #fff;
-        }
-        [data-theme="light"] .dark-card .bento-text {
-            color: #aaa;
-        }
-        [data-theme="light"] .dark-card .bento-icon {
-            color: #fff;
-        }
-
-        /* --- 7. ARCHITECTURE VISUAL SECTION --- */
-        .visual-section {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 5vw;
-        }
-
-        .visual-content {
-            flex: 0.8;
-        }
-
-        .visual-media {
-            flex: 1.2;
-            height: 60vh;
-            position: relative;
-            overflow: hidden;
-            border-radius: 2rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Abstract Diagram Nodes */
-        .node {
-            padding: 12px 24px;
-            border: 1px solid var(--border);
-            border-radius: 50px;
-            background: var(--surface-highlight);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            position: absolute;
-            z-index: 2;
-        }
-
-        .node.active {
-            border-color: var(--accent);
-            color: var(--accent);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
-        }
-
-        /* --- 8. ENGINEERING LIST --- */
-        .eng-list {
-            border-top: 1px solid var(--border);
-        }
-
-        .eng-item {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            padding: 4rem 0;
-            border-bottom: 1px solid var(--border);
-            transition: background 0.3s;
-        }
-
-        .eng-item:hover {
-            background: var(--surface);
-        }
-
-        .eng-num {
-            font-family: monospace;
-            color: var(--accent);
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .eng-head {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        /* --- 9. FOOTER --- */
-        .footer {
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-        }
-
-        .footer-cta {
-            font-size: 10vw;
-            font-weight: 600;
-            font-family: 'Clash Display', sans-serif;
-            line-height: 1;
-            color: var(--text-primary);
-            transition: color 0.4s var(--easing);
-        }
-
-        .footer-cta:hover {
-            color: var(--accent);
-        }
-
-        .footer-sub {
-            margin-top: 2rem;
-            font-size: 1.2rem;
-        }
+        /* --- FOOTER --- */
+        .footer { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .footer-cta { font-size: 10vw; font-weight: 600; font-family: 'Clash Display'; color: var(--text-primary); transition: 0.4s; }
+        .footer-cta:hover { color: var(--accent); }
 
         /* --- RESPONSIVE --- */
-        @media (max-width: 1024px) {
-            .container {
-                padding: 0 6vw;
-            }
-
-            .bento-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .span-2 {
-                grid-column: auto;
-            }
-
-            .visual-section {
-                flex-direction: column;
-                gap: 3rem;
-            }
-
-            .visual-media {
-                width: 100%;
-                height: 50vh;
-            }
-
-            .eng-item {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .hero-title {
-                font-size: 16vw;
-            }
-            
-            .menu-items { display: none; }
-            .menu-icon { display: block; }
+        @media (max-width: 1100px) {
+            .mockup-section { height: auto; padding: 10vh 0; }
+            .mockup-wrap { flex-direction: column; transform: none !important; gap: 40px; }
+            .iphone-frame { position: relative; transform: scale(0.85) !important; margin: -60px 0; }
+            .hero-title { font-size: 16vw; }
+            .bento-grid { grid-template-columns: 1fr; }
+            .span-2 { grid-column: auto; }
         }
     </style>
 </head>
@@ -508,6 +273,13 @@
 <body>
 
     <div class="ambient-glow"></div>
+
+    <nav>
+        <div class="logo">VELAR</div>
+        <div class="nav-right">
+            <button class="theme-btn"><i class="ri-moon-line"></i></button>
+        </div>
+    </nav>
 
     <section class="hero container">
         <div class="hero-meta">
@@ -525,12 +297,47 @@
         </div>
 
         <p class="hero-desc anim-fade">
-            Velar is a personal finance system built to eliminate manual expense tracking. Most users receive dozens of
-            transactional emails every month but rarely organize them. Velar bridges this gap by converting unstructured
-            email data into structured financial intelligence with automated parsing, instant classification, and clear
-            visual analytics.
+            Velar is a personal finance system built to eliminate manual expense tracking. Convert unstructured
+            email data into structured financial intelligence with automated parsing and clean visual analytics.
         </p>
+    </section>
 
+    <!-- CINEMATIC MOCKUP SECTION -->
+    <section class="mockup-section">
+        <div class="mockup-bg-glow"></div>
+        <div class="mockup-wrap" id="mockupWrap">
+            
+            <!-- Phone 1: Market Dashboard -->
+            <div class="iphone-frame phone-left">
+                <div class="dynamic-island"></div>
+                <div class="iphone-screen">
+                    <div class="screen-reflection"></div>
+                    <!-- Placeholder for Market Dashboard -->
+                    <img src="assets/dashboard_mock.png" onerror="this.src='https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=400'" alt="Market Dashboard">
+                </div>
+            </div>
+
+            <!-- Phone 2: Portfolio Analytics -->
+            <div class="iphone-frame phone-center">
+                <div class="dynamic-island"></div>
+                <div class="iphone-screen">
+                    <div class="screen-reflection"></div>
+                    <!-- Placeholder for Portfolio Analytics -->
+                    <img src="assets/analytics_mock.png" onerror="this.src='https://images.unsplash.com/photo-1551288049-bbda4865c68c?auto=format&fit=crop&q=80&w=400'" alt="Portfolio Analytics">
+                </div>
+            </div>
+
+            <!-- Phone 3: Transaction History -->
+            <div class="iphone-frame phone-right">
+                <div class="dynamic-island"></div>
+                <div class="iphone-screen">
+                    <div class="screen-reflection"></div>
+                    <!-- Placeholder for Transaction History -->
+                    <img src="assets/history_mock.png" onerror="this.src='https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=400'" alt="Transaction History">
+                </div>
+            </div>
+
+        </div>
     </section>
 
     <section class="container section-padding">
@@ -543,152 +350,59 @@
                 <i class="ri-flutter-fill bento-icon"></i>
                 <div>
                     <h3 class="bento-title">Flutter Mobile</h3>
-                    <p class="bento-text">A cross-platform application designed for clarity, providing dashboards,
-                        category breakdowns, and spending insights that update in real time.</p>
+                    <p class="bento-text">A cross-platform application designed for clarity, providing dashboards and spending insights that update in real time.</p>
                 </div>
             </div>
             <div class="bento-card dark-card">
                 <i class="ri-code-s-slash-fill bento-icon"></i>
                 <div>
                     <h3 class="bento-title">Node.js Parser</h3>
-                    <p class="bento-text">A high-accuracy email parser that extracts merchant, amount, date, and
-                        category
-                        from inconsistent and unstructured bank emails using an advanced Regex interpretation pipeline.
-                    </p>
+                    <p class="bento-text">A high-accuracy email parser that extracts financial data from inconsistent bank emails.</p>
                 </div>
             </div>
             <div class="bento-card">
                 <i class="ri-arrow-left-right-fill bento-icon"></i>
                 <div>
                     <h3 class="bento-title">RabbitMQ</h3>
-                    <p class="bento-text">Decouples heavy parsing and analytics from the UI. Incoming emails are
-                        processed
-                        in background workers, ensuring the app remains smooth and responsive.</p>
+                    <p class="bento-text">Decouples heavy parsing from the UI, ensuring the app remains responsive during ingestion.</p>
                 </div>
             </div>
             <div class="bento-card span-2">
                 <i class="ri-container-line bento-icon"></i>
                 <div>
                     <h3 class="bento-title">Docker & CI/CD</h3>
-                    <p class="bento-text">Every service runs inside a container with automated testing and deployment
-                        pipelines, enabling consistent environments and rapid releases.</p>
+                    <p class="bento-text">Automated testing and deployment pipelines for consistent multi-service environments.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="container section-padding visual-section">
-        <div class="visual-content">
-            <span
-                style="color: var(--accent); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; display: block; margin-bottom: 1rem;">System
-                Design</span>
-            <h2 style="font-size: clamp(2.5rem, 4vw, 3.5rem); margin-bottom: 2rem;">Async Ingestion.</h2>
-            <p style="font-size: 1.1rem; max-width: 450px;">
-                Financial parsing is compute-heavy. Instead of blocking the UI, Velar routes every incoming email
-                through an
-                asynchronous ingestion pipeline. The Email Hook forwards raw content to RabbitMQ, where worker nodes
-                clean,
-                categorize, and store the transaction without interrupting user activity.
-            </p>
-        </div>
-        <div class="visual-media">
-            <div class="node active" style="top: 8%; left: 50%; transform: translateX(-50%); padding: 14px 24px;">
-                Flutter App<br>
-                <span style="font-size: 0.7rem; opacity: 0.8;">Mobile Client</span>
-            </div>
-
-            <div class="node active" style="top: 35%; left: 50%; transform: translateX(-50%); padding: 16px 28px;">
-                Node.js Backend<br>
-                <span style="font-size: 0.7rem; opacity: 0.8;">Express API</span>
-            </div>
-
-            <div class="node active" style="top: 35%; right: 10%; padding: 12px 20px;">
-                NLP Service<br>
-                <span style="font-size: 0.7rem; opacity: 0.8;">Flask ML</span>
-            </div>
-
-            <div class="node active" style="top: 65%; left: 50%; transform: translateX(-50%); padding: 14px 24px;">
-                MongoDB<br>
-                <span style="font-size: 0.7rem; opacity: 0.8;">Database</span>
-            </div>
-
-            <div class="node active" style="top: 35%; left: 10%; padding: 12px 18px;">
-                Gmail API<br>
-                <span style="font-size: 0.7rem; opacity: 0.8;">OAuth</span>
-            </div>
-
-            <svg style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1;">
-                <defs>
-                    <marker id="arrowhead-cyan" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-                        <polygon points="0 0, 10 3, 0 6" fill="var(--accent)" />
-                    </marker>
-                </defs>
-
-                <line x1="50%" y1="20%" x2="50%" y2="40%" stroke="var(--accent)" stroke-width="2.5" />
-
-                <line x1="20%" y1="40%" x2="40%" y2="40%" stroke="var(--accent)" stroke-width="2.5" />
-
-                <line x1="50%" y1="40%" x2="80%" y2="40%" stroke="var(--accent)" stroke-width="2.5" />
-
-                <line x1="50%" y1="50%" x2="50%" y2="70%" stroke="var(--accent)" stroke-width="2.5" />
-            </svg>
-        </div>
-    </section>
-
-    <div class="container" style="margin-bottom: 6rem; text-align: center;">
-        <h2 style="font-size: 2rem; color: var(--text-secondary);">Interface Design — Coming Soon</h2>
-    </div>
-
     <section class="container section-padding">
         <h2 style="font-size: 3rem; margin-bottom: 4rem;">Technical Deep Dive</h2>
-
         <div class="eng-list">
             <div class="eng-item">
                 <div><span class="eng-num">01</span></div>
                 <div>
                     <h3 class="eng-head">Regex Parsing Engine</h3>
-                    <p>
-                        Bank emails vary widely in format and structure. Velar uses a custom regex engine capable of
-                        identifying transactional patterns with high accuracy, extracting merchant names, dates,
-                        amounts, and references even from noisy email bodies.
-                    </p>
+                    <p>Velar uses a custom regex engine identifying transactional patterns with high accuracy from noisy email bodies.</p>
                 </div>
             </div>
-
             <div class="eng-item">
                 <div><span class="eng-num">02</span></div>
                 <div>
                     <h3 class="eng-head">Self-Learning Categorizer</h3>
-                    <p>
-                        Velar improves over time. When users correct a miscategorized transaction, the system adjusts
-                        merchant-category weightings. This lightweight adaptive model avoids heavy ML pipelines while
-                        still delivering improving accuracy.
-                    </p>
-                </div>
-            </div>
-
-            <div class="eng-item">
-                <div><span class="eng-num">03</span></div>
-                <div>
-                    <h3 class="eng-head">Automated Deployment</h3>
-                    <p>
-                        The backend is fully containerized with Docker, and a CI/CD pipeline automates testing and
-                        deployment. Every commit triggers validation, image building, and registry updates, reducing
-                        deployment effort by 70 percent.
-                    </p>
+                    <p>Adaptive merchant-category weightings that improve accuracy based on user correction data.</p>
                 </div>
             </div>
         </div>
     </section>
 
-
     <footer class="footer container">
         <p class="footer-sub">Next Case Study</p>
-        <a href="./maplayer.html" class="footer-cta">MAPLAYER</a>
-        <div
-            style="position: absolute; bottom: 5vh; width: 100%; display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; padding: 0 5vw; left: 0;">
-            <span>&copy; 2024</span>
-            <a href="./first.html">Back to Home</a>
+        <a href="#" class="footer-cta">MAPLAYER</a>
+        <div style="position: absolute; bottom: 5vh; width: 100%; display: flex; justify-content: space-between; font-size: 0.9rem; color: #666; padding: 0 5vw; left: 0;">
+            <span>&copy; 2024 VELAR</span>
+            <a href="#">Back to Top</a>
         </div>
     </footer>
 
@@ -710,34 +424,37 @@
 
         // 2. HERO ANIMATIONS
         const tl = gsap.timeline();
+        tl.from(".anim-title", { y: 150, skewY: 7, duration: 1.5, ease: "power4.out" })
+          .from(".anim-meta", { opacity: 0, y: 20, duration: 0.8, stagger: 0.05, ease: "power2.out" }, "-=1")
+          .from(".anim-fade", { opacity: 0, y: 30, duration: 1, ease: "power2.out" }, "-=0.8");
 
-        tl.from(".anim-title", {
-            y: 150,
-            skewY: 7,
-            duration: 1.5,
-            stagger: 0.1,
-            ease: "power4.out"
-        })
-            .from(".anim-meta", {
-                opacity: 0,
-                y: 20,
-                duration: 0.8,
-                stagger: 0.05,
-                ease: "power2.out"
-            }, "-=1")
-            .from(".anim-fade", {
-                opacity: 0,
-                y: 30,
-                duration: 1,
-                ease: "power2.out"
-            }, "-=0.8")
-            .from(".anim-line", {
-                scaleX: 0,
-                duration: 1.5,
-                ease: "expo.out"
-            }, "-=1");
+        // 3. MOCKUP PARALLAX & REVEAL
+        gsap.from(".phone-left", {
+            x: -200, opacity: 0, rotateY: 45,
+            scrollTrigger: { trigger: ".mockup-section", start: "top 60%", scrub: 1 }
+        });
+        gsap.from(".phone-right", {
+            x: 200, opacity: 0, rotateY: -45,
+            scrollTrigger: { trigger: ".mockup-section", start: "top 60%", scrub: 1 }
+        });
+        gsap.to(".phone-center", {
+            y: -100,
+            scrollTrigger: { trigger: ".mockup-section", start: "top bottom", end: "bottom top", scrub: 1 }
+        });
 
-        // 3. MOUSE MOVE EFFECT ON BENTO GRID
+        // Interactive mouse parallax for the mockup
+        document.querySelector('.mockup-section').addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 40;
+            const y = (e.clientY / window.innerHeight - 0.5) * 40;
+            gsap.to(".mockup-wrap", {
+                rotateY: x,
+                rotateX: -y,
+                duration: 2,
+                ease: "power2.out"
+            });
+        });
+
+        // 4. BENTO GRID MOUSE TRACK
         const grid = document.getElementById("bentoGrid");
         grid.onmousemove = e => {
             for (const card of document.getElementsByClassName("bento-card")) {
@@ -749,21 +466,13 @@
             }
         };
 
-        // 5. ENGINEERING LIST REVEAL
+        // 5. REVEAL ENGINEERING
         gsap.utils.toArray(".eng-item").forEach(item => {
             gsap.from(item, {
-                opacity: 0,
-                y: 50,
-                duration: 1,
-                scrollTrigger: {
-                    trigger: item,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
+                opacity: 0, y: 50, duration: 1,
+                scrollTrigger: { trigger: item, start: "top 85%", toggleActions: "play none none reverse" }
             })
         });
-
     </script>
 </body>
-
 </html>

@@ -239,6 +239,14 @@
 
 <body data-theme="dark">
 
+  <script>
+    // Load theme from localStorage on page load
+    (function () {
+      const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.body.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+
   <button class="theme-btn" onclick="toggleTheme()" id="theme-toggle">
     <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></svg>
   </button>
@@ -317,14 +325,15 @@
 
     function setTheme(theme) {
       body.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
       themeIcon.innerHTML = theme === 'light' ? moon : sun;
       // Add a small bounce to toggle on switch
       document.getElementById('theme-toggle').style.transform = 'scale(0.8)';
       setTimeout(() => { document.getElementById('theme-toggle').style.transform = 'scale(1)'; }, 100);
     }
 
-    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-    setTheme(prefersLight ? 'light' : 'dark');
+    const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    setTheme(savedTheme);
 
     function toggleTheme() {
       const current = body.getAttribute('data-theme');

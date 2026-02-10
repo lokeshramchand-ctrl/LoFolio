@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
+      <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lokesh Ram Chand</title>
@@ -404,7 +406,7 @@
         }
 
         .input-group label {
-            font-family: var(--font-mono);
+            font-family: var(--font-system);
             font-size: 0.55rem;
             text-transform: uppercase;
             letter-spacing: 0.2em;
@@ -418,7 +420,7 @@
             border: 1px solid var(--border);
             padding: 1.2rem;
             color: var(--text-primary);
-            font-family: var(--font-mono);
+            font-family: var(--font-system);
             font-size: 0.9rem;
             outline: none;
             transition: border-color 0.3s ease, background 0.3s ease;
@@ -437,7 +439,7 @@
             border: 1px solid var(--text-muted);
             color: var(--text-primary);
             padding: 1rem 2rem;
-            font-family: var(--font-mono);
+            font-family: var(--font-system);
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.15em;
@@ -455,8 +457,8 @@
         }
 
         .status-msg {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
+            font-family: var(--font-system);
+            font-size: 0.7rem;      
             margin-top: 1.5rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
@@ -743,28 +745,42 @@
             </div>
         </section>
 
-        <section id="contact" class="container contact-form-section">
-            <div class="section-header reveal">
-                <span class="hero-tag">Transmission</span>
-                <h2>Initialize Contact</h2>
+       <section id="contact" class="container contact-form-section">
+    <div class="section-header reveal">
+        <span class="hero-tag">Contact</span>
+        <h2>Get in Touch</h2>
+    </div>
+
+    <div class="form-wrapper reveal">
+        <form id="contact-form" class="form-layout">
+            <div class="input-group">
+                <label for="form-email">Email</label>
+                <input
+                    type="email"
+                    id="form-email"
+                    required
+                    placeholder="email"
+                >
             </div>
-            <div class="form-wrapper reveal">
-                <form id="contact-form" class="form-layout">
-                    <div class="input-group">
-                        <label for="form-email">System ID (Email)</label>
-                        <input type="email" id="form-email" required placeholder="user@domain.com">
-                    </div>
-                    <div class="input-group">
-                        <label for="form-work">Payload (Message)</label>
-                        <textarea id="form-work" required rows="4" placeholder="Describe the engineering challenge..."></textarea>
-                    </div>
-                    <div>
-                        <button type="submit" id="submit-btn">Transmit Data</button>
-                        <div id="form-status" class="status-msg"></div>
-                    </div>
-                </form>
+
+            <div class="input-group">
+                <label for="form-work">Message</label>
+                <textarea
+                    id="form-work"
+                    required
+                    rows="4"
+                    placeholder="Tell me about the role, project, or opportunity."
+                ></textarea>
             </div>
-        </section>
+
+            <div>
+                <button type="submit" id="submit-btn">Send Message</button>
+                <div id="form-status" class="status-msg"></div>
+            </div>
+        </form>
+    </div>
+</section>
+
     </main>
 
     <footer>

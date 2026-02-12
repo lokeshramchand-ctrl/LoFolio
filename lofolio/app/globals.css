@@ -210,6 +210,14 @@ body {
 }
 
 .ns-footer {
-  background: var(--ns-bg-primary);
+  background: linear-gradient(180deg, var(--ns-bg-primary) 0%, var(--ns-bg-secondary) 100%);
   border-top: 1px solid var(--ns-border-subtle);
+}
+
+.ns-bg-primary {
+  background: var(--ns-bg-primary);
+}
+
+.ns-bg-secondary {
+  background: var(--ns-bg-secondary);
 }

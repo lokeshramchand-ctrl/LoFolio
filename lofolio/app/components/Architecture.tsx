@@ -144,21 +144,7 @@ export default function GalleryPage() {
                 </div>
             </section>
 
-            {/* Footer / CTA Area */}
-            <section className="relative z-10 py-32 ns-footer flex justify-center items-center">
-                <motion.div
-                    style={{ y }}
-                    className="text-center space-y-6"
-                >
-                    <h2 className="text-4xl md:text-6xl font-serif">
-                        Let's create together
-                    </h2>
-                    <div className="h-px w-24 ns-divider mx-auto" />
-                    <p className="text-xs uppercase tracking-widest ns-text-meta">
-                        Get in touch for collaborations
-                    </p>
-                </motion.div>
-            </section>
+           
 
         </main>
     );

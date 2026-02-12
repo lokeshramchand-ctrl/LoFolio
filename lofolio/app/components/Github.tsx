@@ -42,6 +42,7 @@ export default function CodePage() {
 
     return (
         <main className="ns-page min-h-screen font-sans overflow-hidden flex items-center justify-center relative">
+            <div className="ns-grid-bg" />
 
             {/* Background Gradients */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">

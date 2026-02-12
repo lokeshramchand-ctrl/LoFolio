@@ -93,6 +93,7 @@ export default function GalleryPage() {
 
     return (
         <main ref={containerRef} className="ns-page min-h-screen font-sans overflow-hidden">
+            <div className="ns-grid-bg" />
 
             {/* Decorative Background Elements */}
             <div className="fixed inset-0 pointer-events-none opacity-60 z-0">

@@ -71,9 +71,7 @@ export default function ModernContact() {
       <NoiseTexture />
 
       {/* --- Architectural Grid Background --- */}
-       <div className="absolute inset-0 z-0 pointer-events-none" 
-         style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
-      />
+      <div className="ns-grid-bg" />
 
       {/* --- Ambient Gradients (The Sakura Soul) --- */}
       <div className="fixed inset-0 pointer-events-none z-0">

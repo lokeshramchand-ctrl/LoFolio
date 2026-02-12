@@ -1,256 +1,165 @@
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import Lenis from '@studio-freight/lenis';
+"use client";
 
-// Register GSAP ScrollTrigger
-gsap.registerPlugin(ScrollTrigger);
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
-interface ArchitectureBlock {
-  title: string;
-  subtext: string;
-  isLast?: boolean;
-}
-
-const BLOCKS: ArchitectureBlock[] = [
-  { title: "Client Layer", subtext: "Next.js / React / Mobile Native" },
-  { title: "API Gateway", subtext: "Rate Limiting / Auth / Edge Routing" },
-  { title: "Service Layer", subtext: "Go / Node.js Microservices" },
-  { title: "Event Queue", subtext: "RabbitMQ / Apache Kafka" },
-  { title: "Workers", subtext: "Async Processing / Data Aggregation" },
-  { title: "Database", subtext: "PostgreSQL / Redis Cache", isLast: true },
+// --- Data ---
+const collectionItems = [
+    {
+        id: 1,
+        title: "Velar",
+        category: "Fintech System",
+        year: "2024",
+        image: "https://images.unsplash.com/photo-1490750967868-58cb75069ed6?auto=format&fit=crop&q=80&w=600",
+    },
+    {
+        id: 2,
+        title: "Fortyl",
+        category: "Authentication Layer",
+        year: "2025",
+        image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?auto=format&fit=crop&q=80&w=600",
+    },
+    {
+        id: 3,
+        title: "MapLayer",
+        category: "Geospatial Engine",
+        year: "2025",
+        image: "https://images.unsplash.com/photo-1545048702-79362596cdc9?auto=format&fit=crop&q=80&w=600",
+    },
+    {
+        id: 4,
+        title: "SupplySentinel",
+        category: "AI Risk Detection",
+        year: "2026",
+        image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=600",
+    },
 ];
 
-export default function ArchitectureSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const diagramRef = useRef<HTMLDivElement>(null);
+// --- Components ---
 
-  useEffect(() => {
-    // 1. Initialize Lenis for smooth scrolling
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
+const Card = ({ item, index }: { item: any; index: number }) => {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: index * 0.2, ease: "easeOut" }}
+            whileHover={{ y: -10 }}
+            className="group relative w-full aspect-[3/4] cursor-pointer"
+        >
+            {/* Image Container with Parallax-like Zoom on Hover */}
+            <div className="relative w-full h-full overflow-hidden bg-gray-200">
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500 z-10" />
+                <motion.img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+                    whileHover={{ scale: 1.1 }}
+                />
+
+                {/* Floating Tag */}
+                <div className="absolute top-4 right-4 z-20 bg-white/80 backdrop-blur-md px-3 py-1 text-[10px] uppercase tracking-widest border border-white/40">
+                    {item.category}
+                </div>
+            </div>
+
+            {/* Content Below */}
+            <div className="mt-4 flex justify-between items-start border-t border-black/10 pt-4">
+                <div>
+                    <h3 className="text-2xl font-serif text-[#1a1a1a] group-hover:italic transition-all duration-300">
+                        {item.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 uppercase tracking-wider mt-1">
+                        Shipped  {item.year}
+                    </p>
+                </div>
+                <div className="w-8 h-8 rounded-full border border-black/20 flex items-center justify-center group-hover:bg-[#1a1a1a] group-hover:text-white transition-colors duration-300">
+                    <ArrowUpRight size={14} />
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
+export default function GalleryPage() {
+    const containerRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"],
     });
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+    const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
-    // 2. Setup GSAP Animations
-    const ctx = gsap.context(() => {
-      // Animate Heading Group
-      const headers = headingRef.current?.children;
-      if (headers) {
-        gsap.fromTo(
-          headers,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: headingRef.current,
-              start: "top 80%",
-            },
-          }
-        );
-      }
+    return (
+        <main ref={containerRef} className="min-h-screen bg-[#f9f5f1] text-[#1a1a1a] font-sans selection:bg-[#f08a8a] selection:text-white overflow-hidden">
 
-      // Animate Diagram Blocks
-      const blocks = diagramRef.current?.children;
-      if (blocks) {
-        gsap.fromTo(
-          blocks,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            stagger: 0.1, // distinct step-down feel
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: diagramRef.current,
-              start: "top 80%",
-            },
-          }
-        );
-      }
-    }, containerRef);
-
-    // Cleanup
-    return () => {
-      ctx.revert();
-      lenis.destroy();
-    };
-  }, []);
-
-  return (
-    <section ref={containerRef} className="architecture-section">
-      <div className="content-wrapper">
-        
-        {/* Header Group */}
-        <div ref={headingRef} className="header-group">
-          <span className="label">System Architecture</span>
-          <h2 className="heading">How I build for scale.</h2>
-          <p className="description">
-            I design systems around reliability, event flow, and long-term scale — not just features.
-          </p>
-        </div>
-
-        {/* Diagram Stack */}
-        <div ref={diagramRef} className="diagram-stack">
-          {BLOCKS.map((block, index) => (
-            <div key={index} className="diagram-row">
-              <div className="block">
-                <div className="block-title">{block.title}</div>
-                <div className="block-subtext">{block.subtext}</div>
-              </div>
-              {!block.isLast && <div className="connector" />}
+            {/* Decorative Background Elements */}
+            <div className="fixed inset-0 pointer-events-none opacity-40 z-0">
+                <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-pink-100 rounded-full blur-[120px]" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-rose-50 rounded-full blur-[100px]" />
             </div>
-          ))}
-        </div>
 
-      </div>
+            {/* Header Section */}
+            <section className="relative z-10 pt-32 pb-20 px-6 md:px-12 border-b border-black/5">
+                <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 1 }}
+                    className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end gap-10"
+                >
+                    <div>
+                        <p className="text-xs uppercase tracking-[0.3em] text-gray-500 mb-4">
+                            Curated Selection
+                        </p>
+                        <h1 className="text-7xl md:text-9xl font-serif leading-[0.9] -ml-2">
+                            Work
+                            <br /> <span className="italic ml-16 text-[#f08a8a]">Poetry</span>
+                        </h1>
+                    </div>
+                    <div className="md:w-1/3">
+                        <p className="text-sm leading-relaxed text-gray-600 mb-8">
+                            Each project represents a production-grade system.
+                            Designed with performance in mind.
+                            Built with scalability as a constraint.
+                            Engineered to survive real users.
+                        </p>
+                        <button className="group flex items-center gap-4 text-xs uppercase tracking-widest border-b border-black pb-1 hover:text-[#f08a8a] hover:border-[#f08a8a] transition-all">
+                            Explore Architecture
+                            <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform" />
+                        </button>
+                    </div>
+                </motion.div>
+            </section>
 
-      <style jsx>{`
-        /* --- Font Imports (Assuming Inter is available globally, else import here) --- */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+            {/* Gallery Grid */}
+            <section className="relative z-10 px-6 md:px-12 py-24 max-w-8xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-20">
+                    {collectionItems.map((item, index) => (
+                        <div key={item.id} className={index % 2 === 1 ? "md:mt-24" : ""}>
+                            {/* Staggered layout helper: pushes every 2nd item down */}
+                            <Card item={item} index={index} />
+                        </div>
+                    ))}
+                </div>
+            </section>
 
-        .architecture-section {
-          position: relative;
-          background: linear-gradient(180deg, #05070d 0%, #0b0f1a 100%);
-          color: #f5f7fa;
-          font-family: 'Inter', sans-serif;
-          padding: 160px 24px;
-          overflow: hidden;
-          min-height: 100vh;
-        }
+            {/* Footer / CTA Area */}
+            <section className="relative z-10 py-32 border-t border-black/5 flex justify-center items-center">
+                <motion.div
+                    style={{ y }}
+                    className="text-center space-y-6"
+                >
+                    <h2 className="text-4xl md:text-6xl font-serif">
+                        Let's create together
+                    </h2>
+                    <div className="h-px w-24 bg-black/20 mx-auto" />
+                    <p className="text-xs uppercase tracking-widest text-gray-500">
+                        Get in touch for collaborations
+                    </p>
+                </motion.div>
+            </section>
 
-        .content-wrapper {
-          max-width: 1100px;
-          margin: 0 auto;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        /* --- Header Styles --- */
-        .header-group {
-          text-align: center;
-          margin-bottom: 80px;
-          max-width: 800px;
-        }
-
-        .label {
-          display: block;
-          font-size: 12px;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          opacity: 0.5;
-          margin-bottom: 24px;
-          font-weight: 600;
-        }
-
-        .heading {
-          font-size: clamp(40px, 5vw, 64px);
-          font-weight: 600;
-          line-height: 1.1;
-          letter-spacing: -0.02em;
-          margin: 0 0 24px 0;
-          color: #f5f7fa;
-        }
-
-        .description {
-          font-size: 20px;
-          line-height: 1.5;
-          color: rgba(255, 255, 255, 0.65);
-          max-width: 700px;
-          margin: 0 auto;
-          font-weight: 400;
-        }
-
-        /* --- Diagram Styles --- */
-        .diagram-stack {
-          width: 100%;
-          max-width: 600px; /* Constrain width for a precise look */
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .diagram-row {
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .block {
-          width: 100%;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 16px;
-          padding: 28px;
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          transition: border-color 0.3s ease;
-          position: relative;
-          z-index: 2;
-        }
-
-        /* Subtle hover effect for interactivity context without flashiness */
-        .block:hover {
-          border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .block-title {
-          font-size: 18px;
-          font-weight: 600;
-          color: #f5f7fa;
-          margin-bottom: 4px;
-        }
-
-        .block-subtext {
-          font-size: 14px;
-          color: #f5f7fa;
-          opacity: 0.6;
-          font-weight: 400;
-        }
-
-        .connector {
-          width: 1px;
-          height: 40px;
-          background: rgba(255, 255, 255, 0.1);
-          margin: 0 auto; /* Centers it vertically between blocks */
-        }
-
-        /* --- Responsive Adjustments --- */
-        @media (max-width: 768px) {
-          .architecture-section {
-            padding: 100px 20px;
-          }
-
-          .heading {
-            font-size: clamp(32px, 8vw, 48px);
-          }
-
-          .description {
-            font-size: 18px;
-          }
-
-          .block {
-            padding: 24px;
-          }
-        }
-      `}</style>
-    </section>
-  );
+        </main>
+    );
 }

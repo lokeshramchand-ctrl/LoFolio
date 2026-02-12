@@ -38,7 +38,7 @@ const MinimalInput = ({ label, placeholder, type = "text", isTextArea = false }:
 
   return (
     <div className="group relative pt-6 pb-2">
-      <label className={`absolute left-0 transition-all duration-300 ${focused || placeholder ? 'top-0 text-[10px] text-[#f08a8a] tracking-widest uppercase' : 'top-6 text-xl text-gray-400 font-serif'}`}>
+      <label className={`absolute left-0 transition-all duration-300 ${focused || placeholder ? 'top-0 text-[10px] ns-accent tracking-widest uppercase' : 'top-6 text-xl ns-text-muted font-serif'}`}>
         {label}
       </label>
       
@@ -47,7 +47,7 @@ const MinimalInput = ({ label, placeholder, type = "text", isTextArea = false }:
          rows={3}
          onFocus={() => setFocused(true)}
          onBlur={(e) => setFocused(e.target.value !== "")}
-         className="w-full bg-transparent border-b border-gray-300 py-2 text-lg text-[#1a1a1a] focus:outline-none focus:border-[#f08a8a] transition-colors resize-none placeholder-transparent"
+         className="ns-input text-lg transition-colors resize-none placeholder-transparent"
          placeholder=" " // Trick to handle label animation
        />
       ) : (
@@ -55,7 +55,7 @@ const MinimalInput = ({ label, placeholder, type = "text", isTextArea = false }:
           type={type}
           onFocus={() => setFocused(true)}
           onBlur={(e) => setFocused(e.target.value !== "")}
-          className="w-full bg-transparent border-b border-gray-300 py-2 text-lg text-[#1a1a1a] focus:outline-none focus:border-[#f08a8a] transition-colors placeholder-transparent"
+          className="ns-input text-lg transition-colors placeholder-transparent"
           placeholder=" "
         />
       )}
@@ -67,26 +67,26 @@ export default function ModernContact() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <main className="min-h-screen bg-[#fffbfb] text-[#1a1a1a] font-sans selection:bg-[#f08a8a] selection:text-white relative overflow-hidden">
+    <main className="ns-page min-h-screen font-sans relative overflow-hidden">
       <NoiseTexture />
 
       {/* --- Architectural Grid Background --- */}
-      <div className="absolute inset-0 z-0 pointer-events-none" 
-           style={{ backgroundImage: 'linear-gradient(#00000008 1px, transparent 1px), linear-gradient(90deg, #00000008 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
+       <div className="absolute inset-0 z-0 pointer-events-none" 
+         style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
       />
 
       {/* --- Ambient Gradients (The Sakura Soul) --- */}
       <div className="fixed inset-0 pointer-events-none z-0">
-         <motion.div 
-            animate={{ scale: [1, 1.2, 1], x: [0, 50, 0], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-            className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-b from-[#ffdde1] to-[#ee9ca7] rounded-full blur-[120px] opacity-40 translate-x-1/2 -translate-y-1/2"
-         />
-         <motion.div 
-            animate={{ scale: [1, 1.3, 1], x: [0, -30, 0], opacity: [0.2, 0.4, 0.2] }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-t from-[#f08a8a] to-transparent rounded-full blur-[100px] opacity-30 -translate-x-1/3 translate-y-1/3"
-         />
+        <motion.div 
+          animate={{ scale: [1, 1.1, 1], x: [0, 30, 0], opacity: [0.2, 0.35, 0.2] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full blur-[140px] opacity-40 translate-x-1/2 -translate-y-1/2 ns-hero-glow"
+        />
+        <motion.div 
+          animate={{ scale: [1, 1.2, 1], x: [0, -20, 0], opacity: [0.15, 0.3, 0.15] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full blur-[120px] opacity-40 -translate-x-1/3 translate-y-1/3 ns-glow-blob"
+        />
       </div>
 
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 py-12 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 min-h-screen items-center">
@@ -99,35 +99,35 @@ export default function ModernContact() {
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
             className="flex items-center gap-2"
           >
-             <div className="w-3 h-3 bg-[#f08a8a] rounded-full animate-pulse" />
-             <span className="text-xs uppercase tracking-[0.2em] font-bold text-gray-400">Open to Work</span>
+             <div className="w-3 h-3 rounded-full animate-pulse ns-accent-bg" />
+             <span className="text-xs uppercase tracking-[0.2em] font-bold ns-text-meta">Open to Work</span>
           </motion.div>
 
           {/* Main Typography */}
           <div className="space-y-2">
             <h1 className="text-7xl md:text-9xl font-serif tracking-tighter leading-[0.85]">
               <AnimatedLabel>Let's</AnimatedLabel>
-              <AnimatedLabel><span className="italic text-[#f08a8a] pr-4">Bloom</span></AnimatedLabel>
+              <AnimatedLabel><span className="italic ns-accent pr-4">Bloom</span></AnimatedLabel>
               <AnimatedLabel>Together</AnimatedLabel>
             </h1>
           </div>
 
           {/* Contact Details (High-end list style) */}
           <div className="space-y-6 pt-12">
-            <div className="group flex items-center justify-between border-t border-black/10 py-6 hover:bg-white/40 transition-colors cursor-pointer">
+            <div className="group ns-hover-accent flex items-center justify-between border-t ns-border-subtle py-6 transition-colors cursor-pointer ns-hover-surface">
                <div>
-                 <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Direct Email</p>
+                 <p className="text-[10px] uppercase tracking-widest ns-text-meta mb-1">Direct Email</p>
                  <p className="text-lg font-serif">hello@sakurastudio.com</p>
                </div>
-               <Copy size={16} className="text-gray-400 group-hover:text-[#f08a8a] transition-colors" />
+              <Copy size={16} className="ns-text-muted ns-icon-hover transition-colors" />
             </div>
 
-            <div className="group flex items-center justify-between border-t border-black/10 py-6 hover:bg-white/40 transition-colors cursor-pointer">
+            <div className="group ns-hover-accent flex items-center justify-between border-t ns-border-subtle py-6 transition-colors cursor-pointer ns-hover-surface">
                <div>
-                 <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Based In</p>
+                 <p className="text-[10px] uppercase tracking-widest ns-text-meta mb-1">Based In</p>
                  <p className="text-lg font-serif">Kyoto, Japan</p>
                </div>
-               <MapPin size={16} className="text-gray-400 group-hover:text-[#f08a8a] transition-colors" />
+              <MapPin size={16} className="ns-text-muted ns-icon-hover transition-colors" />
             </div>
           </div>
 
@@ -141,11 +141,11 @@ export default function ModernContact() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-white/30 backdrop-blur-xl border border-white/60 p-8 md:p-16 rounded-[2rem] shadow-2xl shadow-[#f08a8a]/10 relative overflow-hidden"
+            className="ns-glass border ns-border-subtle p-8 md:p-16 rounded-[2rem] ns-shadow-accent relative overflow-hidden"
           >
             
             {/* Glossy highlight effect on the card */}
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50" />
+            <div className="absolute top-0 left-0 w-full h-px ns-divider opacity-60" />
 
             <form className="space-y-12" onSubmit={(e) => e.preventDefault()}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -156,7 +156,7 @@ export default function ModernContact() {
               <MinimalInput label="Tell us about your project" isTextArea={true} />
 
               <div className="pt-8 flex justify-between items-center">
-                 <div className="hidden md:block text-xs text-gray-400 max-w-[200px] leading-relaxed">
+                  <div className="hidden md:block text-xs ns-text-meta max-w-[200px] leading-relaxed">
                     By submitting, you agree to our privacy policy and the processing of your data.
                  </div>
 
@@ -165,18 +165,18 @@ export default function ModernContact() {
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                     whileTap={{ scale: 0.95 }}
-                    className="relative px-10 py-5 bg-[#1a1a1a] text-white rounded-full overflow-hidden group"
+                      className="relative px-10 py-5 rounded-full overflow-hidden group ns-button-primary"
                  >
                     <motion.div 
                       animate={{ y: isHovered ? "-100%" : "0%" }}
                       transition={{ duration: 0.4, ease: "easeInOut" }}
-                      className="absolute inset-0 bg-[#f08a8a] z-0"
+                       className="absolute inset-0 ns-accent-soft-bg z-0"
                     />
                     <div className="relative z-10 flex items-center gap-3">
-                       <span className="uppercase tracking-widest text-xs font-bold group-hover:text-[#1a1a1a] transition-colors duration-300">
+                         <span className="uppercase tracking-widest text-xs font-bold ns-button-text transition-colors duration-300">
                          Send Inquiry
                        </span>
-                       <ArrowRight size={14} className="group-hover:text-[#1a1a1a] group-hover:translate-x-1 transition-all duration-300" />
+                         <ArrowRight size={14} className="ns-button-text group-hover:translate-x-1 transition-all duration-300" />
                     </div>
                  </motion.button>
               </div>
@@ -191,7 +191,7 @@ export default function ModernContact() {
              transition={{ delay: 0.8, duration: 1 }}
              className="absolute -top-12 -right-6 w-32 md:w-48 aspect-[3/4] hidden md:block pointer-events-none"
           >
-             <div className="p-2 bg-white shadow-xl rotate-6 transform transition-transform hover:rotate-0 duration-500 ease-out">
+             <div className="p-2 ns-elevated ns-shadow-soft rotate-6 transform transition-transform hover:rotate-0 duration-500 ease-out">
                 <img 
                   src="https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&q=80&w=400" 
                   alt="Sakura" 

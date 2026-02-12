@@ -70,9 +70,6 @@ export default function ModernContact() {
     <main className="ns-page min-h-screen font-sans relative overflow-hidden">
       <NoiseTexture />
 
-      {/* --- Architectural Grid Background --- */}
-      <div className="ns-grid-bg" />
-
       {/* --- Ambient Gradients (The Sakura Soul) --- */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <motion.div 

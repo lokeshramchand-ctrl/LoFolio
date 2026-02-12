@@ -93,7 +93,6 @@ export default function GalleryPage() {
 
     return (
         <main ref={containerRef} className="ns-page min-h-screen font-sans overflow-hidden">
-            <div className="ns-grid-bg" />
 
             {/* Decorative Background Elements */}
             <div className="fixed inset-0 pointer-events-none opacity-60 z-0">
@@ -146,7 +145,7 @@ export default function GalleryPage() {
             </section>
 
             {/* Footer / CTA Area */}
-            <section className="relative z-10 py-32 border-t ns-border-subtle flex justify-center items-center">
+            <section className="relative z-10 py-32 ns-footer flex justify-center items-center">
                 <motion.div
                     style={{ y }}
                     className="text-center space-y-6"

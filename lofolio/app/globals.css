@@ -209,12 +209,7 @@ body {
   color: var(--ns-bg-primary);
 }
 
-.ns-grid-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
+.ns-footer {
+  background: var(--ns-bg-primary);
+  border-top: 1px solid var(--ns-border-subtle);
 }

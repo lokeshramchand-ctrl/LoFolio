@@ -42,8 +42,6 @@ export default function CodePage() {
 
     return (
         <main className="ns-page min-h-screen font-sans overflow-hidden flex items-center justify-center relative">
-            <div className="ns-grid-bg" />
-
             {/* Background Gradients */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full blur-[140px] ns-glow-blob opacity-70" />

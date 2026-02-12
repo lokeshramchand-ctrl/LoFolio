@@ -1,175 +1,208 @@
 "use client";
 
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Send, MapPin, Mail, Instagram, Twitter, Linkedin } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, ArrowUpRight, Copy, Mail, MapPin } from "lucide-react";
 
-// --- Components ---
+// --- Utility Components ---
 
-const SocialLink = ({ icon: Icon, href }: { icon: any; href: string }) => (
-    <motion.a
-        href={href}
-        whileHover={{ scale: 1.1, color: "#f08a8a" }}
-        whileTap={{ scale: 0.95 }}
-        className="w-10 h-10 flex items-center justify-center rounded-full border border-black/10 bg-white/20 backdrop-blur-md hover:bg-white/50 transition-colors"
-    >
-        <Icon size={16} />
-    </motion.a>
+/**
+ * Adds a film grain texture to the whole page for that "Editorial/Print" look.
+ */
+const NoiseTexture = () => (
+  <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay">
+    <svg className="w-full h-full">
+      <filter id="noiseFilter">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch" />
+      </filter>
+      <rect width="100%" height="100%" filter="url(#noiseFilter)" />
+    </svg>
+  </div>
 );
 
-const GlassInput = ({ label, type = "text", placeholder, rows }: { label: string, type?: string, placeholder: string, rows?: number }) => (
+const AnimatedLabel = ({ children }: { children: React.ReactNode }) => (
+  <div className="overflow-hidden relative">
     <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="space-y-2"
+      initial={{ y: "100%" }}
+      whileInView={{ y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} // Custom "Apple-like" ease
     >
-        <label className="text-[10px] uppercase tracking-widest font-bold text-gray-500 ml-1">
-            {label}
-        </label>
-        {rows ? (
-            <textarea
-                rows={rows}
-                placeholder={placeholder}
-                className="w-full bg-white/40 backdrop-blur-md border border-white/50 rounded-lg p-4 text-sm text-[#1a1a1a] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f08a8a]/50 focus:bg-white/60 transition-all resize-none shadow-sm"
-            />
-        ) : (
-            <input
-                type={type}
-                placeholder={placeholder}
-                className="w-full bg-white/40 backdrop-blur-md border border-white/50 rounded-lg h-12 px-4 text-sm text-[#1a1a1a] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#f08a8a]/50 focus:bg-white/60 transition-all shadow-sm"
-            />
-        )}
+      {children}
     </motion.div>
+  </div>
 );
 
-export default function ContactPage() {
-    return (
-        <main className="min-h-screen relative bg-[#fdf2f2] text-[#1a1a1a] font-sans overflow-hidden flex items-center justify-center py-20 px-4">
+const MinimalInput = ({ label, placeholder, type = "text", isTextArea = false }: any) => {
+  const [focused, setFocused] = useState(false);
 
-            {/* --- Ambient Background Animations --- */}
-            <div className="absolute inset-0 pointer-events-none">
-                {/* Large Pink Orb (Top Left) */}
-                <motion.div
-                    animate={{
-                        x: [0, 50, 0],
-                        y: [0, 30, 0],
-                        scale: [1, 1.1, 1]
-                    }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -top-[10%] -left-[10%] w-[600px] h-[600px] bg-[#f08a8a] rounded-full opacity-20 blur-[100px]"
-                />
-                {/* Smaller Rose Orb (Bottom Right) */}
-                <motion.div
-                    animate={{
-                        x: [0, -30, 0],
-                        y: [0, -50, 0],
-                    }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute -bottom-[10%] -right-[10%] w-[500px] h-[500px] bg-rose-300 rounded-full opacity-20 blur-[120px]"
-                />
+  return (
+    <div className="group relative pt-6 pb-2">
+      <label className={`absolute left-0 transition-all duration-300 ${focused || placeholder ? 'top-0 text-[10px] text-[#f08a8a] tracking-widest uppercase' : 'top-6 text-xl text-gray-400 font-serif'}`}>
+        {label}
+      </label>
+      
+      {isTextArea ? (
+         <textarea
+         rows={3}
+         onFocus={() => setFocused(true)}
+         onBlur={(e) => setFocused(e.target.value !== "")}
+         className="w-full bg-transparent border-b border-gray-300 py-2 text-lg text-[#1a1a1a] focus:outline-none focus:border-[#f08a8a] transition-colors resize-none placeholder-transparent"
+         placeholder=" " // Trick to handle label animation
+       />
+      ) : (
+        <input
+          type={type}
+          onFocus={() => setFocused(true)}
+          onBlur={(e) => setFocused(e.target.value !== "")}
+          className="w-full bg-transparent border-b border-gray-300 py-2 text-lg text-[#1a1a1a] focus:outline-none focus:border-[#f08a8a] transition-colors placeholder-transparent"
+          placeholder=" "
+        />
+      )}
+    </div>
+  );
+};
 
-                {/* Floating Petals */}
-                {[...Array(6)].map((_, i) => (
-                    <motion.div
-                        key={i}
-                        className="absolute w-3 h-3 bg-pink-300/40 rounded-full blur-[1px]"
-                        animate={{
-                            y: [0, 800],
-                            x: [0, Math.sin(i) * 100],
-                            rotate: [0, 360],
-                            opacity: [0, 0.8, 0]
-                        }}
-                        transition={{
-                            duration: 15 + i * 2,
-                            repeat: Infinity,
-                            ease: "linear",
-                            delay: i * 2,
-                        }}
-                        style={{
-                            left: `${15 + i * 15}%`,
-                            top: -50
-                        }}
-                    />
-                ))}
+export default function ModernContact() {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <main className="min-h-screen bg-[#fffbfb] text-[#1a1a1a] font-sans selection:bg-[#f08a8a] selection:text-white relative overflow-hidden">
+      <NoiseTexture />
+
+      {/* --- Architectural Grid Background --- */}
+      <div className="absolute inset-0 z-0 pointer-events-none" 
+           style={{ backgroundImage: 'linear-gradient(#00000008 1px, transparent 1px), linear-gradient(90deg, #00000008 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
+      />
+
+      {/* --- Ambient Gradients (The Sakura Soul) --- */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+         <motion.div 
+            animate={{ scale: [1, 1.2, 1], x: [0, 50, 0], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-b from-[#ffdde1] to-[#ee9ca7] rounded-full blur-[120px] opacity-40 translate-x-1/2 -translate-y-1/2"
+         />
+         <motion.div 
+            animate={{ scale: [1, 1.3, 1], x: [0, -30, 0], opacity: [0.2, 0.4, 0.2] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-t from-[#f08a8a] to-transparent rounded-full blur-[100px] opacity-30 -translate-x-1/3 translate-y-1/3"
+         />
+      </div>
+
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 py-12 md:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 min-h-screen items-center">
+        
+        {/* --- LEFT: The "Hook" --- */}
+        <div className="lg:col-span-5 flex flex-col justify-between h-full space-y-12">
+          
+          {/* Brand / Nav */}
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
+            className="flex items-center gap-2"
+          >
+             <div className="w-3 h-3 bg-[#f08a8a] rounded-full animate-pulse" />
+             <span className="text-xs uppercase tracking-[0.2em] font-bold text-gray-400">Open to Work</span>
+          </motion.div>
+
+          {/* Main Typography */}
+          <div className="space-y-2">
+            <h1 className="text-7xl md:text-9xl font-serif tracking-tighter leading-[0.85]">
+              <AnimatedLabel>Let's</AnimatedLabel>
+              <AnimatedLabel><span className="italic text-[#f08a8a] pr-4">Bloom</span></AnimatedLabel>
+              <AnimatedLabel>Together</AnimatedLabel>
+            </h1>
+          </div>
+
+          {/* Contact Details (High-end list style) */}
+          <div className="space-y-6 pt-12">
+            <div className="group flex items-center justify-between border-t border-black/10 py-6 hover:bg-white/40 transition-colors cursor-pointer">
+               <div>
+                 <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Direct Email</p>
+                 <p className="text-lg font-serif">hello@sakurastudio.com</p>
+               </div>
+               <Copy size={16} className="text-gray-400 group-hover:text-[#f08a8a] transition-colors" />
             </div>
 
-            {/* --- Main Glass Container --- */}
-            <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative z-10 w-full max-w-5xl bg-white/20 backdrop-blur-2xl border border-white/60 shadow-2xl rounded-3xl overflow-hidden grid grid-cols-1 lg:grid-cols-5"
-            >
+            <div className="group flex items-center justify-between border-t border-black/10 py-6 hover:bg-white/40 transition-colors cursor-pointer">
+               <div>
+                 <p className="text-[10px] uppercase tracking-widest text-gray-500 mb-1">Based In</p>
+                 <p className="text-lg font-serif">Kyoto, Japan</p>
+               </div>
+               <MapPin size={16} className="text-gray-400 group-hover:text-[#f08a8a] transition-colors" />
+            </div>
+          </div>
 
-                {/* Left Side: Info & Context */}
-                <div className="lg:col-span-2 p-10 flex flex-col justify-between bg-white/10 backdrop-blur-sm border-b lg:border-b-0 lg:border-r border-white/20 relative overflow-hidden">
-                    {/* Decor */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-white/40 to-transparent rounded-bl-[100px] z-0 pointer-events-none" />
+        </div>
 
-                    <div className="relative z-10">
-                        <h1 className="text-5xl font-serif mb-6 text-[#1a1a1a]">
-                            Let's <br />
-                            <span className="italic text-[#f08a8a]">Talk.</span>
-                        </h1>
-                        <p className="text-sm text-gray-600 leading-relaxed mb-8">
-                            Whether you're looking to collaborate on a new project or just want to say konnichiwa, my inbox is always open.
-                        </p>
+        {/* --- RIGHT: The Modern Form --- */}
+        <div className="lg:col-span-7 relative">
+          
+          {/* Glass Card Container (Refined) */}
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="bg-white/30 backdrop-blur-xl border border-white/60 p-8 md:p-16 rounded-[2rem] shadow-2xl shadow-[#f08a8a]/10 relative overflow-hidden"
+          >
+            
+            {/* Glossy highlight effect on the card */}
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/80 to-transparent opacity-50" />
 
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-3 text-sm text-gray-700">
-                                <Mail size={16} className="text-[#f08a8a]" />
-                                <span>hello@sakura.design</span>
-                            </div>
-                            <div className="flex items-center gap-3 text-sm text-gray-700">
-                                <MapPin size={16} className="text-[#f08a8a]" />
-                                <span>Kyoto, Japan</span>
-                            </div>
-                        </div>
+            <form className="space-y-12" onSubmit={(e) => e.preventDefault()}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                 <MinimalInput label="Your Name" />
+                 <MinimalInput label="Company" />
+              </div>
+              <MinimalInput label="Email Address" type="email" />
+              <MinimalInput label="Tell us about your project" isTextArea={true} />
+
+              <div className="pt-8 flex justify-between items-center">
+                 <div className="hidden md:block text-xs text-gray-400 max-w-[200px] leading-relaxed">
+                    By submitting, you agree to our privacy policy and the processing of your data.
+                 </div>
+
+                 {/* High-End Magnetic-Style Button */}
+                 <motion.button
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                    whileTap={{ scale: 0.95 }}
+                    className="relative px-10 py-5 bg-[#1a1a1a] text-white rounded-full overflow-hidden group"
+                 >
+                    <motion.div 
+                      animate={{ y: isHovered ? "-100%" : "0%" }}
+                      transition={{ duration: 0.4, ease: "easeInOut" }}
+                      className="absolute inset-0 bg-[#f08a8a] z-0"
+                    />
+                    <div className="relative z-10 flex items-center gap-3">
+                       <span className="uppercase tracking-widest text-xs font-bold group-hover:text-[#1a1a1a] transition-colors duration-300">
+                         Send Inquiry
+                       </span>
+                       <ArrowRight size={14} className="group-hover:text-[#1a1a1a] group-hover:translate-x-1 transition-all duration-300" />
                     </div>
+                 </motion.button>
+              </div>
+            </form>
 
-                    <div className="relative z-10 mt-12">
-                        <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-4">Follow Me</p>
-                        <div className="flex gap-3">
-                            <SocialLink icon={Twitter} href="#" />
-                            <SocialLink icon={Instagram} href="#" />
-                            <SocialLink icon={Linkedin} href="#" />
-                        </div>
-                    </div>
-                </div>
+          </motion.div>
 
-                {/* Right Side: The Form */}
-                <div className="lg:col-span-3 p-10 lg:p-14 bg-white/5">
-                    <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <GlassInput label="First Name" placeholder="Kaori" />
-                            <GlassInput label="Last Name" placeholder="Miyazono" />
-                        </div>
+          {/* Floating Image (Aesthetic touch) */}
+          <motion.div 
+             initial={{ opacity: 0, rotate: -10 }}
+             animate={{ opacity: 1, rotate: 0 }}
+             transition={{ delay: 0.8, duration: 1 }}
+             className="absolute -top-12 -right-6 w-32 md:w-48 aspect-[3/4] hidden md:block pointer-events-none"
+          >
+             <div className="p-2 bg-white shadow-xl rotate-6 transform transition-transform hover:rotate-0 duration-500 ease-out">
+                <img 
+                  src="https://images.unsplash.com/photo-1522383225653-ed111181a951?auto=format&fit=crop&q=80&w=400" 
+                  alt="Sakura" 
+                  className="w-full h-full object-cover grayscale opacity-80"
+                />
+             </div>
+          </motion.div>
 
-                        <GlassInput label="Email Address" type="email" placeholder="kaori@example.com" />
+        </div>
 
-                        <GlassInput label="Message" rows={4} placeholder="Tell me about your project..." />
-
-                        <div className="pt-4 flex justify-end">
-                            <motion.button
-                                whileHover={{ scale: 1.02, backgroundColor: "#f08a8a", color: "#1a1a1a" }}
-                                whileTap={{ scale: 0.98 }}
-                                className="group flex items-center gap-3 bg-[#1a1a1a] text-white px-8 py-4 rounded-lg text-xs uppercase tracking-widest font-bold shadow-lg shadow-black/5 transition-all duration-300"
-                            >
-                                <span>Send Message</span>
-                                <Send size={14} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                            </motion.button>
-                        </div>
-                    </form>
-                </div>
-
-            </motion.div>
-
-            {/* Decorative Text Behind */}
-            <h2 className="fixed bottom-0 right-0 text-[15vw] leading-none font-serif text-[#1a1a1a] opacity-[0.03] pointer-events-none select-none z-0">
-                Contact
-            </h2>
-
-        </main>
-    );
+      </div>
+    </main>
+  );
 }

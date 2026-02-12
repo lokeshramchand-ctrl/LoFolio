@@ -1,12 +1,14 @@
 import Hero from "./components/Hero";
 import Architecture from "./components/Architecture";
 import Github from "./components/Github";
+import ContactPage from "./components/Contact";
 export default function Home() {
   return (
     <>
       <Hero />
       <Architecture />
       <Github />
+      <ContactPage />
     </>
   );
 }

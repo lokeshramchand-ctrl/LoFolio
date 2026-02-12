@@ -41,7 +41,7 @@ export default function CodePage() {
     const asciiLines = GITHUB_ASCII.trim().split("\n");
 
     return (
-        <main className="min-h-screen bg-[#f3f4f6] text-[#1a1a1a] font-sans overflow-hidden flex items-center justify-center relative">
+        <main className="github-page min-h-screen text-[#1a1a1a] font-sans overflow-hidden flex items-center justify-center relative">
 
             {/* Background Gradients */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">

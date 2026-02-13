@@ -1,536 +1,700 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lokesh Ram Chand // Systems Architect</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
+    <title>Lokesh Ram Chand</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- 1. VARIABLES & THEMES --- */
+        :root {
+            /* Dark Mode (Default) */
+            --bg: #0b0b0b;
+            --text: #e0e0e0;
+            --acc: #888;
+            --border: rgba(255, 255, 255, 0.1);
+            --cursor: #fff;
+            --nav-bg: rgba(11, 11, 11, 0.8);
+            --overlay: rgba(255, 255, 255, 0.03);
+        }
+
+        [data-theme="light"] {
+            --bg: #f4f4f4;
+            --text: #1a1a1a;
+            --acc: #555;
+            --border: rgba(0, 0, 0, 0.1);
+            --cursor: #000;
+            --nav-bg: rgba(244, 244, 244, 0.8);
+            --overlay: rgba(0, 0, 0, 0.03);
+        }
+
+        /* --- 2. RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+            /* Custom cursor */
+        }
+
+        html,
+        body {
+            width: 100%;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'General Sans', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: none;
+            color: inherit;
+        }
+
+        /* --- 3. UTILITIES --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9000;
+            opacity: 0.04;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
+
+        /* --- 4. CUSTOM CURSOR --- */
+        #cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            background-color: var(--text);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, transform 0.1s;
+        }
+
+        /* --- 5. NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5vw;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.5s ease;
+        }
+
+        .logo {
+            font-family: 'Clash Display', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .menu-items {
+            display: flex;
+            gap: 30px;
+        }
+
+        .menu-link {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--text);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+
+        .menu-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* THEME TOGGLE */
+        .theme-btn {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* MOBILE MENU ICON */
+        .menu-icon {
+            display: none;
+            font-size: 1.5rem;
+            z-index: 102;
+        }
+
+        /* MOBILE OVERLAY */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            transform: translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-link {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 3rem;
+            color: var(--text);
+        }
+
+        /* --- 6. HERO --- */
+        #hero {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5vw;
+            position: relative;
+        }
+
+        .hero-line {
+            overflow: hidden;
+            line-height: 1;
+        }
+
+        .hero-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(3rem, 13vw, 10rem);
+            /* Responsive Font */
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text);
+            transform: translateY(100%);
+        }
+
+        .hero-title.outline {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text);
+            opacity: 0.5;
+        }
+
+        .hero-footer {
+            position: absolute;
+            bottom: 40px;
+            left: 5vw;
+            right: 5vw;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--acc);
+            text-transform: uppercase;
+        }
+
+        /* --- 7. WORK --- */
+        #work {
+            padding: 100px 5vw;
+            position: relative;
+        }
+
+        .section-label {
+            font-size: 0.9rem;
+            color: var(--acc);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+        }
+
+        .project-item {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: opacity 0.3s;
+        }
+
+        .project-item:last-child {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project-item:hover {
+            opacity: 1;
+        }
+
+        .project-list:hover .project-item {
+            opacity: 0.4;
+        }
+
+        .project-list:hover .project-item:hover {
+            opacity: 1;
+        }
+
+        .p-name {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(2rem, 5vw, 5rem);
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+
+        .project-item:hover .p-name {
+            transform: translateX(20px);
+        }
+
+        .p-cat {
+            font-size: 0.9rem;
+            color: var(--acc);
+            text-align: right;
+        }
+
+        /* FLOATING PREVIEW */
+        .preview-img {
+            position: fixed;
+            width: 300px;
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .preview-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- 8. ABOUT --- */
+        #about {
+            padding: 100px 5vw;
+        }
+
+        .about-text {
+            font-size: clamp(1.5rem, 3.5vw, 3.5rem);
+            line-height: 1.3;
+            width: 100%;
+            color: var(--acc);
+        }
+
+        .about-text span {
+            color: var(--text);
+            transition: color 0.3s;
+        }
+
+        /* --- 9. FOOTER --- */
+        footer {
+            min-height: 80vh;
+            padding: 100px 5vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .footer-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(4rem, 12vw, 12rem);
+            line-height: 0.9;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .social-link {
+            border: 1px solid var(--border);
+            padding: 12px 28px;
+            border-radius: 100px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .social-link:hover {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
+        }
+
+        /* --- 10. LOADER --- */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .counter {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 10vw;
+            font-weight: 600;
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            .menu-items {
+                display: none;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            /* Disable Custom Cursor on Touch */
+            #cursor,
+            .preview-img {
+                display: none !important;
+            }
+
+            * {
+                cursor: auto !important;
+            }
+
+            /* Layout Adjustments */
+            .project-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .project-item:hover .p-name {
+                transform: translateX(10px);
+            }
+
+            .p-cat {
+                text-align: left;
+                opacity: 0.7;
+            }
+
+            .hero-footer {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            nav {
+                padding: 20px 5vw;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="noise-overlay"></div>
+    <div id="cursor"></div>
+
+    <div id="loader">
+        <div class="counter">0</div>
+    </div>
+
+    <div class="mobile-menu">
+        <a href="#work" class="mobile-link" onclick="toggleMenu()">Projects</a>
+        <a href="#about" class="mobile-link" onclick="toggleMenu()">About</a>
+        <a href="./re.html" class="mobile-link" onclick="toggleMenu()">Resume</a>
+    </div>
+
+    <div class="preview-img">
+        <img src="" id="p-img" alt="work">
+    </div>
+
+    <div id="main">
+
+        <nav>
+            <a href="#" class="logo magnet">Lo.</a>
+
+            <div class="nav-right">
+                <div class="menu-items">
+                    <a href="#work" class="menu-link magnet">Projects</a>
+                    <a href="#about" class="menu-link magnet">About</a>
+                    <a href="./re.html" class="menu-link magnet">Resume</a>
+                </div>
+
+                <button class="theme-btn magnet" onclick="toggleTheme()" aria-label="Toggle Theme">
+                    <i class="ri-moon-line" id="theme-icon"></i>
+                </button>
+
+                <button class="menu-icon" onclick="toggleMenu()" aria-label="Menu">
+                    <i class="ri-menu-4-line"></i>
+                </button>
+            </div>
+        </nav>
+
+        <section id="hero">
+            <div class="hero-line">
+                <h1 class="hero-title">Software</h1>
+            </div>
+            <div class="hero-line">
+                <h1 class="hero-title outline">Developer</h1>
+            </div>
+            <div class="hero-line">
+                <h1 class="hero-title">& Designer</h1>
+            </div>
+
+            <div class="hero-footer">
+                <span class="reveal-text">Based in India</span>
+                <span class="reveal-text">Scroll to explore</span>
+            </div>
+        </section>
+
+        <section id="work">
+            <span class="section-label">Selected Works (22-25)</span>
+            <div class="project-list">
+
+                <a href="./seko.html" target="_blank" class="project-item"
+                    <!-- data-img="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop"> -->
+                    <div class="p-name">Seko</div>
+                    <div class="p-cat">Immersive Web / 2025</div>
+                </a>
+
+                <a href="./velar.html" class="project-item"
+                    <!-- data-img="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1000&auto=format&fit=crop"> -->
+                    <div class="p-name">Velar</div>
+                    <div class="p-cat">Fintech App / 2024</div>
+                </a>
+
+                <a href="./maplayer.html" class="project-item"
+                    <!-- data-img="https://images.unsplash.com/photo-1558655146-d09347e0b7a8?q=80&w=1000&auto=format&fit=crop"> -->
+                    <div class="p-name">Maplayer</div>
+                    <div class="p-cat">AI Integration / 2025</div>
+                </a>
+
+            </div>
+        </section>
+
+        <section id="about">
+            <span class="section-label">About Me</span>
+            <p class="about-text">
+                I'm Lokesh Ram Chand , <span>a CS undergrad</span>. I craft <span>high-end digital experiences</span> that merge art with code.
+                Focusing on <span>micro-interactions</span> and fluid motion, I build applications that feel
+                <span>alive</span>.
+            </p>
+        </section>
+
+        <footer>
+            <div class="hero-line">
+                <h1 class="footer-title">Let's Talk</h1>
+            </div>
+            <a href="mailto:lokeshramchand@gmail.com"
+                style="font-size: clamp(1rem, 2vw, 1.5rem); color: var(--acc);">lokeshramchand@gmail.com</a>
+
+            <div class="socials">
+                <a href="https://linkedin.com/in/lokeshramchand" class="social-link magnet">LinkedIn</a>
+                <a href="https://github.com/lokeshramchand-ctrl" class="social-link magnet">Github</a>
+            </div>
+        </footer>
+
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
 
-    <style>
-        :root {
-            --bg: #050505;
-            --surface: #0a0a0a;
-            --surface-highlight: #141414;
-            --text-main: #e1e1e1;
-            --text-dim: #666;
-            --accent: #3b82f6; /* Electric Blue for system status */
-            
-            --font-sans: 'Inter', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            
-            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        html.lenis { height: auto; } 
-        .lenis.lenis-smooth { scroll-behavior: auto; } 
-        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; } 
-        .lenis.lenis-stopped { overflow: hidden; } 
-        .lenis.lenis-scrolling iframe { pointer-events: none; }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* --- Noise Overlay (Cinematic Grain) --- */
-        .noise {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.035;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-
-        /* --- Typography --- */
-        .mono { font-family: var(--font-mono); letter-spacing: -0.02em; }
-        .uppercase { text-transform: uppercase; }
-        .text-xs { font-size: 0.75rem; }
-
-        h1 {
-            font-size: clamp(4rem, 12vw, 9rem);
-            font-weight: 500;
-            line-height: 0.9;
-            letter-spacing: -0.05em;
-            margin-left: -0.05em; /* Optical alignment */
-            background: linear-gradient(to bottom, #fff, #888);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        h2 {
-            font-size: 2rem;
-            font-weight: 400;
-            letter-spacing: -0.03em;
-        }
-
-        /* --- Layout --- */
-        .container {
-            width: 100%;
-            padding: 0 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        section { padding: 8rem 0; position: relative; }
-
-        /* --- Hero --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding-bottom: 4rem;
-        }
-
-        .hero-top {
-            position: absolute;
-            top: 2rem;
-            left: 2rem;
-            right: 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            mix-blend-mode: difference;
-            z-index: 10;
-        }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 100px;
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .blink {
-            width: 6px; height: 6px; background: #22c55e; border-radius: 50%;
-            box-shadow: 0 0 10px #22c55e;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-        /* --- Work Gallery (The "Spotlight" Cards) --- */
-        .work-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 2rem;
-        }
-
-        .project-card {
-            grid-column: span 6;
-            position: relative;
-            background: var(--surface);
-            border-radius: 4px;
-            overflow: hidden;
-            transition: transform 0.5s var(--ease-out-expo);
-            cursor: none; /* We will use a custom cursor concept or standard */
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .project-card:hover {
-            z-index: 2;
-            transform: scale(0.99);
-            border-color: rgba(255,255,255,0.2);
-        }
-
-        .card-visual {
-            aspect-ratio: 16/9;
-            background: #111;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card-visual img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 1.2s var(--ease-out-expo), opacity 0.5s;
-            opacity: 0.6;
-            filter: grayscale(100%);
-        }
-
-        .project-card:hover .card-visual img {
-            transform: scale(1.05);
-            opacity: 1;
-            filter: grayscale(0%);
-        }
-
-        .card-info {
-            padding: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-        }
-
-        .tech-tag {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            border: 1px solid #333;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 8px;
-        }
-
-        @media (max-width: 768px) {
-            .project-card { grid-column: span 12; }
-            h1 { font-size: 14vw; }
-        }
-
-        /* --- Minimalist Form --- */
-        .minimal-input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid #333;
-            padding: 1.5rem 0;
-            color: white;
-            font-family: var(--font-sans);
-            font-size: 1.5rem;
-            transition: border-color 0.3s;
-            border-radius: 0;
-        }
-
-        .minimal-input:focus {
-            outline: none;
-            border-bottom-color: white;
-        }
-
-        .minimal-input::placeholder { color: #333; }
-
-        /* --- Footer --- */
-        footer {
-            padding: 2rem;
-            border-top: 1px solid #111;
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-dim);
-        }
-
-        /* --- Animations --- */
-        .reveal-text {
-            overflow: hidden;
-            display: block;
-        }
-        
-        .reveal-text span {
-            display: block;
-            transform: translateY(100%);
-        }
-
-        /* --- Floating Menu (Island) --- */
-        .nav-island {
-            position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(10,10,10,0.8);
-            backdrop-filter: blur(16px);
-            padding: 8px;
-            border-radius: 100px;
-            border: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            gap: 4px;
-            z-index: 100;
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
-        }
-
-        .nav-link {
-            padding: 10px 20px;
-            color: #888;
-            text-decoration: none;
-            font-size: 0.85rem;
-            border-radius: 100px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover { color: white; background: rgba(255,255,255,0.05); }
-        .nav-link.active { background: white; color: black; font-weight: 500; }
-
-    </style>
-</head>
-<body>
-
-    <div class="noise"></div>
-
-    <nav class="nav-island">
-        <a href="#hero" class="nav-link active mono">Index</a>
-        <a href="#work" class="nav-link mono">Work</a>
-        <a href="#about" class="nav-link mono">Data</a>
-        <a href="#contact" class="nav-link mono">Contact</a>
-    </nav>
-
-    <main>
-        
-        <section id="hero" class="hero container">
-            <div class="hero-top">
-                <div class="mono text-xs" style="opacity: 0.5;">
-                    LOKESH RAM CHAND<br>
-                    SYSTEMS ENGINEER
-                </div>
-                <div class="status-badge mono text-xs">
-                    <span class="blink"></span> ONLINE
-                </div>
-            </div>
-
-            <div>
-                <h1 class="reveal-h1">
-                    System<br>
-                    <span style="margin-left: 2vw; opacity: 0.5; font-style: italic;">Architecture</span><br>
-                    & Logic
-                </h1>
-                <div class="mono text-xs" style="margin-top: 2rem; color: var(--text-dim); max-width: 400px; line-height: 1.6;">
-                    Building resilient backend infrastructure and distributed systems. Focusing on security, scalability, and clean code.
-                </div>
-            </div>
-        </section>
-
-        <section id="work" class="container">
-            <div style="margin-bottom: 4rem; border-bottom: 1px solid #111; padding-bottom: 1rem; display: flex; justify-content: space-between;">
-                <span class="mono text-xs">SELECTED PROJECTS</span>
-                <span class="mono text-xs">(03)</span>
-            </div>
-
-            <div class="work-grid">
-                
-                <div class="project-card">
-                    <div class="card-visual">
-                        <img src="/images/maplayer/5.png" alt="Velar Finance">
-                    </div>
-                    <div class="card-info">
-                        <div>
-                            <div class="mono text-xs" style="margin-bottom: 0.5rem; color: var(--text-dim);">01 / FINTECH</div>
-                            <h3>Velar Finance</h3>
-                        </div>
-                        <div class="mono">
-                            <span class="tech-tag">AI</span>
-                            <span class="tech-tag">Node</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="card-visual">
-                         <div style="width:100%; height:100%; background: #0f0f0f; display: flex; align-items:center; justify-content:center;">
-                            <i data-lucide="lock" size="48" color="#333"></i>
-                         </div>
-                    </div>
-                    <div class="card-info">
-                        <div>
-                            <div class="mono text-xs" style="margin-bottom: 0.5rem; color: var(--text-dim);">02 / SECURITY</div>
-                            <h3>Fortyl Auth</h3>
-                        </div>
-                        <div class="mono">
-                            <span class="tech-tag">Java</span>
-                            <span class="tech-tag">JWT</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card" style="grid-column: span 12; margin-top: 2rem;">
-                    <div class="card-visual" style="aspect-ratio: 21/9;">
-                        <img src="/images/maplayer/2.png" alt="MapLayer">
-                    </div>
-                    <div class="card-info">
-                        <div>
-                            <div class="mono text-xs" style="margin-bottom: 0.5rem; color: var(--text-dim);">03 / GEOSPATIAL</div>
-                            <h3>MapLayer Engine</h3>
-                        </div>
-                        <div class="mono">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">OpenLayers</span>
-                            <span class="tech-tag">Docker</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="about" class="container">
-            <div class="work-grid">
-                <div style="grid-column: span 4;">
-                     <h2 style="color: var(--text-dim);">Technical<br>Manifest</h2>
-                </div>
-                <div style="grid-column: span 8;">
-                    <p style="font-size: 1.5rem; line-height: 1.4; color: #ccc; margin-bottom: 3rem;">
-                        I prefer code that is boring, proven, and maintainable. I specialize in the invisible parts of software—the API layers, the database schemas, and the authentication protocols that keep systems alive.
-                    </p>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; border-top: 1px solid #111; padding-top: 2rem;">
-                        <div>
-                            <div class="mono text-xs" style="color: #666; margin-bottom: 1rem;">STACK</div>
-                            <ul style="list-style: none; line-height: 2;">
-                                <li>Java (Spring Boot)</li>
-                                <li>TypeScript / Node.js</li>
-                                <li>Python</li>
-                                <li>PostgreSQL & Redis</li>
-                            </ul>
-                        </div>
-                        <div>
-                            <div class="mono text-xs" style="color: #666; margin-bottom: 1rem;">FOCUS</div>
-                            <ul style="list-style: none; line-height: 2;">
-                                <li>Microservices</li>
-                                <li>Distributed Systems</li>
-                                <li>Cloud Architecture (AWS)</li>
-                                <li>API Security</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="container" style="min-height: 80vh;">
-            <div style="max-width: 800px; margin: 0 auto;">
-                <h2 style="font-size: 4rem; margin-bottom: 4rem; text-align: center;">Initialize<br>Collaboration</h2>
-                
-                <form id="contact-form">
-                    <div style="margin-bottom: 2rem;">
-                        <label class="mono text-xs" style="color: #666;">RETURN ADDRESS (EMAIL)</label>
-                        <input type="email" id="form-email" class="minimal-input" placeholder="Enter your email" required>
-                    </div>
-                    <div style="margin-bottom: 4rem;">
-                        <label class="mono text-xs" style="color: #666;">TRANSMISSION (MESSAGE)</label>
-                        <textarea id="form-work" rows="1" class="minimal-input" placeholder="Project brief..." required></textarea>
-                    </div>
-                    <button type="submit" id="submit-btn" style="background: white; color: black; border: none; padding: 1rem 3rem; font-family: var(--font-mono); font-size: 0.9rem; cursor: pointer; border-radius: 100px; transition: transform 0.2s;">
-                        SEND TRANSMISSION
-                    </button>
-                    <div id="form-status" class="mono text-xs" style="margin-top: 2rem; color: var(--text-dim);"></div>
-                </form>
-            </div>
-        </section>
-
-        <footer class="container mono text-xs">
-            <div>HYD, INDIA</div>
-            <div>© 2026</div>
-        </footer>
-
-    </main>
-
     <script>
-        // 1. Initialize Lenis (Smooth Scroll)
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-        });
+        gsap.registerPlugin(ScrollTrigger);
 
+        // --- 1. THEME SWITCHER LOGIC ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            const currentTheme = html.getAttribute('data-theme');
+
+            if (currentTheme === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                icon.className = 'ri-sun-line';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                icon.className = 'ri-moon-line';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Check Local Storage on Load
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+        }
+
+        // --- 2. MOBILE MENU ---
+        function toggleMenu() {
+            const menu = document.querySelector('.mobile-menu');
+            menu.classList.toggle('active');
+        }
+
+        // --- 3. PRELOADER ---
+        function startLoader() {
+            let counterElement = document.querySelector(".counter");
+            let currentValue = 0;
+
+            function updateCounter() {
+                if (currentValue === 100) return;
+                currentValue += Math.floor(Math.random() * 10) + 1;
+                if (currentValue > 100) currentValue = 100;
+                counterElement.textContent = currentValue;
+
+                let delay = Math.floor(Math.random() * 200) + 50;
+                setTimeout(updateCounter, delay);
+            }
+            updateCounter();
+
+            const tl = gsap.timeline();
+            tl.to(".counter", { delay: 2.5, opacity: 0 })
+                .to("#loader", { height: 0, duration: 1, ease: "power4.inOut" })
+                .to(".hero-title", { y: 0, stagger: 0.1, duration: 1, ease: "power4.out" }, "-=0.5")
+                .from(".reveal-text", { y: 20, opacity: 0, stagger: 0.1 }, "-=0.5");
+        }
+        startLoader();
+
+        // --- 4. SMOOTH SCROLL ---
+        const lenis = new Lenis();
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
 
-        // 2. GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
-        lucide.createIcons();
+        // --- 5. CURSOR & MAGNETS (Desktop Only) ---
+        if (window.matchMedia("(min-width: 769px)").matches) {
+            const cursor = document.getElementById("cursor");
 
-        // Hero Text Reveal
-        const splitText = document.querySelector('.reveal-h1');
-        // Simple manual split for animation
-        
-        gsap.from("h1", {
-            y: 100,
-            opacity: 0,
-            duration: 1.5,
-            ease: "power4.out",
-            delay: 0.2
-        });
-
-        // Parallax Effect on Images
-        document.querySelectorAll('.project-card').forEach(card => {
-            gsap.to(card.querySelector('img'), {
-                yPercent: 15,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: card,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
+            window.addEventListener("mousemove", (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
             });
-        });
 
-        // Form Logic
-        const contactForm = document.getElementById('contact-form');
-        const statusMsg = document.getElementById('form-status');
-        const submitBtn = document.getElementById('submit-btn');
-
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('form-email').value;
-            const work = document.getElementById('form-work').value;
-            
-            const originalText = submitBtn.innerText;
-            submitBtn.innerText = 'PROCESSING...';
-            
-            try {
-                // Using the URL provided in your previous prompt context
-                const response = await fetch('https://analytics.priyatham.in/open/workspace/clnzoxcy10001vy2ohi4obbi0/survey/cml9ga0e702x3v5d7hn6viddw/submit', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ payload: { field_Nrgp: email, field_T1tJ: work } }),
+            document.querySelectorAll(".magnet").forEach((magnet) => {
+                magnet.addEventListener("mousemove", (e) => {
+                    const rect = magnet.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(magnet, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+                    gsap.to(cursor, { scale: 3 });
                 });
 
-                if (response.ok) {
-                    statusMsg.innerText = "TRANSMISSION RECEIVED.";
-                    statusMsg.style.color = "#fff";
-                    contactForm.reset();
-                } else { throw new Error(); }
-            } catch (error) {
-                statusMsg.innerText = "TRANSMISSION FAILED. RETRY.";
-                statusMsg.style.color = "red";
-            } finally {
-                setTimeout(() => { submitBtn.innerText = originalText; }, 2000);
+                magnet.addEventListener("mouseleave", () => {
+                    gsap.to(magnet, { x: 0, y: 0 });
+                    gsap.to(cursor, { scale: 1 });
+                });
+            });
+
+            // FLOATING IMAGE
+            const projectItems = document.querySelectorAll(".project-item");
+            const previewImg = document.querySelector(".preview-img");
+            const pImg = document.getElementById("p-img");
+            const xTo = gsap.quickTo(previewImg, "x", { duration: 0.4, ease: "power3" });
+            const yTo = gsap.quickTo(previewImg, "y", { duration: 0.4, ease: "power3" });
+
+            projectItems.forEach((item) => {
+                item.addEventListener("mouseenter", () => {
+                    const imgUrl = item.getAttribute("data-img");
+                    pImg.src = imgUrl;
+                    gsap.to(previewImg, { opacity: 1, scale: 1, duration: 0.3 });
+                });
+                item.addEventListener("mouseleave", () => {
+                    gsap.to(previewImg, { opacity: 0, scale: 0.5, duration: 0.3 });
+                });
+                item.addEventListener("mousemove", (e) => {
+                    xTo(e.clientX);
+                    yTo(e.clientY);
+                });
+            });
+        }
+
+        // --- 6. SCROLL ANIMATIONS ---
+        gsap.utils.toArray(".about-text span").forEach((span) => {
+            gsap.to(span, {
+                scrollTrigger: { trigger: span, start: "top 80%", end: "bottom 60%", scrub: true },
+                color: "var(--text)"
+            });
+        });
+
+        // Skew Effect
+        let proxy = { skew: 0 },
+            skewSetter = gsap.quickSetter(".project-item", "skewY", "deg"),
+            clamp = gsap.utils.clamp(-20, 20);
+
+        ScrollTrigger.create({
+            onUpdate: (self) => {
+                let skew = clamp(self.getVelocity() / -300);
+                if (Math.abs(skew) > Math.abs(proxy.skew)) {
+                    proxy.skew = skew;
+                    gsap.to(proxy, {
+                        skew: 0, duration: 0.8, ease: "power3", overwrite: true,
+                        onUpdate: () => skewSetter(proxy.skew)
+                    });
+                }
             }
         });
-        
-        // Active Nav State
-        const sections = document.querySelectorAll('section');
-        const navLinks = document.querySelectorAll('.nav-link');
 
-        window.addEventListener('scroll', () => {
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 300) {
-                    current = section.getAttribute('id');
-                }
-            });
-            navLinks.forEach(a => {
-                a.classList.remove('active');
-                if (a.getAttribute('href').includes(current)) {
-                    a.classList.add('active');
-                }
-            });
-        });
     </script>
 </body>
+
 </html>

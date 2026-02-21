@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Designer Portfolio</title>
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+
+        :root {
+            --bg-pastel: #F9F8F6;       /* Pale cream pastel */
+            --text-main: #2A2A2A;       /* Deep charcoal */
+            --text-muted: #888888;      /* Secondary text */
+            --accent: #D37B65;          /* Single color accent (Muted Terracotta) */
+            --hover-pastel: #EAE6DF;    /* Slightly darker pastel */
+            
+            --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-fast: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-pastel);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- LAYOUT & NAVIGATION --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 0;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeDown 1s var(--transition-slow) forwards;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a {
+            position: relative;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width var(--transition-fast);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.2;
+            max-width: 900px;
+        }
+
+        .hero h1 span {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: top;
+        }
+
+        .hero h1 span span {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+            animation: revealUp 1s var(--transition-slow) forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s !important; }
+        .delay-2 { animation-delay: 0.2s !important; }
+        .delay-3 { animation-delay: 0.3s !important; }
+        .delay-4 { animation-delay: 0.4s !important; }
+
+        .highlight {
+            color: var(--accent);
+            font-weight: 400;
+        }
+
+        /* --- WORK SECTION (GRID LAYOUT) --- */
+        .work-section {
+            padding: 50px 0 100px;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all var(--transition-slow);
+        }
+
+        /* The new 2-column grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px 30px; /* Vertical gap, Horizontal gap */
+        }
+
+        .project-item {
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(40px);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        /* Image Container */
+        .project-image-wrapper {
+            width: 100%;
+            aspect-ratio: 16 / 10; /* Adjust ratio as needed */
+            background-color: #E2DFDB; /* Fallback color */
+            overflow: hidden;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .project-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-fast);
+        }
+
+        /* Hover animations for the image */
+        .project-item:hover .project-image-wrapper img {
+            transform: scale(1.03);
+        }
+
+        /* Text underneath image */
+        .project-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-main);
+            transition: color var(--transition-fast);
+        }
+
+        .project-role {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .project-item:hover .project-title {
+            color: var(--accent);
+        }
+
+        /* Mobile view: stack into 1 column */
+        @media (max-width: 768px) {
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 100px 0 50px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all var(--transition-slow);
+        }
+
+        footer.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border: 1px solid var(--text-main);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--accent);
+            z-index: -1;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform var(--transition-fast);
+        }
+
+        .contact-btn:hover {
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .contact-btn:hover::before {
+            transform: scaleY(1);
+        }
+
+        /* --- KEYFRAMES --- */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes revealUp {
+            from { opacity: 0; transform: translateY(100%); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav>
+            <div class="logo">Design Portfolio</div>
+            <div class="nav-links">
+                <a href="#work">Work</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+
+        <main>
+            <section class="hero">
+                <h1>
+                    <span><span class="delay-1">Hello, I am a Vancouver (formally NYC)</span></span><br>
+                    <span><span class="delay-2">based designer with a focus in</span></span><br>
+                    <span><span class="delay-3"><span class="highlight">Product Design</span> & <span class="highlight">Brand Identity</span>.</span></span><br>
+                    <span><span class="delay-4">Currently at Amazon.</span></span>
+                </h1>
+            </section>
+
+            <section id="work" class="work-section">
+                <div class="section-title js-scroll">Selected Works</div>
+                
+                <div class="project-grid">
+                    
+                    <a href="#" class="project-item js-scroll">
+                        <div class="project-image-wrapper">
+                            <img src="https://via.placeholder.com/800x500/1a1a1a/ffffff?text=Nike+Logo" alt="Nike Project Image">
+                        </div>
+                        <div class="project-info">
+                            <div class="project-title">Nike</div>
+                            <div class="project-role">Self Service</div>
+                        </div>
+                    </a>
+
+                    <a href="#" class="project-item js-scroll">
+                        <div class="project-image-wrapper">
+                            <img src="https://via.placeholder.com/800x500/E8E6E1/2a2a2a?text=Mellon+Foundation" alt="Mellon Foundation Image">
+                        </div>
+                        <div class="project-info">
+                            <div class="project-title">Mellon Foundation</div>
+                            <div class="project-role">A vigorous advocate for arts & humanities</div>
+                        </div>
+                    </a>
+
+                    <a href="#" class="project-item js-scroll">
+                        <div class="project-image-wrapper">
+                            <img src="https://via.placeholder.com/800x500/E8E6E1/2a2a2a?text=Amazon+Kids" alt="Amazon Kids Image">
+                        </div>
+                        <div class="project-info">
+                            <div class="project-title">Amazon Kids</div>
+                            <div class="project-role">Fire Experience</div>
+                        </div>
+                    </a>
+
+                    <a href="#" class="project-item js-scroll">
+                        <div class="project-image-wrapper">
+                            <img src="https://via.placeholder.com/800x500/1a1a1a/ffffff?text=Good+American" alt="Good American Image">
+                        </div>
+                        <div class="project-info">
+                            <div class="project-title">Good American</div>
+                            <div class="project-role">Challenging industry norms with inclusive sizing</div>
+                        </div>
+                    </a>
+
+                     <a href="#" class="project-item js-scroll">
+                        <div class="project-image-wrapper">
+                            <img src="https://via.placeholder.com/800x500/E8E6E1/2a2a2a?text=Touchtunes" alt="Touchtunes Image">
+                        </div>
+                        <div class="project-info">
+                            <div class="project-title">Touchtunes</div>
+                            <div class="project-role">The ultimate jukebox experience</div>
+                        </div>
+                    </a>
+
+                    <a href="#" class="project-item js-scroll">
+                        <div class="project-image-wrapper">
+                            <img src="https://via.placeholder.com/800x500/1a1a1a/ffffff?text=IMAX" alt="IMAX Image">
+                        </div>
+                        <div class="project-info">
+                            <div class="project-title">IMAX</div>
+                            <div class="project-role">Bringing mega blockbuster fans together</div>
+                        </div>
+                    </a>
+
+                </div>
+            </section>
+        </main>
+
+        <footer id="contact" class="js-scroll">
+            <h2 style="margin-bottom: 30px; font-weight: 300; font-size: 2rem;">Let's create something together.</h2>
+            <a href="mailto:hello@example.com" class="contact-btn">Get in touch</a>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, index * 100); 
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, observerOptions);
+
+            const scrollElements = document.querySelectorAll('.js-scroll');
+            scrollElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

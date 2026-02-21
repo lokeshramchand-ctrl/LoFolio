@@ -66,6 +66,21 @@
             line-height: 1.6;
             overflow-x: hidden;
             transition: background-color 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 0, 0, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         h1, h2, h3 {
@@ -188,6 +203,20 @@
             display: flex;
             align-items: center;
             padding: var(--space-lg) 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle at 30% 50%, rgba(0, 0, 0, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            transform: translateY(var(--scroll-offset, 0px));
         }
 
         .hero h1 {
@@ -197,6 +226,8 @@
             max-width: 100%;
             word-spacing: 0.1em;
             letter-spacing: -0.02em;
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 span {
@@ -225,6 +256,18 @@
         /* --- WORK SECTION (GRID LAYOUT) --- */
         .work-section {
             padding: var(--space-xl) 0 var(--space-xxl);
+            position: relative;
+        }
+
+        .work-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 0%, rgba(0, 0, 0, 0.02) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .section-title {
@@ -237,6 +280,8 @@
             transform: translateY(1.25rem);
             animation: fadeInUp 0.8s var(--transition-slow) 0.2s forwards;
             font-weight: 600;
+            position: relative;
+            z-index: 1;
         }
 
         /* The new 2-column grid */
@@ -244,6 +289,8 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 25rem), 1fr));
             gap: clamp(1.5rem, 4vw, 3rem);
+            position: relative;
+            z-index: 1;
         }
 
         .project-item {
@@ -254,6 +301,7 @@
             display: flex;
             flex-direction: column;
             transition: all 0.6s var(--transition-slow);
+            position: relative;
         }
 
         .project-item.visible {
@@ -270,6 +318,10 @@
 
         .project-item:hover {
             transform: translateY(-0.5rem);
+        }
+
+        .project-item.scrolling {
+            transform: translateY(calc(var(--scroll-position, 0) * 0.03px));
         }
 
         /* Image Container */
@@ -337,6 +389,19 @@
             border-radius: clamp(1rem, 2vw, 1.5rem);
             opacity: 0;
             animation: fadeInUp 0.8s var(--transition-slow) forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
 
         footer.visible {
@@ -350,6 +415,8 @@
             justify-content: center;
             gap: var(--space-lg);
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         footer h2 {
@@ -394,7 +461,7 @@
 
         .footer-socials a:hover {
             background-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-0.5rem) scale(1.1);
+            transform: translateY(-0.5rem) scale(1.1) rotate(5deg);
         }
 
         .footer-socials svg {
@@ -747,7 +814,6 @@
             body.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
             themeIcon.innerHTML = theme === 'light' ? moon : sun;
-            // Add a small bounce to toggle on switch
             document.getElementById('theme-toggle').style.transform = 'scale(0.8)';
             setTimeout(() => { document.getElementById('theme-toggle').style.transform = 'scale(1)'; }, 100);
         }
@@ -760,26 +826,85 @@
             setTheme(current === 'light' ? 'dark' : 'light');
         }
 
+        // Scroll animation handler
+        let scrollPosition = 0;
+        let ticking = false;
+
+        function updateScroll() {
+            scrollPosition = window.scrollY;
+            
+            // Parallax effect on hero
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                const rect = hero.getBoundingClientRect();
+                const offset = rect.top * 0.5;
+                document.documentElement.style.setProperty('--scroll-offset', `${offset}px`);
+            }
+
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateScroll);
+                ticking = true;
+            }
+        });
+
+        // Mouse tracking for gradient background
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.documentElement.style.setProperty('--mouse-x', `${x}%`);
+            document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+        });
+
+        // Enhanced intersection observer with scroll animations
         document.addEventListener("DOMContentLoaded", () => {
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.15 
+                threshold: [0, 0.15, 0.5]
             };
 
-            const observer = new IntersectionObserver((entries, observer) => {
+            const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry, index) => {
                     if (entry.isIntersecting) {
-                        setTimeout(() => {
-                            entry.target.classList.add('visible');
-                        }, index * 100); 
-                        observer.unobserve(entry.target); 
+                        // Stagger animation for project items
+                        if (entry.target.classList.contains('project-item')) {
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, index * 100);
+                        } else {
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, index * 50);
+                        }
+                        // Don't unobserve to allow re-animation on scroll
                     }
                 });
             }, observerOptions);
 
-            const scrollElements = document.querySelectorAll('.js-scroll');
-            scrollElements.forEach(el => observer.observe(el));
+            const scrollElements = document.querySelectorAll('.js-scroll, .project-item');
+            scrollElements.forEach((el, index) => {
+                el.style.setProperty('--item-index', index);
+                observer.observe(el);
+            });
+
+            // Smooth parallax for project items on scroll
+            const projectItems = document.querySelectorAll('.project-item');
+            window.addEventListener('scroll', () => {
+                projectItems.forEach((item, index) => {
+                    const rect = item.getBoundingClientRect();
+                    const elementScrollPos = rect.top;
+                    const elementWindowCenter = window.innerHeight / 2;
+                    const scrollFactor = (elementScrollPos - elementWindowCenter) * 0.02;
+                    
+                    if (item.classList.contains('visible')) {
+                        item.style.transform = `translateY(${scrollFactor}px)`;
+                    }
+                });
+            });
         });
     </script>
 </body>

@@ -202,9 +202,18 @@
             min-height: clamp(50vh, 60vh, 70vh);
             display: flex;
             align-items: center;
+            justify-content: center;
             padding: var(--space-lg) 0;
             position: relative;
             overflow: hidden;
+        }
+
+        .hero .hero-wrapper {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-xl);
         }
 
         .hero::before {
@@ -228,6 +237,7 @@
             letter-spacing: -0.02em;
             position: relative;
             z-index: 1;
+            text-align: center;
         }
 
         .hero h1 span {
@@ -247,6 +257,46 @@
         .delay-2 { animation-delay: 0.2s !important; }
         .delay-3 { animation-delay: 0.3s !important; }
         .delay-4 { animation-delay: 0.4s !important; }
+
+        /* --- HERO IMAGE CONTAINER --- */
+        .hero-image-container {
+            width: 100%;
+            max-width: clamp(20rem, 60vw, 35rem);
+            aspect-ratio: 3 / 4;
+            margin: 0 auto;
+            margin-top: var(--space-xl);
+            border-radius: 40% 40% 45% 35% / 35% 45% 40% 40%;
+            overflow: hidden;
+            position: relative;
+            animation: slideInUp 0.8s var(--transition-slow) 0.3s forwards;
+            opacity: 0;
+            box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .hero-image-container {
+            box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.4);
+        }
+
+        .hero-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: transform 0.8s var(--transition-slow);
+        }
+
+        .hero-image-container:hover img {
+            transform: scale(1.05);
+        }
+
+        .hero-image-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
 
         .highlight {
             color: var(--accent);
@@ -523,6 +573,15 @@
                 padding: var(--space-md) 0;
             }
 
+            .hero h1 {
+                font-size: var(--fs-2xl);
+            }
+
+            .hero-image-container {
+                max-width: clamp(15rem, 50vw, 25rem);
+                margin-top: var(--space-lg);
+            }
+
             .work-section {
                 padding: var(--space-lg) 0 var(--space-xl);
             }
@@ -699,12 +758,17 @@
 
         <main>
             <section class="hero">
-                <h1>
-                    <span><span class="delay-1">Hello, I am a Vancouver (formally NYC)</span></span><br>
-                    <span><span class="delay-2">based designer with a focus in</span></span><br>
-                    <span><span class="delay-3"><span class="highlight">Product Design</span> & <span class="highlight">Brand Identity</span>.</span></span><br>
-                    <span><span class="delay-4">Currently at Amazon.</span></span>
-                </h1>
+                <div class="hero-wrapper">
+                    <h1>
+                        <span><span class="delay-1">Hello, I am a Vancouver (formally NYC)</span></span><br>
+                        <span><span class="delay-2">based designer with a focus in</span></span><br>
+                        <span><span class="delay-3"><span class="highlight">Product Design</span> & <span class="highlight">Brand Identity</span>.</span></span><br>
+                        <span><span class="delay-4">Currently at Amazon.</span></span>
+                    </h1>
+                    <div class="hero-image-container">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=1000&fit=crop&q=80" alt="Profile Photo">
+                    </div>
+                </div>
             </section>
 
             <section id="work" class="work-section">
@@ -714,7 +778,7 @@
                     
                     <a href="#" class="project-item js-scroll">
                         <div class="project-image-wrapper">
-                            <img src="https://via.placeholder.com/800x500/1a1a1a/ffffff?text=Nike+Logo" alt="Nike Project Image">
+                            <img src="https://images.unsplash.com/photo-1461749280684-ddefd8050e41?w=800&h=500&fit=crop&q=80" alt="Nike Project Image">
                         </div>
                         <div class="project-info">
                             <div class="project-title">Nike</div>
@@ -724,7 +788,7 @@
 
                     <a href="#" class="project-item js-scroll">
                         <div class="project-image-wrapper">
-                            <img src="https://via.placeholder.com/800x500/E8E6E1/2a2a2a?text=Mellon+Foundation" alt="Mellon Foundation Image">
+                            <img src="https://images.unsplash.com/photo-1561214115-6d2f1b0609fa?w=800&h=500&fit=crop&q=80" alt="Mellon Foundation Image">
                         </div>
                         <div class="project-info">
                             <div class="project-title">Mellon Foundation</div>
@@ -734,7 +798,7 @@
 
                     <a href="#" class="project-item js-scroll">
                         <div class="project-image-wrapper">
-                            <img src="https://via.placeholder.com/800x500/E8E6E1/2a2a2a?text=Amazon+Kids" alt="Amazon Kids Image">
+                            <img src="https://images.unsplash.com/photo-1596394516093-501ba68352eb?w=800&h=500&fit=crop&q=80" alt="Amazon Kids Image">
                         </div>
                         <div class="project-info">
                             <div class="project-title">Amazon Kids</div>
@@ -744,7 +808,7 @@
 
                     <a href="#" class="project-item js-scroll">
                         <div class="project-image-wrapper">
-                            <img src="https://via.placeholder.com/800x500/1a1a1a/ffffff?text=Good+American" alt="Good American Image">
+                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=500&fit=crop&q=80" alt="Good American Image">
                         </div>
                         <div class="project-info">
                             <div class="project-title">Good American</div>
@@ -754,7 +818,7 @@
 
                      <a href="#" class="project-item js-scroll">
                         <div class="project-image-wrapper">
-                            <img src="https://via.placeholder.com/800x500/E8E6E1/2a2a2a?text=Touchtunes" alt="Touchtunes Image">
+                            <img src="https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=800&h=500&fit=crop&q=80" alt="Touchtunes Image">
                         </div>
                         <div class="project-info">
                             <div class="project-title">Touchtunes</div>
@@ -764,7 +828,7 @@
 
                     <a href="#" class="project-item js-scroll">
                         <div class="project-image-wrapper">
-                            <img src="https://via.placeholder.com/800x500/1a1a1a/ffffff?text=IMAX" alt="IMAX Image">
+                            <img src="https://images.unsplash.com/photo-1553375794-5a03a1a7d82e?w=800&h=500&fit=crop&q=80" alt="IMAX Image">
                         </div>
                         <div class="project-info">
                             <div class="project-title">IMAX</div>

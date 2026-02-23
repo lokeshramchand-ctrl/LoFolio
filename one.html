@@ -427,7 +427,61 @@
             object-fit: cover;
         }
 
-        /* --- 8. ABOUT (REDESIGNED) --- */
+        /* --- 8. TESTIMONIAL (NEW) --- */
+        #testimonial {
+            padding: 150px 5vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .testimonial-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .quote-icon {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(4rem, 10vw, 8rem);
+            color: var(--text);
+            opacity: 0.1;
+            line-height: 0;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .testimonial-text {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(2rem, 4vw, 4.5rem);
+            font-weight: 500;
+            line-height: 1.2;
+            color: var(--text);
+            margin-bottom: 60px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .t-name {
+            font-family: 'General Sans', sans-serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text);
+        }
+
+        .t-role {
+            font-size: 0.9rem;
+            color: var(--acc);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- 9. ABOUT --- */
         #about {
             padding: 150px 5vw;
             border-top: 1px solid var(--border);
@@ -526,7 +580,7 @@
             color: var(--bg);
         }
 
-        /* --- 9. FOOTER --- */
+        /* --- 10. FOOTER --- */
         footer {
             padding: 100px 5vw 40px;
             display: flex;
@@ -687,7 +741,7 @@
             letter-spacing: 1px;
         }
 
-        /* --- 10. LOADER --- */
+        /* --- 11. LOADER --- */
         #loader {
             position: fixed;
             inset: 0;
@@ -734,6 +788,8 @@
 
             .footer-container { flex-direction: column; gap: 50px; }
             .footer-bottom { flex-direction: column; align-items: flex-start; gap: 15px; }
+
+            #testimonial { padding: 100px 5vw; }
         }
     </style>
 </head>
@@ -857,6 +913,19 @@
             </div>
         </section>
 
+        <section id="testimonial">
+            <div class="testimonial-container">
+                <span class="quote-icon">"</span>
+                <p class="testimonial-text">
+                    Lokesh was competent, open to direction, and gave expert advice throughout the redesign process. His positive attitude and humility make him a true joy to collaborate with.
+                </p>
+                <div class="testimonial-author">
+                    <span class="t-name">Sarah Jenkins</span>
+                    <span class="t-role">CTO at SPL Systems</span>
+                </div>
+            </div>
+        </section>
+
         <section id="about">
             <div class="about-top">
                 <span class="section-label">About Me</span>
@@ -897,7 +966,9 @@
                     <div class="hero-line">
                         <h1 class="footer-title">Say</h1>
                     </div>
-                    
+                    <div class="hero-line">
+                        <h1 class="footer-title outline">Hello.</h1>
+                    </div>
                     
                     <p class="footer-desc">Got a project in mind or just want to say hi? Feel free to reach out and let's build something great together.</p>
                     
@@ -1062,6 +1133,18 @@
                 scrollTrigger: { trigger: span, start: "top 80%", end: "bottom 60%", scrub: true },
                 color: "var(--text)"
             });
+        });
+
+        // Testimonial Scroll Animation
+        gsap.from(".testimonial-text", {
+            scrollTrigger: {
+                trigger: "#testimonial",
+                start: "top 80%",
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out"
         });
 
         let proxy = { skew: 0 },

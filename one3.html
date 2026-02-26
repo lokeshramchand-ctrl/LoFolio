@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Coming Soon</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 12px 24px;
+      border: 1px solid #fff;
+      text-decoration: none;
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    a:hover {
+      background: #fff;
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>New Portfolio On The Way 🚀</h1>
+    <p>Meanwhile, check out my GitHub below</p>
+    <a href="https://github.com/lokeshramchand-ctrl" target="_blank">
+      Click Here
+    </a>
+  </div>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- 1. THEME SWITCHER LOGIC ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            const currentTheme = html.getAttribute('data-theme');
+
+            if (currentTheme === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                icon.className = 'ri-sun-line';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                icon.className = 'ri-moon-line';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Check Local Storage on Load
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+        }
+
+        // --- 2. MOBILE MENU ---
+        function toggleMenu() {
+            const menu = document.querySelector('.mobile-menu');
+            menu.classList.toggle('active');
+        }
+
+        // --- 3. PRELOADER ---
+        function startLoader() {
+            let counterElement = document.querySelector(".counter");
+            let currentValue = 0;
+
+            function updateCounter() {
+                if (currentValue === 100) return;
+                currentValue += Math.floor(Math.random() * 10) + 1;
+                if (currentValue > 100) currentValue = 100;
+                counterElement.textContent = currentValue;
+
+                let delay = Math.floor(Math.random() * 200) + 50;
+                setTimeout(updateCounter, delay);
+            }
+            updateCounter();
+
+            const tl = gsap.timeline();
+            tl.to(".counter", { delay: 2.5, opacity: 0 })
+                .to("#loader", { height: 0, duration: 1, ease: "power4.inOut" })
+                .to(".hero-title", { y: 0, stagger: 0.1, duration: 1, ease: "power4.out" }, "-=0.5")
+                .from(".reveal-text", { y: 20, opacity: 0, stagger: 0.1 }, "-=0.5");
+        }
+        startLoader();
+
+        // --- 4. SMOOTH SCROLL ---
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // --- 5. CURSOR & MAGNETS (Desktop Only) ---
+        if (window.matchMedia("(min-width: 769px)").matches) {
+            const cursor = document.getElementById("cursor");
+
+            window.addEventListener("mousemove", (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            });
+
+            document.querySelectorAll(".magnet").forEach((magnet) => {
+                magnet.addEventListener("mousemove", (e) => {
+                    const rect = magnet.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(magnet, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+                    gsap.to(cursor, { scale: 3 });
+                });
+
+                magnet.addEventListener("mouseleave", () => {
+                    gsap.to(magnet, { x: 0, y: 0 });
+                    gsap.to(cursor, { scale: 1 });
+                });
+            });
+
+            // FLOATING IMAGE
+            const projectItems = document.querySelectorAll(".project-item");
+            const previewImg = document.querySelector(".preview-img");
+            const pImg = document.getElementById("p-img");
+            const xTo = gsap.quickTo(previewImg, "x", { duration: 0.4, ease: "power3" });
+            const yTo = gsap.quickTo(previewImg, "y", { duration: 0.4, ease: "power3" });
+
+            projectItems.forEach((item) => {
+                item.addEventListener("mouseenter", () => {
+                    const imgUrl = item.getAttribute("data-img");
+                    pImg.src = imgUrl;
+                    gsap.to(previewImg, { opacity: 1, scale: 1, duration: 0.3 });
+                });
+                item.addEventListener("mouseleave", () => {
+                    gsap.to(previewImg, { opacity: 0, scale: 0.5, duration: 0.3 });
+                });
+                item.addEventListener("mousemove", (e) => {
+                    xTo(e.clientX);
+                    yTo(e.clientY);
+                });
+            });
+        }
+
+        // --- 6. SCROLL ANIMATIONS ---
+        gsap.utils.toArray(".about-text span").forEach((span) => {
+            gsap.to(span, {
+                scrollTrigger: { trigger: span, start: "top 80%", end: "bottom 60%", scrub: true },
+                color: "var(--text)"
+            });
+        });
+
+        // Skew Effect
+        let proxy = { skew: 0 },
+            skewSetter = gsap.quickSetter(".project-item", "skewY", "deg"),
+            clamp = gsap.utils.clamp(-20, 20);
+
+        ScrollTrigger.create({
+            onUpdate: (self) => {
+                let skew = clamp(self.getVelocity() / -300);
+                if (Math.abs(skew) > Math.abs(proxy.skew)) {
+                    proxy.skew = skew;
+                    gsap.to(proxy, {
+                        skew: 0, duration: 0.8, ease: "power3", overwrite: true,
+                        onUpdate: () => skewSetter(proxy.skew)
+                    });
+                }
+            }
+        });
+
+        // --- 7. FORM LOGIC ---
+        const contactForm = document.getElementById('contact-form');
+        const statusMsg = document.getElementById('form-status');
+        const submitBtn = document.getElementById('submit-btn');
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('form-email').value;
+            const work = document.getElementById('form-work').value;
+
+            const originalText = submitBtn.innerHTML;
+            submitBtn.style.opacity = '0.7';
+            submitBtn.innerHTML = 'Sending...';
+            statusMsg.innerText = "";
+
+            try {
+                const response = await
+                    fetch('https://analytics.priyatham.in/open/workspace/clnzoxcy10001vy2ohi4obbi0/survey/cml9ga0e702x3v5d7hn6viddw/submit',
+                        {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                payload: {
+                                    field_Nrgp: email,
+                                    field_T1tJ: work
+                                }
+                            }),
+                        });
+
+                if (response.ok) {
+                    statusMsg.style.color = "var(--accent)";
+                    statusMsg.innerText = "Message sent successfully.";
+                    contactForm.reset();
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.style.opacity = '1';
+                        // lucide.createIcons(); // Removed as Lucide is not loaded in this document
+                    }, 3000);
+                } else {
+                    throw new Error();
+                }
+            } catch (error) {
+                statusMsg.style.color = "#ef4444";
+                statusMsg.innerText = "Unable to send. Please try again.";
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.opacity = '1';
+                // lucide.createIcons(); // Removed as Lucide is not loaded in this document
+            }
+        });
+
+    </script>
+</body>
+</html>

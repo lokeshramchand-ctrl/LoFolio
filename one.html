@@ -275,9 +275,22 @@
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-8px); }
-            60% { transform: translateY(-4px); }
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-8px);
+            }
+
+            60% {
+                transform: translateY(-4px);
+            }
         }
 
         /* --- 7. WORK --- */
@@ -760,36 +773,85 @@
 
         /* --- MEDIA QUERIES --- */
         @media (max-width: 768px) {
-            .menu-items { display: none; }
-            .menu-icon { display: block; }
-            #cursor, .preview-img { display: none !important; }
-            * { cursor: auto !important; }
-            .hero-footer { flex-direction: column; gap: 10px; align-items: flex-start; }
-            nav { padding: 20px 5vw; }
-            
+            .menu-items {
+                display: none;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            #cursor,
+            .preview-img {
+                display: none !important;
+            }
+
+            * {
+                cursor: auto !important;
+            }
+
+            .hero-footer {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            nav {
+                padding: 20px 5vw;
+            }
+
             .project-item {
                 flex-direction: column;
                 align-items: flex-start;
                 padding: 30px 0;
                 gap: 20px;
             }
-            .p-left { gap: 20px; }
-            .p-center { display: none; }
+
+            .p-left {
+                gap: 20px;
+            }
+
+            .p-center {
+                display: none;
+            }
+
             .p-right {
                 width: 100%;
                 justify-content: space-between;
                 flex-direction: row-reverse;
             }
-            .p-cat { text-align: left; }
-            .project-item:hover .p-name { transform: translateX(15px); }
-            
-            .about-grid { grid-template-columns: 1fr; gap: 40px; }
-            .about-img-wrapper { height: 40vh; }
 
-            .footer-container { flex-direction: column; gap: 50px; }
-            .footer-bottom { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .p-cat {
+                text-align: left;
+            }
 
-            #testimonial { padding: 100px 5vw; }
+            .project-item:hover .p-name {
+                transform: translateX(15px);
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-img-wrapper {
+                height: 40vh;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 50px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            #testimonial {
+                padding: 100px 5vw;
+            }
         }
     </style>
 </head>
@@ -836,16 +898,15 @@
         </nav>
 
         <section id="hero">
+            <span class="hero-subtitle reveal-text">Hello, World.</span>
+            
+            <div class="hero-line">
+                <h1 class="hero-title">I'm Lokesh.</h1>
+            </div>
+            <div class="hero-line">
+                <h1 class="hero-title outline">Full-Stack Engineer</h1>
+            </div>
 
-            <div class="hero-line">
-                <h1 class="hero-title">Design.</h1>
-            </div>
-            <div class="hero-line">
-                <h1 class="hero-title outline">Code.</h1>
-            </div>
-            <div class="hero-line">
-                <h1 class="hero-title">Ship.</h1>
-            </div>
 
             <div class="hero-footer">
                 <span class="reveal-text">Hyderabad, India</span>
@@ -915,8 +976,10 @@
             <div class="testimonial-container">
                 <span class="quote-icon">"</span>
                 <p class="testimonial-text">
-                    Lokesh was competent, open to direction, and gave expert advice throughout the redesign process. His positive attitude and humility make him a true joy to collaborate with.
+                    Lokesh was competent, open to direction, and gave expert advice throughout the redesign process. His
+                    positive attitude and humility make him a true joy to collaborate with.
                 </p>
+                <span class="quote-icon">"</span>
                 <div class="testimonial-author">
                     <span class="t-name">Danielle Lindamood</span>
                     <span class="t-role">Director at Water Watchers</span>
@@ -928,20 +991,26 @@
             <div class="about-top">
                 <span class="section-label">About Me</span>
                 <p class="about-text">
-                    I'm Lokesh, a <span>CSE undergrad</span> at KL University. I craft <span>high-end digital experiences</span> with strong focus on <span>clean architecture</span> and <span>intuitive user experience.</span>I enjoy turning complex ideas into <span>reliable, production-ready products.</span>
+                    I'm Lokesh, a <span>CSE undergrad</span> at KL University. I craft <span>high-end digital
+                        experiences</span> with strong focus on <span>clean architecture</span> and <span>intuitive user
+                        experience.</span>I enjoy turning complex ideas into <span>reliable, production-ready
+                        products.</span>
             </div>
 
             <div class="about-grid">
                 <div class="about-img-wrapper magnet">
-                    <img src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=1000&auto=format&fit=crop" alt="Abstract Aesthetics">
+                    <img src="https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=1000&auto=format&fit=crop"
+                        alt="Abstract Aesthetics">
                 </div>
-                
+
                 <div class="about-details">
                     <div class="detail-item">
                         <h3>The Mindset</h3>
-                        <p>Currently pursuing my B.Tech (Hons.) in Hyderabad and maintaining a 9.45 CGPA. When I'm not geeking out over fluid GSAP animations or deep-diving into AWS cloud architecture, I enjoy engineering seamless full-stack platforms and solving complex logic riddles.</p>
+                        <p>Currently pursuing my B.Tech (Hons.) in Hyderabad and maintaining a 9.45 CGPA. When I'm not
+                            geeking out over fluid GSAP animations or deep-diving into AWS cloud architecture, I enjoy
+                            engineering seamless full-stack platforms and solving complex logic riddles.</p>
                     </div>
-                    
+
                     <div class="detail-item">
                         <h3>Core Engineering Stack</h3>
                         <div class="tech-tags">
@@ -966,9 +1035,10 @@
                     <div class="hero-line">
                         <h1 class="footer-title outline">Hello.</h1>
                     </div>
-                    
-                    <p class="footer-desc">Got a project in mind or just want to say hi? Feel free to reach out and let's build something great together.</p>
-                    
+
+                    <p class="footer-desc">Got a project in mind or just want to say hi? Feel free to reach out and
+                        let's build something great together.</p>
+
                     <div class="socials">
                         <a href="mailto:lokeshramchand@gmail.com" class="social-link magnet">
                             Email <i class="ri-arrow-right-up-line"></i>
@@ -990,9 +1060,10 @@
                         </div>
                         <div class="input-group">
                             <label for="form-work">Tell me about your project</label>
-                            <input type="text" id="form-work" class="form-input" placeholder="I need a modern web application..." required>
+                            <input type="text" id="form-work" class="form-input"
+                                placeholder="I need a modern web application..." required>
                         </div>
-                        
+
                         <button type="submit" id="submit-btn" class="magnet">
                             <span>Send Message</span>
                             <i class="ri-arrow-right-line"></i>
@@ -1214,7 +1285,7 @@
         // --- 8. LIVE LOCAL TIME ---
         function updateTime() {
             const timeDisplay = document.getElementById('local-time');
-            if(timeDisplay) {
+            if (timeDisplay) {
                 const now = new Date();
                 const timeString = now.toLocaleTimeString('en-US', {
                     timeZone: 'Asia/Kolkata',

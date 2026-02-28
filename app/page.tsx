@@ -358,7 +358,7 @@ export default function Home() {
 
       <div className="fixed-footer">
         <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="btn btn-sub">Resume</a>
-        <Link href="../components/first_page" className="btn btn-main">Portfolio</Link>      </div>
+        <Link href="../Components/First_Page" className="btn btn-main">Portfolio</Link>      </div>
     </>
   );
 }

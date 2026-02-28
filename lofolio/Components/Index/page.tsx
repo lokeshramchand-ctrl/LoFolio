@@ -1,64 +1,66 @@
-    'use client';
+'use client';
 
-import React, { useState, useEffect } from 'react';
-import Script from 'next/script';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
-export default function IndexPage() {
-  const [theme, setTheme] = useState('dark');
-  const [mounted, setMounted] = useState(false);
-  const [time, setTime] = useState('00:00');
+export default function Home() {
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
+  const [currentTime, setCurrentTime] = useState('00:00');
 
   useEffect(() => {
-    setMounted(true);
-    const savedTheme = localStorage.getItem('theme') || 
+    // Load theme from localStorage
+    const savedTheme = localStorage.getItem('theme') as 'dark' | 'light' || 
       (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
     setTheme(savedTheme);
+    document.body.setAttribute('data-theme', savedTheme);
+  }, []);
 
+  useEffect(() => {
+    // Update time every second
     const updateTime = () => {
       const now = new Date();
-      setTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
+      setCurrentTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }));
     };
-    
     updateTime();
     const interval = setInterval(updateTime, 1000);
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          (entry.target as HTMLElement).style.opacity = '1';
-          (entry.target as HTMLElement).style.transform = 'translateY(0)';
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.tile, .project-card').forEach(el => observer.observe(el));
-
-    return () => {
-      clearInterval(interval);
-      observer.disconnect();
-    };
+    return () => clearInterval(interval);
   }, []);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
-    
-    const btn = document.getElementById('theme-toggle');
-    if (btn) {
-      btn.style.transform = 'scale(0.8)';
-      setTimeout(() => { btn.style.transform = 'scale(1)'; }, 100);
-    }
+    document.body.setAttribute('data-theme', newTheme);
   };
 
-  // Avoid hydration mismatch by not rendering theme-dependent UI until mounted
-  if (!mounted) return null;
+  const ThemeIcon = () => {
+    if (theme === 'light') {
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      );
+    }
+    return (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+    );
+  };
 
   return (
-    <div className="wrapper" data-theme={theme}>
-      <style dangerouslySetInnerHTML={{ __html: `
+    <>
+      <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
+        
         :root {
           --bg: #000000;
           --card: #0a0a0c;
@@ -70,7 +72,7 @@ export default function IndexPage() {
           --spring: all 0.5s cubic-bezier(0.43, 0.13, 0.23, 0.96);
         }
 
-        .wrapper[data-theme="light"] {
+        [data-theme="light"] {
           --bg: #f5f5f7;
           --card: #ffffff;
           --text: #1d1d1f;
@@ -81,7 +83,7 @@ export default function IndexPage() {
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
-        .wrapper {
+        body {
           background-color: var(--bg);
           color: var(--text);
           font-family: 'Inter', sans-serif;
@@ -103,6 +105,12 @@ export default function IndexPage() {
         @keyframes dockRise {
           from { transform: translateX(-50%) translateY(100px); opacity: 0; }
           to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+          0% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.2); opacity: 0.7; }
+          100% { transform: scale(1); opacity: 1; }
         }
 
         .theme-btn {
@@ -172,8 +180,12 @@ export default function IndexPage() {
         .social { grid-column: span 2; grid-row: span 1; align-items: center; justify-content: center; }
 
         .label { 
-          font-size: 11px; font-weight: 600; text-transform: uppercase; 
-          letter-spacing: 0.1em; color: var(--sub); margin-bottom: 12px;
+          font-size: 11px; 
+          font-weight: 600; 
+          text-transform: uppercase; 
+          letter-spacing: 0.1em; 
+          color: var(--sub); 
+          margin-bottom: 12px;
           animation: fadeInUp 1s 0.5s both;
         }
         
@@ -257,15 +269,12 @@ export default function IndexPage() {
 
         .status-dot { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--sub); }
         .dot { 
-            width: 8px; height: 8px; background: #32d74b; border-radius: 50%; 
-            box-shadow: 0 0 10px rgba(50, 215, 75, 0.5);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-          0% { transform: scale(1); opacity: 1; }
-          50% { transform: scale(1.2); opacity: 0.7; }
-          100% { transform: scale(1); opacity: 1; }
+          width: 8px; 
+          height: 8px; 
+          background: #32d74b; 
+          border-radius: 50%; 
+          box-shadow: 0 0 10px rgba(50, 215, 75, 0.5);
+          animation: pulse 2s infinite;
         }
 
         @media (max-width: 850px) {
@@ -274,26 +283,10 @@ export default function IndexPage() {
           .fixed-footer { bottom: 20px; width: calc(100% - 30px); }
           .project-card { min-width: 85vw; }
         }
-      `}} />
+      `}</style>
 
-      <button className="theme-btn" onClick={toggleTheme} id="theme-toggle">
-        <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          {theme === 'light' ? (
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          ) : (
-            <>
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </>
-          )}
-        </svg>
+      <button className="theme-btn" onClick={toggleTheme}>
+        <ThemeIcon />
       </button>
 
       <div className="container">
@@ -312,26 +305,31 @@ export default function IndexPage() {
           <div className="tile util">
             <div>
               <div className="label">Local Time</div>
-              <div className="value" id="local-time">{time}</div>
+              <div className="value">{currentTime}</div>
             </div>
             <div>
               <div className="label">Focus</div>
-              <div className="value">Full Stack • Systems </div>
+              <div className="value">Full Stack • Systems</div>
             </div>
           </div>
 
           <a href="https://github.com/lokeshramchand-ctrl" target="_blank" rel="noopener noreferrer" className="tile social">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
           </a>
 
           <a href="https://www.linkedin.com/in/lokeshramchand/" target="_blank" rel="noopener noreferrer" className="tile social">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
           </a>
         </div>
 
         <div className="label" style={{ marginTop: '10px', marginLeft: '10px' }}>Selected Works</div>
         <div className="project-scroll">
-          
           <a href="https://github.com/lokeshramchand-ctrl/Velar" className="project-card">
             <svg className="github-icon" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
@@ -339,6 +337,7 @@ export default function IndexPage() {
             <h3>Velar</h3>
             <p>A high-performance financial interface built for real-time clarity.</p>
           </a>
+
           <a href="https://github.com/lokeshramchand-ctrl/Fortyl" className="project-card">
             <svg className="github-icon" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
@@ -346,6 +345,7 @@ export default function IndexPage() {
             <h3>Fortyl</h3>
             <p>Strategic security layers designed for decentralized architectures.</p>
           </a>
+
           <a href="https://github.com/lokeshramchand-ctrl/MapLayer" className="project-card">
             <svg className="github-icon" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
@@ -358,16 +358,8 @@ export default function IndexPage() {
 
       <div className="fixed-footer">
         <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="btn btn-sub">Resume</a>
-        <a href="./first.html" target="_blank" rel="noopener noreferrer" className="btn btn-main">Portfolio</a>
+        <Link href="/portfolio" className="btn btn-main">Portfolio</Link>
       </div>
-
-      <Script
-        async
-        src="https://analytics.priyatham.in/state-min.js"
-        data-website-id="cmkggieid03ak7bq77fywx36t"
-        data-domains="lokeshramchand.vercel.app,www.lokeshramchand.vercel.app"
-        strategy="lazyOnload"
-      />
-    </div>
+    </>
   );
 }

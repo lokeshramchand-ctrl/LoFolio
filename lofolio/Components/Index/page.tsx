@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Script from 'next/script';
 
-export default function LokeshPortfolio() {
+export default function IndexPage() {
   const [theme, setTheme] = useState('dark');
   const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState('00:00');

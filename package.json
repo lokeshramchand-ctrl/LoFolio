@@ -1,0 +1,24 @@
+{
+  "name": "lofolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "nav.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lokeshramchand-ctrl/LoFolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/lokeshramchand-ctrl/LoFolio/issues"
+  },
+  "homepage": "https://github.com/lokeshramchand-ctrl/LoFolio#readme",
+  "dependencies": {
+    "gsap": "^3.14.2"
+  }
+}

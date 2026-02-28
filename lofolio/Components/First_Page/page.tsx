@@ -11,7 +11,7 @@ export default function FirstPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formStatus, setFormStatus] = useState({ message: '', error: false });
   const [previewSrc, setPreviewSrc] = useState('');
-  
+
   const cursorRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -216,7 +216,7 @@ export default function FirstPage() {
     <>
       <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
       <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet" />
-      
+
       <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" strategy="lazyOnload" />
       <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" strategy="lazyOnload" />
       <Script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js" strategy="lazyOnload" />
@@ -507,7 +507,7 @@ export default function FirstPage() {
                 <i className="ri-arrow-right-up-line p-icon"></i>
               </div>
             </a>
-            
+
             <a href="https://github.com/lokeshramchand-ctrl/fortyl.git" className="project-item magnet" data-img="images/Web_Signin_Fortyl.png">
               <div className="p-left">
                 <span className="p-num">04</span>

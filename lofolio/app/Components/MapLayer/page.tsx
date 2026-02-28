@@ -4,13 +4,12 @@ import type { StaticImageData } from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 
-// Import GIFs and images
-import firstAnimation from '../assets/Gifs/AI-RealEstate/first animation.gif';
-import mainpage from '../assets/Gifs/AI-RealEstate/mainpage.gif';
-import leftsidebar from '../assets/Gifs/AI-RealEstate/leftsidebar.gif';
-import rightsidebar from '../assets/Gifs/AI-RealEstate/rightsidebar.gif';
-import darkmode from '../assets/Gifs/AI-RealEstate/darkmode.png';
-import lightmode from '../assets/Gifs/AI-RealEstate/lightmode.png';
+import lightmode from '../../../assets/maplayer/lightmode.png';
+import darkmode from '../../../assets/maplayer/darkmode.png';
+import firstAnimation from '../../../assets/maplayer/first animation.gif';
+import leftsidebar from '../../../assets/maplayer/leftsidebar.gif';
+import rightsidebar from '../../../assets/maplayer/rightsidebar.gif';
+import mainpage from '../../../assets/maplayer/mainpage.gif';
 
 interface ImageBlockProps {
   caption: string;

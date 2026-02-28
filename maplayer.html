@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MapLayer</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link
+    href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="styles.css"> 
+  <link rel="stylesheet" href="./app/Components/Navbar/navbar.css">
+
+  <style>
+    /* CSS Variables for Light/Dark Mode */
+    :root {
+      --bg-main: #0b0b0b;
+      --bg-card: #1e1e1e;
+      --bg-card-hover: #2a2a2a;
+      --text-primary: #ffffff;
+      --text-secondary: #aaaaaa;
+      --text-muted: #666666;
+      --border-color: #333333;
+      --font-display: 'Clash Display', sans-serif;
+      --font-body: 'General Sans', sans-serif;
+    }
+
+    [data-theme="light"] {
+      --bg-main: #ffffff;
+      --bg-card: #f8f9fa;
+      --bg-card-hover: #e9ecef;
+      --text-primary: #111111;
+      --text-secondary: #555555;
+      --text-muted: #888888;
+      --border-color: #dddddd;
+    }
+
+    /* Base container */
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .noise-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 900;
+      opacity: 0.04;
+      background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    }
+
+    .container {
+      min-height: 100vh;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      padding-top: 80px;
+      transition: background-color 0.4s ease, color 0.4s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-main) 100%);
+      min-height: 40vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 2rem;
+      margin: 0;
+    }
+
+    .heroPreviewWrap {
+      display: none;
+      width: min(100%, 1080px);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+
+    .heroPreview {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* CSS-only theme swap for Hero Images */
+    .hero-light-img { display: none; }
+    [data-theme="light"] .hero-dark-img { display: none; }
+    [data-theme="light"] .hero-light-img { display: block; }
+
+    /* Layout Grid */
+    .mainContent {
+      padding: 2rem 2rem 0 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .layoutGrid {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 3rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: sticky;
+      top: 100px;
+    }
+
+    .projectTitle {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.25rem 0;
+      color: var(--text-primary);
+    }
+
+    .projectSubtitle {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+      margin: 0;
+    }
+
+    /* Content Area */
+    .descriptionBlock {
+      margin-bottom: 3rem;
+    }
+
+    .descriptionText {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 900px;
+      margin-bottom: 2.5rem;
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+    }
+
+    .metaGrid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      font-size: 0.85rem;
+    }
+
+    .metaItem h4 {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin: 0 0 0.5rem 0;
+      text-transform: uppercase;
+    }
+
+    .metaItem p {
+      font-family: var(--font-body);
+      margin: 0;
+      line-height: 1.4;
+      color: var(--text-primary);
+    }
+
+    /* Action Links */
+    .actionLinks {
+      display: flex;
+      gap: 1px;
+      background-color: var(--border-color);
+    }
+
+    .linkButton {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      transition: background-color 0.2s ease;
+    }
+
+    .linkButton:hover {
+      background-color: var(--bg-card-hover);
+    }
+
+    .arrow {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+    }
+
+    /* Image Gallery */
+    .imageGallery {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+      padding-bottom: 4rem;
+    }
+
+    .imageBlock {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .imagePlaceholder {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      width: 100%;
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    .imagePlaceholder:hover {
+      border-color: var(--text-secondary);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .projectImage {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    .caption {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0;
+      padding: 0 0.5rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 100px 5vw 40px;
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid var(--border-color);
+      position: relative;
+      background: var(--bg-main);
+    }
+
+    .footer-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 60px;
+      flex-wrap: wrap;
+      margin-bottom: 80px;
+    }
+
+    .footer-left {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .footer-right {
+      flex: 1;
+      min-width: 300px;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .footer-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 8rem);
+      line-height: 0.9;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .footer-title.outline {
+      color: transparent;
+      -webkit-text-stroke: 1px var(--text-primary);
+      opacity: 0.5;
+    }
+
+    .footer-desc {
+      font-family: var(--font-body);
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin: 30px 0 40px;
+      max-width: 400px;
+      line-height: 1.5;
+    }
+
+    #contact-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .input-group label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+    }
+
+    .form-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border-color);
+      padding: 10px 0;
+      font-family: var(--font-body);
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.3s;
+      border-radius: 0;
+    }
+
+    .form-input:focus {
+      border-color: var(--text-primary);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.3;
+    }
+
+    #submit-btn {
+      align-self: flex-start;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      text-transform: uppercase;
+      border: 1px solid var(--text-primary);
+      background: var(--text-primary);
+      color: var(--bg-main);
+      padding: 16px 40px;
+      border-radius: 100px;
+      transition: all 0.3s;
+      letter-spacing: 1px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    #submit-btn:hover {
+      background: transparent;
+      color: var(--text-primary);
+    }
+
+    #form-status {
+      font-size: 0.9rem;
+      min-height: 20px;
+      margin-top: -20px;
+      color: var(--text-secondary);
+    }
+
+    .socials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .social-link {
+      font-family: var(--font-body);
+      border: 1px solid var(--border-color);
+      padding: 12px 24px;
+      border-radius: 100px;
+      transition: all 0.3s;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-primary);
+    }
+
+    .social-link:hover {
+      background: var(--text-primary);
+      color: var(--bg-main);
+      border-color: var(--text-primary);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1024px) {
+      .layoutGrid { grid-template-columns: 1fr; }
+      .sidebar { position: static; margin-bottom: 2rem; }
+      .metaGrid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 1025px) {
+      .heroPreviewWrap { display: block; }
+    }
+
+    @media (max-width: 768px) {
+      .footer-container { flex-direction: column; gap: 50px; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 15px; }
+    }
+
+    @media (max-width: 600px) {
+      .metaGrid { grid-template-columns: 1fr; }
+      .actionLinks { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="noise-overlay"></div>
+
+  <div id="navbar-placeholder"></div>
+
+  <div class="container">
+    <section class="hero">
+      <div class="heroLogo">
+        <div class="heroPreviewWrap">
+          <img
+            src="../images/maplayer/darkmode.png"
+            alt="MapLayer dark mode preview"
+            class="heroPreview hero-dark-img"
+            loading="eager"
+            decoding="sync"
+          />
+          <img
+            src="../images/maplayer/lightmode.png"
+            alt="MapLayer light mode preview"
+            class="heroPreview hero-light-img"
+            loading="eager"
+            decoding="sync"
+          />
+        </div>
+      </div>
+    </section>
+
+    <main class="mainContent">
+      <div class="layoutGrid">
+        
+        <aside class="sidebar">
+          <h1 class="projectTitle">MapLayer</h1>
+          <p class="projectSubtitle">LIGHTWEIGHT REACT + GEOJSON MAPPING INTERFACE BASED ON SAN DIEGO</p>
+        </aside>
+
+        <div class="content">
+          <div class="descriptionBlock">
+            <p class="descriptionText">
+              MapLayer is a lightweight React + GeoJSON based mapping interface built to make
+              geospatial exploration accessible without specialized GIS tooling. The platform
+              renders GeoJSON layers in-browser with OpenLayers, supports dynamic layer toggling,
+              marker overlays, search workflows, and API-ready integrations for external data such
+              as legislation or statistics. The architecture is modular and production-friendly,
+              with Vite + TypeScript on the frontend and containerized deployment workflows using
+              Docker, Docker Compose, and Jenkins for reliable CI/CD.
+            </p>
+            
+            <div class="metaGrid">
+              <div class="metaItem">
+                <h4>ROLE</h4>
+                <p>Frontend & Mapping Interface Engineering</p>
+              </div>
+              <div class="metaItem">
+                <h4>FRONTEND STACK</h4>
+                <p>React (TypeScript)<br/>Vite + OpenLayers</p>
+              </div>
+              <div class="metaItem">
+                <h4>DATA & APIs</h4>
+                <p>GeoJSON Layers<br/>LegiScan-ready API integration</p>
+              </div>
+              <div class="metaItem">
+                <h4>DEPLOYMENT</h4>
+                <p>Docker + Compose<br/>Jenkins CI/CD</p>
+              </div>
+            </div>
+
+            <div class="actionLinks">
+              <a href="#" class="linkButton">MAPLAYER OVERVIEW <span class="arrow">›</span></a>
+            </div>
+          </div>
+
+          <div class="imageGallery" id="gallery-container">
+            
+            <div class="imageBlock">
+              <div class="imagePlaceholder">
+                <img
+                  data-src="../images/maplayer/first animation.gif"
+                  src="../images/maplayer/first animation.gif?loop=0"
+                  alt="GeoJSON rendering and map visualization"
+                  class="projectImage"
+                  loading="eager"
+                  decoding="sync"
+                />
+              </div>
+              <p class="caption">LOAD AND VISUALIZE GEOJSON DATASETS DIRECTLY IN THE BROWSER USING OPENLAYERS.</p>
+            </div>
+
+            <div class="imageBlock">
+              <div class="imagePlaceholder">
+                <img
+                  data-src="../images/maplayer/mainpage.gif"
+                  src="../images/maplayer/mainpage.gif?loop=0"
+                  alt="Layer controls and base map switching"
+                  class="projectImage"
+                  loading="eager"
+                  decoding="sync"
+                />
+              </div>
+              <p class="caption">SWITCH BETWEEN BASE TILES, VECTOR LAYERS, AND CUSTOM OVERLAYS WITH CLEAN CONTROLS.</p>
+            </div>
+
+            <div class="imageBlock">
+              <div class="imagePlaceholder">
+                <img
+                  data-src="../images/maplayer/leftsidebar.gif"
+                  src="../images/maplayer/leftsidebar.gif?loop=0"
+                  alt="Search and marker interaction flow"
+                  class="projectImage"
+                  loading="eager"
+                  decoding="sync"
+                />
+              </div>
+              <p class="caption">SEARCH, MARKER INTERACTION, AND MODULAR UI COMPONENTS FOR EXPLORATION WORKFLOWS.</p>
+            </div>
+
+            <div class="imageBlock">
+              <div class="imagePlaceholder">
+                <img
+                  data-src="../images/maplayer/rightsidebar.gif"
+                  src="../images/maplayer/rightsidebar.gif?loop=0"
+                  alt="External API integration architecture"
+                  class="projectImage"
+                  loading="eager"
+                  decoding="sync"
+                />
+              </div>
+              <p class="caption">API-READY ARCHITECTURE WITH EXTERNAL INTEGRATIONS LIKE LEGISCAN AND STATS SERVICES.</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-left">
+        <h2 class="footer-title">Let's</h2>
+        <h2 class="footer-title outline">Connect</h2>
+        <p class="footer-desc">
+          Have a project in mind or just want to chat about tech? Feel free to reach out.
+        </p>
+        <div class="socials">
+          <a href="https://github.com/lokeshramchand-ctrl" class="social-link" target="_blank" rel="noopener noreferrer">
+            <i class="ri-github-fill"></i> GitHub
+          </a>
+          <a href="https://linkedin.com/in/lokeshramchand" class="social-link" target="_blank" rel="noopener noreferrer">
+            <i class="ri-linkedin-fill"></i> LinkedIn
+          </a>
+          <a href="mailto:lokeshramchand@example.com" class="social-link">
+            <i class="ri-mail-line"></i> Email
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-right">
+        <form id="contact-form">
+          <div class="input-group">
+            <label for="form-email">Your Email</label>
+            <input type="email" id="form-email" class="form-input" placeholder="you@example.com" required />
+          </div>
+          <div class="input-group">
+            <label for="form-work">What's on your mind?</label>
+            <input type="text" id="form-work" class="form-input" placeholder="Tell me about your project" required />
+          </div>
+          <button type="submit" id="submit-btn">
+            <span>Send Message</span>
+            <i class="ri-arrow-right-line"></i>
+          </button>
+          <div id="form-status"></div>
+        </form>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Lokesh Ram Chand</span>
+      <span>Local Time: <span id="local-time">--:--</span> IST</span>
+    </div>
+  </footer>
+
+  <script src="./app/Components/Navbar/navbar.js"></script>
+
+  <script>
+    // Form Submission Logic
+    const contactForm = document.getElementById('contact-form');
+    const statusMsg = document.getElementById('form-status');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = submitBtn.querySelector('span');
+
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById('form-email').value;
+      const work = document.getElementById('form-work').value;
+
+      const originalText = btnText.innerHTML;
+      submitBtn.style.opacity = '0.7';
+      btnText.innerHTML = 'Sending...';
+      statusMsg.innerText = "";
+
+      // Simulate form submission (replace with actual endpoint)
+      setTimeout(() => {
+        statusMsg.innerText = "Message sent successfully!";
+        statusMsg.style.color = 'var(--text-primary)';
+        btnText.innerHTML = originalText;
+        submitBtn.style.opacity = '1';
+        contactForm.reset();
+
+        setTimeout(() => {
+          statusMsg.innerText = "";
+        }, 3000);
+      }, 1500);
+    });
+
+    // Live Local Time
+    function updateTime() {
+      const timeDisplay = document.getElementById('local-time');
+      if (timeDisplay) {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        timeDisplay.textContent = `${hours}:${minutes}`;
+      }
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // GIF Refresh Logic
+      let gifRefreshKey = 0;
+      const galleryImages = document.querySelectorAll('.projectImage');
+
+      setInterval(() => {
+        gifRefreshKey++;
+        galleryImages.forEach(img => {
+          const baseUrl = img.getAttribute('data-src');
+          const separator = baseUrl.includes('?') ? '&' : '?';
+          
+          img.src = `${baseUrl}${separator}loop=${gifRefreshKey}`;
+        });
+      }, 7000);
+    });
+  </script>
+</body>
+</html>

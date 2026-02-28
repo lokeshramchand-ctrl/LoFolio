@@ -493,7 +493,7 @@ export default function FirstPage() {
               </div>
             </a>
 
-            <a href="https://github.com/lokeshramchand-ctrl/maplayer.git" className="project-item magnet" data-img="images/Web_Maplayer.png">
+            <a href="./MapLayer/page" className="project-item magnet" data-img="images/Web_Maplayer.png">
               <div className="p-left">
                 <span className="p-num">03</span>
                 <div className="p-name">Maplayer</div>

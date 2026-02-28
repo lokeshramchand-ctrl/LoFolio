@@ -2,10 +2,9 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Script from 'next/script';
+import PortfolioNavbar from '../shared/PortfolioNavbar';
 
 export default function FirstPage() {
-  const [theme, setTheme] = useState('dark');
-  const [menuActive, setMenuActive] = useState(false);
   const [time, setTime] = useState('--:--');
   const [counter, setCounter] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -15,20 +14,6 @@ export default function FirstPage() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-
-  // Initialize theme
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-  };
 
   // Live Local Time
   useEffect(() => {
@@ -410,36 +395,24 @@ export default function FirstPage() {
         <div className="counter">{counter}</div>
       </div>
 
-      <div className={`mobile-menu ${menuActive ? 'active' : ''}`}>
-        <a href="#work" className="mobile-link" onClick={() => setMenuActive(false)}>Projects</a>
-        <a href="#about" className="mobile-link" onClick={() => setMenuActive(false)}>About</a>
-        <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="mobile-link" onClick={() => setMenuActive(false)}>Resume</a>
-      </div>
-
       <div className="preview-img" ref={previewRef}>
         <img src={previewSrc} id="p-img" alt="work preview" />
       </div>
 
       <div id="main">
-        <nav>
-          <a href="#" className="logo magnet">Lokesh Ram Chand</a>
-
-          <div className="nav-right">
-            <div className="menu-items">
-              <a href="#work" className="menu-link magnet">Projects</a>
-              <a href="#about" className="menu-link magnet">About</a>
-              <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="menu-link magnet">Resume</a>
-            </div>
-
-            <button className="theme-btn magnet" onClick={toggleTheme} aria-label="Toggle Theme">
-              <i className={theme === 'light' ? 'ri-sun-line' : 'ri-moon-line'} id="theme-icon"></i>
-            </button>
-
-            <button className="menu-icon" onClick={() => setMenuActive(!menuActive)} aria-label="Menu">
-              <i className="ri-menu-4-line"></i>
-            </button>
-          </div>
-        </nav>
+        <PortfolioNavbar
+          logoHref="/Components/First_Page"
+          logoText="Lokesh Ram Chand"
+          items={[
+            { label: 'Projects', href: '/Components/First_Page#work' },
+            { label: 'About', href: '/Components/First_Page#about' },
+            {
+              label: 'Resume',
+              href: 'https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link',
+              external: true,
+            },
+          ]}
+        />
 
         <section id="hero">
           <span className="hero-subtitle reveal-text">Hello, World.</span>
@@ -493,7 +466,7 @@ export default function FirstPage() {
               </div>
             </a>
 
-            <a href="./MapLayer/page" className="project-item magnet" data-img="images/Web_Maplayer.png">
+            <a href="/Components/MapLayer" className="project-item magnet" data-img="images/Web_Maplayer.png">
               <div className="p-left">
                 <span className="p-num">03</span>
                 <div className="p-name">Maplayer</div>

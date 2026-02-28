@@ -3,6 +3,7 @@
 import type { StaticImageData } from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
+import PortfolioNavbar from '../shared/PortfolioNavbar';
 
 import lightmode from '../../../assets/maplayer/lightmode.png';
 import darkmode from '../../../assets/maplayer/darkmode.png';
@@ -55,6 +56,20 @@ export default function ProjectPage() {
 
   return (
     <>
+      <PortfolioNavbar
+        logoHref="/Components/First_Page"
+        logoText="Lokesh Ram Chand"
+        items={[
+          { label: 'Projects', href: '/Components/First_Page#work' },
+          { label: 'About', href: '/Components/First_Page#about' },
+          {
+            label: 'Resume',
+            href: 'https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link',
+            external: true,
+          },
+        ]}
+      />
+
       <div className="container">
 
         {/* Hero Section */}

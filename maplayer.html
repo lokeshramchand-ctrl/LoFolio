@@ -320,6 +320,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 60px 40px;
             margin-bottom: 120px;
+            align-items: start;
         }
 
         .media-block {
@@ -330,7 +331,8 @@
 
         .media-container {
             width: 100%;
-            aspect-ratio: 4 / 3;
+            aspect-ratio: auto;
+            max-height: 600px;
             background-color: var(--overlay);
             border: 1px solid var(--border);
             overflow: hidden;
@@ -338,19 +340,19 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            border-radius: 8px;
         }
 
         .media-container img {
             width: 100%;
-            height: 120%;
-            object-fit: cover;
+            height: auto;
+            max-height: 600px;
+            object-fit: contain;
             filter: grayscale(100%);
-            transition: filter 0.5s ease, transform 0.8s ease;
         }
 
         .media-container:hover img {
-            filter: grayscale(0%);
-            transform: scale(1.05) !important;
+            filter: grayscale(100%);
         }
 
         .media-caption {
@@ -401,11 +403,22 @@
         @media (max-width: 900px) {
             .nav-right .menu-items { display: none; }
             .menu-icon { display: block; }
-            .content-grid, .visual-grid { grid-template-columns: 1fr; gap: 60px; }
+            .content-grid { grid-template-columns: 1fr; gap: 60px; }
+            .visual-grid { grid-template-columns: 1fr; gap: 40px; }
             .media-block { margin-top: 0 !important; }
+            .media-container { max-height: 400px; }
+            .media-container img { max-height: 400px; }
             .hero-title { font-size: 3rem; }
             .hero-media { height: 40vh; }
             .links-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 120px 5vw 60px 5vw; }
+            .visual-grid { grid-template-columns: 1fr; gap: 30px; }
+            .media-container { max-height: 300px; }
+            .media-container img { max-height: 300px; }
+            .hero-media { height: 30vh; }
         }
     </style>
 </head>
@@ -452,7 +465,7 @@
         </header>
 
         <div class="hero-media interactive-el">
-            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000&auto=format&fit=crop" class="parallax-img" alt="Spatial Map interface">
+            <img id="hero-image" src="assets/maplayer/darkmode.png" class="parallax-img" alt="MapLayer preview">
         </div>
 
         <main>
@@ -488,7 +501,7 @@
 
                     <div class="media-block">
                         <div class="media-container interactive-el magnet-image">
-                            <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="Route Generation">
+                            <img src="assets/maplayer/first%20animation.gif" class="parallax-img" alt="Route Generation">
                         </div>
                         <div class="media-caption">
                             <span class="num">01</span>
@@ -496,9 +509,9 @@
                         </div>
                     </div>
 
-                    <div class="media-block" style="margin-top: 80px;"> 
+                    <div class="media-block"> 
                         <div class="media-container interactive-el magnet-image">
-                            <img src="https://images.unsplash.com/photo-1584464457692-0b3211516e8d?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="Pin Drop Interaction">
+                            <img src="assets/maplayer/leftsidebar.gif" class="parallax-img" alt="Pin Drop Interaction">
                         </div>
                         <div class="media-caption">
                             <span class="num">02</span>
@@ -508,7 +521,7 @@
 
                     <div class="media-block">
                         <div class="media-container interactive-el magnet-image">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="Heatmap Visualization">
+                            <img src="assets/maplayer/rightsidebar.gif" class="parallax-img" alt="Heatmap Visualization">
                         </div>
                         <div class="media-caption">
                             <span class="num">03</span>
@@ -516,9 +529,9 @@
                         </div>
                     </div>
 
-                    <div class="media-block" style="margin-top: 80px;">
+                    <div class="media-block">
                         <div class="media-container interactive-el magnet-image">
-                            <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="3D Spatial Zoom">
+                            <img src="assets/maplayer/mainpage.gif" class="parallax-img" alt="3D Spatial Zoom">
                         </div>
                         <div class="media-caption">
                             <span class="num">04</span>
@@ -550,6 +563,14 @@
         gsap.registerPlugin(ScrollTrigger);
 
         // --- 1. THEME SWITCHER LOGIC ---
+        function updateHeroImageByTheme(theme) {
+            const heroImage = document.getElementById('hero-image');
+            if (!heroImage) return;
+            heroImage.src = theme === 'light'
+                ? 'assets/maplayer/lightmode.png'
+                : 'assets/maplayer/darkmode.png';
+        }
+
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
@@ -559,18 +580,19 @@
                 html.setAttribute('data-theme', 'light');
                 icon.className = 'ri-sun-line';
                 localStorage.setItem('theme', 'light');
+                updateHeroImageByTheme('light');
             } else {
                 html.setAttribute('data-theme', 'dark');
                 icon.className = 'ri-moon-line';
                 localStorage.setItem('theme', 'dark');
+                updateHeroImageByTheme('dark');
             }
         }
 
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
-        }
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+        updateHeroImageByTheme(savedTheme);
 
         // --- 2. MOBILE MENU ---
         function toggleMenu() {
@@ -661,32 +683,10 @@
         });
 
         const mediaBlocks = gsap.utils.toArray('.media-block');
-        mediaBlocks.forEach(block => {
-            gsap.from(block, {
-                scrollTrigger: {
-                    trigger: block,
-                    start: "top 85%",
-                },
-                y: 80, 
-                opacity: 0, 
-                duration: 1.2, 
-                ease: "power3.out"
-            });
-        });
+        // Media block scroll animations removed
 
         const parallaxImgs = gsap.utils.toArray('.parallax-img');
-        parallaxImgs.forEach(img => {
-            gsap.to(img, {
-                scrollTrigger: {
-                    trigger: img.parentElement,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: 1 
-                },
-                y: -50, 
-                ease: "none"
-            });
-        });
+        // Parallax animations removed
 
         gsap.from(".link-card", {
             scrollTrigger: {

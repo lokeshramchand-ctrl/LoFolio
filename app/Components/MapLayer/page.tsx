@@ -3,7 +3,7 @@
 import type { StaticImageData } from 'next/image';
 import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
-import PortfolioNavbar from '../shared/PortfolioNavbar';
+import Script from 'next/script';
 
 import lightmode from '../../../assets/maplayer/lightmode.png';
 import darkmode from '../../../assets/maplayer/darkmode.png';
@@ -11,7 +11,6 @@ import firstAnimation from '../../../assets/maplayer/first animation.gif';
 import leftsidebar from '../../../assets/maplayer/leftsidebar.gif';
 import rightsidebar from '../../../assets/maplayer/rightsidebar.gif';
 import mainpage from '../../../assets/maplayer/mainpage.gif';
-
 interface ImageBlockProps {
   caption: string;
   imageAlt: string;
@@ -42,6 +41,7 @@ const portfolioBlocks: ImageBlockProps[] = [
 ];
 
 export default function ProjectPage() {
+  
   const { resolvedTheme } = useTheme();
   const [gifRefreshKey, setGifRefreshKey] = useState(0);
   const heroPreview = resolvedTheme === 'light' ? lightmode : darkmode;
@@ -56,20 +56,13 @@ export default function ProjectPage() {
 
   return (
     <>
-      <PortfolioNavbar
-        logoHref="/Components/First_Page"
-        logoText="Lokesh Ram Chand"
-        items={[
-          { label: 'Projects', href: '/Components/First_Page#work' },
-          { label: 'About', href: '/Components/First_Page#about' },
-          {
-            label: 'Resume',
-            href: 'https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link',
-            external: true,
-          },
-        ]}
-      />
+       
+ <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+      <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet" />
 
+      <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" strategy="lazyOnload" />
+      <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" strategy="lazyOnload" />
+      <Script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js" strategy="lazyOnload" />
       <div className="container">
 
         {/* Hero Section */}

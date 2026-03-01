@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Script from 'next/script';
-import PortfolioNavbar from '../shared/PortfolioNavbar';
 
 export default function FirstPage() {
   const [time, setTime] = useState('--:--');
@@ -400,19 +399,25 @@ export default function FirstPage() {
       </div>
 
       <div id="main">
-        <PortfolioNavbar
-          logoHref="/Components/First_Page"
-          logoText="Lokesh Ram Chand"
-          items={[
-            { label: 'Projects', href: '/Components/First_Page#work' },
-            { label: 'About', href: '/Components/First_Page#about' },
-            {
-              label: 'Resume',
-              href: 'https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link',
-              external: true,
-            },
-          ]}
-        />
+        <nav>
+          <div className="logo">Lokesh Ram Chand</div>
+          <div className="nav-right">
+            <ul className="menu-items">
+              <li><a href="/Components/First_Page#work" className="menu-link">Projects</a></li>
+              <li><a href="/Components/First_Page#about" className="menu-link">About</a></li>
+              <li><a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" className="menu-link" target="_blank" rel="noopener noreferrer">Resume</a></li>
+            </ul>
+            <button className="theme-btn" onClick={() => document.documentElement.toggleAttribute('data-theme')}>
+              <i className="ri-sun-fill"></i>
+            </button>
+            <button className="menu-icon"><i className="ri-menu-line"></i></button>
+          </div>
+        </nav>
+        <div className="mobile-menu">
+          <a href="/Components/First_Page#work" className="mobile-link">Projects</a>
+          <a href="/Components/First_Page#about" className="mobile-link">About</a>
+          <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" className="mobile-link" target="_blank" rel="noopener noreferrer">Resume</a>
+        </div>
 
         <section id="hero">
           <span className="hero-subtitle reveal-text">Hello, World.</span>

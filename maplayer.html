@@ -1,106 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brain Technologies - Case Study</title>
+    <title>MapLayer | Lokesh Ram Chand</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
+    
     <style>
-        /* CSS Reset & Variables */
+        /* --- 1. VARIABLES & THEMES (From Main Page) --- */
         :root {
-            --bg-color: #050505;
-            --text-main: #f4f4f4;
-            --text-muted: #777777;
-            --border-color: #333333;
-            --accent-color: #ffffff;
-            --font-main: "Helvetica Neue", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+            /* Dark Mode (Default) */
+            --bg: #0b0b0b;
+            --text: #e0e0e0;
+            --acc: #888;
+            --border: rgba(255, 255, 255, 0.1);
+            --cursor: #fff;
+            --nav-bg: rgba(11, 11, 11, 0.8);
+            --overlay: rgba(255, 255, 255, 0.03);
+            --accent: #22c55e;
         }
 
+        [data-theme="light"] {
+            --bg: #f4f4f4;
+            --text: #1a1a1a;
+            --acc: #555;
+            --border: rgba(0, 0, 0, 0.1);
+            --cursor: #000;
+            --nav-bg: rgba(244, 244, 244, 0.8);
+            --overlay: rgba(0, 0, 0, 0.03);
+            --accent: #15803d;
+        }
+
+        /* --- 2. RESET --- */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            cursor: none;
         }
 
-        /* Prevent horizontal scroll jitter during animations */
         html, body {
+            width: 100%;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'General Sans', sans-serif;
             overflow-x: hidden;
-            background-color: var(--bg-color);
-        }
-
-        body {
-            color: var(--text-main);
-            font-family: var(--font-main);
-            font-size: 16px;
-            line-height: 1.5;
+            transition: background-color 0.5s ease, color 0.5s ease;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
-            cursor: none; /* Hide default cursor */
         }
 
-        /* --- CUSTOM CURSOR --- */
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: none;
+            color: inherit;
+        }
+
+        /* --- 3. UTILITIES (From Main Page) --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9000;
+            opacity: 0.04;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
+
+        /* --- 4. CUSTOM CURSOR (From Main Page) --- */
         #cursor {
             position: fixed;
             top: 0;
             left: 0;
             width: 15px;
             height: 15px;
-            background-color: var(--text-main);
+            background-color: var(--text);
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
             mix-blend-mode: difference;
-            /* Remove translate from transition so GSAP can handle it smoothly */
-            transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s;
         }
 
-        #cursor.hovered {
-            width: 60px;
-            height: 60px;
-        }
-
-        /* Re-enable default cursor for touch devices */
         @media (pointer: coarse) {
             #cursor { display: none !important; }
-            body, a { cursor: auto !important; }
+            * { cursor: auto !important; }
         }
 
-        a {
-            color: var(--text-main);
-            text-decoration: none;
-            transition: color 0.3s ease;
-            cursor: none;
-        }
-
-        a:hover {
-            color: var(--text-muted);
-        }
-
-        /* Top Navigation */
-        .nav-header {
+        /* --- 5. NAVIGATION (From Main Page) --- */
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 24px 40px;
-            font-size: 12px;
+            padding: 20px 5vw;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.5s ease;
+        }
+
+        .logo {
+            font-family: 'Clash Display', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .menu-items {
+            display: flex;
+            gap: 30px;
+        }
+
+        .menu-link {
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            padding: 5px 0;
         }
 
-        .nav-header .author {
-            font-weight: 500;
-            color: var(--accent-color);
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--text);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
         }
 
-        /* Main Container */
+        .menu-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .theme-btn {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 1.5rem;
+            z-index: 102;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            transform: translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-link {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 3rem;
+            color: var(--text);
+        }
+
+        /* --- 6. CASE STUDY LAYOUT --- */
         .container {
             max-width: 1440px;
             margin: 0 auto;
-            padding: 80px 40px;
+            padding: 140px 5vw 80px 5vw; /* Match nav side padding */
         }
 
-        /* Hero Section */
         .hero {
             display: flex;
             flex-direction: column;
@@ -112,34 +219,34 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border);
             padding-bottom: 40px;
+            transition: border-color 0.5s ease;
         }
 
         .subtitle {
             font-size: 14px;
-            color: var(--text-muted);
+            color: var(--acc);
             text-transform: uppercase;
             letter-spacing: 2px;
-            overflow: hidden; /* For text reveal animation */
+            overflow: hidden; 
         }
 
         .hero-title {
+            font-family: 'Clash Display', sans-serif;
             font-size: clamp(3rem, 6vw, 6rem);
             font-weight: 500;
             letter-spacing: -0.04em;
             line-height: 1.1;
             margin-bottom: 20px;
-            /* Clip text for slide up effect */
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 120%, 0% 120%);
         }
 
-        /* Hero Media */
         .hero-media {
             width: 100%;
             height: 60vh;
-            background-color: #111;
-            border: 1px solid var(--border-color);
+            background-color: var(--overlay);
+            border: 1px solid var(--border);
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -150,14 +257,14 @@
 
         .hero-media img {
             width: 100%;
-            height: 120%; /* Extra height for parallax */
+            height: 120%;
             object-fit: cover;
-            opacity: 0.7;
+            opacity: 0.8;
             filter: grayscale(100%);
-            transform: scale(1.1); /* For initial scale-in animation */
+            transform: scale(1.1);
         }
 
-        /* Content Grid */
+        /* --- 7. CONTENT GRID --- */
         .content-grid {
             display: grid;
             grid-template-columns: 1.5fr 1fr;
@@ -167,17 +274,16 @@
 
         .intro-text {
             font-size: 20px;
-            line-height: 1.5;
+            line-height: 1.6;
             font-weight: 400;
-            color: var(--text-muted);
+            color: var(--acc);
         }
 
-        /* Metadata */
         .metadata {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 30px;
-            border-top: 1px solid var(--border-color);
+            border-top: 1px solid var(--border);
             padding-top: 40px;
         }
 
@@ -189,7 +295,7 @@
 
         .meta-label {
             font-size: 11px;
-            color: var(--text-muted);
+            color: var(--acc);
             text-transform: uppercase;
             letter-spacing: 1.5px;
         }
@@ -198,15 +304,15 @@
             font-size: 14px;
         }
 
-        /* Visual Gallery Layout */
+        /* --- 8. VISUAL GALLERY --- */
         .section-title {
             font-size: 12px;
-            color: var(--text-muted);
+            color: var(--acc);
             text-transform: uppercase;
             letter-spacing: 2px;
             margin-bottom: 40px;
             padding-bottom: 20px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border);
         }
 
         .visual-grid {
@@ -225,19 +331,18 @@
         .media-container {
             width: 100%;
             aspect-ratio: 4 / 3;
-            background-color: #111;
-            border: 1px solid var(--border-color);
+            background-color: var(--overlay);
+            border: 1px solid var(--border);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            cursor: none;
         }
 
         .media-container img {
             width: 100%;
-            height: 120%; /* Parallax allowance */
+            height: 120%;
             object-fit: cover;
             filter: grayscale(100%);
             transition: filter 0.5s ease, transform 0.8s ease;
@@ -245,12 +350,12 @@
 
         .media-container:hover img {
             filter: grayscale(0%);
-            transform: scale(1.05) !important; /* Overrides parallax temporarily */
+            transform: scale(1.05) !important;
         }
 
         .media-caption {
             font-size: 16px;
-            color: var(--text-main);
+            color: var(--text);
             display: flex;
             gap: 16px;
             align-items: baseline;
@@ -258,32 +363,33 @@
 
         .media-caption .num {
             font-family: monospace;
-            color: var(--text-muted);
+            color: var(--acc);
             font-size: 12px;
         }
 
-        /* Big Links */
+        /* --- 9. LINKS GRID --- */
         .links-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1px;
-            background-color: var(--border-color);
-            border: 1px solid var(--border-color);
+            background-color: var(--border);
+            border: 1px solid var(--border);
             margin-bottom: 120px;
         }
 
         .link-card {
-            background-color: var(--bg-color);
+            background-color: var(--bg);
             padding: 60px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 20px;
             font-weight: 500;
+            transition: background-color 0.3s ease;
         }
 
         .link-card:hover {
-            background-color: #111;
+            background-color: var(--overlay);
         }
 
         .arrow {
@@ -291,9 +397,12 @@
             font-size: 24px;
         }
 
-        /* Responsive */
+        /* --- 10. RESPONSIVE --- */
         @media (max-width: 900px) {
+            .nav-right .menu-items { display: none; }
+            .menu-icon { display: block; }
             .content-grid, .visual-grid { grid-template-columns: 1fr; gap: 60px; }
+            .media-block { margin-top: 0 !important; }
             .hero-title { font-size: 3rem; }
             .hero-media { height: 40vh; }
             .links-grid { grid-template-columns: 1fr; }
@@ -303,49 +412,71 @@
 
 <body>
 
+    <div class="noise-overlay"></div>
     <div id="cursor"></div>
 
-    <nav class="nav-header">
-        <span class="author">Joseph Zhang</span>
-        <span>Interaction Designer — New York, NY</span>
+    <div class="mobile-menu">
+        <a href="#work" class="mobile-link" onclick="toggleMenu()">Projects</a>
+        <a href="#about" class="mobile-link" onclick="toggleMenu()">About</a>
+        <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" class="mobile-link" onclick="toggleMenu()">Resume</a>
+    </div>
+
+    <nav>
+        <a href="./index.html" class="logo magnet">Lokesh Ram Chand</a>
+
+        <div class="nav-right">
+            <div class="menu-items">
+                <a href="#work" class="menu-link magnet">Projects</a>
+                <a href="#about" class="menu-link magnet">About</a>
+                <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" class="menu-link magnet">Resume</a>
+            </div>
+
+            <button class="theme-btn magnet interactive-el" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <i class="ri-moon-line" id="theme-icon"></i>
+            </button>
+
+            <button class="menu-icon interactive-el" onclick="toggleMenu()" aria-label="Menu">
+                <i class="ri-menu-4-line"></i>
+            </button>
+        </div>
     </nav>
 
     <div class="container">
 
         <header class="hero">
             <div class="hero-top-row">
-                <span class="subtitle">Case Study 01 &mdash; Spatial & Multimodal</span>
-                <span class="subtitle">2020 &ndash; 2021</span>
+                <span class="subtitle">Project &mdash; MapLayer</span>
+                <span class="subtitle">Geospatial Visualization</span>
             </div>
-            <h1 class="hero-title">Brain Technologies.<br>Mapping the Interface.</h1>
+            <h1 class="hero-title">MapLayer.<br>Mapping the Interface.</h1>
         </header>
 
-        <div class="hero-media">
+        <div class="hero-media interactive-el">
             <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000&auto=format&fit=crop" class="parallax-img" alt="Spatial Map interface">
         </div>
 
         <main>
             <section class="content-grid">
                 <div class="intro-text">
-                    <p>Shifting from text-heavy responses to intuitive spatial environments. The "Meet Up" feature leveraged geographic location data to find and reserve top-rated locations suitable for multiple parties, creating a seamless bridge between conversational AI and map-based navigation.</p>
+                    <p>Shifting from text-heavy responses to intuitive spatial environments. The "MapLayer" system leveraged geographic location data to dynamically render complex datasets, creating a seamless bridge between raw analytics and visual, map-based navigation.</p>
                 </div>
 
                 <div class="metadata">
                     <div class="meta-item">
                         <span class="meta-label">Role</span>
-                        <span class="meta-value">Design Consultant</span>
+                        <span class="meta-value">Lead Developer</span>
                     </div>
                     <div class="meta-item">
                         <span class="meta-label">Output</span>
-                        <span class="meta-value">Prototypes, Spatial UI</span>
+                        <span class="meta-value">Web Application</span>
                     </div>
                     <div class="meta-item">
-                        <span class="meta-label">Collaborators</span>
-                        <span class="meta-value">Jerry Yue, Gleb Kuznetsov</span>
+                        <span class="meta-label">Stack</span>
+                        <span class="meta-value">React, Leaflet, Next.js</span>
                     </div>
                     <div class="meta-item">
-                        <span class="meta-label">Tools</span>
-                        <span class="meta-value">Figma, Origami Studio</span>
+                        <span class="meta-label">Status</span>
+                        <span class="meta-value">Completed 2026</span>
                     </div>
                 </div>
             </section>
@@ -356,7 +487,7 @@
                 <div class="visual-grid">
 
                     <div class="media-block">
-                        <div class="media-container interactive-el">
+                        <div class="media-container interactive-el magnet-image">
                             <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="Route Generation">
                         </div>
                         <div class="media-caption">
@@ -365,7 +496,8 @@
                         </div>
                     </div>
 
-                    <div class="media-block" style="margin-top: 80px;"> <div class="media-container interactive-el">
+                    <div class="media-block" style="margin-top: 80px;"> 
+                        <div class="media-container interactive-el magnet-image">
                             <img src="https://images.unsplash.com/photo-1584464457692-0b3211516e8d?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="Pin Drop Interaction">
                         </div>
                         <div class="media-caption">
@@ -375,17 +507,17 @@
                     </div>
 
                     <div class="media-block">
-                        <div class="media-container interactive-el">
+                        <div class="media-container interactive-el magnet-image">
                             <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="Heatmap Visualization">
                         </div>
                         <div class="media-caption">
                             <span class="num">03</span>
-                            <span>Heatmap visualization for user preference and order history density.</span>
+                            <span>Heatmap visualization for user preference and data density.</span>
                         </div>
                     </div>
 
                     <div class="media-block" style="margin-top: 80px;">
-                        <div class="media-container interactive-el">
+                        <div class="media-container interactive-el magnet-image">
                             <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="3D Spatial Zoom">
                         </div>
                         <div class="media-caption">
@@ -399,11 +531,11 @@
 
             <section class="links-grid">
                 <a href="#" class="link-card interactive-el">
-                    <span>Main Website</span>
+                    <span>Live Deployment</span>
                     <span class="arrow">↗</span>
                 </a>
                 <a href="#" class="link-card interactive-el">
-                    <span>Natural AI App</span>
+                    <span>GitHub Repo</span>
                     <span class="arrow">↗</span>
                 </a>
             </section>
@@ -415,54 +547,103 @@
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
 
     <script>
-        // --- 1. SETUP LENIS (Smooth Scroll) ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- 1. THEME SWITCHER LOGIC ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            const currentTheme = html.getAttribute('data-theme');
+
+            if (currentTheme === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                icon.className = 'ri-sun-line';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                icon.className = 'ri-moon-line';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+        }
+
+        // --- 2. MOBILE MENU ---
+        function toggleMenu() {
+            const menu = document.querySelector('.mobile-menu');
+            const icon = document.querySelector('.menu-icon i');
+            menu.classList.toggle('active');
+            
+            if(menu.classList.contains('active')){
+                icon.classList.remove('ri-menu-4-line');
+                icon.classList.add('ri-close-line');
+            } else {
+                icon.classList.remove('ri-close-line');
+                icon.classList.add('ri-menu-4-line');
+            }
+        }
+
+        // --- 3. SMOOTH SCROLL (LENIS) ---
         const lenis = new Lenis({
             duration: 1.2,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             direction: 'vertical',
             gestureDirection: 'vertical',
             smooth: true,
-            mouseMultiplier: 1,
             smoothTouch: false,
         });
 
-        // Sync Lenis with GSAP ScrollTrigger
         lenis.on('scroll', ScrollTrigger.update);
         gsap.ticker.add((time) => { lenis.raf(time * 1000) });
         gsap.ticker.lagSmoothing(0);
 
-        // --- 2. CUSTOM CURSOR LOGIC ---
-        const cursor = document.getElementById('cursor');
-        
-        // Use GSAP quickTo for highly performant cursor tracking
-        let xTo = gsap.quickTo(cursor, "x", {duration: 0.15, ease: "power3"}),
-            yTo = gsap.quickTo(cursor, "y", {duration: 0.15, ease: "power3"});
+        // --- 4. CUSTOM CURSOR & MAGNETS (Matches Main Page Exactly) ---
+        if (window.matchMedia("(min-width: 769px)").matches) {
+            const cursor = document.getElementById("cursor");
+            
+            let xTo = gsap.quickTo(cursor, "x", {duration: 0.15, ease: "power3"}),
+                yTo = gsap.quickTo(cursor, "y", {duration: 0.15, ease: "power3"});
 
-        window.addEventListener("mousemove", (e) => {
-            // Center the cursor dot on the mouse
-            xTo(e.clientX - cursor.clientWidth / 2);
-            yTo(e.clientY - cursor.clientHeight / 2);
-        });
+            window.addEventListener("mousemove", (e) => {
+                xTo(e.clientX);
+                yTo(e.clientY);
+            });
 
-        // Add hover effect to interactive elements
-        const interactiveEls = document.querySelectorAll('a, .interactive-el');
-        interactiveEls.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-        });
+            // Magnet Effect for Navigation/Links
+            document.querySelectorAll(".magnet").forEach((magnet) => {
+                magnet.addEventListener("mousemove", (e) => {
+                    const rect = magnet.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(magnet, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+                    gsap.to(cursor, { scale: 3 });
+                });
 
-        // --- 3. GSAP ANIMATIONS ---
-        gsap.registerPlugin(ScrollTrigger);
+                magnet.addEventListener("mouseleave", () => {
+                    gsap.to(magnet, { x: 0, y: 0, duration: 0.3 });
+                    gsap.to(cursor, { scale: 1 });
+                });
+            });
 
-        // Initial Load Animations
+            // Interactive elements that just grow the cursor without magnet effect
+            document.querySelectorAll('.interactive-el:not(.magnet)').forEach(el => {
+                el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 3 }));
+                el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1 }));
+            });
+        }
+
+        // --- 5. PAGE REVEAL & SCROLL ANIMATIONS ---
         const tlLoad = gsap.timeline();
         
-        tlLoad.from(".nav-header", { y: -20, opacity: 0, duration: 1, ease: "power3.out" })
+        tlLoad.from("nav", { y: -20, opacity: 0, duration: 1, ease: "power3.out", delay: 0.2 })
               .from(".subtitle", { y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.6")
               .from(".hero-title", { y: 100, opacity: 0, duration: 1.2, ease: "power4.out" }, "-=0.6")
               .from(".hero-media", { y: 40, scale: 0.95, opacity: 0, duration: 1.5, ease: "power3.out" }, "-=0.8");
 
-        // Scroll Animations: Intro Text & Metadata
         gsap.from(".intro-text p", {
             scrollTrigger: {
                 trigger: ".content-grid",
@@ -479,7 +660,6 @@
             y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out"
         });
 
-        // Scroll Animations: Media Blocks (Images/GIFs)
         const mediaBlocks = gsap.utils.toArray('.media-block');
         mediaBlocks.forEach(block => {
             gsap.from(block, {
@@ -494,7 +674,6 @@
             });
         });
 
-        // Parallax Effect on Images
         const parallaxImgs = gsap.utils.toArray('.parallax-img');
         parallaxImgs.forEach(img => {
             gsap.to(img, {
@@ -502,14 +681,13 @@
                     trigger: img.parentElement,
                     start: "top bottom",
                     end: "bottom top",
-                    scrub: 1 // smooth scrubbing
+                    scrub: 1 
                 },
-                y: -50, // Move the image up slightly as you scroll down
+                y: -50, 
                 ease: "none"
             });
         });
 
-        // Link Cards Reveal
         gsap.from(".link-card", {
             scrollTrigger: {
                 trigger: ".links-grid",

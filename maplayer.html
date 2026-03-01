@@ -22,20 +22,54 @@
             padding: 0;
         }
 
-        body {
+        /* Prevent horizontal scroll jitter during animations */
+        html, body {
+            overflow-x: hidden;
             background-color: var(--bg-color);
+        }
+
+        body {
             color: var(--text-main);
             font-family: var(--font-main);
             font-size: 16px;
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
+            cursor: none; /* Hide default cursor */
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        #cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            background-color: var(--text-main);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            /* Remove translate from transition so GSAP can handle it smoothly */
+            transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        #cursor.hovered {
+            width: 60px;
+            height: 60px;
+        }
+
+        /* Re-enable default cursor for touch devices */
+        @media (pointer: coarse) {
+            #cursor { display: none !important; }
+            body, a { cursor: auto !important; }
         }
 
         a {
             color: var(--text-main);
             text-decoration: none;
-            transition: color 0.3s ease, transform 0.3s ease;
+            transition: color 0.3s ease;
+            cursor: none;
         }
 
         a:hover {
@@ -87,14 +121,17 @@
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 2px;
+            overflow: hidden; /* For text reveal animation */
         }
 
         .hero-title {
             font-size: clamp(3rem, 6vw, 6rem);
             font-weight: 500;
             letter-spacing: -0.04em;
-            line-height: 1;
+            line-height: 1.1;
             margin-bottom: 20px;
+            /* Clip text for slide up effect */
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
         }
 
         /* Hero Media */
@@ -108,14 +145,16 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 80px;
+            position: relative;
         }
 
         .hero-media img {
             width: 100%;
-            height: 100%;
+            height: 120%; /* Extra height for parallax */
             object-fit: cover;
-            opacity: 0.8;
-            filter: grayscale(100%) contrast(1.2);
+            opacity: 0.7;
+            filter: grayscale(100%);
+            transform: scale(1.1); /* For initial scale-in animation */
         }
 
         /* Content Grid */
@@ -173,7 +212,7 @@
         .visual-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
+            gap: 60px 40px;
             margin-bottom: 120px;
         }
 
@@ -192,18 +231,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            cursor: none;
         }
 
         .media-container img {
             width: 100%;
-            height: 100%;
+            height: 120%; /* Parallax allowance */
             object-fit: cover;
-            filter: grayscale(80%);
-            transition: filter 0.4s ease;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease, transform 0.8s ease;
         }
 
         .media-container:hover img {
             filter: grayscale(0%);
+            transform: scale(1.05) !important; /* Overrides parallax temporarily */
         }
 
         .media-caption {
@@ -249,74 +291,19 @@
             font-size: 24px;
         }
 
-        /* Footer */
-        .site-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            border-top: 1px solid var(--border-color);
-            padding-top: 40px;
-            padding-bottom: 40px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .footer-col {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .footer-col.right {
-            text-align: right;
-        }
-
-        .badge {
-            display: inline-block;
-            border: 1px solid var(--text-muted);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 10px;
-            color: #bfa15f;
-            border-color: #bfa15f;
-            margin-bottom: 16px;
-        }
-
         /* Responsive */
         @media (max-width: 900px) {
-
-            .content-grid,
-            .visual-grid {
-                grid-template-columns: 1fr;
-                gap: 60px;
-            }
-
-            .hero-title {
-                font-size: 3rem;
-            }
-
-            .hero-media {
-                height: 40vh;
-            }
-
-            .links-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .site-footer {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 40px;
-            }
-
-            .footer-col.right {
-                text-align: left;
-            }
+            .content-grid, .visual-grid { grid-template-columns: 1fr; gap: 60px; }
+            .hero-title { font-size: 3rem; }
+            .hero-media { height: 40vh; }
+            .links-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 
 <body>
+
+    <div id="cursor"></div>
 
     <nav class="nav-header">
         <span class="author">Joseph Zhang</span>
@@ -334,15 +321,13 @@
         </header>
 
         <div class="hero-media">
-
+            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=2000&auto=format&fit=crop" class="parallax-img" alt="Spatial Map interface">
         </div>
 
         <main>
             <section class="content-grid">
                 <div class="intro-text">
-                    <p>Shifting from text-heavy responses to intuitive spatial environments. The "Meet Up" feature
-                        leveraged geographic location data to find and reserve top-rated locations suitable for multiple
-                        parties, creating a seamless bridge between conversational AI and map-based navigation.</p>
+                    <p>Shifting from text-heavy responses to intuitive spatial environments. The "Meet Up" feature leveraged geographic location data to find and reserve top-rated locations suitable for multiple parties, creating a seamless bridge between conversational AI and map-based navigation.</p>
                 </div>
 
                 <div class="metadata">
@@ -371,8 +356,8 @@
                 <div class="visual-grid">
 
                     <div class="media-block">
-                        <div class="media-container">
-
+                        <div class="media-container interactive-el">
+                            <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="Route Generation">
                         </div>
                         <div class="media-caption">
                             <span class="num">01</span>
@@ -380,9 +365,8 @@
                         </div>
                     </div>
 
-                    <div class="media-block">
-                        <div class="media-container">
-
+                    <div class="media-block" style="margin-top: 80px;"> <div class="media-container interactive-el">
+                            <img src="https://images.unsplash.com/photo-1584464457692-0b3211516e8d?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="Pin Drop Interaction">
                         </div>
                         <div class="media-caption">
                             <span class="num">02</span>
@@ -391,8 +375,8 @@
                     </div>
 
                     <div class="media-block">
-                        <div class="media-container">
-
+                        <div class="media-container interactive-el">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="Heatmap Visualization">
                         </div>
                         <div class="media-caption">
                             <span class="num">03</span>
@@ -400,9 +384,9 @@
                         </div>
                     </div>
 
-                    <div class="media-block">
-                        <div class="media-container">
-
+                    <div class="media-block" style="margin-top: 80px;">
+                        <div class="media-container interactive-el">
+                            <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=800&auto=format&fit=crop" class="parallax-img" alt="3D Spatial Zoom">
                         </div>
                         <div class="media-caption">
                             <span class="num">04</span>
@@ -414,20 +398,126 @@
             </section>
 
             <section class="links-grid">
-                <a href="#" class="link-card">
+                <a href="#" class="link-card interactive-el">
                     <span>Main Website</span>
                     <span class="arrow">↗</span>
                 </a>
-                <a href="#" class="link-card">
+                <a href="#" class="link-card interactive-el">
                     <span>Natural AI App</span>
                     <span class="arrow">↗</span>
                 </a>
             </section>
         </main>
-
-
     </div>
 
-</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
 
+    <script>
+        // --- 1. SETUP LENIS (Smooth Scroll) ---
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+        });
+
+        // Sync Lenis with GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000) });
+        gsap.ticker.lagSmoothing(0);
+
+        // --- 2. CUSTOM CURSOR LOGIC ---
+        const cursor = document.getElementById('cursor');
+        
+        // Use GSAP quickTo for highly performant cursor tracking
+        let xTo = gsap.quickTo(cursor, "x", {duration: 0.15, ease: "power3"}),
+            yTo = gsap.quickTo(cursor, "y", {duration: 0.15, ease: "power3"});
+
+        window.addEventListener("mousemove", (e) => {
+            // Center the cursor dot on the mouse
+            xTo(e.clientX - cursor.clientWidth / 2);
+            yTo(e.clientY - cursor.clientHeight / 2);
+        });
+
+        // Add hover effect to interactive elements
+        const interactiveEls = document.querySelectorAll('a, .interactive-el');
+        interactiveEls.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // --- 3. GSAP ANIMATIONS ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initial Load Animations
+        const tlLoad = gsap.timeline();
+        
+        tlLoad.from(".nav-header", { y: -20, opacity: 0, duration: 1, ease: "power3.out" })
+              .from(".subtitle", { y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.6")
+              .from(".hero-title", { y: 100, opacity: 0, duration: 1.2, ease: "power4.out" }, "-=0.6")
+              .from(".hero-media", { y: 40, scale: 0.95, opacity: 0, duration: 1.5, ease: "power3.out" }, "-=0.8");
+
+        // Scroll Animations: Intro Text & Metadata
+        gsap.from(".intro-text p", {
+            scrollTrigger: {
+                trigger: ".content-grid",
+                start: "top 80%",
+            },
+            y: 40, opacity: 0, duration: 1, ease: "power3.out"
+        });
+
+        gsap.from(".meta-item", {
+            scrollTrigger: {
+                trigger: ".metadata",
+                start: "top 90%",
+            },
+            y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out"
+        });
+
+        // Scroll Animations: Media Blocks (Images/GIFs)
+        const mediaBlocks = gsap.utils.toArray('.media-block');
+        mediaBlocks.forEach(block => {
+            gsap.from(block, {
+                scrollTrigger: {
+                    trigger: block,
+                    start: "top 85%",
+                },
+                y: 80, 
+                opacity: 0, 
+                duration: 1.2, 
+                ease: "power3.out"
+            });
+        });
+
+        // Parallax Effect on Images
+        const parallaxImgs = gsap.utils.toArray('.parallax-img');
+        parallaxImgs.forEach(img => {
+            gsap.to(img, {
+                scrollTrigger: {
+                    trigger: img.parentElement,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1 // smooth scrubbing
+                },
+                y: -50, // Move the image up slightly as you scroll down
+                ease: "none"
+            });
+        });
+
+        // Link Cards Reveal
+        gsap.from(".link-card", {
+            scrollTrigger: {
+                trigger: ".links-grid",
+                start: "top 90%",
+            },
+            y: 40, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out"
+        });
+
+    </script>
+</body>
 </html>

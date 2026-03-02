@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MapLayer | Lokesh Ram Chand</title>
+    <title>Fortyl</title>
     
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
@@ -244,7 +244,6 @@
 
         .hero-media {
             width: 100%;
-            height: 60vh;
             background-color: var(--overlay);
             border: 1px solid var(--border);
             overflow: hidden;
@@ -257,11 +256,10 @@
 
         .hero-media img {
             width: 100%;
-            height: 120%;
-            object-fit: cover;
+            height: auto;
+            object-fit: contain;
             opacity: 0.8;
             filter: grayscale(100%);
-            transform: scale(1.1);
         }
 
         /* --- 7. CONTENT GRID --- */
@@ -458,14 +456,14 @@
 
         <header class="hero">
             <div class="hero-top-row">
-                <span class="subtitle">Project &mdash; MapLayer</span>
+                <span class="subtitle">Project &mdash; Fortyl</span>
                 <span class="subtitle">Geospatial Visualization</span>
             </div>
-            <h1 class="hero-title">MapLayer.<br>Mapping the Interface.</h1>
+            <h1 class="hero-title">Fortyl.<br>Mapping the Interface.</h1>
         </header>
 
         <div class="hero-media interactive-el">
-            <img id="hero-image" src="assets/maplayer/darkmode.png" class="parallax-img" alt="MapLayer preview">
+            <img id="hero-image" src="assets/fortyl/main_dark.png" class="parallax-img" alt="MapLayer preview">
         </div>
 
         <main>
@@ -501,7 +499,7 @@
 
                     <div class="media-block">
                         <div class="media-container interactive-el magnet-image">
-                            <img src="assets/maplayer/first%20animation.gif" class="parallax-img" alt="Route Generation">
+                            <img data-gif-type="verify" src="assets/fortyl/verify_darkmode.gif" class="parallax-img" alt="Route Generation">
                         </div>
                         <div class="media-caption">
                             <span class="num">01</span>
@@ -511,7 +509,7 @@
 
                     <div class="media-block"> 
                         <div class="media-container interactive-el magnet-image">
-                            <img src="assets/maplayer/leftsidebar.gif" class="parallax-img" alt="Pin Drop Interaction">
+                            <img data-gif-type="enroll" src="assets/fortyl/enroll_darkmode.gif" class="parallax-img" alt="Pin Drop Interaction">
                         </div>
                         <div class="media-caption">
                             <span class="num">02</span>
@@ -519,35 +517,12 @@
                         </div>
                     </div>
 
-                    <div class="media-block">
-                        <div class="media-container interactive-el magnet-image">
-                            <img src="assets/maplayer/rightsidebar.gif" class="parallax-img" alt="Heatmap Visualization">
-                        </div>
-                        <div class="media-caption">
-                            <span class="num">03</span>
-                            <span>Heatmap visualization for user preference and data density.</span>
-                        </div>
-                    </div>
-
-                    <div class="media-block">
-                        <div class="media-container interactive-el magnet-image">
-                            <img src="assets/maplayer/mainpage.gif" class="parallax-img" alt="3D Spatial Zoom">
-                        </div>
-                        <div class="media-caption">
-                            <span class="num">04</span>
-                            <span>Smooth 3D spatial zooming transitioning from search to context view.</span>
-                        </div>
-                    </div>
 
                 </div>
             </section>
 
             <section class="links-grid">
-                <a href="#" class="link-card interactive-el">
-                    <span>Live Deployment</span>
-                    <span class="arrow">↗</span>
-                </a>
-                <a href="#" class="link-card interactive-el">
+                <a href="https://github.com/lokeshramchand-ctrl/Fortyl" class="link-card interactive-el">
                     <span>GitHub Repo</span>
                     <span class="arrow">↗</span>
                 </a>
@@ -567,8 +542,17 @@
             const heroImage = document.getElementById('hero-image');
             if (!heroImage) return;
             heroImage.src = theme === 'light'
-                ? 'assets/maplayer/lightmode.png'
-                : 'assets/maplayer/darkmode.png';
+                ? 'assets/fortyl/main_light.png'
+                : 'assets/fortyl/main_dark.png';
+        }
+
+        function updateGifsByTheme(theme) {
+            const gifs = document.querySelectorAll('[data-gif-type]');
+            gifs.forEach(gif => {
+                const gifType = gif.getAttribute('data-gif-type');
+                const suffix = theme === 'light' ? '_lightmode.gif' : '_darkmode.gif';
+                gif.src = `assets/fortyl/${gifType}${suffix}`;
+            });
         }
 
         function toggleTheme() {
@@ -581,11 +565,13 @@
                 icon.className = 'ri-sun-line';
                 localStorage.setItem('theme', 'light');
                 updateHeroImageByTheme('light');
+                updateGifsByTheme('light');
             } else {
                 html.setAttribute('data-theme', 'dark');
                 icon.className = 'ri-moon-line';
                 localStorage.setItem('theme', 'dark');
                 updateHeroImageByTheme('dark');
+                updateGifsByTheme('dark');
             }
         }
 
@@ -593,6 +579,7 @@
         document.documentElement.setAttribute('data-theme', savedTheme);
         document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
         updateHeroImageByTheme(savedTheme);
+        updateGifsByTheme(savedTheme);
 
         // --- 2. MOBILE MENU ---
         function toggleMenu() {

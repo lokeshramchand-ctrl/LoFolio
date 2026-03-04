@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velar - Focused Expense UI</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-body: #030712;
+            --bg-app: #0b1220;
+            --surface: #111827;
+            --primary: #22c55e;
+            --primary-light: rgba(34, 197, 94, 0.16);
+            --primary-dark: #86efac;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #1f2937;
+            --shadow-sm: 0 10px 24px rgba(0, 0, 0, 0.28);
+            --shadow-md: 0 14px 36px rgba(34, 197, 94, 0.24);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color-scheme: dark;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* App Container & Animations */
+        .app-container {
+            width: 375px;
+            height: 812px;
+            background-color: var(--bg-app);
+            border-radius: 44px;
+            box-shadow: 0 28px 56px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.96) translateY(12px);
+            opacity: 0;
+            animation: appEnter 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes appEnter {
+            0% {
+                opacity: 0;
+                transform: scale(0.96) translateY(12px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes fadeSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            opacity: 0;
+            animation: fadeSlideUp 0.6s ease-out forwards;
+        }
+
+        /* Header */
+        .header {
+            padding: 48px 24px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation-delay: 0.1s;
+        }
+
+        .user-greeting p {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .user-greeting h1 {
+            font-size: 20px;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: var(--surface);
+            border: 2px solid var(--surface);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .avatar.tapped {
+            animation: avatarTap 0.45s ease;
+        }
+
+        @keyframes avatarTap {
+            0% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            40% {
+                transform: scale(1.12) rotate(-8deg);
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        /* Expenses Section */
+        .expenses-card {
+            margin: 0 24px 24px;
+            padding: 32px 24px;
+            background-color: var(--surface);
+            border-radius: 32px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            animation-delay: 0.2s;
+            transition: var(--transition);
+        }
+
+        .expenses-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        .exp-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background-color: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .exp-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .exp-amount {
+            font-size: 44px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -1.5px;
+        }
+
+        .exp-amount span {
+            font-size: 24px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Send / Get Actions */
+        .transfer-actions {
+            display: flex;
+            gap: 16px;
+            padding: 0 24px 32px;
+            animation-delay: 0.3s;
+        }
+
+        .btn-transfer {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-send {
+            background-color: var(--text-main);
+            color: white;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15);
+        }
+
+        .btn-get {
+            background-color: var(--surface);
+            color: var(--text-main);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-transfer:active {
+            transform: scale(0.96);
+        }
+
+        /* Transactions */
+        .transactions {
+            background-color: var(--surface);
+            flex-grow: 1;
+            border-radius: 36px 36px 0 0;
+            padding: 32px 24px 120px;
+            /* Extra padding for bottom dock */
+            box-shadow: 0 -6px 28px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+            animation-delay: 0.4s;
+        }
+
+        .transactions::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        .tx-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 24px;
+        }
+
+        .tx-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .tx-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            opacity: 0;
+            animation: fadeSlideUp 0.5s ease-out forwards;
+            border-radius: 16px;
+            padding: 6px 8px;
+            margin: 0 -8px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .tx-item:hover {
+            transform: translateX(4px);
+            background-color: rgba(148, 163, 184, 0.12);
+        }
+
+        .tx-item.flash {
+            animation: txFlash 0.45s ease;
+        }
+
+        @keyframes txFlash {
+            0% {
+                background-color: rgba(31, 193, 149, 0.16);
+            }
+
+            100% {
+                background-color: transparent;
+            }
+        }
+
+        .tx-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .tx-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            background-color: var(--bg-app);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            color: var(--text-main);
+        }
+
+        .tx-details h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .tx-details p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .tx-amount {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .tx-amount.positive {
+            color: var(--primary);
+        }
+
+        /* Input Methods Dock */
+        .input-dock {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            right: 24px;
+            background-color: rgba(17, 24, 39, 0.84);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 30px;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            animation-delay: 0.6s;
+        }
+
+        .input-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            background: none;
+        }
+
+        .input-btn span {
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .input-btn i {
+            font-size: 24px;
+        }
+
+        .input-btn:hover {
+            color: var(--text-main);
+        }
+
+        .input-btn:active {
+            transform: scale(0.9);
+        }
+
+        .input-btn.active {
+            color: var(--text-main);
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        /* Prominent Voice Button */
+        .voice-btn {
+            width: 64px;
+            height: 64px;
+            background-color: var(--primary);
+            color: var(--text-main);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            transform: translateY(-20px);
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            animation: micIdle 2.8s ease-in-out infinite;
+        }
+
+        .voice-btn::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .voice-btn.listening::before {
+            animation: pulseRing 1.5s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .voice-btn.listening {
+            transform: translateY(-20px) scale(0.95);
+            background-color: #1f2937;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+            animation: none;
+        }
+
+        @keyframes micIdle {
+
+            0%,
+            100% {
+                transform: translateY(-20px);
+            }
+
+            50% {
+                transform: translateY(-24px);
+            }
+        }
+
+        @keyframes pulseRing {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <header class="header animate-in">
+            <div class="user-greeting">
+                <p>Good Afternoon,</p>
+                <h1>Lokesh</h1>
+            </div>
+            <div class="avatar">L</div>
+        </header>
+
+        <section class="expenses-card animate-in">
+            <div class="exp-badge">August 2025</div>
+            <div class="exp-label">Total Expenses This Month</div>
+            <div class="exp-amount" id="monthlyExpense" data-total="20653">₹0<span>.00</span></div>
+        </section>
+
+        <section class="transactions animate-in">
+            <h3 class="tx-header">Recent Activity</h3>
+
+            <div class="tx-list" id="transactionList">
+            </div>
+        </section>
+
+        <nav class="input-dock animate-in">
+            <button class="input-btn" onclick="triggerAction(this)">
+                <i class="ph ph-keyboard"></i>
+                <span>Type</span>
+            </button>
+
+            <div class="voice-btn" id="voiceBtn">
+                <i class="ph-fill ph-microphone"></i>
+            </div>
+
+            <button class="input-btn" onclick="triggerAction(this)">
+                <i class="ph ph-envelope-simple"></i>
+                <span>Email</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <script>
+        // --- Mock Data for Transactions ---
+        const transactions = [
+            { title: 'Amazon Fresh', category: 'Groceries', amount: '-₹124.50', icon: 'ph-shopping-bag' },
+            { title: 'Provisi Ice Cream', category: 'Food & Dining', amount: '-₹12.00', icon: 'ph-ice-cream' },
+            { title: 'Web Design Client', category: 'Income', amount: '+₹850.00', icon: 'ph-briefcase', isPositive: true },
+            { title: 'Velar Cloud Hosting', category: 'Tech', amount: '-₹45.00', icon: 'ph-cloud' },
+            { title: 'Netflix Premium', category: 'Entertainment', amount: '-₹19.99', icon: 'ph-monitor-play' }
+        ];
+
+        // --- Render Transactions with Staggered Animation ---
+        const txList = document.getElementById('transactionList');
+
+        transactions.forEach((tx, index) => {
+            const item = document.createElement('div');
+            item.className = 'tx-item';
+            // Stagger the animation delay based on index
+            item.style.animationDelay = `${0.5 + (index * 0.1)}s`;
+
+            item.innerHTML = `
+            <div class="tx-left">
+                <div class="tx-icon"><i class="ph ${tx.icon}"></i></div>
+                <div class="tx-details">
+                    <h4>${tx.title}</h4>
+                    <p>${tx.category}</p>
+                </div>
+            </div>
+            <div class="tx-amount ${tx.isPositive ? 'positive' : ''}">${tx.amount}</div>
+        `;
+
+            item.addEventListener('click', () => {
+                item.classList.remove('flash');
+                void item.offsetWidth;
+                item.classList.add('flash');
+            });
+
+            txList.appendChild(item);
+        });
+
+        // --- Starter Animation: Count Up Monthly Expense ---
+        const monthlyExpense = document.getElementById('monthlyExpense');
+
+        function animateAmount(el, duration = 1100) {
+            const target = Number(el.dataset.total || 0);
+            const startTime = performance.now();
+
+            function update(now) {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const value = Math.round(target * eased);
+                el.childNodes[0].textContent = `₹${value.toLocaleString('en-IN')}`;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        window.addEventListener('load', () => {
+            if (monthlyExpense) {
+                animateAmount(monthlyExpense);
+            }
+        });
+
+        // --- Micro-interaction: Voice Button Pulse ---
+        const voiceBtn = document.getElementById('voiceBtn');
+        let isListening = false;
+
+        voiceBtn.addEventListener('click', () => {
+            isListening = !isListening;
+
+            if (isListening) {
+                voiceBtn.classList.add('listening');
+                voiceBtn.innerHTML = '<i class="ph-fill ph-waveform"></i>';
+            } else {
+                voiceBtn.classList.remove('listening');
+                voiceBtn.innerHTML = '<i class="ph-fill ph-microphone"></i>';
+            }
+        });
+
+        // --- Micro-interactions: Avatar + Input Buttons ---
+        const avatar = document.querySelector('.avatar');
+        const inputButtons = document.querySelectorAll('.input-btn');
+
+        if (avatar) {
+            avatar.addEventListener('click', () => {
+                avatar.classList.remove('tapped');
+                void avatar.offsetWidth;
+                avatar.classList.add('tapped');
+            });
+
+            avatar.addEventListener('animationend', () => {
+                avatar.classList.remove('tapped');
+            });
+        }
+
+        inputButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                btn.classList.add('active');
+                setTimeout(() => btn.classList.remove('active'), 220);
+
+                if (navigator.vibrate) {
+                    navigator.vibrate(10);
+                }
+            });
+        });
+
+        // --- Micro-interaction: Generic Button Press ---
+        function triggerAction(btn) {
+            // Quick scale down and up
+            btn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+            }, 150);
+        }
+    </script>
+
+</body>
+
+</html>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fortyl</title>
+    <title>Velar - Smart Finance Manager</title>
     
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
@@ -259,7 +259,6 @@
             height: auto;
             object-fit: contain;
             opacity: 0.8;
-            filter: grayscale(100%);
         }
 
         /* --- 7. CONTENT GRID --- */
@@ -346,11 +345,10 @@
             height: auto;
             max-height: 600px;
             object-fit: contain;
-            filter: grayscale(100%);
         }
 
         .media-container:hover img {
-            filter: grayscale(100%);
+            filter: none;
         }
 
         .media-caption {
@@ -456,10 +454,10 @@
 
         <header class="hero">
             <div class="hero-top-row">
-                <span class="subtitle">Project &mdash; Fortyl</span>
-                <span class="subtitle">Secure Authentication Platform</span>
+                <span class="subtitle">Project &mdash; Velar</span>
+                <span class="subtitle">Smart Finance Manager</span>
             </div>
-            <h1 class="hero-title">Fortyl.<br>Authentication, Reimagined.</h1>
+            <h1 class="hero-title">Velar.<br>Finance Made Effortless.</h1>
         </header>
 
         <div class="hero-media interactive-el">
@@ -469,21 +467,21 @@
         <main>
             <section class="content-grid">
                 <div class="intro-text">
-                    <p>A comprehensive authentication platform combining Email & Password login, JWT-based sessions, and TOTP-based Multi-Factor Authentication. Fortyl treats authentication as a first-class platform with clean separation of concerns, backend-driven security logic, and support for multiple clients — Flutter mobile app, Next.js web interface, and REST APIs.</p>
+                    <p>An intelligent personal finance management app that makes expense tracking effortless through voice-powered input, NLP-based auto-categorization, and smart insights. Built with Flutter for cross-platform support, Node.js backend with RabbitMQ queues, and Python ML models for intelligent transaction parsing and categorization.</p>
                 </div>
 
                 <div class="metadata">
                     <div class="meta-item">
                         <span class="meta-label">Role</span>
-                        <span class="meta-value">Full Stack Developer</span>
+                        <span class="meta-value">Full Stack + ML Developer</span>
                     </div>
                     <div class="meta-item">
                         <span class="meta-label">Output</span>
-                        <span class="meta-value">Auth Platform + Mobile + Web</span>
+                        <span class="meta-value">Mobile App + ML Pipeline</span>
                     </div>
                     <div class="meta-item">
                         <span class="meta-label">Stack</span>
-                        <span class="meta-value">Spring Boot, Next.js, Flutter</span>
+                        <span class="meta-value">Flutter, Node.js, Python ML</span>
                     </div>
                     <div class="meta-item">
                         <span class="meta-label">Status</span>
@@ -493,27 +491,27 @@
             </section>
 
             <section class="visual-gallery">
-                <h2 class="section-title">Authentication & MFA Flows</h2>
+                <h2 class="section-title">Smart Finance Features</h2>
 
                 <div class="visual-grid">
 
                     <div class="media-block">
                         <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="graphs" src="assets/velar/graphs_darkmode.gif" class="parallax-img" alt="Route Generation">
+                            <img data-gif-type="graphs" src="assets/velar/graphs_darkmode.gif" class="parallax-img" alt="Analytics Dashboard">
                         </div>
                         <div class="media-caption">
                             <span class="num">01</span>
-                            <span>Email & Password verification with BCrypt hashing for secure login.</span>
+                            <span>Interactive dashboards with category breakdowns, spending trends, and budget insights.</span>
                         </div>
                     </div>
 
                     <div class="media-block"> 
                         <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="homepage" src="assets/velar/homepage_dark.gif" class="parallax-img" alt="Pin Drop Interaction">
+                            <img data-gif-type="homepage" src="assets/velar/homepage_dark.gif" class="parallax-img" alt="Voice Expense Tracking">
                         </div>
                         <div class="media-caption">
                             <span class="num">02</span>
-                            <span>QR-based TOTP enrollment with Google Authenticator & Aegis support.</span>
+                            <span>Voice-powered expense entry with NLP-based auto-categorization and real-time sync.</span>
                         </div>
                     </div>
 
@@ -548,7 +546,13 @@
             const gifs = document.querySelectorAll('[data-gif-type]');
             gifs.forEach(gif => {
                 const gifType = gif.getAttribute('data-gif-type');
-                const suffix = theme === 'light' ? '_lightmode.gif' : '_darkmode.gif';
+                // Different GIFs have different naming conventions
+                let suffix;
+                if (gifType === 'homepage') {
+                    suffix = theme === 'light' ? '_light.gif' : '_dark.gif';
+                } else {
+                    suffix = theme === 'light' ? '_lightmode.gif' : '_darkmode.gif';
+                }
                 gif.src = `assets/velar/${gifType}${suffix}`;
             });
         }

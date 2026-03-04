@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velar - Statistics & Analytics (Light Mode)</title>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Light Theme Color Palette */
+            --bg-body: #f8fafc;       /* Light fallback background */
+            --bg-app: #ffffff;        /* Pure white for the app container */
+            --surface: #ffffff;       /* White for cards and elevated elements */
+            --primary: #1fc195;       /* Vibrant green stays the same */
+            --primary-light: #e0f4ec; /* Soft green for unselected bars/badges */
+            --primary-dark: #17a982;  /* Slightly darker green for interactions */
+            --text-main: #0f172a;     /* Deep slate for primary text */
+            --text-muted: #64748b;    /* Medium slate for secondary text */
+            --text-light: #94a3b8;    /* Lighter slate for tertiary text */
+            --border: #f1f5f9;        /* Soft gray for dividers and borders */
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.03);
+            --shadow-md: 0 12px 32px rgba(31, 193, 149, 0.12);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            /* Flexbox keeps the phone centered */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden; 
+            background-color: var(--bg-body);
+        }
+
+        /* --- Blurred Light Photographic Background --- */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -5%;
+            left: -5%;
+            width: 110%;
+            height: 110%;
+            /* A clean, airy, light abstract image */
+            background-image: url('https://images.unsplash.com/photo-1586075010923-2dd4570fb338?q=80&w=2574&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            /* Soft blur, slightly brightened and desaturated for a clean studio look */
+            filter: blur(40px) brightness(1.1) grayscale(30%) opacity(0.85);
+            z-index: -1;
+        }
+
+        /* App Container & Base Animations */
+        .app-container {
+            width: 375px;
+            height: 812px;
+            background-color: var(--bg-app);
+            border-radius: 44px;
+            /* Soft, diffuse shadow to make it float on the light background */
+            box-shadow: 0 30px 60px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(0,0,0,0.02); 
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            z-index: 1; 
+        }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stagger-1 { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; animation-delay: 0.1s; }
+        .stagger-2 { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; animation-delay: 0.2s; }
+        .stagger-3 { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; animation-delay: 0.3s; }
+        .stagger-4 { animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; animation-delay: 0.4s; }
+
+        /* Header */
+        .header {
+            padding: 48px 24px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .icon-btn:active {
+            transform: scale(0.9);
+            background: var(--border);
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* Time Segment Control */
+        .segment-control {
+            margin: 10px 24px 24px;
+            background-color: var(--border); /* Gray track */
+            border-radius: 16px;
+            padding: 4px;
+            display: flex;
+            position: relative;
+        }
+
+        .segment-indicator {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            left: 4px;
+            width: calc(33.33% - 2.66px);
+            background-color: var(--surface); /* White pill */
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 1;
+        }
+
+        .segment-btn {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            z-index: 2;
+            transition: color 0.3s ease;
+        }
+
+        .segment-btn.active {
+            color: var(--text-main);
+        }
+
+        /* Overview Section */
+        .overview-section {
+            padding: 0 24px 32px;
+            text-align: center;
+        }
+
+        .overview-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .overview-amount {
+            font-size: 40px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: -1px;
+        }
+
+        .overview-amount span {
+            font-size: 24px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Animated Bar Chart */
+        .chart-container {
+            margin: 0 24px 32px;
+            height: 180px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 8px;
+            padding-bottom: 24px;
+            position: relative;
+        }
+
+        /* X-axis line */
+        .chart-container::after {
+            content: '';
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--border);
+            z-index: 0;
+        }
+
+        .bar-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            height: 100%;
+            justify-content: flex-end;
+            z-index: 1;
+            cursor: pointer;
+        }
+
+        .bar-wrapper:hover .bar-track .bar-fill {
+            filter: brightness(0.95); /* Slightly darken on hover in light mode */
+        }
+
+        .bar-track {
+            width: 100%;
+            max-width: 32px;
+            height: 100%;
+            background-color: transparent;
+            border-radius: 8px;
+            display: flex;
+            align-items: flex-end;
+            position: relative;
+        }
+
+        .bar-fill {
+            width: 100%;
+            background-color: var(--primary-light);
+            border-radius: 8px;
+            transform-origin: bottom;
+            transform: scaleY(0);
+            transition: background-color 0.3s ease;
+            position: relative;
+        }
+
+        .bar-wrapper.active .bar-fill {
+            background-color: var(--primary);
+            box-shadow: 0 8px 16px rgba(31, 193, 149, 0.2);
+        }
+
+        /* Bar Animation Classes */
+        @keyframes scaleUp {
+            to { transform: scaleY(1); }
+        }
+
+        .bar-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        
+        .bar-wrapper.active .bar-label {
+            color: var(--text-main);
+        }
+
+        /* Tooltip */
+        .chart-tooltip {
+            position: absolute;
+            top: -24px;
+            background-color: var(--text-main); /* Dark slate tooltip */
+            color: white; /* White text inside tooltip */
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .bar-wrapper:hover .chart-tooltip, .bar-wrapper.active .chart-tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Top Categories */
+        .categories-section {
+            background-color: var(--surface);
+            flex-grow: 1;
+            border-radius: 32px 32px 0 0;
+            padding: 32px 24px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.02);
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .categories-section::-webkit-scrollbar {
+            display: none;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .cat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cat-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cat-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .cat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        .cat-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .cat-amount {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        /* Animated Horizontal Progress Bars */
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            background-color: var(--border); /* Light track */
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            width: 0%; /* Will be animated via JS */
+            transition: width 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Specific Colors */
+        .color-tech { background-color: #ede9fe; color: #8b5cf6; }
+        .fill-tech { background-color: #8b5cf6; }
+        
+        .color-edu { background-color: #e0f4ec; color: #1fc195; }
+        .fill-edu { background-color: #1fc195; }
+
+        .color-sub { background-color: #fff4e5; color: #f59e0b; }
+        .fill-sub { background-color: #f59e0b; }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <header class="header stagger-1">
+        <button class="icon-btn"><i class="ph ph-caret-left"></i></button>
+        <h1>Statistics</h1>
+        <button class="icon-btn"><i class="ph ph-dots-three"></i></button>
+    </header>
+
+    <div class="segment-control stagger-1">
+        <div class="segment-indicator" id="segmentIndicator"></div>
+        <div class="segment-btn" onclick="switchTab(this, 0)">Week</div>
+        <div class="segment-btn active" onclick="switchTab(this, 1)">Month</div>
+        <div class="segment-btn" onclick="switchTab(this, 2)">Year</div>
+    </div>
+
+    <section class="overview-section stagger-2">
+        <div class="overview-label">
+            March 2026 
+            <i class="ph ph-caret-down"></i>
+        </div>
+        <div class="overview-amount">
+            ₹<span id="animatedTotal" style="color: var(--text-main); font-size: 40px;">0</span><span style="font-size: 24px; color: var(--text-muted);">.50</span>
+        </div>
+    </section>
+
+    <div class="chart-container stagger-3" id="barChart">
+        </div>
+
+    <section class="categories-section stagger-4">
+        <div class="section-header">
+            <h3>Top Categories</h3>
+            <i class="ph ph-sort-descending" style="color: var(--text-muted); font-size: 20px;"></i>
+        </div>
+        
+        <div class="category-list">
+            <div class="cat-item">
+                <div class="cat-info">
+                    <div class="cat-left">
+                        <div class="cat-icon color-tech"><i class="ph-fill ph-code"></i></div>
+                        <span class="cat-title">Cloud & Servers</span>
+                    </div>
+                    <span class="cat-amount">₹420.00</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-tech" data-width="75%"></div>
+                </div>
+            </div>
+
+            <div class="cat-item">
+                <div class="cat-info">
+                    <div class="cat-left">
+                        <div class="cat-icon color-edu"><i class="ph-fill ph-certificate"></i></div>
+                        <span class="cat-title">Certifications</span>
+                    </div>
+                    <span class="cat-amount">₹215.50</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-edu" data-width="45%"></div>
+                </div>
+            </div>
+
+            <div class="cat-item">
+                <div class="cat-info">
+                    <div class="cat-left">
+                        <div class="cat-icon color-sub"><i class="ph-fill ph-monitor-play"></i></div>
+                        <span class="cat-title">Subscriptions</span>
+                    </div>
+                    <span class="cat-amount">₹84.00</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill fill-sub" data-width="20%"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    // --- 1. Tab Switching Animation ---
+    function switchTab(element, index) {
+        // Remove active class from all
+        document.querySelectorAll('.segment-btn').forEach(btn => btn.classList.remove('active'));
+        // Add to clicked
+        element.classList.add('active');
+        
+        // Move indicator pill physically
+        const indicator = document.getElementById('segmentIndicator');
+        indicator.style.transform = `translateX(${index * 100}%)`;
+    }
+
+    // --- 2. Dynamic Bar Chart Generation & Animation ---
+    const chartData = [
+        { label: 'W1', value: 45, amount: '₹240' },
+        { label: 'W2', value: 70, amount: '₹420' },
+        { label: 'W3', value: 30, amount: '₹150' },
+        { label: 'W4', value: 95, amount: '₹719', active: true }, // Current week
+        { label: 'W5', value: 20, amount: '₹85' }
+    ];
+
+    const chartContainer = document.getElementById('barChart');
+
+    // Generate bars
+    chartData.forEach((data, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = `bar-wrapper ${data.active ? 'active' : ''}`;
+        
+        wrapper.innerHTML = `
+            <div class="chart-tooltip">${data.amount}</div>
+            <div class="bar-track">
+                <div class="bar-fill" style="height: ${data.value}%; animation: scaleUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; animation-delay: ${0.4 + (index * 0.1)}s"></div>
+            </div>
+            <div class="bar-label">${data.label}</div>
+        `;
+        
+        // Add click micro-interaction to switch active bar
+        wrapper.addEventListener('click', () => {
+            document.querySelectorAll('.bar-wrapper').forEach(w => w.classList.remove('active'));
+            wrapper.classList.add('active');
+        });
+
+        chartContainer.appendChild(wrapper);
+    });
+
+    // --- 3. Number Counter Animation ---
+    function animateValue(obj, start, end, duration) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            
+            // Easing out function
+            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+            const currentVal = Math.floor(easeOutQuart * (end - start) + start);
+            
+            // Add comma formatting
+            obj.innerHTML = currentVal.toLocaleString('en-US');
+            
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    // Trigger number counter after a slight delay
+    setTimeout(() => {
+        const totalElement = document.getElementById('animatedTotal');
+        animateValue(totalElement, 0, 1619, 1500); // Counts from 0 to 1,619
+    }, 200);
+
+    // --- 4. Horizontal Progress Bar Animation ---
+    // Trigger the width change slightly after page load so CSS transition catches it
+    setTimeout(() => {
+        document.querySelectorAll('.progress-fill').forEach(bar => {
+            const targetWidth = bar.getAttribute('data-width');
+            bar.style.width = targetWidth;
+        });
+    }, 500);
+
+</script>
+
+</body>
+</html>

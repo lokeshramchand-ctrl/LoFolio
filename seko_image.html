@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Product Detail - Minimalist Market</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <title>In-Detail - Minimalist Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         :root {
             --bg-base: #FFFFFF;
-            --bg-body: #E4E4E7; 
             --surface: #FFFFFF;
             --text-main: #09090B;
             --text-muted: #71717A;
             --border-color: #E4E4E7;
+            --accent-veg: #EA580C; /* Deep Organic Orange */
+            --bg-veg: #FFF7ED; /* Soft orange background for hero */
             --radius-lg: 24px;
             --radius-md: 16px;
             --radius-sm: 8px;
@@ -30,276 +31,223 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
+            background-color: transparent; 
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             min-height: 100dvh; 
             color: var(--text-main);
+            overflow: hidden; 
+        }
+
+        /* --- Abstract Animated Mesh Background --- */
+        .abstract-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1;
+            background: #F8FAFC; 
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.7;
+            animation: float 20s infinite alternate ease-in-out;
+        }
+
+        .blob-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: #A7F3D0; animation-delay: 0s; }
+        .blob-2 { bottom: -20%; right: -10%; width: 70vw; height: 70vw; background: #FED7AA; animation-delay: -5s; }
+        .blob-3 { top: 30%; right: 10%; width: 50vw; height: 50vw; background: #E9D5FF; animation-delay: -10s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(5vw, 10vh) scale(1.1); }
+            66% { transform: translate(-5vw, 5vh) scale(0.9); }
+            100% { transform: translate(0, 0) scale(1); }
         }
 
         /* --- Native Phone Container --- */
         .phone-frame {
-            width: 100%;
-            height: 100vh;
-            height: 100dvh;
-            background-color: var(--bg-base);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden; 
+            width: 100%; height: 100vh; height: 100dvh;
+            background-color: var(--bg-base); position: relative;
+            display: flex; flex-direction: column; overflow: hidden; z-index: 10;
         }
 
         @media (min-width: 480px) {
             .phone-frame {
-                width: 400px;
-                height: 850px;
-                max-height: 90vh;
-                border-radius: 40px;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+                width: 400px; height: 850px; max-height: 90vh; border-radius: 40px;
+                box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0,0,0,0.05);
                 border: 8px solid #18181B; 
             }
         }
 
         /* --- Animations --- */
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.95); }
+            from { opacity: 0; transform: scale(0.8); }
             to { opacity: 1; transform: scale(1); }
         }
+        .animate-up { opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
 
-        .animate-up {
-            opacity: 0;
-            animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-
-        /* --- Floating Header (Overlay) --- */
+        /* --- Floating Frosted Header --- */
         header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 24px 16px;
-            z-index: 10;
+            position: absolute; top: 0; left: 0; right: 0;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 24px 24px 16px; z-index: 50;
         }
 
         .icon-btn {
-            width: 44px;
-            height: 44px;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--text-main);
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            width: 44px; height: 44px;
+            background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0,0,0,0.05); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            color: var(--text-main); font-size: 20px; cursor: pointer; transition: all 0.2s ease;
         }
 
-        .icon-btn:active {
-            transform: scale(0.9);
-            background: #FAFAFA;
-        }
+        .icon-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.9); }
 
         /* --- Scrollable Main Content --- */
         .scroll-area {
-            flex-grow: 1;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding-bottom: calc(100px + var(--safe-area-bottom)); 
+            flex-grow: 1; overflow-y: auto; overflow-x: hidden;
+            padding-bottom: calc(120px + var(--safe-area-bottom)); 
         }
         .scroll-area::-webkit-scrollbar { display: none; }
         .scroll-area { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* --- Hero Image Area --- */
-        .hero-asset {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background: #FAFAFA;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* --- Full Bleed Hero --- */
+        .hero-banner {
+            width: 100%; height: 360px;
+            background: var(--bg-veg);
+            display: flex; justify-content: center; align-items: center;
+            position: relative;
             border-bottom: 1px solid var(--border-color);
-            animation: scaleIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
-        .hero-asset i {
-            font-size: 160px;
-            filter: drop-shadow(0 20px 30px rgba(234, 88, 12, 0.15));
+        .hero-banner i {
+            font-size: 200px; color: var(--accent-veg);
+            filter: drop-shadow(0 30px 40px rgba(234, 88, 12, 0.2));
+            animation: scaleIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
         }
 
-        /* --- Product Info --- */
-        .product-info {
-            padding: 24px;
+        /* --- Product Details Body --- */
+        .product-body { padding: 24px; }
+
+        .meta-row {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
         }
 
-        .meta-tags {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
+        .farm-badge {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 13px; font-weight: 600; color: var(--text-muted);
         }
 
-        .tag {
-            padding: 6px 12px;
-            background: #FAFAFA;
-            border: 1px solid var(--border-color);
-            border-radius: 100px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 4px;
+        .rating-pill {
+            display: flex; align-items: center; gap: 4px;
+            padding: 6px 12px; border: 1px solid var(--border-color); border-radius: 100px;
+            font-size: 13px; font-weight: 700;
         }
 
-        .title-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 8px;
+        .title-row { margin-bottom: 8px; }
+        .title-row h1 { font-size: 32px; font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; }
+        
+        .price-text {
+            font-size: 20px; font-weight: 700; color: var(--text-main); margin-bottom: 24px;
+            display: flex; align-items: baseline; gap: 4px;
         }
+        .price-text span { font-size: 14px; color: var(--text-muted); font-weight: 500; }
 
-        h1 {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            line-height: 1.2;
+        /* --- Quick Highlight Pills --- */
+        .highlights {
+            display: flex; gap: 12px; margin-bottom: 32px; overflow-x: auto; scroll-snap-type: x mandatory;
         }
-
-        .farm-name {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .description {
-            font-size: 15px;
-            line-height: 1.6;
-            color: var(--text-muted);
-            margin-bottom: 32px;
+        .highlights::-webkit-scrollbar { display: none; }
+        
+        .highlight-pill {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 16px; background: #FAFAFA; border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; white-space: nowrap; scroll-snap-align: start;
         }
 
         /* --- Quantity Selector --- */
-        .quantity-section {
-            border-top: 1px solid var(--border-color);
-            padding-top: 24px;
-            margin-bottom: 24px;
+        .qty-box {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px; border: 1px solid var(--border-color); border-radius: var(--radius-md);
+            margin-bottom: 32px; background: var(--surface);
         }
+        
+        .qty-label { font-size: 15px; font-weight: 600; }
 
-        .section-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-
-        .quantity-controls {
-            display: inline-flex;
-            align-items: center;
-            border: 1px solid var(--border-color);
-            border-radius: 100px;
-            padding: 4px;
-            background: var(--surface);
+        .qty-controls {
+            display: flex; align-items: center; gap: 16px;
+            background: #FAFAFA; border-radius: 100px; padding: 4px; border: 1px solid var(--border-color);
         }
 
         .qty-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: none;
-            background: transparent;
-            color: var(--text-main);
-            font-size: 18px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: background 0.2s;
+            width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--surface);
+            color: var(--text-main); display: flex; justify-content: center; align-items: center;
+            font-size: 18px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: transform 0.2s;
         }
+        .qty-btn:active { transform: scale(0.9); }
+        .qty-val { font-size: 15px; font-weight: 700; width: 60px; text-align: center; font-variant-numeric: tabular-nums; }
 
-        .qty-btn:active {
-            background: #F4F4F5;
-        }
+        /* --- Editorial Description --- */
+        .section-title { font-size: 16px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.5px; }
+        .description { font-size: 15px; line-height: 1.6; color: var(--text-muted); margin-bottom: 32px; }
 
-        .qty-display {
-            font-size: 16px;
-            font-weight: 600;
-            width: 80px;
-            text-align: center;
-            font-variant-numeric: tabular-nums; /* Keeps numbers from shifting widths */
+        /* --- Nutrition Grid --- */
+        .nutrition-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 32px;
         }
+        .nutri-card {
+            border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 16px 8px;
+            display: flex; flex-direction: column; align-items: center; text-align: center; background: #FAFAFA;
+        }
+        .nutri-val { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+        .nutri-lbl { font-size: 11px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* --- Farm Tracking --- */
+        .tracking-box {
+            border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;
+            display: flex; flex-direction: column; gap: 16px; margin-bottom: 16px;
+        }
+        .track-row { display: flex; align-items: center; gap: 12px; }
+        .track-icon {
+            width: 32px; height: 32px; border-radius: 50%; background: #FAFAFA; border: 1px solid var(--border-color);
+            display: flex; justify-content: center; align-items: center; font-size: 16px; color: var(--text-main);
+        }
+        .track-info h5 { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+        .track-info p { font-size: 12px; color: var(--text-muted); }
 
         /* --- Absolute Bottom Action Bar --- */
         .bottom-action {
-            position: absolute; 
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 24px calc(20px + var(--safe-area-bottom));
-            box-shadow: var(--shadow-float);
-            z-index: 100;
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 24px calc(16px + var(--safe-area-bottom)); z-index: 100;
         }
 
-        .price-block {
-            display: flex;
-            flex-direction: column;
-        }
+        .total-block { display: flex; flex-direction: column; }
+        .total-lbl { font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 2px; text-transform: uppercase; }
+        .total-amt { font-size: 24px; font-weight: 800; letter-spacing: -1px; }
 
-        .price-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 500;
-            margin-bottom: 2px;
+        .add-btn {
+            background: var(--text-main); color: #FFFFFF; border: none; padding: 16px 32px;
+            border-radius: 100px; font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px;
+            cursor: pointer; transition: all 0.2s ease;
         }
-
-        .total-price {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .add-to-cart-btn {
-            background: var(--text-main);
-            color: #FFFFFF;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 100px;
-            font-size: 15px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .add-to-cart-btn:active {
-            transform: scale(0.96);
-            background: #27272A;
-        }
-
+        .add-btn:active { transform: scale(0.96); background: #27272A; }
     </style>
 </head>
 <body>
+
+    <div class="abstract-bg">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
 
     <div class="phone-frame">
         
@@ -307,50 +255,104 @@
             <button class="icon-btn" onclick="history.back()">
                 <i class="ph ph-arrow-left"></i>
             </button>
-            <button class="icon-btn" id="favorite-btn">
-                <i class="ph ph-heart"></i>
-            </button>
+            <div style="display: flex; gap: 12px;">
+                <button class="icon-btn"><i class="ph ph-share-network"></i></button>
+                <button class="icon-btn" id="fav-btn"><i class="ph ph-heart"></i></button>
+            </div>
         </header>
 
         <main class="scroll-area">
             
-            <div class="hero-asset">
-                <i class="ph-duotone ph-carrot" style="color: #EA580C;"></i>
+            <div class="hero-banner">
+                <i class="ph-duotone ph-carrot"></i>
             </div>
 
-            <div class="product-info">
+            <div class="product-body">
                 
-                <div class="meta-tags animate-up" style="animation-delay: 0.1s;">
-                    <span class="tag"><i class="ph-fill ph-star" style="color: #F59E0B;"></i> 4.9</span>
-                    <span class="tag"><i class="ph ph-leaf"></i> Organic</span>
-                </div>
-
-                <div class="title-row animate-up" style="animation-delay: 0.2s;">
-                    <h1>Fresh Root<br>Carrots</h1>
-                </div>
-                
-                <p class="farm-name animate-up" style="animation-delay: 0.3s;">
-                    <i class="ph-fill ph-map-pin"></i> Green Valley Farms • ₹120 / kg
-                </p>
-
-                <p class="description animate-up" style="animation-delay: 0.4s;">
-                    Crisp, sweet, and freshly harvested from local organic soil. Perfect for snacking, roasting, or fresh juices. Delivered within 24 hours of harvest.
-                </p>
-
-                <div class="quantity-section animate-up" style="animation-delay: 0.5s;">
-                    <h3 class="section-title">Select Quantity</h3>
-                    <div class="quantity-controls">
-                        <button class="qty-btn" id="decrease-btn"><i class="ph ph-minus"></i></button>
-                        <span class="qty-display" id="qty-val">1.0 kg</span>
-                        <button class="qty-btn" id="increase-btn"><i class="ph ph-plus"></i></button>
+                <div class="meta-row animate-up" style="animation-delay: 0.1s;">
+                    <div class="farm-badge">
+                        <i class="ph-fill ph-map-pin" style="color: var(--accent-veg);"></i>
+                        Green Valley Farms
+                    </div>
+                    <div class="rating-pill">
+                        <i class="ph-fill ph-star" style="color: #F59E0B;"></i> 4.9
                     </div>
                 </div>
 
-                <div class="quantity-section animate-up" style="animation-delay: 0.6s;">
-                    <h3 class="section-title">Details</h3>
-                    <div style="font-size: 14px; color: var(--text-muted); display: flex; flex-direction: column; gap: 12px;">
-                        <div style="display: flex; justify-content: space-between;"><span>Harvested</span> <span>Today, 6:00 AM</span></div>
-                        <div style="display: flex; justify-content: space-between;"><span>Storage</span> <span>Refrigerate, up to 1 week</span></div>
+                <div class="title-row animate-up" style="animation-delay: 0.15s;">
+                    <h1>Heirloom<br>Dutch Carrots</h1>
+                </div>
+
+                <div class="price-text animate-up" style="animation-delay: 0.2s;">
+                    ₹120 <span>/ kg</span>
+                </div>
+
+                <div class="highlights animate-up" style="animation-delay: 0.25s;">
+                    <div class="highlight-pill"><i class="ph-duotone ph-leaf"></i> 100% Organic</div>
+                    <div class="highlight-pill"><i class="ph-duotone ph-sun"></i> Picked Today</div>
+                    <div class="highlight-pill"><i class="ph-duotone ph-shield-check"></i> Pesticide Free</div>
+                </div>
+
+                <div class="qty-box animate-up" style="animation-delay: 0.3s;">
+                    <span class="qty-label">Quantity</span>
+                    <div class="qty-controls">
+                        <button class="qty-btn" id="btn-minus"><i class="ph ph-minus"></i></button>
+                        <span class="qty-val" id="qty-display">1.0 kg</span>
+                        <button class="qty-btn" id="btn-plus"><i class="ph ph-plus"></i></button>
+                    </div>
+                </div>
+
+                <h3 class="section-title animate-up" style="animation-delay: 0.35s;">The Harvest</h3>
+                <p class="description animate-up" style="animation-delay: 0.4s;">
+                    Grown in nutrient-rich, uncompromised soil, our Heirloom Dutch Carrots are exceptionally crisp with a deep, natural sweetness. Perfect for raw snacking, roasting with thyme, or cold-pressed juices. Hand-pulled and delivered within 12 hours of harvest to preserve maximum crunch.
+                </p>
+
+                <h3 class="section-title animate-up" style="animation-delay: 0.45s;">Nutrition (per 100g)</h3>
+                <div class="nutrition-grid animate-up" style="animation-delay: 0.5s;">
+                    <div class="nutri-card">
+                        <span class="nutri-val">41</span>
+                        <span class="nutri-lbl">Kcal</span>
+                    </div>
+                    <div class="nutri-card">
+                        <span class="nutri-val">10g</span>
+                        <span class="nutri-lbl">Carbs</span>
+                    </div>
+                    <div class="nutri-card">
+                        <span class="nutri-val">3g</span>
+                        <span class="nutri-lbl">Fiber</span>
+                    </div>
+                    <div class="nutri-card">
+                        <span class="nutri-val" style="color: var(--accent-veg);">15%</span>
+                        <span class="nutri-lbl">Vit C</span>
+                    </div>
+                </div>
+
+                <h3 class="section-title animate-up" style="animation-delay: 0.55s;">Farm to Door</h3>
+                <div class="tracking-box animate-up" style="animation-delay: 0.6s;">
+                    <div class="track-row">
+                        <div class="track-icon"><i class="ph-duotone ph-plant"></i></div>
+                        <div class="track-info">
+                            <h5>Harvested</h5>
+                            <p>Today at 5:30 AM</p>
+                        </div>
+                    </div>
+                    <div style="width: 2px; height: 16px; background: var(--border-color); margin-left: 15px; margin-top: -12px; margin-bottom: -12px;"></div>
+                    <div class="track-row">
+                        <div class="track-icon"><i class="ph-duotone ph-package"></i></div>
+                        <div class="track-info">
+                            <h5>Quality Checked & Packed</h5>
+                            <p>Today at 8:00 AM</p>
+                        </div>
+                    </div>
+                    <div style="width: 2px; height: 16px; background: var(--border-color); margin-left: 15px; margin-top: -12px; margin-bottom: -12px;"></div>
+                    <div class="track-row">
+                        <div class="track-icon" style="background: var(--text-main); color: #fff; border: none;">
+                            <i class="ph-duotone ph-moped"></i>
+                        </div>
+                        <div class="track-info">
+                            <h5>Estimated Delivery</h5>
+                            <p style="color: var(--text-main); font-weight: 600;">Within 45 mins</p>
+                        </div>
                     </div>
                 </div>
 
@@ -358,12 +360,12 @@
         </main>
 
         <div class="bottom-action animate-up" style="animation-delay: 0.7s;">
-            <div class="price-block">
-                <span class="price-label">Total Price</span>
-                <span class="total-price" id="total-price">₹120</span>
+            <div class="total-block">
+                <span class="total-lbl">Total Price</span>
+                <span class="total-amt" id="total-price">₹120</span>
             </div>
-            <button class="add-to-cart-btn" id="add-to-cart">
-                Add to Cart <i class="ph ph-shopping-bag"></i>
+            <button class="add-btn" id="add-to-cart">
+                Add to Bag <i class="ph ph-shopping-bag"></i>
             </button>
         </div>
 
@@ -375,39 +377,34 @@
         let currentQtyKgs = 1.0;
 
         // --- DOM Elements ---
-        const qtyDisplay = document.getElementById('qty-val');
+        const qtyDisplay = document.getElementById('qty-display');
         const totalPriceDisplay = document.getElementById('total-price');
-        const decreaseBtn = document.getElementById('decrease-btn');
-        const increaseBtn = document.getElementById('increase-btn');
-        const favBtn = document.getElementById('favorite-btn');
+        const btnMinus = document.getElementById('btn-minus');
+        const btnPlus = document.getElementById('btn-plus');
+        const favBtn = document.getElementById('fav-btn');
         const addToCartBtn = document.getElementById('add-to-cart');
 
         // --- Functions ---
         function updateDisplay() {
-            // Update quantity display, ensuring 1 decimal place (e.g., 1.5 kg)
             qtyDisplay.innerText = `${currentQtyKgs.toFixed(1)} kg`;
-            
-            // Calculate and update total price
             const total = Math.round(PRICE_PER_KG * currentQtyKgs);
             totalPriceDisplay.innerText = `₹${total}`;
         }
 
         // --- Event Listeners ---
-        decreaseBtn.addEventListener('click', () => {
-            if (currentQtyKgs > 0.5) { // Minimum 0.5kg
+        btnMinus.addEventListener('click', () => {
+            if (currentQtyKgs > 0.5) {
                 currentQtyKgs -= 0.5;
                 updateDisplay();
-                // Haptic feedback simulation
-                if (navigator.vibrate) navigator.vibrate(50);
+                if (navigator.vibrate) navigator.vibrate(40);
             }
         });
 
-        increaseBtn.addEventListener('click', () => {
-            if (currentQtyKgs < 10) { // Max 10kg limit
+        btnPlus.addEventListener('click', () => {
+            if (currentQtyKgs < 10) {
                 currentQtyKgs += 0.5;
                 updateDisplay();
-                // Haptic feedback simulation
-                if (navigator.vibrate) navigator.vibrate(50);
+                if (navigator.vibrate) navigator.vibrate(40);
             }
         });
 
@@ -419,30 +416,36 @@
             
             if (isFav) {
                 icon.classList.replace('ph-heart', 'ph-fill');
-                icon.style.color = '#EF4444'; // Red color
-                this.style.borderColor = '#FECACA';
+                icon.style.color = '#EF4444'; // Red
             } else {
                 icon.classList.replace('ph-fill', 'ph-heart');
                 icon.style.color = 'var(--text-main)';
-                this.style.borderColor = 'var(--border-color)';
             }
+            if (navigator.vibrate) navigator.vibrate(20);
         });
 
         // Add to Cart Micro-interaction
         addToCartBtn.addEventListener('click', function() {
+            if(this.classList.contains('active')) return;
+            this.classList.add('active');
+
             const originalHTML = this.innerHTML;
             
-            this.innerHTML = `Added to Cart <i class="ph ph-check-circle"></i>`;
-            this.style.background = '#16A34A'; // Success Green
+            // Success State
+            this.innerHTML = `Added <i class="ph-fill ph-check-circle"></i>`;
+            this.style.background = '#16A34A'; 
             
+            if (navigator.vibrate) navigator.vibrate([30, 50, 30]);
+
             // Revert after 1.5 seconds
             setTimeout(() => {
                 this.innerHTML = originalHTML;
                 this.style.background = 'var(--text-main)';
+                this.classList.remove('active');
             }, 1500);
         });
 
-        // Initial setup
+        // Init
         updateDisplay();
     </script>
 </body>

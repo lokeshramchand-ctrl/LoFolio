@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Product Detail - Minimalist Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --bg-base: #FFFFFF;
+            --bg-body: #E4E4E7; 
+            --surface: #FFFFFF;
+            --text-main: #09090B;
+            --text-muted: #71717A;
+            --border-color: #E4E4E7;
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 8px;
+            --shadow-float: 0 -12px 30px rgba(0, 0, 0, 0.04);
+            --safe-area-bottom: env(safe-area-inset-bottom, 20px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            min-height: 100dvh; 
+            color: var(--text-main);
+        }
+
+        /* --- Native Phone Container --- */
+        .phone-frame {
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background-color: var(--bg-base);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+        }
+
+        @media (min-width: 480px) {
+            .phone-frame {
+                width: 400px;
+                height: 850px;
+                max-height: 90vh;
+                border-radius: 40px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
+                border: 8px solid #18181B; 
+            }
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .animate-up {
+            opacity: 0;
+            animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* --- Floating Header (Overlay) --- */
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 24px 16px;
+            z-index: 10;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.9);
+            background: #FAFAFA;
+        }
+
+        /* --- Scrollable Main Content --- */
+        .scroll-area {
+            flex-grow: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: calc(100px + var(--safe-area-bottom)); 
+        }
+        .scroll-area::-webkit-scrollbar { display: none; }
+        .scroll-area { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* --- Hero Image Area --- */
+        .hero-asset {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #FAFAFA;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            animation: scaleIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .hero-asset i {
+            font-size: 160px;
+            filter: drop-shadow(0 20px 30px rgba(234, 88, 12, 0.15));
+        }
+
+        /* --- Product Info --- */
+        .product-info {
+            padding: 24px;
+        }
+
+        .meta-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .tag {
+            padding: 6px 12px;
+            background: #FAFAFA;
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+
+        .farm-name {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .description {
+            font-size: 15px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        /* --- Quantity Selector --- */
+        .quantity-section {
+            border-top: 1px solid var(--border-color);
+            padding-top: 24px;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .quantity-controls {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            padding: 4px;
+            background: var(--surface);
+        }
+
+        .qty-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            color: var(--text-main);
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .qty-btn:active {
+            background: #F4F4F5;
+        }
+
+        .qty-display {
+            font-size: 16px;
+            font-weight: 600;
+            width: 80px;
+            text-align: center;
+            font-variant-numeric: tabular-nums; /* Keeps numbers from shifting widths */
+        }
+
+        /* --- Absolute Bottom Action Bar --- */
+        .bottom-action {
+            position: absolute; 
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px calc(20px + var(--safe-area-bottom));
+            box-shadow: var(--shadow-float);
+            z-index: 100;
+        }
+
+        .price-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .price-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .total-price {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .add-to-cart-btn {
+            background: var(--text-main);
+            color: #FFFFFF;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 100px;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-to-cart-btn:active {
+            transform: scale(0.96);
+            background: #27272A;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="phone-frame">
+        
+        <header>
+            <button class="icon-btn" onclick="history.back()">
+                <i class="ph ph-arrow-left"></i>
+            </button>
+            <button class="icon-btn" id="favorite-btn">
+                <i class="ph ph-heart"></i>
+            </button>
+        </header>
+
+        <main class="scroll-area">
+            
+            <div class="hero-asset">
+                <i class="ph-duotone ph-carrot" style="color: #EA580C;"></i>
+            </div>
+
+            <div class="product-info">
+                
+                <div class="meta-tags animate-up" style="animation-delay: 0.1s;">
+                    <span class="tag"><i class="ph-fill ph-star" style="color: #F59E0B;"></i> 4.9</span>
+                    <span class="tag"><i class="ph ph-leaf"></i> Organic</span>
+                </div>
+
+                <div class="title-row animate-up" style="animation-delay: 0.2s;">
+                    <h1>Fresh Root<br>Carrots</h1>
+                </div>
+                
+                <p class="farm-name animate-up" style="animation-delay: 0.3s;">
+                    <i class="ph-fill ph-map-pin"></i> Green Valley Farms • ₹120 / kg
+                </p>
+
+                <p class="description animate-up" style="animation-delay: 0.4s;">
+                    Crisp, sweet, and freshly harvested from local organic soil. Perfect for snacking, roasting, or fresh juices. Delivered within 24 hours of harvest.
+                </p>
+
+                <div class="quantity-section animate-up" style="animation-delay: 0.5s;">
+                    <h3 class="section-title">Select Quantity</h3>
+                    <div class="quantity-controls">
+                        <button class="qty-btn" id="decrease-btn"><i class="ph ph-minus"></i></button>
+                        <span class="qty-display" id="qty-val">1.0 kg</span>
+                        <button class="qty-btn" id="increase-btn"><i class="ph ph-plus"></i></button>
+                    </div>
+                </div>
+
+                <div class="quantity-section animate-up" style="animation-delay: 0.6s;">
+                    <h3 class="section-title">Details</h3>
+                    <div style="font-size: 14px; color: var(--text-muted); display: flex; flex-direction: column; gap: 12px;">
+                        <div style="display: flex; justify-content: space-between;"><span>Harvested</span> <span>Today, 6:00 AM</span></div>
+                        <div style="display: flex; justify-content: space-between;"><span>Storage</span> <span>Refrigerate, up to 1 week</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+
+        <div class="bottom-action animate-up" style="animation-delay: 0.7s;">
+            <div class="price-block">
+                <span class="price-label">Total Price</span>
+                <span class="total-price" id="total-price">₹120</span>
+            </div>
+            <button class="add-to-cart-btn" id="add-to-cart">
+                Add to Cart <i class="ph ph-shopping-bag"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- State ---
+        const PRICE_PER_KG = 120;
+        let currentQtyKgs = 1.0;
+
+        // --- DOM Elements ---
+        const qtyDisplay = document.getElementById('qty-val');
+        const totalPriceDisplay = document.getElementById('total-price');
+        const decreaseBtn = document.getElementById('decrease-btn');
+        const increaseBtn = document.getElementById('increase-btn');
+        const favBtn = document.getElementById('favorite-btn');
+        const addToCartBtn = document.getElementById('add-to-cart');
+
+        // --- Functions ---
+        function updateDisplay() {
+            // Update quantity display, ensuring 1 decimal place (e.g., 1.5 kg)
+            qtyDisplay.innerText = `${currentQtyKgs.toFixed(1)} kg`;
+            
+            // Calculate and update total price
+            const total = Math.round(PRICE_PER_KG * currentQtyKgs);
+            totalPriceDisplay.innerText = `₹${total}`;
+        }
+
+        // --- Event Listeners ---
+        decreaseBtn.addEventListener('click', () => {
+            if (currentQtyKgs > 0.5) { // Minimum 0.5kg
+                currentQtyKgs -= 0.5;
+                updateDisplay();
+                // Haptic feedback simulation
+                if (navigator.vibrate) navigator.vibrate(50);
+            }
+        });
+
+        increaseBtn.addEventListener('click', () => {
+            if (currentQtyKgs < 10) { // Max 10kg limit
+                currentQtyKgs += 0.5;
+                updateDisplay();
+                // Haptic feedback simulation
+                if (navigator.vibrate) navigator.vibrate(50);
+            }
+        });
+
+        // Favorite Toggle
+        let isFav = false;
+        favBtn.addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            isFav = !isFav;
+            
+            if (isFav) {
+                icon.classList.replace('ph-heart', 'ph-fill');
+                icon.style.color = '#EF4444'; // Red color
+                this.style.borderColor = '#FECACA';
+            } else {
+                icon.classList.replace('ph-fill', 'ph-heart');
+                icon.style.color = 'var(--text-main)';
+                this.style.borderColor = 'var(--border-color)';
+            }
+        });
+
+        // Add to Cart Micro-interaction
+        addToCartBtn.addEventListener('click', function() {
+            const originalHTML = this.innerHTML;
+            
+            this.innerHTML = `Added to Cart <i class="ph ph-check-circle"></i>`;
+            this.style.background = '#16A34A'; // Success Green
+            
+            // Revert after 1.5 seconds
+            setTimeout(() => {
+                this.innerHTML = originalHTML;
+                this.style.background = 'var(--text-main)';
+            }, 1500);
+        });
+
+        // Initial setup
+        updateDisplay();
+    </script>
+</body>
+</html>

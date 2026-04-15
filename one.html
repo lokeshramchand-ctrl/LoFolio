@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-      <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Designing Minimalist SaaS Dashboards | Lokesh Ram Chand</title>
+    <title>Building Velar</title>
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link
@@ -369,6 +369,15 @@
             left: -15px;
             color: var(--acc);
         }
+        
+        .img-caption {
+            font-size: 0.9rem;
+            color: var(--acc);
+            text-align: center;
+            margin-top: -20px;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
 
         /* --- 8. FOOTER COMPACT --- */
         footer {
@@ -464,90 +473,230 @@
                 <i class="ri-arrow-left-line"></i> Back to Journal
             </a>
             <div class="article-meta reveal-text">
-                <span>Architecture</span>
+                <span>Case Study</span>
                 <span>•</span>
-                <span>April 2026</span>
+                <span>Machine Learning</span>
                 <span>•</span>
-                <span>8 Min Read</span>
+                <span>Full Stack</span>
             </div>
-            <h1 class="article-title reveal-text">Designing Minimalist SaaS Dashboards</h1>
-            <p class="article-subtitle reveal-text">An in-depth look into bridging the gap between high-end aesthetic UI
-                and complex operational data architectures using React and vanilla CSS.</p>
+            <h1 class="article-title reveal-text">Building Velar: A Smart Finance Tracker</h1>
+            <p class="article-subtitle reveal-text">From training an ML model to designing a high-end UI, and wiring it all together into a fully functional app.</p>
         </header>
 
         <div class="cover-image magnet">
-            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2000&auto=format&fit=crop"
-                alt="Abstract Code Architecture">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2000&auto=format&fit=crop"
+                alt="Data Analytics Abstract">
         </div>
 
         <article class="post-content">
-            <p>Building an operational SaaS dashboard often means wrestling with dense data sets—flight tracking,
-                inventory grids, resource management. The instinct is to reach for heavy UI libraries that provide
-                out-of-the-box data tables, but this almost always comes at the cost of the aesthetic. The dashboard
-                ends up looking like a spreadsheet rather than a modern, high-end digital tool.</p>
+            <p>If you’ve ever tried keeping track of your personal finances, you probably know how tedious it can get. Most finance apps either ask for too much information or feel like they were designed a decade ago. You enter an expense, select a category from a long list, and hope the app doesn’t overwhelm you with charts you didn’t ask for.</p>
 
-            <p>The challenge is maintaining a minimalist, premium feel while rendering highly functional data points.
-                After experimenting with various setups, I’ve found that combining a strict single-file React component
-                architecture with raw, vanilla CSS yields the cleanest results.</p>
+            <p>That’s where this project began.</p>
 
-            <h2>The Problem with CSS-in-JS</h2>
-            <p>For complex dashboards, performance and visual predictability are paramount. While utility-first
-                frameworks or heavy CSS-in-JS libraries have their place, they can clutter the markup and make precise,
-                custom animations (like the ones powered by GSAP) difficult to orchestrate cleanly.</p>
+            <p>I wanted to build something that could understand me — or at least, my expenses. A tool that could take just a name and an amount, and intelligently guess the category. No dropdowns. No overthinking. Just fast, intuitive tracking with a modern experience.</p>
 
-            <blockquote>
-                "The best architectures do not hide complexity; they organize it. Writing vanilla CSS inside your `.tsx`
-                structure forces you to be intentional about every pixel and state change."
-            </blockquote>
+            <p>So I built a finance app from scratch.</p>
 
-            <p>When you strip away the abstraction layers, you have absolute control over the DOM. Let's look at how we
-                can structure a high-end data row—perhaps for tracking airport gate resources or flight
-                connections—while keeping the codebase impeccably clean.</p>
+            <p>This project — a combination of Flutter on the front, Node.js and MongoDB at the core, and a smart Flask service under the hood — was both a challenge and a personal milestone. It gave me the space to blend design, backend logic, and machine learning into something that didn’t just work, but actually felt good to use.</p>
 
-            <h2>Single-File Architecture</h2>
-            <p>By keeping the CSS scoped closely to the TSX within the same directory context, we eliminate dead code
-                and styling conflicts. Here is a simplified example of how I structure a minimalist component:</p>
+            <p>In this blog, I’ll walk through the journey — from training the ML model to designing a high-end UI, and wiring it all together into a fully functional app. If you’re into full-stack development, practical ML, or just enjoy building beautiful things, there’s a lot here for you.</p>
 
-            <pre class="magnet"><code><span class="code-comment">// FlightRow.tsx</span>
-<span class="code-keyword">import</span> React <span class="code-keyword">from</span> <span class="code-string">'react'</span>;
-<span class="code-keyword">import</span> <span class="code-string">'./FlightRow.css'</span>;
+            <h2>Feature Highlights</h2>
+            <p>What makes this project more than just another finance tracker? It’s the small things — the details that turn a tool into an experience. Here’s what sets it apart:</p>
 
-<span class="code-keyword">interface</span> FlightProps {
-  flightNumber: <span class="code-keyword">string</span>;
-  stand: <span class="code-keyword">string</span>;
-  status: <span class="code-keyword">string</span>;
-}
-
-<span class="code-keyword">export const</span> FlightRow = ({ flightNumber, stand, status }: FlightProps) => {
-  <span class="code-keyword">return</span> (
-    &lt;div className="flight-row-wrapper"&gt;
-      &lt;span className="f-num"&gt;{flightNumber}&lt;/span&gt;
-      &lt;span className="f-stand"&gt;{stand}&lt;/span&gt;
-      &lt;div className="f-status"&gt;
-        &lt;span className={`indicator ${status.toLowerCase()}`}&gt;&lt;/span&gt;
-        {status}
-      &lt;/div&gt;
-    &lt;/div&gt;
-  );
-};</code></pre>
-
-            <p>The corresponding CSS relies heavily on CSS variables for theming (allowing seamless light/dark mode
-                transitions) and flexbox for perfect alignment. The borders are kept low-opacity, and the fonts are
-                allowed to breathe.</p>
-
-            <h3>Key Principles to Remember</h3>
             <ul>
-                <li><strong>Typography is UI:</strong> Rely on varying font weights and opacities (e.g., using `Inter`
-                    or `General Sans`) rather than boxes and borders to separate data.</li>
-                <li><strong>Micro-interactions matter:</strong> A custom cursor or a subtle noise overlay can elevate a
-                    standard dashboard into a premium experience.</li>
-                <li><strong>Data Hierarchy:</strong> The most critical piece of data should have the highest contrast.
-                    Everything else should recede gracefully into the background.</li>
+                <li><strong>Auto-Categorization:</strong> No more tapping through dropdowns. Just type “Starbucks” or “Uber” and let the model do the thinking.</li>
+                <li><strong>Effortless Expense Entry:</strong> Add your expenses with nothing but a name and amount — no extra forms, no cognitive load.</li>
+                <li><strong>Intelligent Spending Insights:</strong> Instantly see where your money goes, broken down by category, without having to dig.</li>
+                <li><strong>Smooth, High-End UI:</strong> A beautifully polished interface built in Flutter, crafted for both aesthetics and usability.</li>
+                <li><strong>Custom Snackbar Feedback:</strong> Subtle, elegant notifications that respond to your actions without interrupting the flow.</li>
+                <li><strong>Visual Bar Chart Analytics:</strong> Clean, intuitive graphs that show your spending habits at a glance — not just data, but clarity.</li>
             </ul>
 
-            <h2>Conclusion</h2>
-            <p>It takes more effort to build from scratch using raw React and vanilla CSS, but the control you gain is
-                unmatched. The result is a dashboard that doesn't just display data—it presents it.</p>
+            <h2>Tech Stack</h2>
+            <p>Velar isn’t just a finance app — it’s a cross-disciplinary project that blends UI/UX finesse with backend reliability and machine learning intelligence. Here’s a quick overview of what powers it:</p>
+
+            <ul>
+                <li><strong>Flutter:</strong> Handles the frontend with sleek animations, rich UI components, and smooth cross-platform performance.</li>
+                <li><strong>Node.js + MongoDB:</strong> The backend brain — Node.js powers the API logic and MongoDB stores all user data, expenses, and categories securely and efficiently.</li>
+                <li><strong>Flask + Scikit-learn:</strong> A dedicated microservice for auto-categorization. It exposes a lightweight API that classifies transactions using a trained ML model.</li>
+                <li><strong>Python:</strong> Used during the ML training pipeline — from cleaning and preprocessing transaction data to vectorizing descriptions using <code>TfidfVectorizer</code> and training a logistic regression model with high accuracy.</li>
+            </ul>
+
+            <h2>System Architecture</h2>
+            <p>Bringing together performance, modularity, and intelligent automation, this architecture is designed to separate concerns while ensuring a smooth data flow between layers.</p>
+
+            <div class="cover-image magnet" style="height: auto; min-height: 300px; margin-bottom: 20px;">
+                <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?q=80&w=2000&auto=format&fit=crop" alt="Architecture Flow">
+            </div>
+            <p class="img-caption">The System Architecture Flow Diagram from Frontend — to — Database</p>
+
+            <h3>Component Interaction</h3>
+            <p><strong>Frontend (Flutter):</strong> A high-end UI built with Flutter sends expense data (description and amount) directly to the Node.js server. It’s optimized for clean design and fast UX, with animation transitions and structured data views.</p>
+            
+            <p><strong>Backend (Node.js + Express + MongoDB):</strong> Acts as the core orchestrator:</p>
+            <ul>
+                <li>Receives requests from Flutter.</li>
+                <li>Forwards the description to the Flask ML API.</li>
+                <li>Stores the returned category along with the transaction in MongoDB.</li>
+            </ul>
+            <p>This separation keeps the ML logic decoupled and the app scalable.</p>
+
+            <p><strong>Machine Learning Microservice (Flask + Scikit-learn):</strong> A lightweight Flask API runs independently. It loads a pre-trained logistic regression model and TF-IDF vectorizer, accepts descriptions, and returns category predictions. This service is stateless and can be scaled or containerized easily.</p>
+
+            <p><strong>Database (MongoDB):</strong> A schema-less NoSQL database that stores user transactions. The document model supports flexibility and fast querying by category and date.</p>
+
+            <h2>Auto-Categorization via Flask API</h2>
+            <p>This Flask route powers the AI feature that categorizes expenses using a trained ML model.</p>
+
+<pre class="magnet"><code><span class="code-keyword">@app.route</span>(<span class="code-string">"/api/predict"</span>, methods=[<span class="code-string">"POST"</span>])
+<span class="code-keyword">def</span> predict():
+    data = request.json
+    description = data.get(<span class="code-string">"description"</span>, <span class="code-string">""</span>)
+    <span class="code-keyword">if not</span> description:
+        <span class="code-keyword">return</span> jsonify({<span class="code-string">"error"</span>: <span class="code-string">"Description is required"</span>}), 400
+    
+    <span class="code-comment"># Vectorize and predict category</span>
+    X = vectorizer.transform([description])
+    prediction = model.predict(X)[0]
+    <span class="code-keyword">return</span> jsonify({<span class="code-string">"category"</span>: prediction})</code></pre>
+
+            <p>This turns simple inputs like “Starbucks” into predicted categories like “Food” or “Other”.</p>
+
+            <h3>Node.js Backend Calling the Flask Service</h3>
+            <p>This route handles expense submissions. It forwards the description to the Flask API and saves the predicted category along with the transaction.</p>
+
+<pre class="magnet"><code>app.post(<span class="code-string">'/api/transaction/add'</span>, <span class="code-keyword">async</span> (req, res) => {
+  <span class="code-keyword">const</span> { description, amount } = req.body;
+  
+  <span class="code-comment">// Call Flask API for category prediction</span>
+  <span class="code-keyword">const</span> predictRes = <span class="code-keyword">await</span> axios.post(<span class="code-string">'http://localhost:5000/api/predict'</span>, {
+    description,
+  });
+  
+  <span class="code-keyword">const</span> category = predictRes.data.category || <span class="code-string">'Other'</span>;
+  <span class="code-keyword">const</span> newTransaction = <span class="code-keyword">new</span> Transaction({ description, amount, category });
+  <span class="code-keyword">await</span> newTransaction.save();
+  
+  res.status(200).json({
+    message: <span class="code-string">'Transaction saved with category'</span>,
+    data: newTransaction,
+  });
+});</code></pre>
+            
+            <p>This shows your full-stack orchestration: Flutter ➝ Node ➝ Flask ➝ MongoDB.</p>
+
+            <h3>Flutter: Sending Expense to the Backend</h3>
+            <p>In Flutter frontend, user sends user input to the backend with just the name and amount — no category needed.</p>
+
+<pre class="magnet"><code><span class="code-keyword">final</span> response = <span class="code-keyword">await</span> http.post(
+  Uri.parse(<span class="code-string">'http://your-node-server/api/transaction/add'</span>),
+  headers: {<span class="code-string">'Content-Type'</span>: <span class="code-string">'application/json'</span>},
+  body: jsonEncode({
+    <span class="code-string">'description'</span>: _expenseName,
+    <span class="code-string">'amount'</span>: _amount,
+  }),
+);</code></pre>
+            
+            <p>The user doesn’t select a category. The app does it automatically in the background.</p>
+
+            <h2>Auto-Categorization with Machine Learning</h2>
+            <p>One of the key features in Velar is the ability to auto-categorize an expense — without user input beyond the name and amount. Here’s how the ML side of this system works.</p>
+
+            <h3>Dataset & Preprocessing</h3>
+            <p>The training dataset was a simple CSV file containing two columns: <code>Description</code> and <code>Category</code>. To prepare this data, I lowercased all descriptions and removed punctuation, and mapped categories to lowercase for consistency.</p>
+
+<pre class="magnet"><code><span class="code-keyword">import</span> pandas <span class="code-keyword">as</span> pd
+df = pd.read_csv(<span class="code-string">"transactions.csv"</span>)[[<span class="code-string">'Description'</span>, <span class="code-string">'Category'</span>]].head()
+df[<span class="code-string">'Description'</span>] = df[<span class="code-string">'Description'</span>].str.lower().str.replace(<span class="code-string">'[^a-z\s]'</span>, <span class="code-string">''</span>, regex=True)
+df[<span class="code-string">'Category'</span>] = df[<span class="code-string">'Category'</span>].str.lower().str.replace(<span class="code-string">'[^a-z\s]'</span>, <span class="code-string">''</span>, regex=True)</code></pre>
+
+            <h3>Train-Test Split & Vectorization</h3>
+            <p>We used <code>TfidfVectorizer</code> to transform raw text into meaningful numeric vectors for ML.</p>
+
+<pre class="magnet"><code><span class="code-keyword">from</span> sklearn.model_selection <span class="code-keyword">import</span> train_test_split
+<span class="code-keyword">from</span> sklearn.feature_extraction.text <span class="code-keyword">import</span> TfidfVectorizer
+
+X = df[<span class="code-string">'Description'</span>]
+y = df[<span class="code-string">'Category'</span>]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+vectorizer = TfidfVectorizer()
+X_train_vec = vectorizer.fit_transform(X_train)
+X_test_vec = vectorizer.transform(X_test)</code></pre>
+
+            <h3>Model Training (MultinomialNB)</h3>
+            <p>A simple but effective Multinomial Naive Bayes classifier gave us excellent results on our task.</p>
+
+<pre class="magnet"><code><span class="code-keyword">from</span> sklearn.naive_bayes <span class="code-keyword">import</span> MultinomialNB
+<span class="code-keyword">import</span> joblib
+
+model = MultinomialNB()
+model.fit(X_train_vec, y_train)
+
+<span class="code-comment"># Export Models</span>
+joblib.dump(model, <span class="code-string">'model.pkl'</span>)
+joblib.dump(vectorizer, <span class="code-string">'vectorizer.pkl'</span>)</code></pre>
+
+            <h2>Visualizing Insights with Charts</h2>
+            <p>Data is most powerful when it’s visual. To make spending patterns instantly understandable, I focused heavily on clean, intuitive visualizations.</p>
+
+            <h3>Category Breakdown with Progress Bars</h3>
+            <p>Each expense category (Food, Shopping, Bills, etc.) gets its own mini progress bar, giving a granular look into where your money is flowing.</p>
+
+<pre class="magnet"><code>LinearProgressIndicator(
+  value: category[<span class="code-string">'percentage'</span>] / 100,
+  backgroundColor: surfaceColor,
+  valueColor: AlwaysStoppedAnimation&lt;Color&gt;(
+    category[<span class="code-string">'color'</span>],
+  ),
+  borderRadius: BorderRadius.circular(4),
+)</code></pre>
+            
+            <p>This approach ensures <strong>clarity over clutter</strong> — no confusing pie charts, just progress bars that tell the story at a glance.</p>
+
+            <h3>Libraries Used</h3>
+            <ul>
+                <li><strong>fl_chart:</strong> For advanced charts like bar graphs (used on the Analytics screen).</li>
+                <li><strong>GoogleFonts:</strong> For a clean, consistent visual style.</li>
+                <li><strong>AnimatedWidgets:</strong> For smooth transitions when switching tabs or refreshing data.</li>
+            </ul>
+
+            <h2>Backend API in Node.js</h2>
+            <p>Behind every smooth front-end experience is a robust backend architecture. The core of Velar’s backend is built with Node.js and Express, interfacing with MongoDB to store and retrieve transaction data efficiently.</p>
+
+            <h3>MongoDB Schema Design</h3>
+            <p>Using Mongoose, the transaction schema is minimal and scalable:</p>
+
+<pre class="magnet"><code><span class="code-keyword">const</span> transactionSchema = <span class="code-keyword">new</span> mongoose.Schema({
+  description: String,
+  amount: Number,
+  category: String,
+  date: { type: Date, default: Date.now },
+});</code></pre>
+            
+            <p>It allows fast indexing and future extensibility (like user-based tracking or tags).</p>
+
+            <h2>Challenges & What I Learned</h2>
+            <p>Building Velar wasn’t just about stitching together technologies — it was a full-stack balancing act across design, machine learning, and cloud services.</p>
+
+            <blockquote>
+                "Preprocessed transactional data, vectorized descriptions using TfidfVectorizer, and trained a Logistic Regression model to predict categories with high accuracy."
+            </blockquote>
+
+            <p>Crafting a UI that feels modern, fast, and intuitive took several iterations. Managing animations, responsive layouts, and translucency effects like <code>BackdropFilter</code> wasn’t always straightforward — especially when Flutter’s layout system decided to throw edge-case errors. But the effort paid off. Velar’s UI now rivals premium fintech apps.</p>
+
+            <p>Connecting Flutter to a Python Flask ML model through a Node.js middle layer taught me a lot about asynchronous communication, handling prediction latency, and dealing with CORS and network timeouts during development.</p>
+
+            <h2>Conclusion — Beyond Side Project</h2>
+            <p>Velar started as a side project, but quickly grew into something far more meaningful. It pushed me to learn how different layers of a system — from ML pipelines to backend architecture to responsive UI — all come together to create a cohesive product experience.</p>
+
+            <p>This wasn’t just about tracking expenses. It was about designing something that feels effortless to use, something that anticipates user behavior rather than reacting to it. From intelligently guessing expense categories to delivering a UI that’s both beautiful and functional, every part of this build taught me something new.</p>
+
+            <p>If you’re someone who enjoys full-stack development, machine learning in the real world, or just building tools that actually help people — I hope this walkthrough gave you ideas or inspiration.</p>
+
+            <p><strong>Github Link:</strong> <br><a href="https://github.com/lokeshramchand-ctrl/Velar.git" target="_blank" style="color: var(--accent); text-decoration: underline;">https://github.com/lokeshramchand-ctrl/Velar.git</a></p>
+            
         </article>
 
         <footer>

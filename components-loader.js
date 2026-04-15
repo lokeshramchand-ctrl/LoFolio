@@ -59,7 +59,7 @@
   }
 
   // Run both injections — navbar first, then footer
-  await injectComponent('./navbar.html',  'navbar-component',  'prepend');
+  // await injectComponent('./navbar.html',  'navbar-component',  'prepend');
   await injectComponent('./footer.html',  'footer-component',  'append');
 
 })();

@@ -204,13 +204,12 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 0 5vw;
+            padding: 0 4vw;
             position: relative;
-            margin-top: 80px;
+            margin-top: 10px;
         }
 
         .hero-line {
-            /* overflow:hidden; */
             line-height: 1;
         }
 
@@ -241,7 +240,7 @@
 
         /* --- 6. FEATURED POST --- */
         #featured {
-            padding: 0 5vw 100px;
+            padding: 9vw 5vw 100px;
         }
 
         .section-label {
@@ -447,88 +446,6 @@
             color: var(--text);
         }
 
-        /* --- 8. FOOTER --- */
-        footer {
-            padding: 100px 5vw 40px;
-            display: flex;
-            flex-direction: column;
-            border-top: 1px solid var(--border);
-            position: relative;
-        }
-
-        /* (Footer styles remain exactly the same as your original, omitted for brevity but included in output) */
-        .footer-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 60px;
-            flex-wrap: wrap;
-            margin-bottom: 80px;
-        }
-
-        .footer-left {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .footer-title {
-            font-family: 'Clash Display', sans-serif;
-            font-size: clamp(4rem, 10vw, 8rem);
-            line-height: 0.9;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .footer-title.outline {
-            color: transparent;
-            -webkit-text-stroke: 1px var(--text);
-            opacity: 0.5;
-        }
-
-        .footer-desc {
-            font-size: 1.1rem;
-            color: var(--acc);
-            margin: 30px 0 40px;
-            max-width: 400px;
-            line-height: 1.5;
-        }
-
-        .socials {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .social-link {
-            border: 1px solid var(--border);
-            padding: 12px 24px;
-            border-radius: 100px;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .social-link:hover {
-            background: var(--text);
-            color: var(--bg);
-            border-color: var(--text);
-        }
-
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 30px;
-            border-top: 1px solid var(--border);
-            font-size: 0.85rem;
-            color: var(--acc);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-
         /* --- MEDIA QUERIES --- */
         @media (max-width: 768px) {
             .menu-items {
@@ -546,8 +463,7 @@
             * {
                 cursor: auto !important;
             }
-
-            nav {
+                        nav {
                 padding: 20px 5vw;
             }
 
@@ -628,6 +544,7 @@
         </nav>
 
         <section id="hero">
+            <span class="hero-subtitle reveal-text">The Journal</span>
             <div class="hero-line">
                 <h1 class="hero-title">Thoughts &</h1>
             </div>
@@ -712,34 +629,12 @@
             </div>
         </section>
 
-        <footer>
-            <div class="footer-container">
-                <div class="footer-left">
-                    <div class="hero-line">
-                        <h1 class="footer-title">Let's</h1>
-                    </div>
-                    <div class="hero-line">
-                        <h1 class="footer-title outline">Talk.</h1>
-                    </div>
-                    <p class="footer-desc">Got a topic you want me to write about, or a project in mind? Reach out.</p>
-                    <div class="socials">
-                        <a href="mailto:lokeshramchand@gmail.com" class="social-link magnet">Email <i
-                                class="ri-arrow-right-up-line"></i></a>
-                        <a href="https://linkedin.com/in/lokeshramchand" class="social-link magnet">LinkedIn <i
-                                class="ri-arrow-right-up-line"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <span>Local Time: <span id="local-time">--:--</span> IST</span>
-                <span>© 2026 Lokesh Ram Chand</span>
-            </div>
-        </footer>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+  <script src="./components-loader.js"></script>
 
     <script>
         gsap.registerPlugin(ScrollTrigger);

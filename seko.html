@@ -6,10 +6,12 @@
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seko - Smart HyperLocal Marketplace</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
+        rel="stylesheet">
+
     <style>
         /* --- 1. VARIABLES & THEMES (From Main Page) --- */
         :root {
@@ -43,7 +45,8 @@
             cursor: none;
         }
 
-        html, body {
+        html,
+        body {
             width: 100%;
             background-color: var(--bg);
             color: var(--text);
@@ -96,8 +99,13 @@
         }
 
         @media (pointer: coarse) {
-            #cursor { display: none !important; }
-            * { cursor: auto !important; }
+            #cursor {
+                display: none !important;
+            }
+
+            * {
+                cursor: auto !important;
+            }
         }
 
         /* --- 5. NAVIGATION (From Main Page) --- */
@@ -205,7 +213,8 @@
         .container {
             max-width: 1440px;
             margin: 0 auto;
-            padding: 140px 5vw 80px 5vw; /* Match nav side padding */
+            padding: 140px 5vw 80px 5vw;
+            /* Match nav side padding */
         }
 
         .hero {
@@ -229,7 +238,7 @@
             color: var(--acc);
             text-transform: uppercase;
             letter-spacing: 2px;
-            overflow: hidden; 
+            overflow: hidden;
         }
 
         .hero-title {
@@ -397,24 +406,70 @@
 
         /* --- 10. RESPONSIVE --- */
         @media (max-width: 900px) {
-            .nav-right .menu-items { display: none; }
-            .menu-icon { display: block; }
-            .content-grid { grid-template-columns: 1fr; gap: 60px; }
-            .visual-grid { grid-template-columns: 1fr; gap: 40px; }
-            .media-block { margin-top: 0 !important; }
-            .media-container { max-height: 400px; }
-            .media-container img { max-height: 400px; }
-            .hero-title { font-size: 3rem; }
-            .hero-media { height: 40vh; }
-            .links-grid { grid-template-columns: 1fr; }
+            .nav-right .menu-items {
+                display: none;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .visual-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .media-block {
+                margin-top: 0 !important;
+            }
+
+            .media-container {
+                max-height: 400px;
+            }
+
+            .media-container img {
+                max-height: 400px;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-media {
+                height: 40vh;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 600px) {
-            .container { padding: 120px 5vw 60px 5vw; }
-            .visual-grid { grid-template-columns: 1fr; gap: 30px; }
-            .media-container { max-height: 300px; }
-            .media-container img { max-height: 300px; }
-            .hero-media { height: 30vh; }
+            .container {
+                padding: 120px 5vw 60px 5vw;
+            }
+
+            .visual-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .media-container {
+                max-height: 300px;
+            }
+
+            .media-container img {
+                max-height: 300px;
+            }
+
+            .hero-media {
+                height: 30vh;
+            }
         }
     </style>
 </head>
@@ -427,7 +482,8 @@
     <div class="mobile-menu">
         <a href="./first.html" class="mobile-link" onclick="toggleMenu()">Projects</a>
         <a href="./first.html#about" class="mobile-link" onclick="toggleMenu()">About</a>
-        <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" class="mobile-link" onclick="toggleMenu()">Resume</a>
+        <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank"
+            class="mobile-link" onclick="toggleMenu()">Resume</a>
     </div>
 
     <nav>
@@ -436,8 +492,11 @@
         <div class="nav-right">
             <div class="menu-items">
                 <a href="./first.html#work" class="menu-link magnet">Projects</a>
+                <a href="./blog.html" class="menu-link magnet">Journal</a>
+
                 <a href="./first.html#about" class="menu-link magnet">About</a>
-                <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" class="menu-link magnet">Resume</a>
+                <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link"
+                    target="_blank" class="menu-link magnet">Resume</a>
             </div>
 
             <button class="theme-btn magnet interactive-el" onclick="toggleTheme()" aria-label="Toggle Theme">
@@ -467,7 +526,11 @@
         <main>
             <section class="content-grid">
                 <div class="intro-text">
-                    <p>A unified digital hyperlocal marketplace ecosystem for agricultural commerce, built with Flutter for cross-platform mobile access, Django for a scalable REST backend, and PostgreSQL for transactional consistency. Features secure authentication, inventory management, AI-powered product classification, cart operations, and optional recommendation systems powering community supermarkets and local farmers.</p>
+                    <p>A unified digital hyperlocal marketplace ecosystem for agricultural commerce, built with Flutter
+                        for cross-platform mobile access, Django for a scalable REST backend, and PostgreSQL for
+                        transactional consistency. Features secure authentication, inventory management, AI-powered
+                        product classification, cart operations, and optional recommendation systems powering community
+                        supermarkets and local farmers.</p>
                 </div>
 
                 <div class="metadata">
@@ -497,30 +560,36 @@
 
                     <div class="media-block">
                         <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="graphs" src="assets/seko/detail.gif" class="parallax-img" alt="Product Categories">
+                            <img data-gif-type="graphs" src="assets/seko/detail.gif" class="parallax-img"
+                                alt="Product Categories">
                         </div>
                         <div class="media-caption">
                             <span class="num">01</span>
-                            <span>Organized product categories (fruits, vegetables, dairy, greens) with seamless browsing and filtering for customers and sellers.</span>
+                            <span>Organized product categories (fruits, vegetables, dairy, greens) with seamless
+                                browsing and filtering for customers and sellers.</span>
                         </div>
                     </div>
 
-                    <div class="media-block"> 
+                    <div class="media-block">
                         <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="homepage" src="assets/seko/homepage.gif" class="parallax-img" alt="Secure Authentication">
+                            <img data-gif-type="homepage" src="assets/seko/homepage.gif" class="parallax-img"
+                                alt="Secure Authentication">
                         </div>
                         <div class="media-caption">
                             <span class="num">02</span>
-                            <span>Secure user authentication, onboarding, and account management with token-based API security.</span>
+                            <span>Secure user authentication, onboarding, and account management with token-based API
+                                security.</span>
                         </div>
                     </div>
-                                        <div class="media-block"> 
+                    <div class="media-block">
                         <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="homepage" src="assets/seko/checkoutpage.gif" class="parallax-img" alt="Cart & Checkout">
+                            <img data-gif-type="homepage" src="assets/seko/checkoutpage.gif" class="parallax-img"
+                                alt="Cart & Checkout">
                         </div>
                         <div class="media-caption">
                             <span class="num">03</span>
-                            <span>Intuitive cart management, add/remove items, and checkout experience with repository pattern architecture.</span>
+                            <span>Intuitive cart management, add/remove items, and checkout experience with repository
+                                pattern architecture.</span>
                         </div>
                     </div>
 
@@ -528,10 +597,10 @@
                 </div>
             </section>
 
-                <a href="https://github.com/lokeshramchand-ctrl/Seko" class="link-card interactive-el" target="_blank">
-                    <span>View on GitHub</span>
-                    <span class="arrow">↗</span>
-                </a>
+            <a href="https://github.com/lokeshramchand-ctrl/Seko" class="link-card interactive-el" target="_blank">
+                <span>View on GitHub</span>
+                <span class="arrow">↗</span>
+            </a>
         </main>
     </div>
 
@@ -568,8 +637,8 @@
             const menu = document.querySelector('.mobile-menu');
             const icon = document.querySelector('.menu-icon i');
             menu.classList.toggle('active');
-            
-            if(menu.classList.contains('active')){
+
+            if (menu.classList.contains('active')) {
                 icon.classList.remove('ri-menu-4-line');
                 icon.classList.add('ri-close-line');
             } else {
@@ -595,9 +664,9 @@
         // --- 4. CUSTOM CURSOR & MAGNETS (Matches Main Page Exactly) ---
         if (window.matchMedia("(min-width: 769px)").matches) {
             const cursor = document.getElementById("cursor");
-            
-            let xTo = gsap.quickTo(cursor, "x", {duration: 0.15, ease: "power3"}),
-                yTo = gsap.quickTo(cursor, "y", {duration: 0.15, ease: "power3"});
+
+            let xTo = gsap.quickTo(cursor, "x", { duration: 0.15, ease: "power3" }),
+                yTo = gsap.quickTo(cursor, "y", { duration: 0.15, ease: "power3" });
 
             window.addEventListener("mousemove", (e) => {
                 xTo(e.clientX);
@@ -629,11 +698,11 @@
 
         // --- 5. PAGE REVEAL & SCROLL ANIMATIONS ---
         const tlLoad = gsap.timeline();
-        
+
         tlLoad.from("nav", { y: -20, opacity: 0, duration: 1, ease: "power3.out", delay: 0.2 })
-              .from(".subtitle", { y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.6")
-              .from(".hero-title", { y: 100, opacity: 0, duration: 1.2, ease: "power4.out" }, "-=0.6")
-              .from(".hero-media", { y: 40, scale: 0.95, opacity: 0, duration: 1.5, ease: "power3.out" }, "-=0.8");
+            .from(".subtitle", { y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.6")
+            .from(".hero-title", { y: 100, opacity: 0, duration: 1.2, ease: "power4.out" }, "-=0.6")
+            .from(".hero-media", { y: 40, scale: 0.95, opacity: 0, duration: 1.5, ease: "power3.out" }, "-=0.8");
 
         gsap.from(".intro-text p", {
             scrollTrigger: {
@@ -667,4 +736,5 @@
 
     </script>
 </body>
+
 </html>

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Designing Minimalist SaaS Dashboards | Lokesh Ram Chand</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- 1. VARIABLES & THEMES --- */
+        :root {
+            --bg: #0b0b0b;
+            --text: #e0e0e0;
+            --acc: #888;
+            --border: rgba(255, 255, 255, 0.1);
+            --cursor: #fff;
+            --nav-bg: rgba(11, 11, 11, 0.8);
+            --code-bg: #161616;
+            --code-border: rgba(255, 255, 255, 0.05);
+        }
+
+        [data-theme="light"] {
+            --bg: #f4f4f4;
+            --text: #1a1a1a;
+            --acc: #555;
+            --border: rgba(0, 0, 0, 0.1);
+            --cursor: #000;
+            --nav-bg: rgba(244, 244, 244, 0.8);
+            --code-bg: #e5e5e5;
+            --code-border: rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- 2. RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        html,
+        body {
+            width: 100%;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'General Sans', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: none;
+            color: inherit;
+        }
+
+        /* --- 3. UTILITIES & CURSOR --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9000;
+            opacity: 0.04;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
+
+        #cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            background-color: var(--text);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, transform 0.1s;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background-color: var(--text);
+            width: 0%;
+            z-index: 10000;
+        }
+
+        /* --- 5. NAVIGATION --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5vw;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.5s ease;
+        }
+
+        .logo {
+            font-family: 'Clash Display', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .menu-items {
+            display: flex;
+            gap: 30px;
+        }
+
+        .menu-link {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--text);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+
+        .menu-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .theme-btn {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 1.5rem;
+            z-index: 102;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            transform: translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-link {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 3rem;
+            color: var(--text);
+        }
+
+
+        /* --- 5. ARTICLE HEADER --- */
+        .article-header {
+            padding: 180px 5vw 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--acc);
+            margin-bottom: 40px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: var(--text);
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--acc);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .article-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 5.5rem);
+            line-height: 1.05;
+            font-weight: 500;
+            margin-bottom: 30px;
+        }
+
+        .article-subtitle {
+            font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+            color: var(--acc);
+            line-height: 1.5;
+            max-width: 800px;
+        }
+
+        /* --- 6. COVER IMAGE --- */
+        .cover-image {
+            width: 90vw;
+            height: 60vh;
+            margin: 0 auto 80px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .cover-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.6s ease, transform 0.6s ease;
+        }
+
+        .cover-image:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.02);
+        }
+
+        /* --- 7. ARTICLE CONTENT --- */
+        .post-content {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 0 5vw 100px;
+        }
+
+        .post-content p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 35px;
+            color: var(--text);
+            opacity: 0.9;
+        }
+
+        .post-content h2 {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(2rem, 3vw, 2.8rem);
+            font-weight: 500;
+            margin: 80px 0 30px;
+            line-height: 1.2;
+        }
+
+        .post-content h3 {
+            font-family: 'General Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin: 50px 0 20px;
+        }
+
+        .post-content blockquote {
+            border-left: 2px solid var(--text);
+            padding-left: 30px;
+            margin: 50px 0;
+            font-style: italic;
+            font-size: 1.4rem;
+            color: var(--acc);
+            line-height: 1.6;
+        }
+
+        .post-content pre {
+            background: var(--code-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--code-border);
+            overflow-x: auto;
+            margin: 40px 0;
+        }
+
+        .post-content code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .code-comment {
+            color: var(--acc);
+        }
+
+        .code-keyword {
+            color: #818cf8;
+        }
+
+        .code-string {
+            color: #34d399;
+        }
+
+        .post-content ul {
+            margin-bottom: 35px;
+            padding-left: 20px;
+        }
+
+        .post-content li {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            opacity: 0.9;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .post-content li::before {
+            content: '—';
+            position: absolute;
+            left: -15px;
+            color: var(--acc);
+        }
+
+        /* --- 8. FOOTER COMPACT --- */
+        footer {
+            padding: 80px 5vw 40px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-link {
+            font-size: 1.5rem;
+            font-family: 'Clash Display', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .footer-link:hover {
+            color: var(--acc);
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+
+            #cursor,
+            .progress-bar {
+                display: none !important;
+            }
+
+            * {
+                cursor: auto !important;
+            }
+
+            nav {
+                padding: 20px 5vw;
+            }
+
+
+            .cover-image {
+                width: 100vw;
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+                height: 40vh;
+            }
+
+            .article-header {
+                padding-top: 120px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 40px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="noise-overlay"></div>
+    <div id="cursor"></div>
+    <div class="progress-bar" id="progress-bar"></div>
+    <nav>
+        <a href="#" class="logo magnet">Lokesh Ram Chand</a>
+
+        <div class="nav-right">
+            <div class="menu-items">
+                <a href="./first.html#work" class="menu-link magnet">Projects</a>
+                <a href="./blog.html" class="menu-link magnet">Journal</a>
+                <a href="./first.html#about" class="menu-link magnet">About</a>
+                <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link"
+                    target="_blank" class="menu-link magnet">Resume</a>
+            </div>
+
+            <button class="theme-btn magnet" onclick="toggleTheme()" aria-label="Toggle Theme">
+                <i class="ri-moon-line" id="theme-icon"></i>
+            </button>
+
+            <button class="menu-icon" onclick="toggleMenu()" aria-label="Menu">
+                <i class="ri-menu-4-line"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main id="main">
+        <header class="article-header">
+            <a href="blog.html" class="back-link magnet">
+                <i class="ri-arrow-left-line"></i> Back to Journal
+            </a>
+            <div class="article-meta reveal-text">
+                <span>Architecture</span>
+                <span>•</span>
+                <span>April 2026</span>
+                <span>•</span>
+                <span>8 Min Read</span>
+            </div>
+            <h1 class="article-title reveal-text">Designing Minimalist SaaS Dashboards</h1>
+            <p class="article-subtitle reveal-text">An in-depth look into bridging the gap between high-end aesthetic UI
+                and complex operational data architectures using React and vanilla CSS.</p>
+        </header>
+
+        <div class="cover-image magnet">
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2000&auto=format&fit=crop"
+                alt="Abstract Code Architecture">
+        </div>
+
+        <article class="post-content">
+            <p>Building an operational SaaS dashboard often means wrestling with dense data sets—flight tracking,
+                inventory grids, resource management. The instinct is to reach for heavy UI libraries that provide
+                out-of-the-box data tables, but this almost always comes at the cost of the aesthetic. The dashboard
+                ends up looking like a spreadsheet rather than a modern, high-end digital tool.</p>
+
+            <p>The challenge is maintaining a minimalist, premium feel while rendering highly functional data points.
+                After experimenting with various setups, I’ve found that combining a strict single-file React component
+                architecture with raw, vanilla CSS yields the cleanest results.</p>
+
+            <h2>The Problem with CSS-in-JS</h2>
+            <p>For complex dashboards, performance and visual predictability are paramount. While utility-first
+                frameworks or heavy CSS-in-JS libraries have their place, they can clutter the markup and make precise,
+                custom animations (like the ones powered by GSAP) difficult to orchestrate cleanly.</p>
+
+            <blockquote>
+                "The best architectures do not hide complexity; they organize it. Writing vanilla CSS inside your `.tsx`
+                structure forces you to be intentional about every pixel and state change."
+            </blockquote>
+
+            <p>When you strip away the abstraction layers, you have absolute control over the DOM. Let's look at how we
+                can structure a high-end data row—perhaps for tracking airport gate resources or flight
+                connections—while keeping the codebase impeccably clean.</p>
+
+            <h2>Single-File Architecture</h2>
+            <p>By keeping the CSS scoped closely to the TSX within the same directory context, we eliminate dead code
+                and styling conflicts. Here is a simplified example of how I structure a minimalist component:</p>
+
+            <pre class="magnet"><code><span class="code-comment">// FlightRow.tsx</span>
+<span class="code-keyword">import</span> React <span class="code-keyword">from</span> <span class="code-string">'react'</span>;
+<span class="code-keyword">import</span> <span class="code-string">'./FlightRow.css'</span>;
+
+<span class="code-keyword">interface</span> FlightProps {
+  flightNumber: <span class="code-keyword">string</span>;
+  stand: <span class="code-keyword">string</span>;
+  status: <span class="code-keyword">string</span>;
+}
+
+<span class="code-keyword">export const</span> FlightRow = ({ flightNumber, stand, status }: FlightProps) => {
+  <span class="code-keyword">return</span> (
+    &lt;div className="flight-row-wrapper"&gt;
+      &lt;span className="f-num"&gt;{flightNumber}&lt;/span&gt;
+      &lt;span className="f-stand"&gt;{stand}&lt;/span&gt;
+      &lt;div className="f-status"&gt;
+        &lt;span className={`indicator ${status.toLowerCase()}`}&gt;&lt;/span&gt;
+        {status}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+};</code></pre>
+
+            <p>The corresponding CSS relies heavily on CSS variables for theming (allowing seamless light/dark mode
+                transitions) and flexbox for perfect alignment. The borders are kept low-opacity, and the fonts are
+                allowed to breathe.</p>
+
+            <h3>Key Principles to Remember</h3>
+            <ul>
+                <li><strong>Typography is UI:</strong> Rely on varying font weights and opacities (e.g., using `Inter`
+                    or `General Sans`) rather than boxes and borders to separate data.</li>
+                <li><strong>Micro-interactions matter:</strong> A custom cursor or a subtle noise overlay can elevate a
+                    standard dashboard into a premium experience.</li>
+                <li><strong>Data Hierarchy:</strong> The most critical piece of data should have the highest contrast.
+                    Everything else should recede gracefully into the background.</li>
+            </ul>
+
+            <h2>Conclusion</h2>
+            <p>It takes more effort to build from scratch using raw React and vanilla CSS, but the control you gain is
+                unmatched. The result is a dashboard that doesn't just display data—it presents it.</p>
+        </article>
+
+        <footer>
+            <a href="#" class="back-link magnet" style="margin: 0;">
+                <i class="ri-arrow-up-line"></i> Back to Top
+            </a>
+            <div class="footer-nav">
+                <a href="#" class="footer-link magnet">Next Article <i class="ri-arrow-right-line"></i></a>
+            </div>
+        </footer>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <script>
+        // Theme Switcher
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                icon.className = 'ri-sun-line';
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                icon.className = 'ri-moon-line';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+        }
+
+        // Smooth Scroll
+        const lenis = new Lenis();
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // Reading Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        });
+
+        // Intro Animation
+        gsap.from(".reveal-text", {
+            y: 30, opacity: 0, duration: 1, stagger: 0.1, ease: "power4.out", delay: 0.2
+        });
+
+        // Cursor & Magnets
+        if (window.matchMedia("(min-width: 769px)").matches) {
+            const cursor = document.getElementById("cursor");
+            window.addEventListener("mousemove", (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            });
+
+            document.querySelectorAll(".magnet").forEach((magnet) => {
+                magnet.addEventListener("mousemove", (e) => {
+                    const rect = magnet.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(magnet, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+                    gsap.to(cursor, { scale: 3 });
+                });
+                magnet.addEventListener("mouseleave", () => {
+                    gsap.to(magnet, { x: 0, y: 0 });
+                    gsap.to(cursor, { scale: 1 });
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>

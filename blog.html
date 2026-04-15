@@ -7,7 +7,9 @@
     <title>Journal | Lokesh Ram Chand</title>
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
+        rel="stylesheet">
 
     <style>
         /* --- 1. VARIABLES & THEMES --- */
@@ -41,7 +43,8 @@
             cursor: none;
         }
 
-        html, body {
+        html,
+        body {
             width: 100%;
             background-color: var(--bg);
             color: var(--text);
@@ -50,78 +53,190 @@
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        button { border: none; background: none; cursor: none; color: inherit; }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            border: none;
+            background: none;
+            cursor: none;
+            color: inherit;
+        }
 
         /* --- 3. UTILITIES & CURSOR --- */
         .noise-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 9000; opacity: 0.04;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9000;
+            opacity: 0.04;
             background-image: url("https://grainy-gradients.vercel.app/noise.svg");
         }
 
         #cursor {
-            position: fixed; top: 0; left: 0; width: 15px; height: 15px;
-            background-color: var(--text); border-radius: 50%;
-            pointer-events: none; z-index: 9999; mix-blend-mode: difference;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            background-color: var(--text);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
             transform: translate(-50%, -50%);
             transition: width 0.3s, height 0.3s, transform 0.1s;
         }
 
-        /* --- 4. NAVIGATION --- */
+        /* --- 5. NAVIGATION --- */
         nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5vw; position: fixed; width: 100%; top: 0;
-            z-index: 100; backdrop-filter: blur(10px); background: var(--nav-bg);
-            border-bottom: 1px solid var(--border); transition: background 0.5s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5vw;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: var(--nav-bg);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.5s ease;
         }
 
         .logo {
-            font-family: 'Clash Display', sans-serif; font-weight: 600;
-            font-size: 1.5rem; letter-spacing: -0.5px;
+            font-family: 'Clash Display', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
         }
 
-        .nav-right { display: flex; align-items: center; gap: 30px; }
-        .menu-items { display: flex; gap: 30px; }
-        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .menu-items {
+            display: flex;
+            gap: 30px;
+        }
+
         .menu-link {
-            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
-            position: relative; overflow: hidden;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
         }
+
         .menu-link::after {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%;
-            height: 1px; background: var(--text); transform: scaleX(0);
-            transform-origin: right; transition: transform 0.4s ease;
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--text);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
         }
-        .menu-link:hover::after { transform: scaleX(1); transform-origin: left; }
-        
-        .theme-btn { font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
-        .menu-icon { display: none; font-size: 1.5rem; z-index: 102; }
+
+        .menu-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .theme-btn {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-icon {
+            display: none;
+            font-size: 1.5rem;
+            z-index: 102;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 101;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            transform: translateY(-100%);
+            transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-link {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 3rem;
+            color: var(--text);
+        }
 
         /* --- 5. HERO (BLOG) --- */
         #hero {
-            height: 70vh; width: 100%; display: flex; flex-direction: column;
-            justify-content: center; padding: 0 5vw; position: relative;
+            height: 70vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0 5vw;
+            position: relative;
             margin-top: 80px;
         }
 
-        .hero-line { overflow: hidden; line-height: 1; }
-        
+        .hero-line {
+            overflow: hidden;
+            line-height: 1;
+        }
+
         .hero-subtitle {
-            font-family: 'General Sans', sans-serif; font-size: clamp(1rem, 2vw, 1.5rem);
-            color: var(--text); text-transform: uppercase; letter-spacing: 2px;
-            margin-bottom: 2vh; display: block;
+            font-family: 'General Sans', sans-serif;
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: var(--text);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2vh;
+            display: block;
         }
 
         .hero-title {
-            font-family: 'Clash Display', sans-serif; font-size: clamp(3rem, 11vw, 8rem);
-            font-weight: 600; text-transform: uppercase; color: var(--text);
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(3rem, 11vw, 8rem);
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text);
             transform: translateY(100%);
         }
+
         .hero-title.outline {
-            color: transparent; -webkit-text-stroke: 1px var(--text); opacity: 0.5;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text);
+            opacity: 0.5;
         }
 
         /* --- 6. FEATURED POST --- */
@@ -130,14 +245,23 @@
         }
 
         .section-label {
-            font-size: 0.9rem; color: var(--acc); margin-bottom: 40px;
-            text-transform: uppercase; letter-spacing: 1px; display: block;
+            font-size: 0.9rem;
+            color: var(--acc);
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
         }
 
         .featured-wrapper {
-            display: grid; grid-template-columns: 1.2fr 1fr; gap: 4vw;
-            align-items: center; border: 1px solid var(--border);
-            border-radius: 16px; overflow: hidden; padding: 2vw;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 4vw;
+            align-items: center;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            padding: 2vw;
             transition: border-color 0.4s;
         }
 
@@ -146,47 +270,74 @@
         }
 
         .f-img-container {
-            width: 100%; height: 50vh; border-radius: 12px; overflow: hidden;
+            width: 100%;
+            height: 50vh;
+            border-radius: 12px;
+            overflow: hidden;
             position: relative;
         }
 
         .f-img-container img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(100%); transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s;
         }
 
         .featured-wrapper:hover .f-img-container img {
-            filter: grayscale(0%); transform: scale(1.05);
+            filter: grayscale(0%);
+            transform: scale(1.05);
         }
 
         .f-content {
-            display: flex; flex-direction: column; gap: 20px; padding-right: 2vw;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-right: 2vw;
         }
 
         .f-meta {
-            display: flex; gap: 15px; font-size: 0.85rem;
-            color: var(--acc); text-transform: uppercase; letter-spacing: 1px;
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: var(--acc);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .f-title {
-            font-family: 'Clash Display', sans-serif; font-size: clamp(2rem, 3.5vw, 4rem);
-            line-height: 1.1; font-weight: 500;
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(2rem, 3.5vw, 4rem);
+            line-height: 1.1;
+            font-weight: 500;
         }
 
         .f-desc {
-            font-size: 1.1rem; color: var(--acc); line-height: 1.6;
+            font-size: 1.1rem;
+            color: var(--acc);
+            line-height: 1.6;
             margin-bottom: 20px;
         }
 
         .read-btn {
-            align-self: flex-start; padding: 12px 24px; border: 1px solid var(--border);
-            border-radius: 50px; font-size: 0.85rem; text-transform: uppercase;
-            letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
+            align-self: flex-start;
+            padding: 12px 24px;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             transition: all 0.3s;
         }
 
         .featured-wrapper:hover .read-btn {
-            background: var(--text); color: var(--bg); border-color: var(--text);
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
         }
 
         /* --- 7. ARTICLE LIST --- */
@@ -194,89 +345,252 @@
             padding: 50px 5vw 150px;
         }
 
-        .article-list { display: flex; flex-direction: column; }
-
-        .article-item {
-            padding: 40px 0; border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center;
-            transition: opacity 0.4s ease; position: relative;
+        .article-list {
+            display: flex;
+            flex-direction: column;
         }
 
-        .article-item:first-child { border-top: 1px solid var(--border); }
-        .article-list:hover .article-item { opacity: 0.3; }
-        .article-list:hover .article-item:hover { opacity: 1; }
+        .article-item {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: opacity 0.4s ease;
+            position: relative;
+        }
 
-        .a-left { display: flex; align-items: center; gap: 40px; flex: 2; }
+        .article-item:first-child {
+            border-top: 1px solid var(--border);
+        }
+
+        .article-list:hover .article-item {
+            opacity: 0.3;
+        }
+
+        .article-list:hover .article-item:hover {
+            opacity: 1;
+        }
+
+        .a-left {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex: 2;
+        }
+
         .a-date {
-            font-family: 'General Sans', sans-serif; font-size: 1rem;
-            color: var(--acc); min-width: 80px; text-transform: uppercase;
+            font-family: 'General Sans', sans-serif;
+            font-size: 1rem;
+            color: var(--acc);
+            min-width: 80px;
+            text-transform: uppercase;
         }
 
         .a-name {
-            font-family: 'Clash Display', sans-serif; font-size: clamp(1.8rem, 3vw, 3.5rem);
-            font-weight: 500; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
-        }
-
-        .a-center { display: flex; gap: 12px; flex: 1; justify-content: center; }
-        
-        .a-tag {
-            font-size: 0.8rem; padding: 6px 16px; border: 1px solid var(--border);
-            border-radius: 50px; color: var(--acc); text-transform: uppercase;
-            letter-spacing: 1px; transition: all 0.3s;
-        }
-
-        .a-right { display: flex; align-items: center; justify-content: flex-end; gap: 40px; flex: 1; }
-        .a-time { font-size: 0.9rem; color: var(--acc); text-transform: uppercase; }
-        
-        .a-icon {
-            font-size: 2rem; color: var(--acc);
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(1.8rem, 3vw, 3.5rem);
+            font-weight: 500;
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
         }
 
-        .article-item:hover .a-name { transform: translateX(20px); color: var(--text); }
-        .article-item:hover .a-icon { transform: rotate(45deg); color: var(--text); }
-        .article-item:hover .a-tag { border-color: var(--text); color: var(--text); }
+        .a-center {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .a-tag {
+            font-size: 0.8rem;
+            padding: 6px 16px;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            color: var(--acc);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .a-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 40px;
+            flex: 1;
+        }
+
+        .a-time {
+            font-size: 0.9rem;
+            color: var(--acc);
+            text-transform: uppercase;
+        }
+
+        .a-icon {
+            font-size: 2rem;
+            color: var(--acc);
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+        }
+
+        .article-item:hover .a-name {
+            transform: translateX(20px);
+            color: var(--text);
+        }
+
+        .article-item:hover .a-icon {
+            transform: rotate(45deg);
+            color: var(--text);
+        }
+
+        .article-item:hover .a-tag {
+            border-color: var(--text);
+            color: var(--text);
+        }
 
         /* --- 8. FOOTER --- */
         footer {
-            padding: 100px 5vw 40px; display: flex; flex-direction: column;
-            border-top: 1px solid var(--border); position: relative;
+            padding: 100px 5vw 40px;
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid var(--border);
+            position: relative;
         }
-        /* (Footer styles remain exactly the same as your original, omitted for brevity but included in output) */
-        .footer-container { display: flex; justify-content: space-between; gap: 60px; flex-wrap: wrap; margin-bottom: 80px; }
-        .footer-left { flex: 1; min-width: 300px; }
-        .footer-title { font-family: 'Clash Display', sans-serif; font-size: clamp(4rem, 10vw, 8rem); line-height: 0.9; text-transform: uppercase; font-weight: 600; }
-        .footer-title.outline { color: transparent; -webkit-text-stroke: 1px var(--text); opacity: 0.5; }
-        .footer-desc { font-size: 1.1rem; color: var(--acc); margin: 30px 0 40px; max-width: 400px; line-height: 1.5; }
-        .socials { display: flex; flex-wrap: wrap; gap: 15px; }
-        .social-link { border: 1px solid var(--border); padding: 12px 24px; border-radius: 100px; transition: all 0.3s; text-transform: uppercase; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
-        .social-link:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
-        .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 30px; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--acc); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- 9. LOADER --- */
-        #loader {
-            position: fixed; inset: 0; background: var(--bg); z-index: 10000;
-            display: flex; justify-content: center; align-items: center;
+        /* (Footer styles remain exactly the same as your original, omitted for brevity but included in output) */
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 60px;
+            flex-wrap: wrap;
+            margin-bottom: 80px;
         }
-        .counter { font-family: 'Clash Display', sans-serif; font-size: 10vw; font-weight: 600; }
+
+        .footer-left {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .footer-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(4rem, 10vw, 8rem);
+            line-height: 0.9;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .footer-title.outline {
+            color: transparent;
+            -webkit-text-stroke: 1px var(--text);
+            opacity: 0.5;
+        }
+
+        .footer-desc {
+            font-size: 1.1rem;
+            color: var(--acc);
+            margin: 30px 0 40px;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+
+        .socials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .social-link {
+            border: 1px solid var(--border);
+            padding: 12px 24px;
+            border-radius: 100px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .social-link:hover {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--acc);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
 
         /* --- MEDIA QUERIES --- */
         @media (max-width: 768px) {
-            .menu-items { display: none; }
-            .menu-icon { display: block; }
-            #cursor { display: none !important; }
-            * { cursor: auto !important; }
-            
-            .featured-wrapper { grid-template-columns: 1fr; padding: 4vw; }
-            .f-img-container { height: 40vh; }
-            
-            .article-item { flex-direction: column; align-items: flex-start; padding: 30px 0; gap: 15px; }
-            .a-left { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .a-center { display: none; }
-            .a-right { width: 100%; justify-content: space-between; flex-direction: row-reverse; }
-            .article-item:hover .a-name { transform: translateX(10px); }
-            
-            .footer-container { flex-direction: column; gap: 50px; }
+            .menu-items {
+                display: none;
+            }
+
+            .menu-icon {
+                display: block;
+            }
+
+            #cursor {
+                display: none !important;
+            }
+
+            * {
+                cursor: auto !important;
+            }
+                        nav {
+                padding: 20px 5vw;
+            }
+
+
+            .featured-wrapper {
+                grid-template-columns: 1fr;
+                padding: 4vw;
+            }
+
+            .f-img-container {
+                height: 40vh;
+            }
+
+            .article-item {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 30px 0;
+                gap: 15px;
+            }
+
+            .a-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .a-center {
+                display: none;
+            }
+
+            .a-right {
+                width: 100%;
+                justify-content: space-between;
+                flex-direction: row-reverse;
+            }
+
+            .article-item:hover .a-name {
+                transform: translateX(10px);
+            }
+
+            .footer-container {
+                flex-direction: column;
+                gap: 50px;
+            }
         }
     </style>
 </head>
@@ -291,17 +605,22 @@
 
     <div id="main">
         <nav>
-            <a href="index.html" class="logo magnet">Lokesh Ram Chand</a>
+            <a href="#" class="logo magnet">Lokesh Ram Chand</a>
+
             <div class="nav-right">
                 <div class="menu-items">
-                    <a href="index.html" class="menu-link magnet">Home</a>
-                    <a href="#" class="menu-link magnet">Journal</a>
-                    <a href="index.html#about" class="menu-link magnet">About</a>
+                    <a href="./first.html#work" class="menu-link magnet">Projects</a>
+                    <a href="./blog.html" class="menu-link magnet">Journal</a>
+                    <a href="./first.html#about" class="menu-link magnet">About</a>
+                    <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link"
+                        target="_blank" class="menu-link magnet">Resume</a>
                 </div>
+
                 <button class="theme-btn magnet" onclick="toggleTheme()" aria-label="Toggle Theme">
                     <i class="ri-moon-line" id="theme-icon"></i>
                 </button>
-                <button class="menu-icon" aria-label="Menu">
+
+                <button class="menu-icon" onclick="toggleMenu()" aria-label="Menu">
                     <i class="ri-menu-4-line"></i>
                 </button>
             </div>
@@ -319,10 +638,11 @@
 
         <section id="featured">
             <span class="section-label">Featured Article</span>
-            
+
             <a href="#" class="featured-wrapper magnet" style="display: grid;">
                 <div class="f-img-container">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop" alt="Code Abstract">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop"
+                        alt="Code Abstract">
                 </div>
                 <div class="f-content">
                     <div class="f-meta">
@@ -331,7 +651,8 @@
                         <span>April 2026</span>
                     </div>
                     <h2 class="f-title">Designing Minimalist SaaS Dashboards</h2>
-                    <p class="f-desc">An in-depth look into bridging the gap between high-end aesthetic UI and complex operational data architectures using React and vanilla CSS.</p>
+                    <p class="f-desc">An in-depth look into bridging the gap between high-end aesthetic UI and complex
+                        operational data architectures using React and vanilla CSS.</p>
                     <div class="read-btn">
                         Read Article <i class="ri-arrow-right-line"></i>
                     </div>
@@ -402,8 +723,10 @@
                     </div>
                     <p class="footer-desc">Got a topic you want me to write about, or a project in mind? Reach out.</p>
                     <div class="socials">
-                        <a href="mailto:lokeshramchand@gmail.com" class="social-link magnet">Email <i class="ri-arrow-right-up-line"></i></a>
-                        <a href="https://linkedin.com/in/lokeshramchand" class="social-link magnet">LinkedIn <i class="ri-arrow-right-up-line"></i></a>
+                        <a href="mailto:lokeshramchand@gmail.com" class="social-link magnet">Email <i
+                                class="ri-arrow-right-up-line"></i></a>
+                        <a href="https://linkedin.com/in/lokeshramchand" class="social-link magnet">LinkedIn <i
+                                class="ri-arrow-right-up-line"></i></a>
                     </div>
                 </div>
             </div>
@@ -442,7 +765,7 @@
             document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
         }
 
-        
+
 
         // Smooth Scroll
         const lenis = new Lenis();
@@ -484,4 +807,5 @@
         setInterval(updateTime, 1000); updateTime();
     </script>
 </body>
+
 </html>

@@ -1,15 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("components-loader.js loaded"); // Debugging log
   loadComponent("/navbar.html", "navbar-placeholder");
 });
 
 async function loadComponent(url, placeholderId) {
+  console.log(`Attempting to load component from: ${url}`); // Debugging log
   const placeholder = document.getElementById(placeholderId);
-  if (!placeholder) return;
+  if (!placeholder) {
+    console.error(`Placeholder with ID '${placeholderId}' not found.`);
+    return;
+  }
 
   try {
     const response = await fetch(url);
-    if (!response.ok) throw new Error(`Failed to fetch ${url}`);
-    
+    if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.statusText}`);
+
     const htmlText = await response.text();
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = htmlText;
@@ -30,7 +35,7 @@ async function loadComponent(url, placeholderId) {
       }
     }
 
-    // Fire a custom event so the main app knows dynamic content is ready
+    console.log("Component loaded successfully."); // Debugging log
     document.dispatchEvent(new Event("NavbarLoaded"));
 
   } catch (error) {

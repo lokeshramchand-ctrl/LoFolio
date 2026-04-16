@@ -111,75 +111,16 @@
 
         /* --- 5. NAVIGATION --- */
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5vw;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            background: var(--nav-bg);
-            border-bottom: 1px solid var(--border);
-            transition: background 0.5s ease;
-        }
-
-        .logo {
-            font-family: 'Clash Display', sans-serif;
-            font-weight: 600;
-            font-size: 1.5rem;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-
-        .menu-items {
-            display: flex;
-            gap: 30px;
-        }
-
-        .menu-link {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .menu-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: var(--text);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.4s ease;
-        }
-
-        .menu-link:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-
-        .theme-btn {
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .menu-icon {
             display: none;
-            font-size: 1.5rem;
-            z-index: 102;
+        }
+
+        .nav-right,
+        .menu-items,
+        .menu-link,
+        .theme-btn,
+        .menu-icon,
+        .mobile-menu {
+            display: none;
         }
 
         .mobile-menu {
@@ -444,38 +385,8 @@
 <body>
     <div class="noise-overlay"></div>
     <div id="cursor"></div>
-    <div class="mobile-menu">
-    <a href="#work" class="mobile-link" onclick="toggleMenu()">Projects</a>
-    <a href="#about" class="mobile-link" onclick="toggleMenu()">About</a>
-    <a href="./re.html" class="mobile-link" onclick="toggleMenu()">Resume</a>
-  </div>
 
-  <div class="preview-img">
-    <img src="" id="p-img" alt="work">
-  </div>
     <div class="progress-bar" id="progress-bar"></div>
-    <nav>
-
-        <a href="#" class="logo magnet">Lokesh Ram Chand</a>
-
-        <div class="nav-right">
-            <div class="menu-items">
-               <a href="/home/#work" class="menu-link magnet">Projects</a>
-                <a href="/home/blog/" class="menu-link magnet">Journal</a>
-                <a href="/home/#about" class="menu-link magnet">About</a>
-                <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link"
-                    target="_blank" class="menu-link magnet">Resume</a>
-            </div>
-
-            <button class="theme-btn magnet" onclick="toggleTheme()" aria-label="Toggle Theme">
-                <i class="ri-moon-line" id="theme-icon"></i>
-            </button>
-
-            <button class="menu-icon" onclick="toggleMenu()" aria-label="Menu">
-                <i class="ri-menu-4-line"></i>
-            </button>
-        </div>
-    </nav>
 
     <main id="main">
         <header class="article-header">
@@ -652,7 +563,8 @@
             <h3>Dataset & Preprocessing</h3>
             <p>The training dataset was a simple CSV file containing two columns: <code>Description</code> and
                 <code>Category</code>. To prepare this data, I lowercased all descriptions and removed punctuation, and
-                mapped categories to lowercase for consistency.</p>
+                mapped categories to lowercase for consistency.
+            </p>
 
             <pre
                 class="magnet"><code><span class="code-keyword">import</span> pandas <span class="code-keyword">as</span> pd
@@ -779,9 +691,11 @@ joblib.dump(vectorizer, <span class="code-string">'vectorizer.pkl'</span>)</code
             </div>
         </footer>
     </main>
+    <div id="navbar-placeholder"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="/components-loader.js"></script>
 
     <script>
         // Theme Switcher

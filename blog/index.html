@@ -2,589 +2,400 @@
 <html lang="en" data-theme="dark">
 
 <head>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blogs</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal — Lokesh Ram Chand</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link
-        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
-        rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link
+    href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
+    rel="stylesheet">
 
-    <style>
-        /* --- 1. VARIABLES & THEMES --- */
-        :root {
-            --bg: #0b0b0b;
-            --text: #e0e0e0;
-            --acc: #888;
-            --border: rgba(255, 255, 255, 0.1);
-            --cursor: #fff;
-            --nav-bg: rgba(11, 11, 11, 0.8);
-            --overlay: rgba(255, 255, 255, 0.03);
-            --accent: #22c55e;
-        }
+  <style>
+    /* --- 1. VARIABLES & THEMES --- */
+    :root {
+      --bg: #0b0b0b;
+      --text: #e0e0e0;
+      --acc: #888;
+      --border: rgba(255, 255, 255, 0.1);
+      --cursor: #fff;
+      --nav-bg: rgba(11, 11, 11, 0.8);
+      --overlay: rgba(255, 255, 255, 0.03);
+      --accent: #22c55e;
+    }
 
-        [data-theme="light"] {
-            --bg: #f4f4f4;
-            --text: #1a1a1a;
-            --acc: #555;
-            --border: rgba(0, 0, 0, 0.1);
-            --cursor: #000;
-            --nav-bg: rgba(244, 244, 244, 0.8);
-            --overlay: rgba(0, 0, 0, 0.03);
-            --accent: #15803d;
-        }
+    [data-theme="light"] {
+      --bg: #f4f4f4;
+      --text: #1a1a1a;
+      --acc: #555;
+      --border: rgba(0, 0, 0, 0.1);
+      --cursor: #000;
+      --nav-bg: rgba(244, 244, 244, 0.8);
+      --overlay: rgba(0, 0, 0, 0.03);
+      --accent: #15803d;
+    }
 
-        /* --- 2. RESET --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: none;
-        }
+    /* --- 2. RESET --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      cursor: none;
+    }
 
-        html,
-        body {
-            width: 100%;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'General Sans', sans-serif;
-            overflow-x: hidden;
-            transition: background-color 0.5s ease, color 0.5s ease;
-        }
+    html, body {
+      width: 100%;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'General Sans', sans-serif;
+      overflow-x: hidden;
+      transition: background-color 0.5s ease, color 0.5s ease;
+    }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+    a { text-decoration: none; color: inherit; display: block; }
+    ul { list-style: none; }
+    button { border: none; background: none; cursor: none; color: inherit; }
 
-        ul {
-            list-style: none;
-        }
+    /* --- 3. UTILITIES --- */
+    .noise-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 9000; opacity: 0.04;
+      background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    }
 
-        button {
-            border: none;
-            background: none;
-            cursor: none;
-            color: inherit;
-        }
+    /* --- 4. CUSTOM CURSOR --- */
+    #cursor {
+      position: fixed; top: 0; left: 0; width: 15px; height: 15px;
+      background-color: var(--text); border-radius: 50%;
+      pointer-events: none; z-index: 9999; mix-blend-mode: difference;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, transform 0.1s;
+    }
 
-        /* --- 3. UTILITIES & CURSOR --- */
-        .noise-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9000;
-            opacity: 0.04;
-            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-        }
+    /* --- 5. LOADER --- */
+    #loader {
+      position: fixed; inset: 0; background: var(--bg);
+      z-index: 10000; display: flex; justify-content: center; align-items: center;
+    }
+    .counter { font-family: 'Clash Display', sans-serif; font-size: 10vw; font-weight: 600; }
 
-        #cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 15px;
-            height: 15px;
-            background-color: var(--text);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, transform 0.1s;
-        }
+    /* --- 6. HERO (Slimmer) --- */
+    #hero {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20vh 5vw 8vh;
+      position: relative;
+    }
 
+    .hero-line { overflow: hidden; line-height: 1; }
 
+    .hero-subtitle {
+      font-family: 'General Sans', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 2vh;
+      display: block;
+    }
 
-        /* --- 5. HERO (BLOG) --- */
-        #hero {
-            height: 70vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 4vw;
-            position: relative;
-            margin-top: 10px;
-        }
+    .hero-title {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text);
+      transform: translateY(100%);
+    }
 
-        .hero-line {
-            line-height: 1;
-        }
+    .hero-title.outline {
+      color: transparent;
+      -webkit-text-stroke: 1px var(--text);
+      opacity: 0.5;
+    }
 
-        .hero-subtitle {
-            font-family: 'General Sans', sans-serif;
-            font-size: clamp(1rem, 2vw, 1.5rem);
-            color: var(--text);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 2vh;
-            display: block;
-        }
+    /* --- 7. ARTICLES LIST (Slimmer Rows) --- */
+    #articles {
+      padding: 0 5vw 15vh;
+      position: relative;
+    }
 
-        .hero-title {
-            font-family: 'Clash Display', sans-serif;
-            font-size: clamp(3rem, 11vw, 8rem);
-            font-weight: 600;
-            text-transform: uppercase;
-            color: var(--text);
-            transform: translateY(100%);
-        }
+    .article-list { display: flex; flex-direction: column; }
 
-        .hero-title.outline {
-            color: transparent;
-            -webkit-text-stroke: 1px var(--text);
-            opacity: 0.5;
-        }
+    .article-item {
+      padding: 35px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: opacity 0.4s ease;
+      position: relative;
+    }
 
-        /* --- 6. FEATURED POST --- */
-        #featured {
-            padding: 9vw 5vw 100px;
-        }
+    .article-item:first-child { border-top: 1px solid var(--border); }
 
-        .section-label {
-            font-size: 0.9rem;
-            color: var(--acc);
-            margin-bottom: 40px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: block;
-        }
+    .article-list:hover .article-item { opacity: 0.3; }
+    .article-list:hover .article-item:hover { opacity: 1; }
 
-        .featured-wrapper {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 4vw;
-            align-items: center;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            padding: 2vw;
-            transition: border-color 0.4s;
-        }
+    .a-left {
+      display: flex; flex-direction: column; gap: 8px; flex: 2;
+    }
 
-        .featured-wrapper:hover {
-            border-color: var(--text);
-        }
+    .a-meta {
+      font-family: 'General Sans', sans-serif;
+      font-size: 0.85rem;
+      color: var(--acc);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-        .f-img-container {
-            width: 100%;
-            height: 50vh;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-        }
+    .a-name {
+      font-family: 'Clash Display', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 3.5rem);
+      font-weight: 500;
+      line-height: 1.1;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+    }
 
-        .f-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(100%);
-            transition: filter 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s;
-        }
+    .a-center {
+      display: flex; gap: 12px; flex: 1; justify-content: flex-start;
+    }
 
-        .featured-wrapper:hover .f-img-container img {
-            filter: grayscale(0%);
-            transform: scale(1.05);
-        }
+    .a-tag {
+      font-size: 0.75rem; padding: 6px 16px;
+      border: 1px solid var(--border); border-radius: 50px;
+      color: var(--acc); text-transform: uppercase; letter-spacing: 1px;
+      transition: background 0.3s, color 0.3s, border-color 0.3s;
+    }
 
-        .f-content {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding-right: 2vw;
-        }
+    .a-right {
+      display: flex; align-items: center; justify-content: flex-end; flex: 0.5;
+    }
 
-        .f-meta {
-            display: flex;
-            gap: 15px;
-            font-size: 0.85rem;
-            color: var(--acc);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    .a-icon {
+      font-size: 2rem; color: var(--acc);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+    }
 
-        .f-title {
-            font-family: 'Clash Display', sans-serif;
-            font-size: clamp(2rem, 3.5vw, 4rem);
-            line-height: 1.1;
-            font-weight: 500;
-        }
+    .article-item:hover .a-name { transform: translateX(20px); color: var(--text); }
+    .article-item:hover .a-icon { transform: rotate(45deg); color: var(--text); }
+    .article-item:hover .a-tag { border-color: var(--text); color: var(--text); }
 
-        .f-desc {
-            font-size: 1.1rem;
-            color: var(--acc);
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .read-btn {
-            align-self: flex-start;
-            padding: 12px 24px;
-            border: 1px solid var(--border);
-            border-radius: 50px;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-
-        .featured-wrapper:hover .read-btn {
-            background: var(--text);
-            color: var(--bg);
-            border-color: var(--text);
-        }
-
-        /* --- 7. ARTICLE LIST --- */
-        #articles {
-            padding: 50px 5vw 150px;
-        }
-
-        .article-list {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .article-item {
-            padding: 40px 0;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: opacity 0.4s ease;
-            position: relative;
-        }
-
-        .article-item:first-child {
-            border-top: 1px solid var(--border);
-        }
-
-        .article-list:hover .article-item {
-            opacity: 0.3;
-        }
-
-        .article-list:hover .article-item:hover {
-            opacity: 1;
-        }
-
-        .a-left {
-            display: flex;
-            align-items: center;
-            gap: 40px;
-            flex: 2;
-        }
-
-        .a-date {
-            font-family: 'General Sans', sans-serif;
-            font-size: 1rem;
-            color: var(--acc);
-            min-width: 80px;
-            text-transform: uppercase;
-        }
-
-        .a-name {
-            font-family: 'Clash Display', sans-serif;
-            font-size: clamp(1.8rem, 3vw, 3.5rem);
-            font-weight: 500;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
-        }
-
-        .a-center {
-            display: flex;
-            gap: 12px;
-            flex: 1;
-            justify-content: center;
-        }
-
-        .a-tag {
-            font-size: 0.8rem;
-            padding: 6px 16px;
-            border: 1px solid var(--border);
-            border-radius: 50px;
-            color: var(--acc);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-
-        .a-right {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 40px;
-            flex: 1;
-        }
-
-        .a-time {
-            font-size: 0.9rem;
-            color: var(--acc);
-            text-transform: uppercase;
-        }
-
-        .a-icon {
-            font-size: 2rem;
-            color: var(--acc);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
-        }
-
-        .article-item:hover .a-name {
-            transform: translateX(20px);
-            color: var(--text);
-        }
-
-        .article-item:hover .a-icon {
-            transform: rotate(45deg);
-            color: var(--text);
-        }
-
-        .article-item:hover .a-tag {
-            border-color: var(--text);
-            color: var(--text);
-        }
-
-        /* --- MEDIA QUERIES --- */
-        @media (max-width: 768px) {
-            .menu-items {
-                display: none;
-            }
-
-            .menu-icon {
-                display: block;
-            }
-
-            #cursor {
-                display: none !important;
-            }
-
-            * {
-                cursor: auto !important;
-            }
-
-            nav {
-                padding: 20px 5vw;
-            }
-
-
-            .featured-wrapper {
-                grid-template-columns: 1fr;
-                padding: 4vw;
-            }
-
-            .f-img-container {
-                height: 40vh;
-            }
-
-            .article-item {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 30px 0;
-                gap: 15px;
-            }
-
-            .a-left {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .a-center {
-                display: none;
-            }
-
-            .a-right {
-                width: 100%;
-                justify-content: space-between;
-                flex-direction: row-reverse;
-            }
-
-            .article-item:hover .a-name {
-                transform: translateX(10px);
-            }
-
-            .footer-container {
-                flex-direction: column;
-                gap: 50px;
-            }
-        }
-    </style>
+    /* --- MEDIA QUERIES --- */
+    @media (max-width: 768px) {
+      #cursor { display: none !important; }
+      * { cursor: auto !important; }
+      
+      .article-item { flex-direction: column; align-items: flex-start; gap: 15px; padding: 25px 0; }
+      .a-center { width: 100%; flex-wrap: wrap; margin-top: 5px; }
+      .a-right { display: none; }
+      .article-item:hover .a-name { transform: translateX(10px); }
+    }
+  </style>
 </head>
 
 <body>
-    <div class="noise-overlay"></div>
-    <div id="cursor"></div>
 
+  <div class="noise-overlay"></div>
+  <div id="cursor"></div>
 
-    <div id="main">
+  <div id="loader">
+    <div class="counter">0</div>
+  </div>
+
+  <div id="navbar-placeholder"></div>
+
+  <div id="main">
+
+    <section id="hero">
+      <span class="hero-subtitle reveal-text">Thoughts & Discoveries.</span>
+      <div class="hero-line">
+        <h1 class="hero-title">The</h1>
+      </div>
+      <div class="hero-line">
+        <h1 class="hero-title outline">Journal</h1>
+      </div>
+    </section>
+
+    <section id="articles">
+      <div class="article-list">
+
+        <a href="/blog/architecting-for-scale" class="article-item magnet">
+          <div class="a-left">
+            <span class="a-meta">April 16, 2026 • 12 Min Read</span>
+            <div class="a-name">Architecting for Scale</div>
+          </div>
+          <div class="a-center">
+            <span class="a-tag">System Design</span>
+            <span class="a-tag">Backend</span>
+          </div>
+          <div class="a-right">
+            <i class="ri-arrow-right-up-line a-icon"></i>
+          </div>
+        </a>
+
+        <a href="/blog/react-server-components" class="article-item magnet">
+          <div class="a-left">
+            <span class="a-meta">March 28, 2026 • 4 Min Read</span>
+            <div class="a-name">Demystifying RSCs</div>
+          </div>
+          <div class="a-center">
+            <span class="a-tag">React</span>
+            <span class="a-tag">Frontend</span>
+          </div>
+          <div class="a-right">
+            <i class="ri-arrow-right-up-line a-icon"></i>
+          </div>
+        </a>
+
+        <a href="/blog/fluid-ui-animations-gsap" class="article-item magnet">
+          <div class="a-left">
+            <span class="a-meta">February 15, 2026 • 8 Min Read</span>
+            <div class="a-name">Fluid Interactions</div>
+          </div>
+          <div class="a-center">
+            <span class="a-tag">Design Engineering</span>
+            <span class="a-tag">GSAP</span>
+          </div>
+          <div class="a-right">
+            <i class="ri-arrow-right-up-line a-icon"></i>
+          </div>
+        </a>
+
+        <a href="/blog/flutter-clean-architecture" class="article-item magnet">
+          <div class="a-left">
+            <span class="a-meta">January 10, 2026 • 6 Min Read</span>
+            <div class="a-name">Flutter & Clean Arch</div>
+          </div>
+          <div class="a-center">
+            <span class="a-tag">Flutter</span>
+            <span class="a-tag">Mobile</span>
+          </div>
+          <div class="a-right">
+            <i class="ri-arrow-right-up-line a-icon"></i>
+          </div>
+        </a>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="/components-loader.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // --- 1. THEME SWITCHER LOGIC ---
+    function toggleTheme() {
+      const html = document.documentElement;
+      const themeIcon = document.getElementById('theme-icon');
+      if (!themeIcon) return;
       
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      html.setAttribute('data-theme', newTheme);
+      themeIcon.className = newTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+      
+      try { localStorage.setItem('theme', newTheme); } catch (e) {}
+    }
 
-        <section id="hero">
-            <span class="hero-subtitle reveal-text">The Journal</span>
-            <div class="hero-line">
-                <h1 class="hero-title">Thoughts &</h1>
-            </div>
-            <div class="hero-line">
-                <h1 class="hero-title outline">Engineering.</h1>
-            </div>
-        </section>
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        const themeIcon = document.getElementById('theme-icon');
+        if (themeIcon) themeIcon.className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+      }
+    } catch (e) {}
 
-        <section id="featured">
-            <span class="section-label">Featured Article</span>
+    // --- 3. PRELOADER ---
+    function startLoader() {
+      const counterElement = document.querySelector('.counter');
+      if (!counterElement) return;
+      let currentValue = 0;
 
-            <a href="#" class="featured-wrapper magnet" style="display: grid;">
-                <div class="f-img-container">
-                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop"
-                        alt="Code Abstract">
-                </div>
-                <div class="f-content">
-                    <div class="f-meta">
-                        <span>Architecture</span>
-                        <span>•</span>
-                        <span>April 2026</span>
-                    </div>
-                    <h2 class="f-title">Designing Minimalist SaaS Dashboards</h2>
-                    <p class="f-desc">An in-depth look into bridging the gap between high-end aesthetic UI and complex
-                        operational data architectures using React and vanilla CSS.</p>
-                    <div class="read-btn">
-                        Read Article <i class="ri-arrow-right-line"></i>
-                    </div>
-                </div>
-            </a>
-        </section>
+      function updateCounter() {
+        if (currentValue === 100) return;
+        currentValue += Math.floor(Math.random() * 10) + 1;
+        if (currentValue > 100) currentValue = 100;
+        counterElement.textContent = currentValue;
 
-        <section id="articles">
-            <span class="section-label">All Publications</span>
-            <div class="article-list">
+        let delay = Math.floor(Math.random() * 200) + 50;
+        setTimeout(updateCounter, delay);
+      }
+      updateCounter();
 
-                <a href="#" class="article-item magnet">
-                    <div class="a-left">
-                        <span class="a-date">Mar 24</span>
-                        <div class="a-name">Scaling FastAPI with Redis</div>
-                    </div>
-                    <div class="a-center">
-                        <span class="a-tag">Backend</span>
-                        <span class="a-tag">Python</span>
-                    </div>
-                    <div class="a-right">
-                        <span class="a-time">8 Min Read</span>
-                        <i class="ri-arrow-right-up-line a-icon"></i>
-                    </div>
-                </a>
+      const tl = gsap.timeline();
+      tl.to('.counter', { delay: 2.5, opacity: 0 })
+        .to('#loader', { height: 0, duration: 1, ease: 'power4.inOut' })
+        .to('.hero-title', { y: 0, stagger: 0.1, duration: 1, ease: 'power4.out' }, '-=0.5')
+        .from('.reveal-text', { y: 20, opacity: 0, stagger: 0.1 }, '-=0.5');
+    }
+    startLoader();
 
-                <a href="#" class="article-item magnet">
-                    <div class="a-left">
-                        <span class="a-date">Feb 12</span>
-                        <div class="a-name">Mastering React Server Components</div>
-                    </div>
-                    <div class="a-center">
-                        <span class="a-tag">Frontend</span>
-                        <span class="a-tag">Next.js</span>
-                    </div>
-                    <div class="a-right">
-                        <span class="a-time">5 Min Read</span>
-                        <i class="ri-arrow-right-up-line a-icon"></i>
-                    </div>
-                </a>
+    // --- 4. SMOOTH SCROLL ---
+    const lenis = new Lenis();
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
 
-                <a href="#" class="article-item magnet">
-                    <div class="a-left">
-                        <span class="a-date">Jan 05</span>
-                        <div class="a-name">Type-Safe SQL with TypeScript</div>
-                    </div>
-                    <div class="a-center">
-                        <span class="a-tag">Database</span>
-                        <span class="a-tag">TypeScript</span>
-                    </div>
-                    <div class="a-right">
-                        <span class="a-time">6 Min Read</span>
-                        <i class="ri-arrow-right-up-line a-icon"></i>
-                    </div>
-                </a>
+    // --- 5. CURSOR & MAGNETS (Desktop Only) ---
+    if (window.matchMedia("(min-width: 769px)").matches) {
+      const cursor = document.getElementById("cursor");
 
-            </div>
-        </section>
+      window.addEventListener("mousemove", (e) => {
+        gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+      });
 
-    </div>
+      document.querySelectorAll(".magnet").forEach((magnet) => {
+        magnet.addEventListener("mousemove", (e) => {
+          const rect = magnet.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          gsap.to(magnet, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+          gsap.to(cursor, { scale: 3 });
+        });
 
-    <div id="navbar-placeholder"></div>
+        magnet.addEventListener("mouseleave", () => {
+          gsap.to(magnet, { x: 0, y: 0 });
+          gsap.to(cursor, { scale: 1 });
+        });
+      });
+    }
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    // --- 6. SCROLL ANIMATIONS ---
+    let proxy = { skew: 0 },
+      skewSetter = gsap.quickSetter(".article-item", "skewY", "deg"),
+      clamp = gsap.utils.clamp(-8, 8); // Tighter clamp for slimmer rows
 
-    <script src="/components-loader.js"></script>
-    <script>
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Theme Switcher
-        function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('theme-icon');
-            if (html.getAttribute('data-theme') === 'dark') {
-                html.setAttribute('data-theme', 'light');
-                icon.className = 'ri-sun-line';
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                icon.className = 'ri-moon-line';
-                localStorage.setItem('theme', 'dark');
-            }
+    ScrollTrigger.create({
+      onUpdate: (self) => {
+        let skew = clamp(self.getVelocity() / -300);
+        if (Math.abs(skew) > Math.abs(proxy.skew)) {
+          proxy.skew = skew;
+          gsap.to(proxy, {
+            skew: 0, duration: 0.8, ease: "power3", overwrite: true,
+            onUpdate: () => skewSetter(proxy.skew)
+          });
         }
+      }
+    });
 
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
-        }
+    // --- 7. LUCIDE ICONS INITIALIZATION ---
+    lucide.createIcons();
 
-
-
-        // Smooth Scroll
-        const lenis = new Lenis();
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        // Cursor & Magnets
-        if (window.matchMedia("(min-width: 769px)").matches) {
-            const cursor = document.getElementById("cursor");
-            window.addEventListener("mousemove", (e) => {
-                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
-            });
-
-            document.querySelectorAll(".magnet").forEach((magnet) => {
-                magnet.addEventListener("mousemove", (e) => {
-                    const rect = magnet.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    gsap.to(magnet, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
-                    gsap.to(cursor, { scale: 3 });
-                });
-                magnet.addEventListener("mouseleave", () => {
-                    gsap.to(magnet, { x: 0, y: 0 });
-                    gsap.to(cursor, { scale: 1 });
-                });
-            });
-        }
-
-        // Live Time
-        function updateTime() {
-            const timeDisplay = document.getElementById('local-time');
-            if (timeDisplay) {
-                const now = new Date();
-                timeDisplay.textContent = now.toLocaleTimeString('en-US', {
-                    timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: true
-                });
-            }
-        }
-        setInterval(updateTime, 1000); updateTime();
-    </script>
+  </script>
 </body>
 
 </html>

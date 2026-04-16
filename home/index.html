@@ -101,105 +101,7 @@
       transition: width 0.3s, height 0.3s, transform 0.1s;
     }
 
-    /* --- 5. NAVIGATION --- */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 5vw;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-      background: var(--nav-bg);
-      border-bottom: 1px solid var(--border);
-      transition: background 0.5s ease;
-    }
-
-    .logo {
-      font-family: 'Clash Display', sans-serif;
-      font-weight: 600;
-      font-size: 1.5rem;
-      letter-spacing: -0.5px;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 30px;
-    }
-
-    .menu-items {
-      display: flex;
-      gap: 30px;
-    }
-
-    .menu-link {
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .menu-link::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background: var(--text);
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 0.4s ease;
-    }
-
-    .menu-link:hover::after {
-      transform: scaleX(1);
-      transform-origin: left;
-    }
-
-    .theme-btn {
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .menu-icon {
-      display: none;
-      font-size: 1.5rem;
-      z-index: 102;
-    }
-
-    .mobile-menu {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: var(--bg);
-      z-index: 101;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
-      transform: translateY(-100%);
-      transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
-    }
-
-    .mobile-menu.active {
-      transform: translateY(0);
-    }
-
-    .mobile-link {
-      font-family: 'Clash Display', sans-serif;
-      font-size: 3rem;
-      color: var(--text);
-    }
+    
 
     /* --- 6. HERO --- */
     #hero {
@@ -796,10 +698,6 @@
         align-items: flex-start;
       }
 
-      nav {
-        padding: 20px 5vw;
-      }
-
       .project-item {
         flex-direction: column;
         align-items: flex-start;
@@ -875,29 +773,9 @@
     <img src="" id="p-img" alt="work">
   </div>
 
+  <div id="navbar-placeholder"></div>
+
   <div id="main">
-
-    <nav>
-      <a href="#" class="logo magnet">Lokesh Ram Chand</a>
-
-      <div class="nav-right">
-        <div class="menu-items">
-          <a href="./first.html#work" class="menu-link magnet">Projects</a>
-         <!--  <a href="./blog/" class="menu-link magnet">Journal</a>  -->
-          <a href="./first.html#about" class="menu-link magnet">About</a>
-          <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link"
-            target="_blank" class="menu-link magnet">Resume</a>
-        </div>
-
-        <button class="theme-btn magnet" onclick="toggleTheme()" aria-label="Toggle Theme">
-          <i class="ri-moon-line" id="theme-icon"></i>
-        </button>
-
-        <button class="menu-icon" onclick="toggleMenu()" aria-label="Menu">
-          <i class="ri-menu-4-line"></i>
-        </button>
-      </div>
-    </nav>
 
     <section id="hero">
       <span class="hero-subtitle reveal-text">Hello, World.</span>
@@ -1110,42 +988,59 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-
+<script src="/components-loader.js"></script>
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
     // --- 1. THEME SWITCHER LOGIC ---
     function toggleTheme() {
       const html = document.documentElement;
-      const icon = document.getElementById('theme-icon');
+      const themeIcon = document.getElementById('theme-icon');
+      if (!themeIcon) {
+        console.warn('Theme icon not found. Skipping theme toggle.');
+        return;
+      }
       const currentTheme = html.getAttribute('data-theme');
 
       if (currentTheme === 'dark') {
         html.setAttribute('data-theme', 'light');
-        icon.className = 'ri-sun-line';
-        localStorage.setItem('theme', 'light');
+        themeIcon.className = 'ri-sun-line';
+        try {
+          localStorage.setItem('theme', 'light');
+        } catch (e) {
+          console.warn('LocalStorage is not accessible:', e);
+        }
       } else {
         html.setAttribute('data-theme', 'dark');
-        icon.className = 'ri-moon-line';
-        localStorage.setItem('theme', 'dark');
+        themeIcon.className = 'ri-moon-line';
+        try {
+          localStorage.setItem('theme', 'dark');
+        } catch (e) {
+          console.warn('LocalStorage is not accessible:', e);
+        }
       }
     }
 
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
-    }
-
-    // --- 2. MOBILE MENU ---
-    function toggleMenu() {
-      const menu = document.querySelector('.mobile-menu');
-      menu.classList.toggle('active');
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        const themeIcon = document.getElementById('theme-icon');
+        if (themeIcon) {
+          themeIcon.className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+        }
+      }
+    } catch (e) {
+      console.warn('LocalStorage is not accessible:', e);
     }
 
     // --- 3. PRELOADER ---
     function startLoader() {
-      let counterElement = document.querySelector(".counter");
+      const counterElement = document.querySelector('.counter');
+      if (!counterElement) {
+        console.warn('Counter element not found. Skipping loader.');
+        return;
+      }
       let currentValue = 0;
 
       function updateCounter() {
@@ -1160,10 +1055,10 @@
       updateCounter();
 
       const tl = gsap.timeline();
-      tl.to(".counter", { delay: 2.5, opacity: 0 })
-        .to("#loader", { height: 0, duration: 1, ease: "power4.inOut" })
-        .to(".hero-title", { y: 0, stagger: 0.1, duration: 1, ease: "power4.out" }, "-=0.5")
-        .from(".reveal-text", { y: 20, opacity: 0, stagger: 0.1 }, "-=0.5");
+      tl.to('.counter', { delay: 2.5, opacity: 0 })
+        .to('#loader', { height: 0, duration: 1, ease: 'power4.inOut' })
+        .to('.hero-title', { y: 0, stagger: 0.1, duration: 1, ease: 'power4.out' }, '-=0.5')
+        .from('.reveal-text', { y: 20, opacity: 0, stagger: 0.1 }, '-=0.5');
     }
     startLoader();
 

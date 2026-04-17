@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="icon" type="image/svg+xml" href="../../assets/fortyl/images/favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fortyl</title>
     
@@ -433,7 +433,7 @@
     </div>
 
     <nav>
-        <a href="./index.html" class="logo magnet">Lokesh Ram Chand</a>
+        <a href="/home/" class="logo magnet">Lokesh Ram Chand</a>
 
         <div class="nav-right">
             <div class="menu-items">
@@ -463,7 +463,7 @@
         </header>
 
         <div class="hero-media interactive-el">
-            <img id="hero-image" src="/assets/fortyl/main_dark.png" class="parallax-img" alt="MapLayer preview">
+            <img id="hero-image" src="../../assets/fortyl/main_dark.png" class="parallax-img" alt="MapLayer preview">
         </div>
 
         <main>
@@ -499,7 +499,7 @@
 
                     <div class="media-block">
                         <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="verify" src="/assets/fortyl/verify_darkmode.gif" class="parallax-img" alt="Route Generation">
+                            <img data-gif-type="verify" src="../../assets/fortyl/verify_darkmode.gif" class="parallax-img" alt="Route Generation">
                         </div>
                         <div class="media-caption">
                             <span class="num">01</span>
@@ -509,7 +509,7 @@
 
                     <div class="media-block"> 
                         <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="enroll" src="/assets/fortyl/enroll_darkmode.gif" class="parallax-img" alt="Pin Drop Interaction">
+                            <img data-gif-type="enroll" src="../../assets/fortyl/enroll_darkmode.gif" class="parallax-img" alt="Pin Drop Interaction">
                         </div>
                         <div class="media-caption">
                             <span class="num">02</span>
@@ -543,8 +543,8 @@
             const heroImage = document.getElementById('hero-image');
             if (!heroImage) return;
             heroImage.src = theme === 'light'
-                ? 'assets/fortyl/main_light.png'
-                : 'assets/fortyl/main_dark.png';
+                ? '../../assets/fortyl/main_light.png'
+                : '../../assets/fortyl/main_dark.png';
         }
 
         function updateGifsByTheme(theme) {
@@ -552,7 +552,7 @@
             gifs.forEach(gif => {
                 const gifType = gif.getAttribute('data-gif-type');
                 const suffix = theme === 'light' ? '_lightmode.gif' : '_darkmode.gif';
-                gif.src = `assets/fortyl/${gifType}${suffix}`;
+                gif.src = `../../assets/fortyl/${gifType}${suffix}`;
             });
         }
 

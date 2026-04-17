@@ -87,7 +87,7 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 20vh 5vw 8vh;
+      padding: 20vh 5vw 8vh; /* Tightened padding for a slimmer look */
       position: relative;
     }
 
@@ -105,7 +105,7 @@
 
     .hero-title {
       font-family: 'Clash Display', sans-serif;
-      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-size: clamp(3.5rem, 10vw, 8rem); /* Slightly scaled down */
       font-weight: 600;
       text-transform: uppercase;
       color: var(--text);
@@ -127,7 +127,7 @@
     .article-list { display: flex; flex-direction: column; }
 
     .article-item {
-      padding: 35px 0;
+      padding: 35px 0; /* Reduced from 50px to make rows slimmer */
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
@@ -155,7 +155,7 @@
 
     .a-name {
       font-family: 'Clash Display', sans-serif;
-      font-size: clamp(1.8rem, 3.5vw, 3.5rem);
+      font-size: clamp(1.8rem, 3.5vw, 3.5rem); /* Scaled down for a neater fit */
       font-weight: 500;
       line-height: 1.1;
       transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
@@ -185,9 +185,17 @@
     .article-item:hover .a-icon { transform: rotate(45deg); color: var(--text); }
     .article-item:hover .a-tag { border-color: var(--text); color: var(--text); }
 
+    .preview-img {
+      position: fixed; width: 400px; height: 280px;
+      border-radius: 12px; overflow: hidden; pointer-events: none;
+      z-index: 10; opacity: 0; transform: translate(-50%, -50%) scale(0.5);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3); border: 1px solid var(--border);
+    }
+    .preview-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); }
+
     /* --- MEDIA QUERIES --- */
     @media (max-width: 768px) {
-      #cursor { display: none !important; }
+      #cursor, .preview-img { display: none !important; }
       * { cursor: auto !important; }
       
       .article-item { flex-direction: column; align-items: flex-start; gap: 15px; padding: 25px 0; }
@@ -203,11 +211,7 @@
   <div class="noise-overlay"></div>
   <div id="cursor"></div>
 
-  <div id="loader">
-    <div class="counter">0</div>
-  </div>
-
-  <div id="navbar-placeholder"></div>
+  <div id="loader" style="display: none;"></div>
 
   <div id="main">
 
@@ -224,7 +228,7 @@
     <section id="articles">
       <div class="article-list">
 
-        <a href="/blog/architecting-for-scale" class="article-item magnet">
+        <a href="/blog/architecting-for-scale" class="article-item magnet" data-img="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2000">
           <div class="a-left">
             <span class="a-meta">April 16, 2026 • 12 Min Read</span>
             <div class="a-name">Architecting for Scale</div>
@@ -238,7 +242,7 @@
           </div>
         </a>
 
-        <a href="/blog/react-server-components" class="article-item magnet">
+        <a href="/blog/react-server-components" class="article-item magnet" data-img="https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=2000">
           <div class="a-left">
             <span class="a-meta">March 28, 2026 • 4 Min Read</span>
             <div class="a-name">Demystifying RSCs</div>
@@ -252,7 +256,7 @@
           </div>
         </a>
 
-        <a href="/blog/fluid-ui-animations-gsap" class="article-item magnet">
+        <a href="/blog/fluid-ui-animations-gsap" class="article-item magnet" data-img="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000">
           <div class="a-left">
             <span class="a-meta">February 15, 2026 • 8 Min Read</span>
             <div class="a-name">Fluid Interactions</div>
@@ -266,7 +270,7 @@
           </div>
         </a>
 
-        <a href="/blog/flutter-clean-architecture" class="article-item magnet">
+        <a href="/blog/flutter-clean-architecture" class="article-item magnet" data-img="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2000">
           <div class="a-left">
             <span class="a-meta">January 10, 2026 • 6 Min Read</span>
             <div class="a-name">Flutter & Clean Arch</div>
@@ -370,6 +374,30 @@
         magnet.addEventListener("mouseleave", () => {
           gsap.to(magnet, { x: 0, y: 0 });
           gsap.to(cursor, { scale: 1 });
+        });
+      });
+
+      // FLOATING IMAGE FOR ARTICLES
+      const articleItems = document.querySelectorAll(".article-item");
+      const previewImg = document.querySelector(".preview-img");
+      const pImg = document.getElementById("p-img");
+      const xTo = gsap.quickTo(previewImg, "x", { duration: 0.4, ease: "power3" });
+      const yTo = gsap.quickTo(previewImg, "y", { duration: 0.4, ease: "power3" });
+
+      articleItems.forEach((item) => {
+        item.addEventListener("mouseenter", () => {
+          const imgUrl = item.getAttribute("data-img");
+          if(imgUrl) {
+            pImg.src = imgUrl;
+            gsap.to(previewImg, { opacity: 1, scale: 1, duration: 0.3 });
+          }
+        });
+        item.addEventListener("mouseleave", () => {
+          gsap.to(previewImg, { opacity: 0, scale: 0.5, duration: 0.3 });
+        });
+        item.addEventListener("mousemove", (e) => {
+          xTo(e.clientX);
+          yTo(e.clientY);
         });
       });
     }

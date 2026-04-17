@@ -185,14 +185,6 @@
     .article-item:hover .a-icon { transform: rotate(45deg); color: var(--text); }
     .article-item:hover .a-tag { border-color: var(--text); color: var(--text); }
 
-    .preview-img {
-      position: fixed; width: 400px; height: 280px;
-      border-radius: 12px; overflow: hidden; pointer-events: none;
-      z-index: 10; opacity: 0; transform: translate(-50%, -50%) scale(0.5);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3); border: 1px solid var(--border);
-    }
-    .preview-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); }
-
     /* --- MEDIA QUERIES --- */
     @media (max-width: 768px) {
       #cursor, .preview-img { display: none !important; }
@@ -210,12 +202,6 @@
 
   <div class="noise-overlay"></div>
   <div id="cursor"></div>
-
-  <div id="loader" style="display: none;"></div>
-
-  <div class="preview-img">
-    <img src="" id="p-img" alt="article cover">
-  </div>
 
   <div id="navbar-placeholder"></div>
 
@@ -327,32 +313,8 @@
       }
     } catch (e) {}
 
-    // --- 3. PRELOADER ---
-    function startLoader() {
-      const counterElement = document.querySelector('.counter');
-      if (!counterElement) return;
-      let currentValue = 0;
 
-      function updateCounter() {
-        if (currentValue === 100) return;
-        currentValue += Math.floor(Math.random() * 10) + 1;
-        if (currentValue > 100) currentValue = 100;
-        counterElement.textContent = currentValue;
-
-        let delay = Math.floor(Math.random() * 200) + 50;
-        setTimeout(updateCounter, delay);
-      }
-      updateCounter();
-
-      const tl = gsap.timeline();
-      tl.to('.counter', { delay: 2.5, opacity: 0 })
-        .to('#loader', { height: 0, duration: 1, ease: 'power4.inOut' })
-        .to('.hero-title', { y: 0, stagger: 0.1, duration: 1, ease: 'power4.out' }, '-=0.5')
-        .from('.reveal-text', { y: 20, opacity: 0, stagger: 0.1 }, '-=0.5');
-    }
-    startLoader();
-
-    // --- 4. SMOOTH SCROLL ---
+    // --- 2. SMOOTH SCROLL ---
     const lenis = new Lenis();
     function raf(time) {
       lenis.raf(time);
@@ -360,7 +322,7 @@
     }
     requestAnimationFrame(raf);
 
-    // --- 5. CURSOR & MAGNETS (Desktop Only) ---
+    // --- 3. CURSOR & MAGNETS (Desktop Only) ---
     if (window.matchMedia("(min-width: 769px)").matches) {
       const cursor = document.getElementById("cursor");
 
@@ -382,33 +344,9 @@
           gsap.to(cursor, { scale: 1 });
         });
       });
-
-      // FLOATING IMAGE FOR ARTICLES
-      const articleItems = document.querySelectorAll(".article-item");
-      const previewImg = document.querySelector(".preview-img");
-      const pImg = document.getElementById("p-img");
-      const xTo = gsap.quickTo(previewImg, "x", { duration: 0.4, ease: "power3" });
-      const yTo = gsap.quickTo(previewImg, "y", { duration: 0.4, ease: "power3" });
-
-      articleItems.forEach((item) => {
-        item.addEventListener("mouseenter", () => {
-          const imgUrl = item.getAttribute("data-img");
-          if(imgUrl) {
-            pImg.src = imgUrl;
-            gsap.to(previewImg, { opacity: 1, scale: 1, duration: 0.3 });
-          }
-        });
-        item.addEventListener("mouseleave", () => {
-          gsap.to(previewImg, { opacity: 0, scale: 0.5, duration: 0.3 });
-        });
-        item.addEventListener("mousemove", (e) => {
-          xTo(e.clientX);
-          yTo(e.clientY);
-        });
-      });
     }
 
-    // --- 6. SCROLL ANIMATIONS ---
+    // --- 4. SCROLL ANIMATIONS ---
     let proxy = { skew: 0 },
       skewSetter = gsap.quickSetter(".article-item", "skewY", "deg"),
       clamp = gsap.utils.clamp(-8, 8); // Tighter clamp for slimmer rows
@@ -426,10 +364,11 @@
       }
     });
 
-    // --- 7. LUCIDE ICONS INITIALIZATION ---
-    lucide.createIcons();
-
-  </script>
+    // Ensure GSAP animations are initialized properly
+    gsap.set(".hero-title", { y: 0 }); // Reset initial transform
+    gsap.from(".hero-title", { opacity: 0, duration: 1, ease: "power4.out" });
+    gsap.from(".reveal-text", { y: 10, opacity: 0, duration: 1, stagger: 0.1, ease: "power3.out" });
+</script>
 </body>
 
 </html>

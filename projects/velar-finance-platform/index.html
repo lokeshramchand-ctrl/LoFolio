@@ -3,13 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Velar - An intelligent personal finance management app with voice-powered input, NLP-based auto-categorization, and smart insights. Built with Flutter, Node.js, and Python ML models.">
+    <meta name="keywords" content="Velar, Personal Finance, Expense Tracking, NLP, Flutter, Node.js, Python ML">
+    <meta name="author" content="Lokesh Ram Chand">
+    <link rel="icon" type="image/svg+xml" href="../../assets/velar/images/favicon.svg">
     <title>Velar - Smart Finance Manager</title>
-    
+
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
-    
+
     <style>
         /* --- 1. VARIABLES & THEMES (From Main Page) --- */
         :root {
@@ -425,18 +428,18 @@
     <div id="cursor"></div>
 
     <div class="mobile-menu">
-        <a href="./first.html" class="mobile-link" onclick="toggleMenu()">Projects</a>
-        <a href="./first.html#about" class="mobile-link" onclick="toggleMenu()">About</a>
+        <a href="../../home/index.html" class="mobile-link" onclick="toggleMenu()">Projects</a>
+        <a href="../../home/index.html#about" class="mobile-link" onclick="toggleMenu()">About</a>
         <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" class="mobile-link" onclick="toggleMenu()">Resume</a>
     </div>
 
     <nav>
-        <a href="./index.html" class="logo magnet">Lokesh Ram Chand</a>
+        <a href="../../index.html" class="logo magnet">Lokesh Ram Chand</a>
 
         <div class="nav-right">
             <div class="menu-items">
-                <a href="./first.html#work" class="menu-link magnet">Projects</a>
-                <a href="./first.html#about" class="menu-link magnet">About</a>
+                <a href="../../home/index.html#work" class="menu-link magnet">Projects</a>
+                <a href="../../home/index.html#about" class="menu-link magnet">About</a>
                 <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" class="menu-link magnet">Resume</a>
             </div>
 
@@ -461,16 +464,16 @@
         </header>
 
         <div class="hero-media interactive-el">
-            <img id="hero-image" src="assets/velar/main_darkmode.png" class="parallax-img" alt="MapLayer preview">
+            <img id="hero-image" src="../../assets/velar/main_darkmode.png" class="parallax-img" alt="Velar finance management app preview">
         </div>
 
         <main>
             <section class="content-grid">
-                <div class="intro-text">
+                <article class="intro-text">
                     <p>An intelligent personal finance management app that makes expense tracking effortless through voice-powered input, NLP-based auto-categorization, and smart insights. Built with Flutter for cross-platform support, Node.js backend with RabbitMQ queues, and Python ML models for intelligent transaction parsing and categorization.</p>
-                </div>
+                </article>
 
-                <div class="metadata">
+                <aside class="metadata">
                     <div class="meta-item">
                         <span class="meta-label">Role</span>
                         <span class="meta-value">Full Stack + ML Developer</span>
@@ -487,7 +490,7 @@
                         <span class="meta-label">Status</span>
                         <span class="meta-value">Completed 2026</span>
                     </div>
-                </div>
+                </aside>
             </section>
 
             <section class="visual-gallery">
@@ -496,33 +499,32 @@
                 <div class="visual-grid">
 
                     <div class="media-block">
-                        <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="graphs" src="assets/velar/graphs_darkmode.gif" class="parallax-img" alt="Analytics Dashboard">
-                        </div>
-                        <div class="media-caption">
+                        <figure class="media-container">
+                            <img data-gif-type="graphs" src="../../assets/velar/graphs_darkmode.gif" class="parallax-img" alt="Interactive analytics dashboard with spending trends">
+                        </figure>
+                        <figcaption class="media-caption">
                             <span class="num">01</span>
                             <span>Interactive dashboards with category breakdowns, spending trends, and budget insights.</span>
-                        </div>
+                        </figcaption>
                     </div>
 
                     <div class="media-block"> 
-                        <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="homepage" src="assets/velar/homepage_dark.gif" class="parallax-img" alt="Voice Expense Tracking">
-                        </div>
-                        <div class="media-caption">
+                        <figure class="media-container">
+                            <img data-gif-type="homepage" src="../../assets/velar/homepage_dark.gif" class="parallax-img" alt="Voice-powered expense tracking with NLP">
+                        </figure>
+                        <figcaption class="media-caption">
                             <span class="num">02</span>
                             <span>Voice-powered expense entry with NLP-based auto-categorization and real-time sync.</span>
-                        </div>
+                        </figcaption>
                     </div>
-
 
                 </div>
             </section>
 
-                <a href="https://github.com/lokeshramchand-ctrl/Velar" class="link-card interactive-el">
-                    <span>GitHub Repo</span>
-                    <span class="arrow">↗</span>
-                </a>
+            <a href="https://github.com/lokeshramchand-ctrl/Velar" class="link-card interactive-el">
+                <span>GitHub Repo</span>
+                <span class="arrow">↗</span>
+            </a>
         </main>
     </div>
 
@@ -537,62 +539,17 @@
         gsap.registerPlugin(ScrollTrigger);
 
         // --- 1. THEME SWITCHER LOGIC ---
-        function updateHeroImageByTheme(theme) {
-            const heroImage = document.getElementById('hero-image');
-            if (!heroImage) return;
-            heroImage.src = theme === 'light'
-                ? 'assets/velar/main_lightmode.png'
-                : 'assets/velar/main_darkmode.png';
-        }
-
-        function updateGifsByTheme(theme) {
-            const gifs = document.querySelectorAll('[data-gif-type]');
-            gifs.forEach(gif => {
-                const gifType = gif.getAttribute('data-gif-type');
-                // Different GIFs have different naming conventions
-                let suffix;
-                if (gifType === 'homepage') {
-                    suffix = theme === 'light' ? '_light.gif' : '_dark.gif';
-                } else {
-                    suffix = theme === 'light' ? '_lightmode.gif' : '_darkmode.gif';
-                }
-                gif.src = `assets/velar/${gifType}${suffix}`;
-            });
-        }
-
-        function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('theme-icon');
-            const currentTheme = html.getAttribute('data-theme');
-
-            if (currentTheme === 'dark') {
-                html.setAttribute('data-theme', 'light');
-                icon.className = 'ri-sun-line';
-                localStorage.setItem('theme', 'light');
-                updateHeroImageByTheme('light');
-                updateGifsByTheme('light');
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                icon.className = 'ri-moon-line';
-                localStorage.setItem('theme', 'dark');
-                updateHeroImageByTheme('dark');
-                updateGifsByTheme('dark');
-            }
-        }
-
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
         document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
-        updateHeroImageByTheme(savedTheme);
-        updateGifsByTheme(savedTheme);
 
         // --- 2. MOBILE MENU ---
         function toggleMenu() {
             const menu = document.querySelector('.mobile-menu');
             const icon = document.querySelector('.menu-icon i');
             menu.classList.toggle('active');
-            
-            if(menu.classList.contains('active')){
+
+            if (menu.classList.contains('active')) {
                 icon.classList.remove('ri-menu-4-line');
                 icon.classList.add('ri-close-line');
             } else {
@@ -618,9 +575,9 @@
         // --- 4. CUSTOM CURSOR & MAGNETS (Matches Main Page Exactly) ---
         if (window.matchMedia("(min-width: 769px)").matches) {
             const cursor = document.getElementById("cursor");
-            
-            let xTo = gsap.quickTo(cursor, "x", {duration: 0.15, ease: "power3"}),
-                yTo = gsap.quickTo(cursor, "y", {duration: 0.15, ease: "power3"});
+
+            let xTo = gsap.quickTo(cursor, "x", { duration: 0.15, ease: "power3" }),
+                yTo = gsap.quickTo(cursor, "y", { duration: 0.15, ease: "power3" });
 
             window.addEventListener("mousemove", (e) => {
                 xTo(e.clientX);
@@ -652,11 +609,11 @@
 
         // --- 5. PAGE REVEAL & SCROLL ANIMATIONS ---
         const tlLoad = gsap.timeline();
-        
+
         tlLoad.from("nav", { y: -20, opacity: 0, duration: 1, ease: "power3.out", delay: 0.2 })
-              .from(".subtitle", { y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.6")
-              .from(".hero-title", { y: 100, opacity: 0, duration: 1.2, ease: "power4.out" }, "-=0.6")
-              .from(".hero-media", { y: 40, scale: 0.95, opacity: 0, duration: 1.5, ease: "power3.out" }, "-=0.8");
+            .from(".subtitle", { y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.6")
+            .from(".hero-title", { y: 100, opacity: 0, duration: 1.2, ease: "power4.out" }, "-=0.6")
+            .from(".hero-media", { y: 40, scale: 0.95, opacity: 0, duration: 1.5, ease: "power3.out" }, "-=0.8");
 
         gsap.from(".intro-text p", {
             scrollTrigger: {
@@ -690,4 +647,5 @@
 
     </script>
 </body>
+
 </html>

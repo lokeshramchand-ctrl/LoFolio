@@ -3,14 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Seko - A smart hyperlocal marketplace ecosystem for agricultural commerce, featuring secure authentication, inventory management, and AI-powered product classification.">
+    <meta name="keywords" content="Seko, Hyperlocal Marketplace, Agricultural Commerce, Flutter, Django, PostgreSQL, AI Product Classification">
+    <meta name="author" content="Lokesh Ram Chand">
+    <link rel="icon" type="image/svg+xml" href="../../assets/seko/images/favicon.svg">
     <title>Seko - Smart HyperLocal Marketplace</title>
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link
-        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
-        rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
 
     <style>
         /* --- 1. VARIABLES & THEMES (From Main Page) --- */
@@ -480,21 +481,21 @@
     <div id="cursor"></div>
 
     <div class="mobile-menu">
-        <a href="./first.html" class="mobile-link" onclick="toggleMenu()">Projects</a>
-        <a href="./first.html#about" class="mobile-link" onclick="toggleMenu()">About</a>
+        <a href="../../home/index.html" class="mobile-link" onclick="toggleMenu()">Projects</a>
+        <a href="../../home/index.html#about" class="mobile-link" onclick="toggleMenu()">About</a>
         <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank"
             class="mobile-link" onclick="toggleMenu()">Resume</a>
     </div>
 
     <nav>
-        <a href="./index.html" class="logo magnet">Lokesh Ram Chand</a>
+        <a href="../../index.html" class="logo magnet">Lokesh Ram Chand</a>
 
         <div class="nav-right">
             <div class="menu-items">
-                <a href="./first.html#work" class="menu-link magnet">Projects</a>
-                <a href="./blog.html" class="menu-link magnet">Journal</a>
+                <a href="../../home/index.html#work" class="menu-link magnet">Projects</a>
+                <a href="../../blog/index.html" class="menu-link magnet">Journal</a>
 
-                <a href="./first.html#about" class="menu-link magnet">About</a>
+                <a href="../../home/index.html#about" class="menu-link magnet">About</a>
                 <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link"
                     target="_blank" class="menu-link magnet">Resume</a>
             </div>
@@ -523,20 +524,16 @@
         </header>
 
         <div class="hero-media interactive-el">
-            <img id="hero-image" src="assets/seko/homepage.png" class="parallax-img" alt="MapLayer preview">
+            <img id="hero-image" src="../../assets/seko/homepage.png" class="parallax-img" alt="Seko hyperlocal marketplace homepage preview">
         </div>
 
         <main>
             <section class="content-grid">
-                <div class="intro-text">
-                    <p>A unified digital hyperlocal marketplace ecosystem for agricultural commerce, built with Flutter
-                        for cross-platform mobile access, Django for a scalable REST backend, and PostgreSQL for
-                        transactional consistency. Features secure authentication, inventory management, AI-powered
-                        product classification, cart operations, and optional recommendation systems powering community
-                        supermarkets and local farmers.</p>
-                </div>
+                <article class="intro-text">
+                    <p>A unified digital hyperlocal marketplace ecosystem for agricultural commerce, built with Flutter for cross-platform mobile access, Django for a scalable REST backend, and PostgreSQL for transactional consistency. Features secure authentication, inventory management, AI-powered product classification, cart operations, and optional recommendation systems powering community supermarkets and local farmers.</p>
+                </article>
 
-                <div class="metadata">
+                <aside class="metadata">
                     <div class="meta-item">
                         <span class="meta-label">Role</span>
                         <span class="meta-value">Full Stack Developer</span>
@@ -553,7 +550,7 @@
                         <span class="meta-label">Status</span>
                         <span class="meta-value">In Development</span>
                     </div>
-                </div>
+                </aside>
             </section>
 
             <section class="visual-gallery">
@@ -562,40 +559,34 @@
                 <div class="visual-grid">
 
                     <div class="media-block">
-                        <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="graphs" src="assets/seko/detail.gif" class="parallax-img"
-                                alt="Product Categories">
-                        </div>
-                        <div class="media-caption">
+                        <figure class="media-container">
+                            <img data-gif-type="graphs" src="../../assets/seko/detail.gif" class="parallax-img" alt="Organized product categories for seamless browsing">
+                        </figure>
+                        <figcaption class="media-caption">
                             <span class="num">01</span>
-                            <span>Organized product categories (fruits, vegetables, dairy, greens) with seamless
-                                browsing and filtering for customers and sellers.</span>
-                        </div>
+                            <span>Organized product categories (fruits, vegetables, dairy, greens) with seamless browsing and filtering for customers and sellers.</span>
+                        </figcaption>
                     </div>
 
                     <div class="media-block">
-                        <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="homepage" src="assets/seko/homepage.gif" class="parallax-img"
-                                alt="Secure Authentication">
-                        </div>
-                        <div class="media-caption">
+                        <figure class="media-container">
+                            <img data-gif-type="homepage" src="../../assets/seko/homepage.gif" class="parallax-img" alt="Secure user authentication and onboarding">
+                        </figure>
+                        <figcaption class="media-caption">
                             <span class="num">02</span>
-                            <span>Secure user authentication, onboarding, and account management with token-based API
-                                security.</span>
-                        </div>
-                    </div>
-                    <div class="media-block">
-                        <div class="media-container interactive-el magnet-image">
-                            <img data-gif-type="homepage" src="assets/seko/checkoutpage.gif" class="parallax-img"
-                                alt="Cart & Checkout">
-                        </div>
-                        <div class="media-caption">
-                            <span class="num">03</span>
-                            <span>Intuitive cart management, add/remove items, and checkout experience with repository
-                                pattern architecture.</span>
-                        </div>
+                            <span>Secure user authentication, onboarding, and account management with token-based API security.</span>
+                        </figcaption>
                     </div>
 
+                    <div class="media-block">
+                        <figure class="media-container">
+                            <img data-gif-type="homepage" src="../../assets/seko/checkoutpage.gif" class="parallax-img" alt="Intuitive cart management and checkout experience">
+                        </figure>
+                        <figcaption class="media-caption">
+                            <span class="num">03</span>
+                            <span>Intuitive cart management, add/remove items, and checkout experience with repository pattern architecture.</span>
+                        </figcaption>
+                    </div>
 
                 </div>
             </section>
@@ -615,22 +606,6 @@
         gsap.registerPlugin(ScrollTrigger);
 
         // --- 1. THEME SWITCHER LOGIC ---
-        function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('theme-icon');
-            const currentTheme = html.getAttribute('data-theme');
-
-            if (currentTheme === 'dark') {
-                html.setAttribute('data-theme', 'light');
-                icon.className = 'ri-sun-line';
-                localStorage.setItem('theme', 'light');
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                icon.className = 'ri-moon-line';
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
         const savedTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
         document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';

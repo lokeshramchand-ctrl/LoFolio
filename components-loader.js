@@ -1,13 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("components-loader.js loaded"); // Debugging log
   loadComponent("/navbar.html", "navbar-placeholder");
 });
 
 async function loadComponent(url, placeholderId) {
-  console.log(`Attempting to load component from: ${url}`); // Debugging log
   const placeholder = document.getElementById(placeholderId);
   if (!placeholder) {
-    console.error(`Placeholder with ID '${placeholderId}' not found.`);
     return;
   }
 
@@ -35,7 +32,6 @@ async function loadComponent(url, placeholderId) {
       }
     }
 
-    console.log("Component loaded successfully."); // Debugging log
     document.dispatchEvent(new Event("NavbarLoaded"));
 
   } catch (error) {

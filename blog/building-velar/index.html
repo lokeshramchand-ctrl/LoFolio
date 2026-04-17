@@ -2,238 +2,343 @@
 <html lang="en" data-theme="dark">
 
 <head>
-  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Architecting for Scale — Lokesh Ram Chand</title>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecting for Scale — Lokesh Ram Chand</title>
 
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-  <link
-    href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
-    rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
+        rel="stylesheet">
 
-  <style>
-    /* --- 1. VARIABLES & THEMES --- */
-    :root {
-      --bg: #0b0b0b;
-      --text: #e0e0e0;
-      --acc: #888;
-      --border: rgba(255, 255, 255, 0.1);
-      --cursor: #fff;
-      --nav-bg: rgba(11, 11, 11, 0.8);
-      --overlay: rgba(255, 255, 255, 0.03);
-      --accent: #22c55e;
-    }
+    <style>
+        /* --- 1. VARIABLES & THEMES --- */
+        :root {
+            --bg: #0b0b0b;
+            --text: #e0e0e0;
+            --acc: #888;
+            --border: rgba(255, 255, 255, 0.1);
+            --cursor: #fff;
+            --nav-bg: rgba(11, 11, 11, 0.8);
+            --overlay: rgba(255, 255, 255, 0.03);
+            --accent: #22c55e;
+        }
 
-    [data-theme="light"] {
-      --bg: #f4f4f4;
-      --text: #1a1a1a;
-      --acc: #555;
-      --border: rgba(0, 0, 0, 0.1);
-      --cursor: #000;
-      --nav-bg: rgba(244, 244, 244, 0.8);
-      --overlay: rgba(0, 0, 0, 0.03);
-      --accent: #15803d;
-    }
+        [data-theme="light"] {
+            --bg: #f4f4f4;
+            --text: #1a1a1a;
+            --acc: #555;
+            --border: rgba(0, 0, 0, 0.1);
+            --cursor: #000;
+            --nav-bg: rgba(244, 244, 244, 0.8);
+            --overlay: rgba(0, 0, 0, 0.03);
+            --accent: #15803d;
+        }
 
-    /* --- 2. RESET --- */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      cursor: none;
-    }
+        /* --- 2. RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
 
-    html, body {
-      width: 100%;
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: 'General Sans', sans-serif;
-      overflow-x: hidden;
-      transition: background-color 0.5s ease, color 0.5s ease;
-    }
+        html,
+        body {
+            width: 100%;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'General Sans', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
 
-    a { text-decoration: none; color: inherit; display: block; }
-    ul { list-style: none; }
-    button { border: none; background: none; cursor: none; color: inherit; }
+        a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
 
-    /* --- 3. UTILITIES --- */
-    .noise-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 9000; opacity: 0.04;
-      background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-    }
+        ul {
+            list-style: none;
+        }
 
-    /* --- 4. CUSTOM CURSOR & PROGRESS BAR --- */
-    #cursor {
-      position: fixed; top: 0; left: 0; width: 15px; height: 15px;
-      background-color: var(--text); border-radius: 50%;
-      pointer-events: none; z-index: 9999; mix-blend-mode: difference;
-      transform: translate(-50%, -50%);
-      transition: width 0.3s, height 0.3s, transform 0.1s;
-    }
+        button {
+            border: none;
+            background: none;
+            cursor: none;
+            color: inherit;
+        }
 
-    .progress-bar {
-      position: fixed; top: 0; left: 0; 
-      height: 3px; width: 0%; 
-      background: var(--text);
-      z-index: 10000;
-    }
+        /* --- 3. UTILITIES --- */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9000;
+            opacity: 0.04;
+            background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+        }
 
-    /* --- 5. LOADER --- */
-    #loader {
-      position: fixed; inset: 0; background: var(--bg);
-      z-index: 10000; display: flex; justify-content: center; align-items: center;
-    }
-    .counter { font-family: 'Clash Display', sans-serif; font-size: 10vw; font-weight: 600; }
+        /* --- 4. CUSTOM CURSOR & PROGRESS BAR --- */
+        #cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 15px;
+            height: 15px;
+            background-color: var(--text);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, transform 0.1s;
+        }
 
-    /* --- 6. ARTICLE LAYOUT (MINIMALIST) --- */
-    .article-wrapper {
-      max-width: 680px; /* Optimal reading width */
-      margin: 0 auto;
-      padding: 20vh 5vw 15vh;
-    }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0%;
+            background: var(--text);
+            z-index: 10000;
+        }
 
-    .back-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;
-      color: var(--acc); margin-bottom: 60px; transition: color 0.3s;
-    }
-    .back-btn:hover { color: var(--text); }
+        /* --- 5. LOADER --- */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .article-title {
-      font-family: 'Clash Display', sans-serif;
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 600; line-height: 1.1;
-      margin-bottom: 20px;
-      color: var(--text);
-    }
+        .counter {
+            font-family: 'Clash Display', sans-serif;
+            font-size: 10vw;
+            font-weight: 600;
+        }
 
-    .article-meta {
-      font-size: 0.95rem; color: var(--acc);
-      margin-bottom: 50px; padding-bottom: 40px;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 15px; flex-wrap: wrap;
-    }
+        /* --- 6. ARTICLE LAYOUT (MINIMALIST) --- */
+        .article-wrapper {
+            max-width: 680px;
+            /* Optimal reading width */
+            margin: 0 auto;
+            padding: 20vh 5vw 15vh;
+        }
 
-    .article-meta span.dot { color: var(--border); }
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--acc);
+            margin-bottom: 60px;
+            transition: color 0.3s;
+        }
 
-    .post-content {
-      font-size: 1.15rem;
-      line-height: 1.8;
-      color: var(--text);
-    }
+        .back-btn:hover {
+            color: var(--text);
+        }
 
-    .post-content p { margin-bottom: 2rem; opacity: 0.9; }
+        .article-title {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
 
-    .post-content h2 {
-      font-family: 'Clash Display', sans-serif;
-      font-size: clamp(1.8rem, 4vw, 2.4rem);
-      font-weight: 500; margin: 4rem 0 1.5rem;
-      line-height: 1.2;
-    }
+        .article-meta {
+            font-size: 0.95rem;
+            color: var(--acc);
+            margin-bottom: 50px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
 
-    .post-content h3 {
-      font-weight: 500; font-size: 1.4rem;
-      margin: 3rem 0 1rem;
-    }
+        .article-meta span.dot {
+            color: var(--border);
+        }
 
-    .post-content ul, .post-content ol {
-      margin-bottom: 2rem; padding-left: 20px;
-    }
+        .post-content {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
 
-    .post-content li { margin-bottom: 12px; opacity: 0.9; }
+        .post-content p {
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
 
-    .post-content blockquote {
-      border-left: 2px solid var(--text);
-      padding-left: 20px; margin: 3rem 0;
-      font-style: italic; font-size: 1.3rem;
-      color: var(--acc); line-height: 1.6;
-    }
+        .post-content h2 {
+            font-family: 'Clash Display', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 500;
+            margin: 4rem 0 1.5rem;
+            line-height: 1.2;
+        }
 
-    .post-content pre {
-      background: rgba(0,0,0,0.2);
-      padding: 24px; border-radius: 8px;
-      border: 1px solid var(--border);
-      overflow-x: auto; margin: 3rem 0;
-    }
-    [data-theme="light"] .post-content pre { background: rgba(0,0,0,0.03); }
+        .post-content h3 {
+            font-weight: 500;
+            font-size: 1.4rem;
+            margin: 3rem 0 1rem;
+        }
 
-    .post-content code {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 0.95rem;
-    }
+        .post-content ul,
+        .post-content ol {
+            margin-bottom: 2rem;
+            padding-left: 20px;
+        }
 
-    /* Minimal text footer */
-    .article-footer {
-      margin-top: 80px; padding-top: 40px;
-      border-top: 1px solid var(--border);
-      display: flex; justify-content: space-between; align-items: center;
-    }
+        .post-content li {
+            margin-bottom: 12px;
+            opacity: 0.9;
+        }
 
-    .next-article {
-      font-size: 1.1rem; font-weight: 500;
-      display: flex; align-items: center; gap: 10px;
-      transition: color 0.3s;
-    }
-    .next-article:hover { color: var(--acc); }
+        .post-content blockquote {
+            border-left: 2px solid var(--text);
+            padding-left: 20px;
+            margin: 3rem 0;
+            font-style: italic;
+            font-size: 1.3rem;
+            color: var(--acc);
+            line-height: 1.6;
+        }
 
-    /* --- MEDIA QUERIES --- */
-    @media (max-width: 768px) {
-      #cursor { display: none !important; }
-      * { cursor: auto !important; }
-      .article-wrapper { padding-top: 15vh; }
-    }
-  </style>
+        .post-content pre {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 24px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            margin: 3rem 0;
+        }
+
+        [data-theme="light"] .post-content pre {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .post-content code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+        }
+
+        /* Minimal text footer */
+        .article-footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .next-article {
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s;
+        }
+
+        .next-article:hover {
+            color: var(--acc);
+        }
+
+        /* --- MEDIA QUERIES --- */
+        @media (max-width: 768px) {
+            #cursor {
+                display: none !important;
+            }
+
+            * {
+                cursor: auto !important;
+            }
+
+            .article-wrapper {
+                padding-top: 15vh;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <div class="noise-overlay"></div>
-  <div id="cursor"></div>
-  <div class="progress-bar" id="progress-bar"></div>
+    <div class="noise-overlay"></div>
+    <div id="cursor"></div>
+    <div class="progress-bar" id="progress-bar"></div>
 
-  <div id="loader" style="display: none;"></div>
+    <div id="loader" style="display: none;"></div>
 
-  <div id="navbar-placeholder"></div>
+    <div id="navbar-placeholder"></div>
 
-  <main id="main">
-    <article class="article-wrapper">
-      
-      <a href="/blog/" class="back-btn magnet reveal-text">
-        <i class="ri-arrow-left-line"></i> Back to Journal
-      </a>
+    <main id="main">
+        <article class="article-wrapper">
 
-      <h1 class="article-title reveal-text">Architecting for Scale</h1>
-      
-      <div class="article-meta reveal-text">
-        <span>Lokesh Ram Chand</span>
-        <span class="dot">•</span>
-        <span>April 16, 2026</span>
-        <span class="dot">•</span>
-        <span>12 Min Read</span>
-      </div>
-      
-      <div class="post-content reveal-text">
-        <p>Building an application that works perfectly for a hundred users is straightforward. Building one that scales elegantly to handle tens of thousands—without suffering from race conditions or data inconsistency—is an entirely different challenge.</p>
+            <a href="/blog/" class="back-btn magnet reveal-text">
+                <i class="ri-arrow-left-line"></i> Back to Journal
+            </a>
 
-        <p>In this post, we’ll explore the exact architectural patterns required to move from a basic monolithic structure to a highly scalable, real-time distributed system. We’ll focus heavily on keeping the design clean and the dependencies minimal.</p>
+            <h1 class="article-title reveal-text">Architecting for Scale</h1>
 
-        <h2>The Problem with Vertical Scaling</h2>
-        <p>When traffic spikes, the instinctive reaction is often to just provision a larger server. While vertical scaling is the easiest short-term fix, it ultimately hits a hard hardware ceiling and introduces a single point of failure.</p>
-        
-        <blockquote>
-          "Scale is not just about handling more requests; it's about gracefully handling failure states when components inevitably degrade."
-        </blockquote>
+            <div class="article-meta reveal-text">
+                <span>Lokesh Ram Chand</span>
+                <span class="dot">•</span>
+                <span>April 16, 2026</span>
+                <span class="dot">•</span>
+                <span>12 Min Read</span>
+            </div>
 
-        <p>Instead, we need to focus on horizontal scaling. This requires stateless backend services. If your Node.js or FastAPI backend stores session data in memory, horizontal scaling becomes impossible without complex sticky sessions.</p>
+            <div class="post-content reveal-text">
+                <p>Building an application that works perfectly for a hundred users is straightforward. Building one
+                    that scales elegantly to handle tens of thousands—without suffering from race conditions or data
+                    inconsistency—is an entirely different challenge.</p>
 
-        <h2>Handling Race Conditions</h2>
-        <p>Once you distribute your backend, data consistency becomes the primary challenge. Imagine an airport resource management system where two dispatchers attempt to assign different flights to the same terminal stand simultaneously.</p>
+                <p>In this post, we’ll explore the exact architectural patterns required to move from a basic monolithic
+                    structure to a highly scalable, real-time distributed system. We’ll focus heavily on keeping the
+                    design clean and the dependencies minimal.</p>
 
-        <p>To solve this, we rely on database-level locking and atomic operations rather than application-level checks.</p>
+                <h2>The Problem with Vertical Scaling</h2>
+                <p>When traffic spikes, the instinctive reaction is often to just provision a larger server. While
+                    vertical scaling is the easiest short-term fix, it ultimately hits a hard hardware ceiling and
+                    introduces a single point of failure.</p>
 
-        <pre class="magnet"><code>// A vulnerable approach:
+                <blockquote>
+                    "Scale is not just about handling more requests; it's about gracefully handling failure states when
+                    components inevitably degrade."
+                </blockquote>
+
+                <p>Instead, we need to focus on horizontal scaling. This requires stateless backend services. If your
+                    Node.js or FastAPI backend stores session data in memory, horizontal scaling becomes impossible
+                    without complex sticky sessions.</p>
+
+                <h2>Handling Race Conditions</h2>
+                <p>Once you distribute your backend, data consistency becomes the primary challenge. Imagine an airport
+                    resource management system where two dispatchers attempt to assign different flights to the same
+                    terminal stand simultaneously.</p>
+
+                <p>To solve this, we rely on database-level locking and atomic operations rather than application-level
+                    checks.</p>
+
+                <pre class="magnet"><code>// A vulnerable approach:
 const stand = await Stand.findById(standId);
 if (stand.isAvailable) {
   stand.flightId = newFlightId;
@@ -247,119 +352,123 @@ const updatedStand = await Stand.findOneAndUpdate(
   { new: true }
 );</code></pre>
 
-        <p>By enforcing the check and the update within a single database query, we eliminate the microsecond window where a race condition could occur.</p>
+                <p>By enforcing the check and the update within a single database query, we eliminate the microsecond
+                    window where a race condition could occur.</p>
 
-        <h2>Conclusion</h2>
-        <p>Minimalism in UI design is about removing visual clutter. Minimalism in system architecture is about removing unnecessary state and tightly coupled dependencies. Keep your services stateless, rely on your database for atomicity, and scale horizontally from day one.</p>
-      </div>
+                <h2>Conclusion</h2>
+                <p>Minimalism in UI design is about removing visual clutter. Minimalism in system architecture is about
+                    removing unnecessary state and tightly coupled dependencies. Keep your services stateless, rely on
+                    your database for atomicity, and scale horizontally from day one.</p>
+            </div>
 
-      <div class="article-footer reveal-text">
-        <span style="color: var(--acc); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Next Post</span>
-        <a href="/blog/" class="next-article magnet">
-          Demystifying RSCs <i class="ri-arrow-right-line"></i>
-        </a>
-      </div>
+            <div class="article-footer reveal-text">
+                <span style="color: var(--acc); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Next
+                    Post</span>
+                <a href="/blog/" class="next-article magnet">
+                    Demystifying RSCs <i class="ri-arrow-right-line"></i>
+                </a>
+            </div>
 
-    </article>
-  </main>
+        </article>
+    </main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="/components-loader.js"></script>
-  
-  <script>
-    // --- 1. THEME SWITCHER LOGIC ---
-    function toggleTheme() {
-      const html = document.documentElement;
-      const themeIcon = document.getElementById('theme-icon');
-      if (!themeIcon) return;
-      
-      const currentTheme = html.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      
-      html.setAttribute('data-theme', newTheme);
-      themeIcon.className = newTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
-      
-      try { localStorage.setItem('theme', newTheme); } catch (e) {}
-    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="/components-loader.js"></script>
 
-    try {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        const themeIcon = document.getElementById('theme-icon');
-        if (themeIcon) themeIcon.className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
-      }
-    } catch (e) {}
+    <script>
+        // --- 1. THEME SWITCHER LOGIC ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            if (!themeIcon) return;
 
-    // --- 2. PRELOADER ---
-    function startLoader() {
-      const counterElement = document.querySelector('.counter');
-      if (!counterElement) return;
-      let currentValue = 0;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-      function updateCounter() {
-        if (currentValue === 100) return;
-        currentValue += Math.floor(Math.random() * 10) + 1;
-        if (currentValue > 100) currentValue = 100;
-        counterElement.textContent = currentValue;
+            html.setAttribute('data-theme', newTheme);
+            themeIcon.className = newTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
 
-        let delay = Math.floor(Math.random() * 200) + 50;
-        setTimeout(updateCounter, delay);
-      }
-      updateCounter();
+            try { localStorage.setItem('theme', newTheme); } catch (e) { }
+        }
 
-      const tl = gsap.timeline();
-      tl.to('.counter', { delay: 2.5, opacity: 0 })
-        .to('#loader', { height: 0, duration: 1, ease: 'power4.inOut' })
-        .from('.reveal-text', { y: 20, opacity: 0, stagger: 0.1, duration: 1, ease: 'power4.out' }, '-=0.5');
-    }
-    startLoader();
+        try {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                const themeIcon = document.getElementById('theme-icon');
+                if (themeIcon) themeIcon.className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+            }
+        } catch (e) { }
 
-    // --- 3. SMOOTH SCROLL ---
-    const lenis = new Lenis();
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
+        // --- 2. PRELOADER ---
+        function startLoader() {
+            const counterElement = document.querySelector('.counter');
+            if (!counterElement) return;
+            let currentValue = 0;
 
-    // --- 4. READING PROGRESS BAR ---
-    window.addEventListener('scroll', () => {
-      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-      document.getElementById("progress-bar").style.width = scrolled + "%";
-    });
+            function updateCounter() {
+                if (currentValue === 100) return;
+                currentValue += Math.floor(Math.random() * 10) + 1;
+                if (currentValue > 100) currentValue = 100;
+                counterElement.textContent = currentValue;
 
-    // --- 5. CUSTOM CURSOR & MAGNETS (Desktop Only) ---
-    if (window.matchMedia("(min-width: 769px)").matches) {
-      const cursor = document.getElementById("cursor");
+                let delay = Math.floor(Math.random() * 200) + 50;
+                setTimeout(updateCounter, delay);
+            }
+            updateCounter();
 
-      window.addEventListener("mousemove", (e) => {
-        gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
-      });
+            const tl = gsap.timeline();
+            tl.to('.counter', { delay: 2.5, opacity: 0 })
+                .to('#loader', { height: 0, duration: 1, ease: 'power4.inOut' })
+                .from('.reveal-text', { y: 20, opacity: 0, stagger: 0.1, duration: 1, ease: 'power4.out' }, '-=0.5');
+        }
+        startLoader();
 
-      document.querySelectorAll(".magnet").forEach((magnet) => {
-        magnet.addEventListener("mousemove", (e) => {
-          const rect = magnet.getBoundingClientRect();
-          const x = e.clientX - rect.left - rect.width / 2;
-          const y = e.clientY - rect.top - rect.height / 2;
-          gsap.to(magnet, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
-          gsap.to(cursor, { scale: 3 });
+        // --- 3. SMOOTH SCROLL ---
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // --- 4. READING PROGRESS BAR ---
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
         });
 
-        magnet.addEventListener("mouseleave", () => {
-          gsap.to(magnet, { x: 0, y: 0 });
-          gsap.to(cursor, { scale: 1 });
-        });
-      });
-    }
+        // --- 5. CUSTOM CURSOR & MAGNETS (Desktop Only) ---
+        if (window.matchMedia("(min-width: 769px)").matches) {
+            const cursor = document.getElementById("cursor");
 
-    // --- 6. LUCIDE ICONS INITIALIZATION ---
-    lucide.createIcons();
-  </script>
+            window.addEventListener("mousemove", (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+            });
+
+            document.querySelectorAll(".magnet").forEach((magnet) => {
+                magnet.addEventListener("mousemove", (e) => {
+                    const rect = magnet.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(magnet, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+                    gsap.to(cursor, { scale: 3 });
+                });
+
+                magnet.addEventListener("mouseleave", () => {
+                    gsap.to(magnet, { x: 0, y: 0 });
+                    gsap.to(cursor, { scale: 1 });
+                });
+            });
+        }
+
+        // --- 6. LUCIDE ICONS INITIALIZATION ---
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>

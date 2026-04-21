@@ -101,7 +101,7 @@
       transition: width 0.3s, height 0.3s, transform 0.1s;
     }
 
-    
+
 
     /* --- 6. HERO --- */
     #hero {
@@ -111,6 +111,7 @@
       flex-direction: column;
       justify-content: center;
       padding: 0 5vw;
+      transform: scale(1.02);
       position: relative;
     }
 
@@ -671,6 +672,7 @@
       font-family: 'Clash Display', sans-serif;
       font-size: 10vw;
       font-weight: 600;
+      opacity: 0;
     }
 
     /* --- MEDIA QUERIES --- */
@@ -897,6 +899,7 @@
             experience.</span>I enjoy turning complex ideas into <span>reliable, production-ready
             products.</span>
       </div>
+      </p>
 
       <div class="about-grid">
         <div class="about-img-wrapper magnet">
@@ -984,7 +987,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-<script src="/components-loader.js"></script>
+  <script src="/components-loader.js"></script>
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
@@ -1030,34 +1033,60 @@
       console.warn('LocalStorage is not accessible:', e);
     }
 
-    // --- 3. PRELOADER ---
     function startLoader() {
-      const counterElement = document.querySelector('.counter');
-      if (!counterElement) {
-        console.warn('Counter element not found. Skipping loader.');
-        return;
-      }
-      let currentValue = 0;
+      const counter = document.querySelector(".counter");
+      const loader = document.getElementById("loader");
 
-      function updateCounter() {
-        if (currentValue === 100) return;
-        currentValue += Math.floor(Math.random() * 10) + 1;
-        if (currentValue > 100) currentValue = 100;
-        counterElement.textContent = currentValue;
+      let progress = { value: 0 };
 
-        let delay = Math.floor(Math.random() * 200) + 50;
-        setTimeout(updateCounter, delay);
-      }
-      updateCounter();
-
-      const tl = gsap.timeline();
-      tl.to('.counter', { delay: 2.5, opacity: 0 })
-        .to('#loader', { height: 0, duration: 1, ease: 'power4.inOut' })
-        .to('.hero-title', { y: 0, stagger: 0.1, duration: 1, ease: 'power4.out' }, '-=0.5')
-        .from('.reveal-text', { y: 20, opacity: 0, stagger: 0.1 }, '-=0.5');
+      counter.style.opacity = "1";
+      gsap.to("#hero", {
+        scale: 1,
+        duration: 1.8,
+        ease: "power3.out"
+      });
+      gsap.to(progress, {
+        value: 100,
+        duration: 3.2,
+        ease: "power2.out",
+        onUpdate: () => {
+          counter.textContent = Math.floor(progress.value);
+        },
+        onComplete: () => {
+          gsap.timeline()
+            .to(counter, {
+              opacity: 0,
+              y: -10,
+              duration: 0.4
+            })
+            .to(loader, {
+              yPercent: -100,
+              duration: 1.2,
+              ease: "power4.inOut"
+            })
+            .fromTo(".hero-title",
+              { y: 80, opacity: 0, filter: "blur(10px)" },
+              {
+                y: 0,
+                opacity: 1,
+                filter: "blur(0px)",
+                duration: 1.4,
+                ease: "power4.out",
+                stagger: 0.08
+              },
+              "-=0.4"
+            )
+            .from(".hero-subtitle",
+              { opacity: 0, y: 20, duration: 0.8, ease: "power3.out" },
+              "-=1.2"
+            )
+            .from(".hero-footer span, .scroll-indicator",
+              { opacity: 0, y: 15, duration: 0.8, stagger: 0.1 },
+              "-=1"
+            );
+        }
+      });
     }
-    startLoader();
-
     // --- 4. SMOOTH SCROLL ---
     const lenis = new Lenis();
     function raf(time) {
@@ -1215,10 +1244,9 @@
     }
     setInterval(updateTime, 1000);
     updateTime();
-
+    window.addEventListener("load", startLoader);
     // --- 9. LUCIDE ICONS INITIALIZATION ---
     lucide.createIcons();
-
   </script>
 </body>
 

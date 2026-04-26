@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Architecting for Scale — Lokesh Ram Chand</title>
+    <title>From Model Accuracy to System Reliability — Lokesh Ram Chand</title>
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link
@@ -177,7 +177,7 @@
         }
 
         .post-content {
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             line-height: 1.8;
             color: var(--text);
         }
@@ -297,68 +297,56 @@
                 <i class="ri-arrow-left-line"></i> Back to Journal
             </a>
 
-            <h1 class="article-title reveal-text">Architecting for Scale</h1>
+            <h1 class="article-title reveal-text">Why Accuracy Lied: Lessons from Building an NLP System</h1>
 
             <div class="article-meta reveal-text">
                 <span>Lokesh Ram Chand</span>
                 <span class="dot">•</span>
-                <span>April 16, 2026</span>
+                <span>April 26, 2026</span>
                 <span class="dot">•</span>
-                <span>12 Min Read</span>
+                <span>8 Min Read</span>
             </div>
 
             <div class="post-content reveal-text">
-                <p>Building an application that works perfectly for a hundred users is straightforward. Building one
-                    that scales elegantly to handle tens of thousands—without suffering from race conditions or data
-                    inconsistency—is an entirely different challenge.</p>
+                <p>I recently rebuilt the intelligence layer of my personal finance app, Velar, with a focus on making
+                    transaction understanding both reliable and adaptable.</p>
 
-                <p>In this post, we’ll explore the exact architectural patterns required to move from a basic monolithic
-                    structure to a highly scalable, real-time distributed system. We’ll focus heavily on keeping the
-                    design clean and the dependencies minimal.</p>
+                <p>The initial approach was straightforward: a rule-based system mapping known merchants (like Swiggy or
+                    Netflix) to categories. While this worked for common cases, it quickly broke down when faced with
+                    noisy inputs, inconsistent phrasing, or unseen vendors.</p>
 
-                <h2>The Problem with Vertical Scaling</h2>
-                <p>When traffic spikes, the instinctive reaction is often to just provision a larger server. While
-                    vertical scaling is the easiest short-term fix, it ultimately hits a hard hardware ceiling and
-                    introduces a single point of failure.</p>
+                <h2>The Limits of Pure Machine Learning</h2>
+                <p>To improve generalization, I introduced a machine learning pipeline using TF-IDF vectorization and
+                    Logistic Regression. This significantly improved structured predictions, but failed under
+                    adversarial or highly ambiguous inputs.</p>
+
+                <p>To address this, I engineered a synthetic dataset (3,000+ samples) with controlled complexity—mixing
+                    clean, noisy, and adversarial patterns. This allowed me to evaluate the model across difficulty
+                    levels and revealed a key insight:</p>
 
                 <blockquote>
-                    "Scale is not just about handling more requests; it's about gracefully handling failure states when
-                    components inevitably degrade."
+                    "High accuracy on clean data does not translate to robustness."
                 </blockquote>
 
-                <p>Instead, we need to focus on horizontal scaling. This requires stateless backend services. If your
-                    Node.js or FastAPI backend stores session data in memory, horizontal scaling becomes impossible
-                    without complex sticky sessions.</p>
+                <h2>The Hybrid Pipeline</h2>
+                <p>I then redesigned the system into a hybrid pipeline. This approach achieved both precision (via
+                    rules) and flexibility (via ML), while preventing low-confidence misclassifications.</p>
 
-                <h2>Handling Race Conditions</h2>
-                <p>Once you distribute your backend, data consistency becomes the primary challenge. Imagine an airport
-                    resource management system where two dispatchers attempt to assign different flights to the same
-                    terminal stand simultaneously.</p>
-
-                <p>To solve this, we rely on database-level locking and atomic operations rather than application-level
-                    checks.</p>
-
-                <pre class="magnet"><code>// A vulnerable approach:
-const stand = await Stand.findById(standId);
-if (stand.isAvailable) {
-  stand.flightId = newFlightId;
-  await stand.save();
-}
-
-// A scalable, atomic approach:
-const updatedStand = await Stand.findOneAndUpdate(
-  { _id: standId, isAvailable: true },
-  { $set: { flightId: newFlightId, isAvailable: false } },
-  { new: true }
-);</code></pre>
-
-                <p>By enforcing the check and the update within a single database query, we eliminate the microsecond
-                    window where a race condition could occur.</p>
+                <pre class="magnet"><code>// The Architecture Flow:
+text 
+  → normalization 
+  → extraction (amount, merchant) 
+  → rules 
+  → ML fallback 
+  → confidence filtering</code></pre>
 
                 <h2>Conclusion</h2>
-                <p>Minimalism in UI design is about removing visual clutter. Minimalism in system architecture is about
-                    removing unnecessary state and tightly coupled dependencies. Keep your services stateless, rely on
-                    your database for atomicity, and scale horizontally from day one.</p>
+                <p>Finally, I deployed the model as a standalone inference service and integrated it with a Node.js
+                    backend, adding a feedback loop where user corrections are stored for future retraining.</p>
+
+                <p>The result is not just a classifier, but a continuously improving system—one that learns from real
+                    usage rather than static datasets. This shift from “model accuracy” to “system reliability” was the
+                    most important takeaway from the entire process.</p>
             </div>
 
             <div class="article-footer reveal-text">

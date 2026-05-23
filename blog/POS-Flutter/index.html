@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 
+<!-- ============================================================
+  BLOG POST — "Building Velar: Full-Stack Finance App with ML"
+  Author : Lokesh Ram Chand
+  Date   : May 23, 2026
+============================================================ -->
+
 <head>
-    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>From Model Accuracy to System Reliability — Lokesh Ram Chand</title>
+    <title>Building Velar: A Full-Stack Finance App with ML Auto-Categorization — Lokesh Ram Chand</title>
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link
@@ -13,16 +19,26 @@
         rel="stylesheet">
 
     <style>
-        /* --- 1. VARIABLES & THEMES --- */
+        /* ============================================================
+       1. DESIGN TOKENS & THEMES
+    ============================================================ */
         :root {
             --bg: #0b0b0b;
             --text: #e0e0e0;
             --acc: #888;
             --border: rgba(255, 255, 255, 0.1);
-            --cursor: #fff;
-            --nav-bg: rgba(11, 11, 11, 0.8);
             --overlay: rgba(255, 255, 255, 0.03);
+            --nav-bg: rgba(11, 11, 11, 0.8);
             --accent: #22c55e;
+            --cursor: #fff;
+
+            --font-display: 'Clash Display', sans-serif;
+            --font-body: 'General Sans', sans-serif;
+
+            --gap-sm: 1rem;
+            --gap-md: 2rem;
+            --gap-lg: 3rem;
+            --gap-xl: 4rem;
         }
 
         [data-theme="light"] {
@@ -30,14 +46,18 @@
             --text: #1a1a1a;
             --acc: #555;
             --border: rgba(0, 0, 0, 0.1);
-            --cursor: #000;
-            --nav-bg: rgba(244, 244, 244, 0.8);
             --overlay: rgba(0, 0, 0, 0.03);
+            --nav-bg: rgba(244, 244, 244, 0.8);
             --accent: #15803d;
+            --cursor: #000;
         }
 
-        /* --- 2. RESET --- */
-        * {
+        /* ============================================================
+       2. RESET
+    ============================================================ */
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -49,7 +69,7 @@
             width: 100%;
             background-color: var(--bg);
             color: var(--text);
-            font-family: 'General Sans', sans-serif;
+            font-family: var(--font-body);
             overflow-x: hidden;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
@@ -71,20 +91,26 @@
             color: inherit;
         }
 
-        /* --- 3. UTILITIES --- */
+        /* ============================================================
+       3. UTILITIES
+    ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(28px);
+        }
+
         .noise-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: 9000;
             opacity: 0.04;
             background-image: url("https://grainy-gradients.vercel.app/noise.svg");
         }
 
-        /* --- 4. CUSTOM CURSOR & PROGRESS BAR --- */
+        /* ============================================================
+       4. CURSOR
+    ============================================================ */
         #cursor {
             position: fixed;
             top: 0;
@@ -97,9 +123,12 @@
             z-index: 9999;
             mix-blend-mode: difference;
             transform: translate(-50%, -50%);
-            transition: width 0.3s, height 0.3s, transform 0.1s;
+            transition: width 0.3s, height 0.3s;
         }
 
+        /* ============================================================
+       5. PROGRESS BAR
+    ============================================================ */
         .progress-bar {
             position: fixed;
             top: 0;
@@ -108,31 +137,27 @@
             width: 0%;
             background: var(--text);
             z-index: 10000;
+            transition: width 0.1s linear;
         }
 
-        /* --- 5. LOADER --- */
-        #loader {
-            position: fixed;
-            inset: 0;
-            background: var(--bg);
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .counter {
-            font-family: 'Clash Display', sans-serif;
-            font-size: 10vw;
-            font-weight: 600;
-        }
-
-        /* --- 6. ARTICLE LAYOUT (MINIMALIST) --- */
-        .article-wrapper {
-            max-width: 680px;
-            /* Optimal reading width */
+        /* ============================================================
+       6. LAYOUT
+    ============================================================ */
+        .layout-container {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20vh 5vw 15vh;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 5vw;
+            align-items: start;
+        }
+
+        .meta-sidebar {
+            position: sticky;
+            top: 20vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .back-btn {
@@ -143,105 +168,375 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--acc);
-            margin-bottom: 60px;
+            margin-bottom: var(--gap-md);
             transition: color 0.3s;
+            width: fit-content;
         }
 
         .back-btn:hover {
             color: var(--text);
         }
 
-        .article-title {
-            font-family: 'Clash Display', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4rem);
-            font-weight: 600;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            color: var(--text);
-        }
-
-        .article-meta {
+        .article__meta {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             font-size: 0.95rem;
             color: var(--acc);
-            margin-bottom: 50px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid var(--border);
+            padding-top: var(--gap-md);
+            border-top: 1px solid var(--border);
+        }
+
+        .meta-item {
             display: flex;
-            align-items: center;
-            gap: 15px;
+            flex-direction: column;
+        }
+
+        .meta-item span:first-child {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            opacity: 0.6;
+        }
+
+        .meta-tags {
+            display: flex;
             flex-wrap: wrap;
+            gap: 6px;
+            margin-top: var(--gap-md);
+            padding-top: var(--gap-md);
+            border-top: 1px solid var(--border);
         }
 
-        .article-meta span.dot {
-            color: var(--border);
+        .tag {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--acc);
+            border: 1px solid var(--border);
+            padding: 3px 10px;
+            border-radius: 20px;
         }
 
+        .article-content {
+            max-width: 720px;
+        }
+
+        .article__title {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: var(--gap-md);
+        }
+
+        .article__deck {
+            font-size: 1.25rem;
+            color: var(--acc);
+            line-height: 1.6;
+            margin-bottom: var(--gap-lg);
+            padding-bottom: var(--gap-lg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* ============================================================
+       7. BODY TYPOGRAPHY
+    ============================================================ */
         .post-content {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: var(--text);
+            font-size: 1.15rem;
+            line-height: 1.85;
         }
 
         .post-content p {
-            margin-bottom: 2rem;
+            margin-bottom: var(--gap-md);
             opacity: 0.9;
         }
 
         .post-content h2 {
-            font-family: 'Clash Display', sans-serif;
-            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3.5vw, 2.4rem);
             font-weight: 500;
-            margin: 4rem 0 1.5rem;
             line-height: 1.2;
+            margin: var(--gap-xl) 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
         }
 
         .post-content h3 {
             font-weight: 500;
-            font-size: 1.4rem;
-            margin: 3rem 0 1rem;
+            margin: var(--gap-lg) 0 var(--gap-sm);
+            color: var(--acc);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
         }
 
         .post-content ul,
         .post-content ol {
-            margin-bottom: 2rem;
+            margin-bottom: var(--gap-md);
             padding-left: 20px;
         }
 
         .post-content li {
             margin-bottom: 12px;
             opacity: 0.9;
+            padding-left: 8px;
+        }
+
+        .post-content li::marker {
+            color: var(--acc);
         }
 
         .post-content blockquote {
             border-left: 2px solid var(--text);
-            padding-left: 20px;
-            margin: 3rem 0;
+            padding-left: 24px;
+            margin: var(--gap-lg) 0;
             font-style: italic;
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             color: var(--acc);
             line-height: 1.6;
         }
 
         .post-content pre {
             background: rgba(0, 0, 0, 0.2);
-            padding: 24px;
+            padding: 24px 32px;
             border-radius: 8px;
             border: 1px solid var(--border);
             overflow-x: auto;
-            margin: 3rem 0;
+            margin: var(--gap-lg) 0;
         }
 
         [data-theme="light"] .post-content pre {
-            background: rgba(0, 0, 0, 0.03);
+            background: rgba(0, 0, 0, 0.04);
         }
 
         .post-content code {
-            font-family: 'Courier New', Courier, monospace;
+            font-family: var(--font-body);
             font-size: 0.95rem;
+            line-height: 1.7;
         }
 
-        /* Minimal text footer */
-        .article-footer {
+        .post-content p code,
+        .post-content li code {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        [data-theme="light"] .post-content p code,
+        [data-theme="light"] .post-content li code {
+            background: rgba(0, 0, 0, 0.06);
+        }
+
+        /* ── Tech stack cards ── */
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            margin: var(--gap-lg) 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .stack-card {
+            padding: 24px;
+            background: var(--overlay);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stack-card__name {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .stack-card__role {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent);
+        }
+
+        .stack-card__desc {
+            font-size: 0.9rem;
+            color: var(--acc);
+            line-height: 1.6;
+        }
+
+        /* ── Feature list ── */
+        .feature-list {
+            margin: var(--gap-lg) 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 24px;
+            background: var(--overlay);
+        }
+
+        .feature-item__dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .feature-item__title {
+            font-weight: 500;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .feature-item__desc {
+            font-size: 0.9rem;
+            color: var(--acc);
+            line-height: 1.6;
+        }
+
+        /* ── Pipeline diagram ── */
+        .pipeline {
+            margin: var(--gap-lg) 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .pipeline__step {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--overlay);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+        }
+
+        .pipeline__step.highlight {
+            border-color: rgba(34, 197, 94, 0.3);
+            background: rgba(34, 197, 94, 0.05);
+        }
+
+        .pipeline__step.highlight .pipeline__label {
+            color: var(--accent);
+        }
+
+        .pipeline__arrow {
+            text-align: center;
+            color: var(--border);
+            font-size: 0.8rem;
+            padding: 2px 0;
+            margin-left: 20px;
+        }
+
+        .pipeline__label {
+            color: var(--text);
+            flex: 1;
+        }
+
+        .pipeline__note {
+            font-size: 0.75rem;
+            color: var(--acc);
+            font-style: italic;
+        }
+
+        /* ── Callout box ── */
+        .callout {
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin: var(--gap-lg) 0;
+            background: var(--overlay);
+            font-size: 1rem;
+            color: var(--acc);
+            line-height: 1.7;
+        }
+
+        /* ── Stat row ── */
+        .stat-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            margin: var(--gap-lg) 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .stat-cell {
+            padding: 28px 24px;
+            background: var(--overlay);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .stat-cell__label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--acc);
+        }
+
+        .stat-cell__value {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 600;
+            line-height: 1;
+            color: var(--text);
+        }
+
+        .stat-cell__value.accent {
+            color: var(--accent);
+        }
+
+        .stat-cell__sub {
+            font-size: 0.8rem;
+            color: var(--acc);
+            margin-top: 2px;
+        }
+
+        /* ── Github link ── */
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--border);
+            padding: 14px 24px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--acc);
+            transition: color 0.3s, border-color 0.3s;
+            margin-top: var(--gap-md);
+        }
+
+        .github-link:hover {
+            color: var(--text);
+            border-color: var(--text);
+        }
+
+        /* ============================================================
+       8. ARTICLE FOOTER
+    ============================================================ */
+        .article__footer {
             margin-top: 80px;
             padding-top: 40px;
             border-top: 1px solid var(--border);
@@ -250,20 +545,59 @@
             align-items: center;
         }
 
-        .next-article {
-            font-size: 1.1rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: color 0.3s;
+        /* ============================================================
+       9. RESPONSIVE
+    ============================================================ */
+        @media (max-width: 900px) {
+            .layout-container {
+                grid-template-columns: 1fr;
+                padding-top: 15vh;
+                gap: 2rem;
+            }
+
+            .meta-sidebar {
+                position: relative;
+                top: 0;
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 20px;
+                gap: 16px;
+            }
+
+            .article__meta {
+                flex-direction: row;
+                border-top: none;
+                padding-top: 0;
+                gap: 20px;
+            }
+
+            .meta-item span:first-child {
+                display: none;
+            }
+
+            .back-btn {
+                width: 100%;
+                margin-bottom: 0;
+            }
+
+            .meta-tags {
+                margin-top: 0;
+                padding-top: 0;
+                border-top: none;
+            }
+
+            .stat-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stack-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .next-article:hover {
-            color: var(--acc);
-        }
-
-        /* --- MEDIA QUERIES --- */
         @media (max-width: 768px) {
             #cursor {
                 display: none !important;
@@ -273,8 +607,8 @@
                 cursor: auto !important;
             }
 
-            .article-wrapper {
-                padding-top: 15vh;
+            .post-content pre {
+                padding: 16px;
             }
         }
     </style>
@@ -282,181 +616,543 @@
 
 <body>
 
-    <div class="noise-overlay"></div>
-    <div id="cursor"></div>
-    <div class="progress-bar" id="progress-bar"></div>
-
-    <div id="loader" style="display: none;"></div>
+    <div class="noise-overlay" aria-hidden="true"></div>
+    <div id="cursor" aria-hidden="true"></div>
+    <div class="progress-bar" id="progress-bar" role="progressbar" aria-hidden="true"></div>
 
     <div id="navbar-placeholder"></div>
 
-    <main id="main">
-        <article class="article-wrapper">
+    <main id="main" class="layout-container">
 
-            <a href="/blog/" class="back-btn magnet reveal-text">
+        <!-- ── Sidebar ── -->
+        <aside class="meta-sidebar reveal">
+            <a href="/blog/" class="back-btn magnet">
                 <i class="ri-arrow-left-line"></i> Back to Journal
             </a>
 
-            <h1 class="article-title reveal-text">Why Accuracy Lied: Lessons from Building an NLP System</h1>
-
-            <div class="article-meta reveal-text">
-                <span>Lokesh Ram Chand</span>
-                <span class="dot">•</span>
-                <span>April 26, 2026</span>
-                <span class="dot">•</span>
-                <span>8 Min Read</span>
+            <div class="article__meta">
+                <div class="meta-item">
+                    <span>Author</span>
+                    <span>Lokesh Ram Chand</span>
+                </div>
+                <div class="meta-item">
+                    <span>Published</span>
+                    <span>May 23, 2026</span>
+                </div>
+                <div class="meta-item">
+                    <span>Reading Time</span>
+                    <span>10 Min Read</span>
+                </div>
             </div>
 
-            <div class="post-content reveal-text">
-                <p>I recently rebuilt the intelligence layer of my personal finance app, Velar, with a focus on making
-                    transaction understanding both reliable and adaptable.</p>
+            <div class="meta-tags">
+                <span class="tag">Flutter</span>
+                <span class="tag">Full Stack</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">ML Systems</span>
+                <span class="tag">Flask</span>
+                <span class="tag">MongoDB</span>
+                <span class="tag">Personal Finance</span>
+            </div>
+        </aside>
 
-                <p>The initial approach was straightforward: a rule-based system mapping known merchants (like Swiggy or
-                    Netflix) to categories. While this worked for common cases, it quickly broke down when faced with
-                    noisy inputs, inconsistent phrasing, or unseen vendors.</p>
+        <!-- ── Article ── -->
+        <article class="article-content">
 
-                <h2>The Limits of Pure Machine Learning</h2>
-                <p>To improve generalization, I introduced a machine learning pipeline using TF-IDF vectorization and
-                    Logistic Regression. This significantly improved structured predictions, but failed under
-                    adversarial or highly ambiguous inputs.</p>
+            <h1 class="article__title reveal">
+                Building Velar: A Full-Stack Finance App with ML Auto-Categorization
+            </h1>
 
-                <p>To address this, I engineered a synthetic dataset (3,000+ samples) with controlled complexity—mixing
-                    clean, noisy, and adversarial patterns. This allowed me to evaluate the model across difficulty
-                    levels and revealed a key insight:</p>
+            <p class="article__deck reveal">
+                Most finance apps ask for too much or feel like they were designed a decade ago.
+                I wanted to build something that could understand my expenses without asking me to.
+                This is how Flutter, Node.js, MongoDB, and a Flask ML microservice came together
+                into something that actually feels good to use.
+            </p>
+
+            <div class="post-content reveal">
+
+                <!-- ══════════ INTRO ══════════ -->
+
+                <p>
+                    If you've ever tried keeping track of personal finances, you know how tedious it gets.
+                    You enter an expense, select a category from a long list, and hope the app doesn't
+                    overwhelm you with charts you didn't ask for.
+                </p>
+
+                <p>
+                    That's where Velar began. I wanted a tool that could take just a name and an amount,
+                    and intelligently guess the category. No dropdowns. No overthinking. Just fast,
+                    intuitive tracking with a modern experience.
+                </p>
 
                 <blockquote>
-                    "High accuracy on clean data does not translate to robustness."
+                    Type "Starbucks ₹450" and let the system figure out the rest.
                 </blockquote>
 
-                <h2>The Hybrid Pipeline</h2>
-                <p>I then redesigned the system into a hybrid pipeline. This approach achieved both precision (via
-                    rules) and flexibility (via ML), while preventing low-confidence misclassifications.</p>
+                <p>
+                    Building it required blending Flutter on the front, Node.js and MongoDB at the core,
+                    and a Flask ML microservice under the hood. This post walks through the full journey —
+                    from training the model to wiring everything together into a working product.
+                </p>
 
-                <pre class="magnet"><code>// The Architecture Flow:
-text 
-  → normalization 
-  → extraction (amount, merchant) 
-  → rules 
-  → ML fallback 
-  → confidence filtering</code></pre>
+                <!-- ══════════ FEATURES ══════════ -->
 
-                <h2>Conclusion</h2>
-                <p>Finally, I deployed the model as a standalone inference service and integrated it with a Node.js
-                    backend, adding a feedback loop where user corrections are stored for future retraining.</p>
+                <h2>What Makes It Different</h2>
 
-                <p>The result is not just a classifier, but a continuously improving system—one that learns from real
-                    usage rather than static datasets. This shift from “model accuracy” to “system reliability” was the
-                    most important takeaway from the entire process.</p>
-            </div>
+                <p>
+                    Most finance apps either go too deep into categories or too shallow on intelligence.
+                    Velar sits between both — minimal input, smart output. Here's what sets it apart:
+                </p>
 
-            <div class="article-footer reveal-text">
-                <span style="color: var(--acc); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Next
-                    Post</span>
-                <a href="/blog/" class="next-article magnet">
-                    Demystifying RSCs <i class="ri-arrow-right-line"></i>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <div class="feature-item__dot"></div>
+                        <div>
+                            <div class="feature-item__title">Auto-Categorization</div>
+                            <div class="feature-item__desc">Type "Uber" or "Swiggy" — the model predicts the category.
+                                No dropdowns, no extra taps.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-item__dot"></div>
+                        <div>
+                            <div class="feature-item__title">Effortless Expense Entry</div>
+                            <div class="feature-item__desc">Just a name and an amount. No forms, no cognitive load, no
+                                friction.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-item__dot"></div>
+                        <div>
+                            <div class="feature-item__title">Spending Insights</div>
+                            <div class="feature-item__desc">Category breakdowns and bar charts that show where your
+                                money goes — without digging.</div>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-item__dot"></div>
+                        <div>
+                            <div class="feature-item__title">Polished UI</div>
+                            <div class="feature-item__desc">Built in Flutter with blurred glass navbars, smooth
+                                transitions, and clean card layouts.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══════════ TECH STACK ══════════ -->
+
+                <h2>The Tech Stack</h2>
+
+                <p>
+                    Velar isn't just a finance app — it's a cross-disciplinary project that blends UI/UX
+                    with backend reliability and machine learning. Here's what powers it:
+                </p>
+
+                <div class="stack-grid">
+                    <div class="stack-card">
+                        <div class="stack-card__role">Frontend</div>
+                        <div class="stack-card__name">Flutter</div>
+                        <div class="stack-card__desc">Animations, rich UI components, smooth cross-platform performance.
+                        </div>
+                    </div>
+                    <div class="stack-card">
+                        <div class="stack-card__role">Backend</div>
+                        <div class="stack-card__name">Node.js + Express</div>
+                        <div class="stack-card__desc">API orchestration — receives requests, calls the ML service,
+                            writes to the database.</div>
+                    </div>
+                    <div class="stack-card">
+                        <div class="stack-card__role">ML Microservice</div>
+                        <div class="stack-card__name">Flask + Scikit-learn</div>
+                        <div class="stack-card__desc">Stateless prediction service. Loads a pre-trained model and
+                            returns categories on demand.</div>
+                    </div>
+                    <div class="stack-card">
+                        <div class="stack-card__role">Database</div>
+                        <div class="stack-card__name">MongoDB</div>
+                        <div class="stack-card__desc">Schema-less NoSQL store for transactions. Fast querying by
+                            category and date.</div>
+                    </div>
+                </div>
+
+                <!-- ══════════ ARCHITECTURE ══════════ -->
+
+                <h2>System Architecture</h2>
+
+                <p>
+                    The architecture is built around a clean separation of concerns. Each layer does
+                    exactly one thing, and the data flows linearly through them:
+                </p>
+
+                <div class="pipeline">
+                    <div class="pipeline__step">
+                        <span class="pipeline__label">Flutter Frontend</span>
+                        <span class="pipeline__note">user enters name + amount</span>
+                    </div>
+                    <div class="pipeline__arrow">↓</div>
+                    <div class="pipeline__step">
+                        <span class="pipeline__label">Node.js Backend</span>
+                        <span class="pipeline__note">receives request, forwards description to Flask</span>
+                    </div>
+                    <div class="pipeline__arrow">↓</div>
+                    <div class="pipeline__step">
+                        <span class="pipeline__label">Flask ML Microservice</span>
+                        <span class="pipeline__note">vectorizes description, returns predicted category</span>
+                    </div>
+                    <div class="pipeline__arrow">↓</div>
+                    <div class="pipeline__step highlight">
+                        <span class="pipeline__label">MongoDB</span>
+                        <span class="pipeline__note">stores transaction with category attached</span>
+                    </div>
+                </div>
+
+                <p>
+                    The ML logic is fully decoupled from the backend. The Flask service is stateless —
+                    it loads the model on startup and exposes a single <code>/api/predict</code> endpoint.
+                    This means it can be containerized, scaled, or swapped out entirely without touching
+                    the Node.js layer.
+                </p>
+
+                <!-- ══════════ ML ══════════ -->
+
+                <h2>Auto-Categorization — How the ML Works</h2>
+
+                <p>
+                    The training dataset was a CSV with two columns: description and category.
+                    Before anything else, I cleaned it — lowercased everything, stripped punctuation,
+                    normalized category names for consistency.
+                </p>
+
+                <pre><code>import pandas as pd
+
+df = pd.read_csv("transactions.csv")[['Description', 'Category']]
+df['Description'] = df['Description'].str.lower().str.replace('[^a-z\s]', '', regex=True)
+df['Category']    = df['Category'].str.lower().str.replace('[^a-z\s]', '', regex=True)</code></pre>
+
+                <h3>Vectorization</h3>
+
+                <p>
+                    Raw text goes through <code>TfidfVectorizer</code> to become numeric vectors the model
+                    can train on. TF-IDF captures how important a word is relative to the whole corpus —
+                    so "Swiggy" carries more signal than "the".
+                </p>
+
+                <pre><code>from sklearn.feature_extraction.text import TfidfVectorizer
+
+vectorizer = TfidfVectorizer()
+X_train_vec = vectorizer.fit_transform(X_train)
+X_test_vec  = vectorizer.transform(X_test)</code></pre>
+
+                <h3>Model Training</h3>
+
+                <p>
+                    I tested both Logistic Regression and Multinomial Naive Bayes. For this task —
+                    short merchant descriptions with limited vocabulary — Naive Bayes performed well
+                    and trained faster. The model and vectorizer are both exported with <code>joblib</code>
+                    for the Flask service to load at runtime.
+                </p>
+
+                <pre><code>from sklearn.naive_bayes import MultinomialNB
+import joblib
+
+model = MultinomialNB()
+model.fit(X_train_vec, y_train)
+
+joblib.dump(model, 'model.pkl')
+joblib.dump(vectorizer, 'vectorizer.pkl')</code></pre>
+
+                <h3>The Prediction Endpoint</h3>
+
+                <p>
+                    A single Flask route handles all inference. It loads the saved model on startup,
+                    accepts a description string, and returns the predicted category:
+                </p>
+
+                <pre><code>from flask import Flask, request, jsonify
+import joblib
+
+model      = joblib.load("model.pkl")
+vectorizer = joblib.load("vectorizer.pkl")
+app        = Flask(__name__)
+
+@app.route("/api/predict", methods=["POST"])
+def predict():
+    description = request.json.get("description", "")
+    if not description:
+        return jsonify({"error": "Description is required"}), 400
+    X          = vectorizer.transform([description])
+    prediction = model.predict(X)[0]
+    return jsonify({"category": prediction})</code></pre>
+
+                <div class="callout">
+                    Input: <code>"Starbucks"</code> → Output: <code>{ "category": "food" }</code>. That's the entire
+                    surface area of the ML service — one endpoint, one job, done.
+                </div>
+
+                <!-- ══════════ BACKEND ══════════ -->
+
+                <h2>Node.js — Wiring the Layers Together</h2>
+
+                <p>
+                    The Node.js backend is the orchestrator. When a transaction comes in from Flutter,
+                    it forwards the description to Flask, receives the predicted category, and stores
+                    everything together in MongoDB:
+                </p>
+
+                <pre><code>app.post('/api/transaction/add', async (req, res) => {
+  try {
+    const { description, amount } = req.body;
+
+    const predictRes = await axios.post('http://localhost:5000/api/predict', {
+      description,
+    });
+    const category = predictRes.data.category || 'Other';
+
+    const newTransaction = new Transaction({ description, amount, category });
+    await newTransaction.save();
+
+    res.status(200).json({ message: 'Transaction saved', data: newTransaction });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});</code></pre>
+
+                <p>
+                    The MongoDB schema is intentionally minimal. It stores just what's needed,
+                    with a default timestamp and enough flexibility to extend later:
+                </p>
+
+                <pre><code>const transactionSchema = new mongoose.Schema({
+  description : String,
+  amount      : Number,
+  category    : String,
+  date        : { type: Date, default: Date.now },
+});</code></pre>
+
+                <!-- ══════════ FLUTTER ══════════ -->
+
+                <h2>Flutter — Sending Data Without Selecting a Category</h2>
+
+                <p>
+                    From the user's perspective, there is no category step. They type a name and an amount.
+                    Flutter sends both to Node.js, and the category comes back attached to the saved transaction:
+                </p>
+
+                <pre><code>final response = await http.post(
+  Uri.parse('http://your-node-server/api/transaction/add'),
+  headers: {'Content-Type': 'application/json'},
+  body: jsonEncode({
+    'description': _expenseName,
+    'amount'     : _amount,
+  }),
+);</code></pre>
+
+                <p>
+                    The user never sees the model. They just see a categorized transaction appear.
+                    That's the product experience the whole stack is built to deliver.
+                </p>
+
+                <!-- ══════════ CHARTS ══════════ -->
+
+                <h2>Visualizing Spending with Charts</h2>
+
+                <p>
+                    Data is most useful when it's immediately readable. The Analytics screen uses two
+                    approaches: progress bars for category-level breakdowns, and bar charts for
+                    time-based spending patterns.
+                </p>
+
+                <p>
+                    The progress bars keep it simple — each category gets a proportional bar, no pie charts,
+                    no confusing legends:
+                </p>
+
+                <pre><code>LinearProgressIndicator(
+  value           : category['percentage'] / 100,
+  backgroundColor : surfaceColor,
+  valueColor      : AlwaysStoppedAnimation(category['color']),
+  borderRadius    : BorderRadius.circular(4),
+)</code></pre>
+
+                <p>
+                    The bar charts use <code>fl_chart</code> for the heavier visualizations on the Analytics
+                    screen. Google Fonts and AnimatedWidgets handle the rest of the visual polish.
+                </p>
+
+                <!-- ══════════ CHALLENGES ══════════ -->
+
+                <h2>What Was Actually Hard</h2>
+
+                <h3>The ML model</h3>
+                <p>
+                    Training a model that generalizes beyond merchant names took more iteration than expected.
+                    Class imbalance, inconsistent naming conventions, and edge cases like "Netflix electricity bill"
+                    (which genuinely could be either) required careful dataset cleaning and multiple rounds of
+                    evaluation. This fed directly into the deeper research documented in the
+                    <a href="/blog/NLP-System/"
+                        style="display:inline; color: var(--text); border-bottom: 1px solid var(--border);">Why Accuracy
+                        Lied</a> post.
+                </p>
+
+                <h3>Running two runtimes together</h3>
+                <p>
+                    Node.js and Flask running side by side — especially during local development — meant
+                    managing port conflicts, CORS issues, and prediction latency that could break the UI
+                    if not handled gracefully. Every cross-service call needed proper error handling to
+                    ensure Flask failures didn't surface as unhandled exceptions in Flutter.
+                </p>
+
+                <h3>Flutter's layout system</h3>
+                <p>
+                    Building a premium feel in Flutter requires fighting the framework at times.
+                    <code>BackdropFilter</code> for glass navbars, custom animation controllers for
+                    tab transitions, and responsive layout quirks all required iteration to get right.
+                    The effort was worth it — the final UI is clean, fast, and feels native.
+                </p>
+
+                <!-- ══════════ STATS ══════════ -->
+
+                <div class="stat-row">
+                    <div class="stat-cell">
+                        <span class="stat-cell__label">Stack Layers</span>
+                        <span class="stat-cell__value accent">4</span>
+                        <span class="stat-cell__sub">Flutter · Node · Flask · MongoDB</span>
+                    </div>
+                    <div class="stat-cell">
+                        <span class="stat-cell__label">ML Endpoint</span>
+                        <span class="stat-cell__value accent">1</span>
+                        <span class="stat-cell__sub">Single stateless /api/predict</span>
+                    </div>
+                    <div class="stat-cell">
+                        <span class="stat-cell__label">User Input</span>
+                        <span class="stat-cell__value accent">2</span>
+                        <span class="stat-cell__sub">Fields — name and amount. That's it.</span>
+                    </div>
+                </div>
+
+                <!-- ══════════ CLOSING ══════════ -->
+
+                <h2>What This Project Is Actually About</h2>
+
+                <p>
+                    Velar started as a side project but became a full cross-disciplinary exercise — ML
+                    pipelines, backend architecture, responsive UI, and the product thinking that ties
+                    them together. Each layer had to work well independently and integrate cleanly
+                    with the others.
+                </p>
+
+                <p>
+                    The core idea is simple: the best interface is the one that asks you for the least.
+                    A finance app that makes you think about categories every time you add an expense
+                    has already failed at its job. The ML layer exists to remove that friction entirely.
+                </p>
+
+                <blockquote>
+                    The system should anticipate user behavior rather than react to it.
+                </blockquote>
+
+                <p>
+                    If you're building something that crosses ML and product — or just want to see
+                    how these layers connect in practice — the full code is on GitHub.
+                </p>
+
+                <a href="https://github.com/lokeshramchand-ctrl/Velar.git" class="github-link magnet" target="_blank"
+                    rel="noopener">
+                    <i class="ri-github-line"></i> lokeshramchand-ctrl / Velar
                 </a>
+
             </div>
+
+            <footer class="article__footer reveal">
+                <!-- Uncomment when next post is ready:
+        <span style="color:var(--acc); font-size:.9rem; text-transform:uppercase; letter-spacing:1px;">Next Post</span>
+        <a href="/blog/next" class="next-article magnet">
+          Next title <i class="ri-arrow-right-line"></i>
+        </a>
+        -->
+            </footer>
 
         </article>
     </main>
 
+    <!-- ── Scripts ── -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="/components-loader.js"></script>
+    <script src="https://nltx.priyatham.in/api/script.js" data-site-id="7aca700f4963" defer></script>
 
     <script>
-        // --- 1. THEME SWITCHER LOGIC ---
+        /* ── Theme ── */
         function toggleTheme() {
             const html = document.documentElement;
             const themeIcon = document.getElementById('theme-icon');
             if (!themeIcon) return;
-
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-            html.setAttribute('data-theme', newTheme);
-            themeIcon.className = newTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
-
-            try { localStorage.setItem('theme', newTheme); } catch (e) { }
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', next);
+            themeIcon.className = next === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+            try { localStorage.setItem('theme', next); } catch (_) { }
         }
 
-        try {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
-                const themeIcon = document.getElementById('theme-icon');
-                if (themeIcon) themeIcon.className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
-            }
-        } catch (e) { }
+        (function restoreTheme() {
+            try {
+                const saved = localStorage.getItem('theme');
+                if (!saved) return;
+                document.documentElement.setAttribute('data-theme', saved);
+                const icon = document.getElementById('theme-icon');
+                if (icon) icon.className = saved === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+            } catch (_) { }
+        })();
 
-        // --- 2. PRELOADER ---
-        function startLoader() {
-            const counterElement = document.querySelector('.counter');
-            if (!counterElement) return;
-            let currentValue = 0;
-
-            function updateCounter() {
-                if (currentValue === 100) return;
-                currentValue += Math.floor(Math.random() * 10) + 1;
-                if (currentValue > 100) currentValue = 100;
-                counterElement.textContent = currentValue;
-
-                let delay = Math.floor(Math.random() * 200) + 50;
-                setTimeout(updateCounter, delay);
-            }
-            updateCounter();
-
-            const tl = gsap.timeline();
-            tl.to('.counter', { delay: 2.5, opacity: 0 })
-                .to('#loader', { height: 0, duration: 1, ease: 'power4.inOut' })
-                .from('.reveal-text', { y: 20, opacity: 0, stagger: 0.1, duration: 1, ease: 'power4.out' }, '-=0.5');
-        }
-        startLoader();
-
-        // --- 3. SMOOTH SCROLL ---
-        const lenis = new Lenis();
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // --- 4. READING PROGRESS BAR ---
-        window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById("progress-bar").style.width = scrolled + "%";
+        /* ── Staggered entrance ── */
+        window.addEventListener('DOMContentLoaded', () => {
+            gsap.to('.reveal', {
+                opacity: 1,
+                y: 0,
+                duration: 0.9,
+                ease: 'power3.out',
+                stagger: 0.12,
+                delay: 0.1,
+            });
         });
 
-        // --- 5. CUSTOM CURSOR & MAGNETS (Desktop Only) ---
-        if (window.matchMedia("(min-width: 769px)").matches) {
-            const cursor = document.getElementById("cursor");
+        /* ── Lenis smooth scroll ── */
+        const lenis = new Lenis();
+        function rafLoop(time) { lenis.raf(time); requestAnimationFrame(rafLoop); }
+        requestAnimationFrame(rafLoop);
 
-            window.addEventListener("mousemove", (e) => {
+        /* ── Progress bar ── */
+        window.addEventListener('scroll', () => {
+            const scrolled = document.body.scrollTop || document.documentElement.scrollTop;
+            const total = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            document.getElementById('progress-bar').style.width = `${(scrolled / total) * 100}%`;
+        });
+
+        /* ── Cursor + magnet ── */
+        if (window.matchMedia('(min-width: 769px)').matches) {
+            const cursor = document.getElementById('cursor');
+            window.addEventListener('mousemove', (e) => {
                 gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
             });
-
-            document.querySelectorAll(".magnet").forEach((magnet) => {
-                magnet.addEventListener("mousemove", (e) => {
-                    const rect = magnet.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-                    gsap.to(magnet, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+            document.querySelectorAll('.magnet').forEach((el) => {
+                el.addEventListener('mousemove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    const dx = e.clientX - rect.left - rect.width / 2;
+                    const dy = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(el, { x: dx * 0.3, y: dy * 0.3, duration: 0.3 });
                     gsap.to(cursor, { scale: 3 });
                 });
-
-                magnet.addEventListener("mouseleave", () => {
-                    gsap.to(magnet, { x: 0, y: 0 });
+                el.addEventListener('mouseleave', () => {
+                    gsap.to(el, { x: 0, y: 0 });
                     gsap.to(cursor, { scale: 1 });
                 });
             });
         }
 
-        // --- 6. LUCIDE ICONS INITIALIZATION ---
         lucide.createIcons();
     </script>
+
 </body>
 
 </html>

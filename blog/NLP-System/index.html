@@ -8,13 +8,11 @@
 ============================================================ -->
 
 <head>
-  <!-- ── Meta ── -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>From Model Accuracy to System Reliability — Lokesh Ram Chand</title>
+  <title>Why Accuracy Lied: Lessons from Building an NLP System — Lokesh Ram Chand</title>
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
 
-  <!-- ── Fonts ── -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
   <link
     href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
@@ -22,11 +20,10 @@
 
   <style>
     /* ============================================================
-       1. DESIGN TOKENS & THEMES (Colors untouched)
+       1. DESIGN TOKENS & THEMES
     ============================================================ */
     :root {
-      /* Palette – dark (default) */
-      --bg         : #0b0b0b;
+      --bg          : #0b0b0b;
       --text        : #e0e0e0;
       --acc         : #888;
       --border      : rgba(255, 255, 255, 0.1);
@@ -35,12 +32,10 @@
       --accent      : #22c55e;
       --cursor      : #fff;
 
-      /* Typography scale */
       --font-display: 'Clash Display', sans-serif;
       --font-body   : 'General Sans', sans-serif;
-      --font-mono   : 'Courier New', Courier, monospace;
 
-      /* Spacing */
+
       --gap-sm  : 1rem;
       --gap-md  : 2rem;
       --gap-lg  : 3rem;
@@ -77,13 +72,20 @@
       transition: background-color 0.5s ease, color 0.5s ease;
     }
 
-    a   { text-decoration: none; color: inherit; display: block; }
-    ul  { list-style: none; }
+    a      { text-decoration: none; color: inherit; display: block; }
+    ul     { list-style: none; }
     button { border: none; background: none; cursor: none; color: inherit; }
 
     /* ============================================================
-       3. GLOBAL UTILITIES
+       3. UTILITIES
     ============================================================ */
+
+    /* Staggered entrance — elements start invisible, GSAP reveals them */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+
     .noise-overlay {
       position: fixed;
       inset: 0;
@@ -94,14 +96,12 @@
     }
 
     /* ============================================================
-       4. CUSTOM CURSOR
+       4. CURSOR
     ============================================================ */
     #cursor {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 15px;
-      height: 15px;
+      top: 0; left: 0;
+      width: 15px; height: 15px;
       background-color: var(--text);
       border-radius: 50%;
       pointer-events: none;
@@ -112,12 +112,11 @@
     }
 
     /* ============================================================
-       5. READING PROGRESS BAR
+       5. PROGRESS BAR
     ============================================================ */
     .progress-bar {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       height: 3px;
       width: 0%;
       background: var(--text);
@@ -126,26 +125,7 @@
     }
 
     /* ============================================================
-       6. LOADER
-    ============================================================ */
-    #loader {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 10000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .loader__counter {
-      font-family: var(--font-display);
-      font-size: 10vw;
-      font-weight: 600;
-    }
-
-    /* ============================================================
-       7. NEW ARTICLE LAYOUT (Grid)
+       6. LAYOUT
     ============================================================ */
     .layout-container {
       max-width: 1200px;
@@ -157,7 +137,6 @@
       align-items: start;
     }
 
-    /* ── Sticky Sidebar ── */
     .meta-sidebar {
       position: sticky;
       top: 20vh;
@@ -165,7 +144,6 @@
       flex-direction: column;
     }
 
-    /* ── Back navigation ── */
     .back-btn {
       display: inline-flex;
       align-items: center;
@@ -180,7 +158,6 @@
     }
     .back-btn:hover { color: var(--text); }
 
-    /* ── Meta Block (Vertical) ── */
     .article__meta {
       display: flex;
       flex-direction: column;
@@ -190,7 +167,7 @@
       padding-top: var(--gap-md);
       border-top: 1px solid var(--border);
     }
-    
+
     .meta-item {
       display: flex;
       flex-direction: column;
@@ -203,43 +180,91 @@
       opacity: 0.6;
     }
 
-    /* ── Main Content Area ── */
-    .article-content {
-      max-width: 720px; /* Optimal reading line length */
+    /* Tags in sidebar */
+    .meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: var(--gap-md);
+      padding-top: var(--gap-md);
+      border-top: 1px solid var(--border);
     }
 
-    /* ── Headline ── */
+    .tag {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--acc);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .article-content {
+      max-width: 720px;
+    }
+
     .article__title {
       font-family: var(--font-display);
       font-size: clamp(2.5rem, 5vw, 4rem);
       font-weight: 600;
       line-height: 1.1;
+      margin-bottom: var(--gap-md);
+    }
+
+    /* Subtitle / deck */
+    .article__deck {
+      font-size: 1.25rem;
+      color: var(--acc);
+      line-height: 1.6;
       margin-bottom: var(--gap-lg);
+      padding-bottom: var(--gap-lg);
+      border-bottom: 1px solid var(--border);
     }
 
     /* ============================================================
-       8. POST BODY TYPOGRAPHY
+       8. BODY TYPOGRAPHY
     ============================================================ */
     .post-content {
-      font-size: 1.2rem;
-      line-height: 1.8;
+      font-size: 1.15rem;
+      line-height: 1.85;
     }
 
-    .post-content p          { margin-bottom: var(--gap-md); opacity: 0.9; }
-    .post-content h2         {
+    .post-content p {
+      margin-bottom: var(--gap-md);
+      opacity: 0.9;
+    }
+
+    .post-content h2 {
       font-family: var(--font-display);
       font-size: clamp(1.8rem, 3.5vw, 2.4rem);
       font-weight: 500;
       line-height: 1.2;
       margin: var(--gap-xl) 0 1.5rem;
       padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--overlay);
+      border-bottom: 1px solid var(--border);
     }
-    .post-content h3         { font-weight: 500; font-size: 1.4rem; margin: var(--gap-lg) 0 var(--gap-sm); }
-    
+
+    .post-content h3 {
+      font-weight: 500;
+      font-size: 1.25rem;
+      margin: var(--gap-lg) 0 var(--gap-sm);
+      color: var(--acc);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.85rem;
+    }
+
     .post-content ul,
-    .post-content ol         { margin-bottom: var(--gap-md); padding-left: 20px; }
-    .post-content li         { margin-bottom: 12px; opacity: 0.9; padding-left: 8px;}
+    .post-content ol {
+      margin-bottom: var(--gap-md);
+      padding-left: 20px;
+    }
+    .post-content li {
+      margin-bottom: 12px;
+      opacity: 0.9;
+      padding-left: 8px;
+    }
     .post-content li::marker { color: var(--acc); }
 
     .post-content blockquote {
@@ -252,7 +277,6 @@
       line-height: 1.6;
     }
 
-    /* ── Code blocks ── */
     .post-content pre {
       background: rgba(0, 0, 0, 0.2);
       padding: 24px 32px;
@@ -262,12 +286,166 @@
       margin: var(--gap-lg) 0;
     }
     [data-theme="light"] .post-content pre {
-      background: rgba(0, 0, 0, 0.03);
+      background: rgba(0, 0, 0, 0.04);
     }
     .post-content code {
-      font-family: var(--font-mono);
+      font-family: var(--font-body);
       font-size: 0.95rem;
-      line-height: 1.6;
+      line-height: 1.7;
+    }
+
+    /* Inline code */
+    .post-content p code,
+    .post-content li code {
+      background: rgba(255,255,255,0.06);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+    [data-theme="light"] .post-content p code,
+    [data-theme="light"] .post-content li code {
+      background: rgba(0,0,0,0.06);
+    }
+
+    /* ── Stat callout — the big number blocks ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin: var(--gap-lg) 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .stat-cell {
+      padding: 28px 24px;
+      background: var(--overlay);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .stat-cell__label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--acc);
+    }
+
+    .stat-cell__value {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .stat-cell__value.good  { color: var(--accent); }
+    .stat-cell__value.bad   { color: #ef4444; }
+    .stat-cell__value.muted { color: var(--acc); }
+
+    .stat-cell__sub {
+      font-size: 0.8rem;
+      color: var(--acc);
+      margin-top: 2px;
+    }
+
+    /* ── Failure example cards ── */
+    .failure-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 12px;
+      background: var(--overlay);
+    }
+
+    .failure-card__input {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .failure-card__row {
+      display: flex;
+      gap: 24px;
+      font-size: 0.85rem;
+    }
+
+    .failure-card__predicted {
+      color: #ef4444;
+    }
+
+    .failure-card__actual {
+      color: var(--acc);
+    }
+
+    .failure-card__predicted::before { content: "Predicted → "; opacity: 0.5; }
+    .failure-card__actual::before    { content: "Actual → ";    opacity: 0.5; }
+
+    /* ── Pipeline diagram ── */
+    .pipeline {
+      margin: var(--gap-lg) 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .pipeline__step {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 20px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--overlay);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      position: relative;
+    }
+
+    .pipeline__step.highlight {
+      border-color: rgba(34, 197, 94, 0.3);
+      background: rgba(34, 197, 94, 0.05);
+    }
+
+    .pipeline__step.highlight .pipeline__label {
+      color: var(--accent);
+    }
+
+    .pipeline__arrow {
+      text-align: center;
+      color: var(--border);
+      font-size: 0.8rem;
+      padding: 2px 0;
+      margin-left: 20px;
+    }
+
+    .pipeline__label {
+      color: var(--text);
+      flex: 1;
+    }
+
+    .pipeline__note {
+      font-size: 0.75rem;
+      color: var(--acc);
+      font-family: var(--font-body);
+      font-style: italic;
+    }
+
+    /* ── Stage label (inline section marker) ── */
+    .stage-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--acc);
+      border: 1px solid var(--border);
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: var(--gap-sm);
     }
 
     /* ============================================================
@@ -293,7 +471,7 @@
     .next-article:hover { color: var(--acc); }
 
     /* ============================================================
-       10. RESPONSIVE — MOBILE
+       10. RESPONSIVE
     ============================================================ */
     @media (max-width: 900px) {
       .layout-container {
@@ -305,11 +483,12 @@
         position: relative;
         top: 0;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
         flex-wrap: wrap;
         border-bottom: 1px solid var(--border);
         padding-bottom: 20px;
+        gap: 16px;
       }
       .article__meta {
         flex-direction: row;
@@ -317,44 +496,36 @@
         padding-top: 0;
         gap: 20px;
       }
-      .meta-item span:first-child { display: none; } /* Hide labels on mobile for space */
-      .back-btn { margin-bottom: 0; width: 100%; margin-bottom: 1rem;}
+      .meta-item span:first-child { display: none; }
+      .back-btn { width: 100%; margin-bottom: 0; }
+      .meta-tags { margin-top: 0; padding-top: 0; border-top: none; }
+      .stat-row { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 768px) {
       #cursor { display: none !important; }
-      *        { cursor: auto !important; }
+      * { cursor: auto !important; }
       .post-content pre { padding: 16px; }
+      .failure-card__row { flex-direction: column; gap: 6px; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ── Grain texture overlay ── -->
   <div class="noise-overlay" aria-hidden="true"></div>
-
-  <!-- ── Custom cursor (desktop only) ── -->
   <div id="cursor" aria-hidden="true"></div>
-
-  <!-- ── Scroll progress indicator ── -->
   <div class="progress-bar" id="progress-bar" role="progressbar" aria-hidden="true"></div>
 
-  <!-- ── Page loader ── -->
-  <div id="loader" style="display: none;">
-    <span class="loader__counter">0</span>
-  </div>
-
-  <!-- ── Injected navigation ── -->
   <div id="navbar-placeholder"></div>
 
   <!-- ============================================================
-       MAIN CONTENT (Grid Layout)
+       MAIN
   ============================================================ -->
   <main id="main" class="layout-container">
-    
-    <!-- Left Column: Navigation & Meta -->
-    <aside class="meta-sidebar reveal-text">
+
+    <!-- ── Sidebar ── -->
+    <aside class="meta-sidebar reveal-text reveal">
       <a href="/blog/" class="back-btn magnet">
         <i class="ri-arrow-left-line"></i> Back to Journal
       </a>
@@ -370,146 +541,449 @@
         </div>
         <div class="meta-item">
           <span>Reading Time</span>
-          <span>8 Min Read</span>
+          <span>12 Min Read</span>
         </div>
+      </div>
+
+      <div class="meta-tags">
+        <span class="tag">NLP</span>
+        <span class="tag">ML Systems</span>
+        <span class="tag">Applied AI</span>
+        <span class="tag">System Design</span>
+        <span class="tag">Data Engineering</span>
+        <span class="tag">Reliability</span>
       </div>
     </aside>
 
-    <!-- Right Column: Content -->
+    <!-- ── Article ── -->
     <article class="article-content">
-      
-      <!-- Headline -->
-      <h1 class="article__title reveal-text">
+
+      <h1 class="article__title reveal-text reveal">
         Why Accuracy Lied: Lessons from Building an NLP System
       </h1>
 
-      <!-- ── Body copy ── -->
-      <div class="post-content reveal-text">
+      <p class="article__deck reveal-text reveal">
+        I built a model that hit 97% accuracy. It was completely useless in production.
+        This is the story of four stages, one hard reset, and the shift from model accuracy
+        to system reliability.
+      </p>
+
+      <div class="post-content reveal-text reveal">
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- INTRO                                      -->
+        <!-- ══════════════════════════════════════════ -->
 
         <p>
-          I recently rebuilt the intelligence layer of my personal finance app, Velar, with a focus
-          on making transaction understanding both reliable and adaptable.
+          For the past year I've been building and dogfooding <strong>Velar</strong> — a personal
+          finance app that parses UPI and SMS transactions and automatically categorizes them.
+          The first version was embarrassingly simple: a lookup table.
+          Swiggy maps to Food. Netflix maps to Entertainment. Done.
         </p>
 
         <p>
-          The initial approach was straightforward: a rule-based system mapping known merchants
-          (like Swiggy or Netflix) to categories. While this worked for common cases, it quickly
-          broke down when faced with noisy inputs, inconsistent phrasing, or unseen vendors.
+          It worked until I started accumulating twelve months of real transaction data.
+          Real Indian UPI messages don't play by rules. They look like this:
         </p>
 
-        <!-- ── Section 1 ── -->
-        <h2>The Limits of Pure Machine Learning</h2>
-
-        <p>For example:</p>
-
-        <pre>"₹1200 paid"
-→ No merchant, no context → model fails
-
-"Netflix electricity bill"
-→ Conflicting signals → incorrect classification</pre>
+        <pre><code>"₹1200 paid"
+"txn id 48291 success"
+"Netflix electricity bill ₹1500"</code></pre>
 
         <p>
-          To address this, I engineered a synthetic dataset (3,000+ samples) with controlled
-          complexity—mixing clean, noisy, and adversarial patterns. This allowed me to evaluate the
-          model across difficulty levels and revealed a key insight:
+          No merchant. No context. Conflicting signals. The rule-based system collapsed outside
+          its happy path immediately. So I decided to go full ML — and that's where things got
+          interesting, then humbling, then finally useful.
+        </p>
+
+        <!-- IMAGE PLACEHOLDER: A screenshot of Velar's transaction list showing real messy inputs.
+             Helps ground the reader in the actual product context. -->
+        <!-- <figure class="post-image">
+          <img src="/images/blog/velar-transactions.png" alt="Velar transaction feed showing noisy inputs" />
+          <figcaption>Real UPI data from 12 months of usage — the input the model had to handle.</figcaption>
+        </figure> -->
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- STAGE 1                                    -->
+        <!-- ══════════════════════════════════════════ -->
+
+        <h2>Stage 1 — 97% and a False Sense of Progress</h2>
+
+        <p>
+          I engineered a dataset of 3,000+ samples from scratch — clean patterns, noisy variants,
+          and adversarial inputs that deliberately tried to trip the model. I trained a
+          TF-IDF + Logistic Regression classifier. I ran evaluation.
+        </p>
+
+        <!-- Stat block -->
+        <div class="stat-row">
+          <div class="stat-cell">
+            <span class="stat-cell__label">Clean Data</span>
+            <span class="stat-cell__value good">97%</span>
+            <span class="stat-cell__sub">TF-IDF + LogReg</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell__label">Cross-Dataset</span>
+            <span class="stat-cell__value good">97%</span>
+            <span class="stat-cell__sub">Structured inputs</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell__label">Hard Samples</span>
+            <span class="stat-cell__value bad">0%</span>
+            <span class="stat-cell__sub">Ambiguous inputs</span>
+          </div>
+        </div>
+
+        <p>
+          97% accuracy. I shipped it mentally. Celebrated internally.
+          Then I fed it the messy inputs I'd accumulated over the past year.
         </p>
 
         <blockquote>
-          "High accuracy on clean data does not translate to robustness."
+          The model was confident every single time. And wrong every single time.
         </blockquote>
 
-        <p>In controlled settings, the model achieved ~97% accuracy.</p>
-        <p>But when evaluated on realistic, noisy inputs, performance dropped to ~48%.</p>
-        <p>On highly ambiguous transactions (e.g., "₹1200 paid"), accuracy fell to 0%.</p>
-        <p>Even replacing the model with BERT only improved performance marginally (~50%).</p>
-
-        <!-- ── Section 2 ── -->
-        <h2>The Hybrid Pipeline</h2>
-
         <p>
-          This led me to rethink the system entirely—not as a single model, but as a pipeline.
-        </p>
-
-        <p>I designed a hybrid architecture where:</p>
-
-        <ul>
-          <li>deterministic rules handle high-confidence patterns</li>
-          <li>ML handles uncertain cases</li>
-          <li>low-confidence predictions are filtered out</li>
-        </ul>
-
-        <p>This prevents the system from making confident but incorrect decisions.</p>
-
-        <pre class="magnet"><code>// Architecture flow:
-text
-  → normalization
-  → extraction (amount, merchant)
-  → rules
-  → ML fallback
-  → confidence filtering</code></pre>
-
-        <!-- ── Conclusion ── -->
-        <h2>Conclusion</h2>
-
-        <p>
-          Finally, I deployed the model as a standalone inference service and integrated it with a
-          Node.js backend, adding a feedback loop where user corrections are stored for future
-          retraining.
+          The deeper problem was the <code>Other</code> class — transactions that are ambiguous or
+          genuinely unclassifiable. It had 0% precision and 0% recall. The model never predicted it,
+          not once. It had such a strong bias toward known merchant categories that it couldn't admit
+          when it didn't know. That's a dangerous property in a finance app.
         </p>
 
         <p>
-          The result is not just a classifier, but a continuously improving system—one that learns
-          from real usage rather than static datasets. This shift from "model accuracy" to "system
-          reliability" was the most important takeaway from the entire process.
+          The root cause was label leakage baked into the dataset. "Swiggy" always meant Food.
+          "Netflix" always meant Entertainment. The model wasn't learning intent — it was memorizing
+          a lookup table with extra steps. Remove the merchant token and prediction collapses entirely.
         </p>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- STAGE 2                                    -->
+        <!-- ══════════════════════════════════════════ -->
+
+        <h2>Stage 2 — Hiding the Problem More Cleverly</h2>
+
+        <p>
+          I went back to the dataset. Added weak signals, semantic anchors, and hard samples
+          designed to break merchant memorization. The numbers looked perfect again.
+        </p>
+
+        <div class="stat-row">
+          <div class="stat-cell">
+            <span class="stat-cell__label">In-Distribution</span>
+            <span class="stat-cell__value good">97%</span>
+            <span class="stat-cell__sub">After dataset refinement</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell__label">Cross-Dataset</span>
+            <span class="stat-cell__value good">97%</span>
+            <span class="stat-cell__sub">Structured inputs</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell__label">Reality</span>
+            <span class="stat-cell__value muted">?</span>
+            <span class="stat-cell__sub">Still broken</span>
+          </div>
+        </div>
+
+        <p>
+          The model looked fixed. It wasn't. The dataset refinement had just made it better at
+          hiding the failure — the implicit mappings were still there, just more subtle.
+          I hadn't solved the problem. I'd made it harder to see.
+        </p>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- STAGE 2.5                                  -->
+        <!-- ══════════════════════════════════════════ -->
+
+        <h2>Stage 2.5 — Forcing Honesty</h2>
+
+        <p>
+          I stripped everything deterministic. Probabilistic labels. Real noise injection.
+          True ambiguity. Inputs that genuinely could belong to multiple categories.
+          The model had nowhere to hide.
+        </p>
+
+        <div class="stat-row">
+          <div class="stat-cell">
+            <span class="stat-cell__label">Realistic Data</span>
+            <span class="stat-cell__value bad">48%</span>
+            <span class="stat-cell__sub">After realism adjustment</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell__label">Ambiguous Inputs</span>
+            <span class="stat-cell__value bad">0%</span>
+            <span class="stat-cell__sub">"₹1200 paid" class</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell__label">Status</span>
+            <span class="stat-cell__value muted" style="font-size:1.2rem; padding-top:8px;">Honest</span>
+            <span class="stat-cell__sub">Finally</span>
+          </div>
+        </div>
+
+        <p>
+          48% wasn't a regression — it was the truth finally surfacing. These were the actual
+          failure modes, made visible:
+        </p>
+
+        <div class="failure-card">
+          <div class="failure-card__input">"₹1397 debited txn id 48291 success"</div>
+          <div class="failure-card__row">
+            <span class="failure-card__predicted">Bills</span>
+            <span class="failure-card__actual">Other</span>
+          </div>
+        </div>
+
+        <div class="failure-card">
+          <div class="failure-card__input">"transaction completed ₹999"</div>
+          <div class="failure-card__row">
+            <span class="failure-card__predicted">Shopping</span>
+            <span class="failure-card__actual">Other</span>
+          </div>
+        </div>
+
+        <div class="failure-card">
+          <div class="failure-card__input">"Netflix electricity bill ₹1500"</div>
+          <div class="failure-card__row">
+            <span class="failure-card__predicted">Entertainment</span>
+            <span class="failure-card__actual">Bills</span>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- STAGE 3: BERT                              -->
+        <!-- ══════════════════════════════════════════ -->
+
+        <h2>Stage 3 — BERT Didn't Save Me</h2>
+
+        <p>
+          The obvious next move was to upgrade the model. I swapped TF-IDF for BERT —
+          a state-of-the-art transformer pre-trained on billions of tokens.
+        </p>
+
+        <div class="stat-row">
+          <div class="stat-cell">
+            <span class="stat-cell__label">TF-IDF + LogReg</span>
+            <span class="stat-cell__value bad">48%</span>
+            <span class="stat-cell__sub">Realistic data</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell__label">BERT</span>
+            <span class="stat-cell__value bad">50%</span>
+            <span class="stat-cell__sub">Same data</span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell__label">Delta</span>
+            <span class="stat-cell__value muted">+2%</span>
+            <span class="stat-cell__sub">For all that work</span>
+          </div>
+        </div>
+
+        <p>
+          Two percentage points. That result was the most important finding of the entire project.
+        </p>
+
+        <blockquote>
+          The bottleneck wasn't the model. It was the information in the input.
+        </blockquote>
+
+        <p>
+          <code>"₹1200 paid"</code> doesn't contain enough signal for <em>any</em> model to
+          classify reliably. That's not an architecture problem — it's a data problem.
+          No model, no matter how capable, breaks through that ceiling. Swapping in a
+          better architecture when the inputs are information-poor is like buying a better
+          calculator to solve an equation with missing variables.
+        </p>
+
+        <!-- IMAGE PLACEHOLDER: A simple bar chart — TF-IDF 48%, BERT 50% — identical to the
+             LinkedIn visual. Reinforces the BERT finding visually. You can drop in the SVG
+             exported from the LinkedIn image you already have. -->
+        <!-- <figure class="post-image">
+          <img src="/images/blog/accuracy-chart.png" alt="TF-IDF vs BERT accuracy comparison" />
+          <figcaption>State-of-the-art transformer. Two percentage points.</figcaption>
+        </figure> -->
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- THE REDESIGN                               -->
+        <!-- ══════════════════════════════════════════ -->
+
+        <h2>The Redesign — From Model to System</h2>
+
+        <p>
+          I stopped asking "how do I improve the model?" and started asking
+          "how do I build a reliable system?" Those are fundamentally different questions,
+          and the second one has a better answer.
+        </p>
+
+        <p>
+          The insight was that not all inputs are created equal. Some transactions are
+          highly deterministic — <code>Swiggy</code> in the merchant field is nearly always Food.
+          Others are genuinely ambiguous and no classifier will ever get them right with
+          certainty. Treating all inputs the same and routing everything through a single model
+          was the wrong architecture from the start.
+        </p>
+
+        <p>The answer was a hybrid pipeline:</p>
+
+        <!-- Pipeline diagram -->
+        <div class="pipeline">
+          <div class="pipeline__step">
+            <span class="pipeline__label">normalization</span>
+            <span class="pipeline__note">clean, lowercase, strip noise</span>
+          </div>
+          <div class="pipeline__arrow">↓</div>
+          <div class="pipeline__step">
+            <span class="pipeline__label">entity extraction</span>
+            <span class="pipeline__note">amount, merchant, UPI ref</span>
+          </div>
+          <div class="pipeline__arrow">↓</div>
+          <div class="pipeline__step">
+            <span class="pipeline__label">deterministic rules</span>
+            <span class="pipeline__note">high-confidence patterns → direct output</span>
+          </div>
+          <div class="pipeline__arrow">↓</div>
+          <div class="pipeline__step">
+            <span class="pipeline__label">ML fallback</span>
+            <span class="pipeline__note">uncertain inputs → model inference</span>
+          </div>
+          <div class="pipeline__arrow">↓</div>
+          <div class="pipeline__step highlight">
+            <span class="pipeline__label">confidence filtering</span>
+            <span class="pipeline__note">below threshold → no output</span>
+          </div>
+        </div>
+
+        <p>
+          That last step is the most important. The system now knows when to stay silent.
+          A transaction with insufficient signal gets returned as <code>unclassified</code>
+          rather than a confident wrong answer. In a finance app, silence is always better
+          than a confidently incorrect category.
+        </p>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- FEEDBACK LOOP                              -->
+        <!-- ══════════════════════════════════════════ -->
+
+        <h2>The Feedback Loop — Making It a Living System</h2>
+
+        <p>
+          After deploying the pipeline as a standalone inference service (integrated with
+          a Node.js backend), the real unlock came from what followed deployment.
+        </p>
+
+        <p>
+          Every time a user recategorizes a transaction, that correction is stored.
+          Those corrections become future training data. The model retrains on real usage
+          patterns instead of synthetic datasets engineered to look realistic.
+        </p>
+
+        <p>
+          This is the shift from a model to a living system. The synthetic dataset I built
+          in Stage 1 was a reasonable starting point — but the real dataset is the one users
+          generate through actual behavior. No amount of adversarial engineering fully replicates
+          the variety of 12 months of real transactions. Closing that loop was the most
+          architecturally important decision in the whole project.
+        </p>
+
+        <!-- IMAGE PLACEHOLDER: A simple diagram showing the correction loop —
+             User sees wrong category → taps to fix → correction stored → feeds retraining.
+             Even a hand-drawn style works well here. -->
+        <!-- <figure class="post-image">
+          <img src="/images/blog/feedback-loop.png" alt="User correction feedback loop diagram" />
+          <figcaption>The loop that makes the system smarter over time.</figcaption>
+        </figure> -->
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- WHAT I LEARNED                             -->
+        <!-- ══════════════════════════════════════════ -->
+
+        <h2>What This Project Actually Taught Me</h2>
+
+        <h3>On data</h3>
+        <p>
+          High performance on clean data is a warning, not a signal. If your test set doesn't
+          reflect the full ugliness of production inputs — the noise, the ambiguity, the inputs
+          that genuinely don't have a right answer — your metrics are lying. I spent two stages
+          learning this the slow way.
+        </p>
+
+        <h3>On models</h3>
+        <p>
+          Swapping in a better model doesn't fix an information problem. BERT scoring 50% when
+          TF-IDF scored 48% is not a failure of BERT — it's a ceiling set by the inputs themselves.
+          Understanding which problem you're actually solving before reaching for a better
+          architecture saves a lot of time.
+        </p>
+
+        <h3>On systems</h3>
+        <p>
+          A classifier that outputs nothing on uncertain inputs is more valuable than one that
+          outputs confidently wrong answers. Confidence filtering isn't a weakness or an admission
+          of failure — it's a deliberate design decision that makes the overall system more
+          trustworthy.
+        </p>
+
+        <h3>On iteration</h3>
+        <p>
+          The real dataset isn't the one you engineer before launch. It's the one your users
+          generate through real behavior. Build the correction loop from day one, not as an
+          afterthought. Every user interaction is a labeled training example.
+        </p>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- CLOSING                                    -->
+        <!-- ══════════════════════════════════════════ -->
+
+        <h2>The Metric That Actually Matters</h2>
+
+        <p>
+          The shift that mattered most in this entire project wasn't architectural — it was
+          conceptual. Moving from "does this model score well on my benchmark" to "does this
+          system behave correctly under real conditions, including knowing when to stay silent"
+          changed every decision that followed.
+        </p>
+
+        <p>
+          Accuracy is easy to optimize for. Reliability is harder. But reliability is the thing
+          that makes a system actually useful to the person who depends on it.
+        </p>
+
+        <blockquote>
+          High accuracy on synthetic data is easy. Reliable systems under ambiguity are hard.
+          The difference is worth understanding before you ship.
+        </blockquote>
 
       </div>
       <!-- /post-content -->
 
-      <!-- Article footer / next-post link -->
       <footer class="article__footer reveal-text">
-        <!--
-          Uncomment to enable next-post navigation:
-          <span style="color:var(--acc); font-size:.9rem; text-transform:uppercase; letter-spacing:1px;">Next Post</span>
-          <a href="/blog/" class="next-article magnet">
-            Demystifying RSCs <i class="ri-arrow-right-line"></i>
-          </a>
+        <!-- Uncomment when next post is published:
+        <span style="color:var(--acc); font-size:.9rem; text-transform:uppercase; letter-spacing:1px;">Next Post</span>
+        <a href="/blog/next-post" class="next-article magnet">
+          Next Title <i class="ri-arrow-right-line"></i>
+        </a>
         -->
       </footer>
 
     </article>
   </main>
-  <!-- /main -->
 
-  <!-- ============================================================
-       SCRIPTS
-  ============================================================ -->
-
-  <!-- ── Third-party libraries ── -->
+  <!-- ── Scripts ── -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- ── Site components (nav, footer, etc.) ── -->
   <script src="/components-loader.js"></script>
-    <script
-    src="https://nltx.priyatham.in/api/script.js"
-    data-site-id="7aca700f4963"
-    defer
-></script>
+  <script src="https://nltx.priyatham.in/api/script.js" data-site-id="7aca700f4963" defer></script>
+
   <script>
-    /* ============================================================
-       1. THEME SWITCHER
-    ============================================================ */
+    /* ── Theme ── */
     function toggleTheme() {
-      const html      = document.documentElement;
+      const html = document.documentElement;
       const themeIcon = document.getElementById('theme-icon');
       if (!themeIcon) return;
-
       const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
       themeIcon.className = next === 'light' ? 'ri-sun-line' : 'ri-moon-line';
-
       try { localStorage.setItem('theme', next); } catch (_) {}
     }
 
@@ -517,88 +991,57 @@ text
       try {
         const saved = localStorage.getItem('theme');
         if (!saved) return;
-
         document.documentElement.setAttribute('data-theme', saved);
         const icon = document.getElementById('theme-icon');
         if (icon) icon.className = saved === 'light' ? 'ri-sun-line' : 'ri-moon-line';
       } catch (_) {}
     })();
 
-    /* ============================================================
-       2. PAGE LOADER
-    ============================================================ */
-    function initLoader() {
-      const counter = document.querySelector('.loader__counter');
-      if (!counter) return;
-
-      let value = 0;
-
-      function tick() {
-        if (value >= 100) return;
-        value = Math.min(value + Math.floor(Math.random() * 10) + 1, 100);
-        counter.textContent = value;
-        setTimeout(tick, Math.floor(Math.random() * 200) + 50);
-      }
-      tick();
-
-      gsap.timeline()
-        .to('.loader__counter',  { delay: 2.5, opacity: 0 })
-        .to('#loader',           { height: 0, duration: 1, ease: 'power4.inOut' })
-        .from('.reveal-text',    { y: 20, opacity: 0, stagger: 0.1, duration: 1, ease: 'power4.out' }, '-=0.5');
-    }
-
-    initLoader();
-
-    /* ============================================================
-       3. SMOOTH SCROLL (Lenis)
-    ============================================================ */
+    /* ── Lenis smooth scroll ── */
     const lenis = new Lenis();
-
-    function rafLoop(time) {
-      lenis.raf(time);
-      requestAnimationFrame(rafLoop);
-    }
+    function rafLoop(time) { lenis.raf(time); requestAnimationFrame(rafLoop); }
     requestAnimationFrame(rafLoop);
 
-    /* ============================================================
-       4. READING PROGRESS BAR
-    ============================================================ */
+    /* ── Staggered entrance ── */
+    window.addEventListener('DOMContentLoaded', () => {
+      gsap.to('.reveal', {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.12,
+        delay: 0.1,
+      });
+    });
+
+    /* ── Progress bar ── */
     window.addEventListener('scroll', () => {
       const scrolled = document.body.scrollTop || document.documentElement.scrollTop;
-      const total    = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const total = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       document.getElementById('progress-bar').style.width = `${(scrolled / total) * 100}%`;
     });
 
-    /* ============================================================
-       5. CUSTOM CURSOR + MAGNET EFFECT 
-    ============================================================ */
+    /* ── Cursor + magnet ── */
     if (window.matchMedia('(min-width: 769px)').matches) {
       const cursor = document.getElementById('cursor');
-
       window.addEventListener('mousemove', (e) => {
         gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
       });
-
       document.querySelectorAll('.magnet').forEach((el) => {
         el.addEventListener('mousemove', (e) => {
           const rect = el.getBoundingClientRect();
-          const dx   = e.clientX - rect.left - rect.width  / 2;
-          const dy   = e.clientY - rect.top  - rect.height / 2;
-
-          gsap.to(el,     { x: dx * 0.3, y: dy * 0.3, duration: 0.3 });
+          const dx = e.clientX - rect.left - rect.width / 2;
+          const dy = e.clientY - rect.top - rect.height / 2;
+          gsap.to(el, { x: dx * 0.3, y: dy * 0.3, duration: 0.3 });
           gsap.to(cursor, { scale: 3 });
         });
-
         el.addEventListener('mouseleave', () => {
-          gsap.to(el,     { x: 0, y: 0 });
+          gsap.to(el, { x: 0, y: 0 });
           gsap.to(cursor, { scale: 1 });
         });
       });
     }
 
-    /* ============================================================
-       6. LUCIDE ICONS
-    ============================================================ */
     lucide.createIcons();
   </script>
 

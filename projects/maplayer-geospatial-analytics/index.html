@@ -4,19 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="MapLayer - A geospatial visualization platform that bridges raw analytics with intuitive map-based navigation. Built with React, Leaflet, and Next.js.">
-    <meta name="keywords"
-        content="MapLayer, Geospatial Visualization, Mapping, React, Leaflet, Next.js, Data Visualization">
+    <meta name="description" content="MapLayer - A geospatial visualization platform that bridges raw analytics with intuitive map-based navigation. Built with React, Leaflet, and Next.js.">
+    <meta name="keywords" content="MapLayer, Geospatial Visualization, Mapping, React, Leaflet, Next.js, Data Visualization">
     <meta name="author" content="Lokesh Ram Chand">
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
     <title>MapLayer | Lokesh Ram Chand</title>
-
+    
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link
-        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
-        rel="stylesheet">
-
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
+    
     <style>
         /* --- 1. VARIABLES & THEMES (From Main Page) --- */
         :root {
@@ -50,8 +46,7 @@
             cursor: none;
         }
 
-        html,
-        body {
+        html, body {
             width: 100%;
             background-color: var(--bg);
             color: var(--text);
@@ -104,13 +99,8 @@
         }
 
         @media (pointer: coarse) {
-            #cursor {
-                display: none !important;
-            }
-
-            * {
-                cursor: auto !important;
-            }
+            #cursor { display: none !important; }
+            * { cursor: auto !important; }
         }
 
         /* --- 5. NAVIGATION (From Main Page) --- */
@@ -218,8 +208,7 @@
         .container {
             max-width: 1440px;
             margin: 0 auto;
-            padding: 140px 5vw 80px 5vw;
-            /* Match nav side padding */
+            padding: 140px 5vw 80px 5vw; /* Match nav side padding */
         }
 
         .hero {
@@ -243,7 +232,7 @@
             color: var(--acc);
             text-transform: uppercase;
             letter-spacing: 2px;
-            overflow: hidden;
+            overflow: hidden; 
         }
 
         .hero-title {
@@ -415,70 +404,24 @@
 
         /* --- 10. RESPONSIVE --- */
         @media (max-width: 900px) {
-            .nav-right .menu-items {
-                display: none;
-            }
-
-            .menu-icon {
-                display: block;
-            }
-
-            .content-grid {
-                grid-template-columns: 1fr;
-                gap: 60px;
-            }
-
-            .visual-grid {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-
-            .media-block {
-                margin-top: 0 !important;
-            }
-
-            .media-container {
-                max-height: 400px;
-            }
-
-            .media-container img {
-                max-height: 400px;
-            }
-
-            .hero-title {
-                font-size: 3rem;
-            }
-
-            .hero-media {
-                height: 40vh;
-            }
-
-            .links-grid {
-                grid-template-columns: 1fr;
-            }
+            .nav-right .menu-items { display: none; }
+            .menu-icon { display: block; }
+            .content-grid { grid-template-columns: 1fr; gap: 60px; }
+            .visual-grid { grid-template-columns: 1fr; gap: 40px; }
+            .media-block { margin-top: 0 !important; }
+            .media-container { max-height: 400px; }
+            .media-container img { max-height: 400px; }
+            .hero-title { font-size: 3rem; }
+            .hero-media { height: 40vh; }
+            .links-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 600px) {
-            .container {
-                padding: 120px 5vw 60px 5vw;
-            }
-
-            .visual-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .media-container {
-                max-height: 300px;
-            }
-
-            .media-container img {
-                max-height: 300px;
-            }
-
-            .hero-media {
-                height: 30vh;
-            }
+            .container { padding: 120px 5vw 60px 5vw; }
+            .visual-grid { grid-template-columns: 1fr; gap: 30px; }
+            .media-container { max-height: 300px; }
+            .media-container img { max-height: 300px; }
+            .hero-media { height: 30vh; }
         }
     </style>
 </head>
@@ -491,8 +434,7 @@
     <div class="mobile-menu">
         <a href="../../home/index.html" class="mobile-link" onclick="toggleMenu()">Projects</a>
         <a href="../../home/index.html#about" class="mobile-link" onclick="toggleMenu()">About</a>
-        <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank"
-            class="mobile-link" onclick="toggleMenu()">Resume</a>
+        <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" class="mobile-link" onclick="toggleMenu()">Resume</a>
     </div>
 
     <nav>
@@ -502,8 +444,7 @@
             <div class="menu-items">
                 <a href="../../home/index.html#work" class="menu-link magnet">Projects</a>
                 <a href="../../home/index.html#about" class="menu-link magnet">About</a>
-                <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link"
-                    target="_blank" class="menu-link magnet">Resume</a>
+                <a href="https://drive.google.com/file/d/1HicrndILNyc9dkNFDz_BzozauWinXTyj/view?usp=drive_link" target="_blank" class="menu-link magnet">Resume</a>
             </div>
 
             <button class="theme-btn magnet interactive-el" onclick="toggleTheme()" aria-label="Toggle Theme">
@@ -527,16 +468,13 @@
         </header>
 
         <div class="hero-media interactive-el">
-            <img id="hero-image" src="../../assets/maplayer/darkmode.png" class="parallax-img"
-                alt="MapLayer geospatial visualization platform preview">
+            <img id="hero-image" src="../../assets/maplayer/darkmode.png" class="parallax-img" alt="MapLayer geospatial visualization platform preview">
         </div>
 
         <main>
             <section class="content-grid">
                 <article class="intro-text">
-                    <p>Shifting from text-heavy responses to intuitive spatial environments. The "MapLayer" system
-                        leveraged geographic location data to dynamically render complex datasets, creating a seamless
-                        bridge between raw analytics and visual, map-based navigation.</p>
+                    <p>Shifting from text-heavy responses to intuitive spatial environments. The "MapLayer" system leveraged geographic location data to dynamically render complex datasets, creating a seamless bridge between raw analytics and visual, map-based navigation.</p>
                 </article>
 
                 <aside class="metadata">
@@ -566,8 +504,7 @@
 
                     <div class="media-block">
                         <figure class="media-container">
-                            <img src="../../assets/maplayer/first%20animation.gif" class="parallax-img"
-                                alt="Dynamic route generation for multi-party locations">
+                            <img src="../../assets/maplayer/first%20animation.gif" class="parallax-img" alt="Dynamic route generation for multi-party locations">
                         </figure>
                         <figcaption class="media-caption">
                             <span class="num">01</span>
@@ -575,10 +512,9 @@
                         </figcaption>
                     </div>
 
-                    <div class="media-block">
+                    <div class="media-block"> 
                         <figure class="media-container">
-                            <img src="../../assets/maplayer/leftsidebar.gif" class="parallax-img"
-                                alt="Pin drop interaction for venue suggestions">
+                            <img src="../../assets/maplayer/leftsidebar.gif" class="parallax-img" alt="Pin drop interaction for venue suggestions">
                         </figure>
                         <figcaption class="media-caption">
                             <span class="num">02</span>
@@ -588,8 +524,7 @@
 
                     <div class="media-block">
                         <figure class="media-container">
-                            <img src="../../assets/maplayer/rightsidebar.gif" class="parallax-img"
-                                alt="Heatmap visualization for user preferences">
+                            <img src="../../assets/maplayer/rightsidebar.gif" class="parallax-img" alt="Heatmap visualization for user preferences">
                         </figure>
                         <figcaption class="media-caption">
                             <span class="num">03</span>
@@ -599,8 +534,7 @@
 
                     <div class="media-block">
                         <figure class="media-container">
-                            <img src="../../assets/maplayer/mainpage.gif" class="parallax-img"
-                                alt="3D spatial zoom for search to context view">
+                            <img src="../../assets/maplayer/mainpage.gif" class="parallax-img" alt="3D spatial zoom for search to context view">
                         </figure>
                         <figcaption class="media-caption">
                             <span class="num">04</span>
@@ -653,8 +587,8 @@
             const menu = document.querySelector('.mobile-menu');
             const icon = document.querySelector('.menu-icon i');
             menu.classList.toggle('active');
-
-            if (menu.classList.contains('active')) {
+            
+            if(menu.classList.contains('active')){
                 icon.classList.remove('ri-menu-4-line');
                 icon.classList.add('ri-close-line');
             } else {
@@ -680,9 +614,9 @@
         // --- 4. CUSTOM CURSOR & MAGNETS (Matches Main Page Exactly) ---
         if (window.matchMedia("(min-width: 769px)").matches) {
             const cursor = document.getElementById("cursor");
-
-            let xTo = gsap.quickTo(cursor, "x", { duration: 0.15, ease: "power3" }),
-                yTo = gsap.quickTo(cursor, "y", { duration: 0.15, ease: "power3" });
+            
+            let xTo = gsap.quickTo(cursor, "x", {duration: 0.15, ease: "power3"}),
+                yTo = gsap.quickTo(cursor, "y", {duration: 0.15, ease: "power3"});
 
             window.addEventListener("mousemove", (e) => {
                 xTo(e.clientX);
@@ -714,11 +648,11 @@
 
         // --- 5. PAGE REVEAL & SCROLL ANIMATIONS ---
         const tlLoad = gsap.timeline();
-
+        
         tlLoad.from("nav", { y: -20, opacity: 0, duration: 1, ease: "power3.out", delay: 0.2 })
-            .from(".subtitle", { y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.6")
-            .from(".hero-title", { y: 100, opacity: 0, duration: 1.2, ease: "power4.out" }, "-=0.6")
-            .from(".hero-media", { y: 40, scale: 0.95, opacity: 0, duration: 1.5, ease: "power3.out" }, "-=0.8");
+              .from(".subtitle", { y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" }, "-=0.6")
+              .from(".hero-title", { y: 100, opacity: 0, duration: 1.2, ease: "power4.out" }, "-=0.6")
+              .from(".hero-media", { y: 40, scale: 0.95, opacity: 0, duration: 1.5, ease: "power3.out" }, "-=0.8");
 
         gsap.from(".intro-text p", {
             scrollTrigger: {

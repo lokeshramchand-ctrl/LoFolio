@@ -14,14 +14,13 @@
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
 
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link
-        href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
-        rel="stylesheet">
+    <!-- Encoded brackets in URL to prevent HTML validation errors -->
+    <link href="https://api.fontshare.com/v2/css?f%5B%5D=clash-display@200,400,500,600,700&f%5B%5D=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
 
     <style>
         /* ============================================================
-       1. DESIGN TOKENS & THEMES
-    ============================================================ */
+           1. DESIGN TOKENS & THEMES
+        ============================================================ */
         :root {
             --bg: #0b0b0b;
             --text: #e0e0e0;
@@ -53,19 +52,16 @@
         }
 
         /* ============================================================
-       2. RESET
-    ============================================================ */
-        *,
-        *::before,
-        *::after {
+           2. RESET
+        ============================================================ */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             cursor: none;
         }
 
-        html,
-        body {
+        html, body {
             width: 100%;
             background-color: var(--bg);
             color: var(--text);
@@ -74,26 +70,13 @@
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        button {
-            border: none;
-            background: none;
-            cursor: none;
-            color: inherit;
-        }
+        a { text-decoration: none; color: inherit; display: block; }
+        ul { list-style: none; }
+        button { border: none; background: none; cursor: none; color: inherit; }
 
         /* ============================================================
-       3. UTILITIES
-    ============================================================ */
+           3. UTILITIES
+        ============================================================ */
         .reveal {
             opacity: 0;
             transform: translateY(28px);
@@ -109,14 +92,12 @@
         }
 
         /* ============================================================
-       4. CURSOR
-    ============================================================ */
+           4. CURSOR
+        ============================================================ */
         #cursor {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 15px;
-            height: 15px;
+            top: 0; left: 0;
+            width: 15px; height: 15px;
             background-color: var(--text);
             border-radius: 50%;
             pointer-events: none;
@@ -127,12 +108,11 @@
         }
 
         /* ============================================================
-       5. PROGRESS BAR
-    ============================================================ */
+           5. PROGRESS BAR
+        ============================================================ */
         .progress-bar {
             position: fixed;
-            top: 0;
-            left: 0;
+            top: 0; left: 0;
             height: 3px;
             width: 0%;
             background: var(--text);
@@ -141,8 +121,8 @@
         }
 
         /* ============================================================
-       6. LAYOUT
-    ============================================================ */
+           6. LAYOUT
+        ============================================================ */
         .layout-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -173,9 +153,7 @@
             width: fit-content;
         }
 
-        .back-btn:hover {
-            color: var(--text);
-        }
+        .back-btn:hover { color: var(--text); }
 
         .article__meta {
             display: flex;
@@ -187,11 +165,7 @@
             border-top: 1px solid var(--border);
         }
 
-        .meta-item {
-            display: flex;
-            flex-direction: column;
-        }
-
+        .meta-item { display: flex; flex-direction: column; }
         .meta-item span:first-child {
             font-size: 0.75rem;
             text-transform: uppercase;
@@ -219,9 +193,7 @@
             border-radius: 20px;
         }
 
-        .article-content {
-            max-width: 720px;
-        }
+        .article-content { max-width: 720px; }
 
         .article__title {
             font-family: var(--font-display);
@@ -241,8 +213,8 @@
         }
 
         /* ============================================================
-       7. BODY TYPOGRAPHY
-    ============================================================ */
+           7. BODY TYPOGRAPHY
+        ============================================================ */
         .post-content {
             font-size: 1.15rem;
             line-height: 1.85;
@@ -272,8 +244,7 @@
             font-size: 0.85rem;
         }
 
-        .post-content ul,
-        .post-content ol {
+        .post-content ul, .post-content ol {
             margin-bottom: var(--gap-md);
             padding-left: 20px;
         }
@@ -284,9 +255,7 @@
             padding-left: 8px;
         }
 
-        .post-content li::marker {
-            color: var(--acc);
-        }
+        .post-content li::marker { color: var(--acc); }
 
         .post-content blockquote {
             border-left: 2px solid var(--text);
@@ -307,9 +276,7 @@
             margin: var(--gap-lg) 0;
         }
 
-        [data-theme="light"] .post-content pre {
-            background: rgba(0, 0, 0, 0.04);
-        }
+        [data-theme="light"] .post-content pre { background: rgba(0, 0, 0, 0.04); }
 
         .post-content code {
             font-family: var(--font-body);
@@ -317,16 +284,14 @@
             line-height: 1.7;
         }
 
-        .post-content p code,
-        .post-content li code {
+        .post-content p code, .post-content li code {
             background: rgba(255, 255, 255, 0.06);
             padding: 2px 7px;
             border-radius: 4px;
             font-size: 0.9em;
         }
 
-        [data-theme="light"] .post-content p code,
-        [data-theme="light"] .post-content li code {
+        [data-theme="light"] .post-content p code, [data-theme="light"] .post-content li code {
             background: rgba(0, 0, 0, 0.06);
         }
 
@@ -434,9 +399,7 @@
             background: rgba(34, 197, 94, 0.05);
         }
 
-        .pipeline__step.highlight .pipeline__label {
-            color: var(--accent);
-        }
+        .pipeline__step.highlight .pipeline__label { color: var(--accent); }
 
         .pipeline__arrow {
             text-align: center;
@@ -504,9 +467,7 @@
             color: var(--text);
         }
 
-        .stat-cell__value.accent {
-            color: var(--accent);
-        }
+        .stat-cell__value.accent { color: var(--accent); }
 
         .stat-cell__sub {
             font-size: 0.8rem;
@@ -534,27 +495,92 @@
         }
 
         /* ============================================================
-       8. ARTICLE FOOTER
-    ============================================================ */
-        .article__footer {
-            margin-top: 80px;
-            padding-top: 40px;
+           8. ARTICLE FOOTER & BOTTOM COMPONENTS
+        ============================================================ */
+        .author-card {
+            padding: var(--gap-lg) 0;
             border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            margin: var(--gap-xl) 0 var(--gap-lg);
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .author-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--overlay);
+            border: 1px solid var(--border);
+        }
+
+        .author-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .author-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--acc);
+        }
+
+        .author-card__title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .author-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 6px;
+        }
+
+        .author-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--acc);
+            transition: color 0.3s;
+        }
+
+        .author-links a:hover { color: var(--text); }
+
+        .article__footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding-bottom: var(--gap-md);
         }
 
+        .next-article {
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s;
+        }
+        
+        .next-article:hover { color: var(--acc); }
+
         /* ============================================================
-       9. RESPONSIVE
-    ============================================================ */
+           9. RESPONSIVE
+        ============================================================ */
         @media (max-width: 900px) {
             .layout-container {
                 grid-template-columns: 1fr;
                 padding-top: 15vh;
                 gap: 2rem;
             }
-
             .meta-sidebar {
                 position: relative;
                 top: 0;
@@ -566,50 +592,31 @@
                 padding-bottom: 20px;
                 gap: 16px;
             }
-
             .article__meta {
                 flex-direction: row;
                 border-top: none;
                 padding-top: 0;
                 gap: 20px;
             }
-
-            .meta-item span:first-child {
-                display: none;
-            }
-
+            .meta-item span:first-child { display: none; }
             .back-btn {
                 width: 100%;
                 margin-bottom: 0;
             }
-
             .meta-tags {
                 margin-top: 0;
                 padding-top: 0;
                 border-top: none;
             }
-
-            .stat-row {
-                grid-template-columns: 1fr;
-            }
-
-            .stack-grid {
-                grid-template-columns: 1fr;
-            }
+            .stat-row, .stack-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
-            #cursor {
-                display: none !important;
-            }
-
-            * {
-                cursor: auto !important;
-            }
-
-            .post-content pre {
-                padding: 16px;
-            }
+            #cursor { display: none !important; }
+            * { cursor: auto !important; }
+            .post-content pre { padding: 16px; }
+            .article__footer { flex-direction: column; gap: 20px; align-items: flex-start; }
+            .author-card { flex-direction: column; align-items: flex-start; gap: 16px; }
         }
     </style>
 </head>
@@ -619,7 +626,6 @@
     <div class="noise-overlay" aria-hidden="true"></div>
     <div id="cursor" aria-hidden="true"></div>
     <div class="progress-bar" id="progress-bar" role="progressbar" aria-hidden="true"></div>
-
     <div id="navbar-placeholder"></div>
 
     <main id="main" class="layout-container">
@@ -660,7 +666,7 @@
         <article class="article-content">
 
             <h1 class="article__title reveal">
-               How I combined ML , Clean UI , and APIs to simplify Personal Finance 
+                How I combined ML, Clean UI, and APIs to simplify Personal Finance 
             </h1>
 
             <p class="article__deck reveal">
@@ -673,7 +679,6 @@
             <div class="post-content reveal">
 
                 <!-- ══════════ INTRO ══════════ -->
-
                 <p>
                     If you've ever tried keeping track of personal finances, you know how tedious it gets.
                     You enter an expense, select a category from a long list, and hope the app doesn't
@@ -697,7 +702,6 @@
                 </p>
 
                 <!-- ══════════ FEATURES ══════════ -->
-
                 <h2>What Makes It Different</h2>
 
                 <p>
@@ -710,38 +714,33 @@
                         <div class="feature-item__dot"></div>
                         <div>
                             <div class="feature-item__title">Auto-Categorization</div>
-                            <div class="feature-item__desc">Type "Uber" or "Swiggy" — the model predicts the category.
-                                No dropdowns, no extra taps.</div>
+                            <div class="feature-item__desc">Type "Uber" or "Swiggy" — the model predicts the category. No dropdowns, no extra taps.</div>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-item__dot"></div>
                         <div>
                             <div class="feature-item__title">Effortless Expense Entry</div>
-                            <div class="feature-item__desc">Just a name and an amount. No forms, no cognitive load, no
-                                friction.</div>
+                            <div class="feature-item__desc">Just a name and an amount. No forms, no cognitive load, no friction.</div>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-item__dot"></div>
                         <div>
                             <div class="feature-item__title">Spending Insights</div>
-                            <div class="feature-item__desc">Category breakdowns and bar charts that show where your
-                                money goes — without digging.</div>
+                            <div class="feature-item__desc">Category breakdowns and bar charts that show where your money goes — without digging.</div>
                         </div>
                     </div>
                     <div class="feature-item">
                         <div class="feature-item__dot"></div>
                         <div>
                             <div class="feature-item__title">Polished UI</div>
-                            <div class="feature-item__desc">Built in Flutter with blurred glass navbars, smooth
-                                transitions, and clean card layouts.</div>
+                            <div class="feature-item__desc">Built in Flutter with blurred glass navbars, smooth transitions, and clean card layouts.</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- ══════════ TECH STACK ══════════ -->
-
                 <h2>The Tech Stack</h2>
 
                 <p>
@@ -753,31 +752,26 @@
                     <div class="stack-card">
                         <div class="stack-card__role">Frontend</div>
                         <div class="stack-card__name">Flutter</div>
-                        <div class="stack-card__desc">Animations, rich UI components, smooth cross-platform performance.
-                        </div>
+                        <div class="stack-card__desc">Animations, rich UI components, smooth cross-platform performance.</div>
                     </div>
                     <div class="stack-card">
                         <div class="stack-card__role">Backend</div>
                         <div class="stack-card__name">Node.js + Express</div>
-                        <div class="stack-card__desc">API orchestration — receives requests, calls the ML service,
-                            writes to the database.</div>
+                        <div class="stack-card__desc">API orchestration — receives requests, calls the ML service, writes to the database.</div>
                     </div>
                     <div class="stack-card">
                         <div class="stack-card__role">ML Microservice</div>
                         <div class="stack-card__name">Flask + Scikit-learn</div>
-                        <div class="stack-card__desc">Stateless prediction service. Loads a pre-trained model and
-                            returns categories on demand.</div>
+                        <div class="stack-card__desc">Stateless prediction service. Loads a pre-trained model and returns categories on demand.</div>
                     </div>
                     <div class="stack-card">
                         <div class="stack-card__role">Database</div>
                         <div class="stack-card__name">MongoDB</div>
-                        <div class="stack-card__desc">Schema-less NoSQL store for transactions. Fast querying by
-                            category and date.</div>
+                        <div class="stack-card__desc">Schema-less NoSQL store for transactions. Fast querying by category and date.</div>
                     </div>
                 </div>
 
                 <!-- ══════════ ARCHITECTURE ══════════ -->
-
                 <h2>System Architecture</h2>
 
                 <p>
@@ -815,7 +809,6 @@
                 </p>
 
                 <!-- ══════════ ML ══════════ -->
-
                 <h2>Auto-Categorization — How the ML Works</h2>
 
                 <p>
@@ -824,11 +817,11 @@
                     normalized category names for consistency.
                 </p>
 
-                <pre><code>import pandas as pd
+<pre><code>import pandas as pd
 
 df = pd.read_csv("transactions.csv")[['Description', 'Category']]
-df['Description'] = df['Description'].str.lower().str.replace('[^a-z\s]', '', regex=True)
-df['Category']    = df['Category'].str.lower().str.replace('[^a-z\s]', '', regex=True)</code></pre>
+df['Description'] = df['Description'].str.lower().str.replace('[^a-z\\s]', '', regex=True)
+df['Category']    = df['Category'].str.lower().str.replace('[^a-z\\s]', '', regex=True)</code></pre>
 
                 <h3>Vectorization</h3>
 
@@ -838,7 +831,7 @@ df['Category']    = df['Category'].str.lower().str.replace('[^a-z\s]', '', regex
                     so "Swiggy" carries more signal than "the".
                 </p>
 
-                <pre><code>from sklearn.feature_extraction.text import TfidfVectorizer
+<pre><code>from sklearn.feature_extraction.text import TfidfVectorizer
 
 vectorizer = TfidfVectorizer()
 X_train_vec = vectorizer.fit_transform(X_train)
@@ -853,7 +846,7 @@ X_test_vec  = vectorizer.transform(X_test)</code></pre>
                     for the Flask service to load at runtime.
                 </p>
 
-                <pre><code>from sklearn.naive_bayes import MultinomialNB
+<pre><code>from sklearn.naive_bayes import MultinomialNB
 import joblib
 
 model = MultinomialNB()
@@ -869,7 +862,7 @@ joblib.dump(vectorizer, 'vectorizer.pkl')</code></pre>
                     accepts a description string, and returns the predicted category:
                 </p>
 
-                <pre><code>from flask import Flask, request, jsonify
+<pre><code>from flask import Flask, request, jsonify
 import joblib
 
 model      = joblib.load("model.pkl")
@@ -891,7 +884,6 @@ def predict():
                 </div>
 
                 <!-- ══════════ BACKEND ══════════ -->
-
                 <h2>Node.js — Wiring the Layers Together</h2>
 
                 <p>
@@ -900,7 +892,7 @@ def predict():
                     everything together in MongoDB:
                 </p>
 
-                <pre><code>app.post('/api/transaction/add', async (req, res) => {
+<pre><code>app.post('/api/transaction/add', async (req, res) => {
   try {
     const { description, amount } = req.body;
 
@@ -923,7 +915,7 @@ def predict():
                     with a default timestamp and enough flexibility to extend later:
                 </p>
 
-                <pre><code>const transactionSchema = new mongoose.Schema({
+<pre><code>const transactionSchema = new mongoose.Schema({
   description : String,
   amount      : Number,
   category    : String,
@@ -931,7 +923,6 @@ def predict():
 });</code></pre>
 
                 <!-- ══════════ FLUTTER ══════════ -->
-
                 <h2>Flutter — Sending Data Without Selecting a Category</h2>
 
                 <p>
@@ -939,7 +930,7 @@ def predict():
                     Flutter sends both to Node.js, and the category comes back attached to the saved transaction:
                 </p>
 
-                <pre><code>final response = await http.post(
+<pre><code>final response = await http.post(
   Uri.parse('http://your-node-server/api/transaction/add'),
   headers: {'Content-Type': 'application/json'},
   body: jsonEncode({
@@ -954,7 +945,6 @@ def predict():
                 </p>
 
                 <!-- ══════════ CHARTS ══════════ -->
-
                 <h2>Visualizing Spending with Charts</h2>
 
                 <p>
@@ -968,12 +958,12 @@ def predict():
                     no confusing legends:
                 </p>
 
-                <pre><code>LinearProgressIndicator(
+<pre><code>LinearProgressIndicator(
   value           : category['percentage'] / 100,
   backgroundColor : surfaceColor,
   valueColor      : AlwaysStoppedAnimation(category['color']),
   borderRadius    : BorderRadius.circular(4),
-)</code></pre>
+);</code></pre>
 
                 <p>
                     The bar charts use <code>fl_chart</code> for the heavier visualizations on the Analytics
@@ -981,7 +971,6 @@ def predict():
                 </p>
 
                 <!-- ══════════ CHALLENGES ══════════ -->
-
                 <h2>What Was Actually Hard</h2>
 
                 <h3>The ML model</h3>
@@ -990,9 +979,7 @@ def predict():
                     Class imbalance, inconsistent naming conventions, and edge cases like "Netflix electricity bill"
                     (which genuinely could be either) required careful dataset cleaning and multiple rounds of
                     evaluation. This fed directly into the deeper research documented in the
-                    <a href="/blog/NLP-System/"
-                        style="display:inline; color: var(--text); border-bottom: 1px solid var(--border);">Why Accuracy
-                        Lied</a> post.
+                    <a href="/blog/NLP-System/" style="display:inline; color: var(--text); border-bottom: 1px solid var(--border);">Why Accuracy Lied</a> post.
                 </p>
 
                 <h3>Running two runtimes together</h3>
@@ -1012,7 +999,6 @@ def predict():
                 </p>
 
                 <!-- ══════════ STATS ══════════ -->
-
                 <div class="stat-row">
                     <div class="stat-cell">
                         <span class="stat-cell__label">Stack Layers</span>
@@ -1032,7 +1018,6 @@ def predict():
                 </div>
 
                 <!-- ══════════ CLOSING ══════════ -->
-
                 <h2>What This Project Is Actually About</h2>
 
                 <p>
@@ -1057,20 +1042,39 @@ def predict():
                     how these layers connect in practice — the full code is on GitHub.
                 </p>
 
-                <a href="https://github.com/lokeshramchand-ctrl/Velar.git" class="github-link magnet" target="_blank"
-                    rel="noopener">
+                <a href="https://github.com/lokeshramchand-ctrl/Velar.git" class="github-link magnet" target="_blank" rel="noopener">
                     <i class="ri-github-line"></i> lokeshramchand-ctrl / Velar
                 </a>
 
             </div>
 
+            <!-- ══════════════════════════════════════════ -->
+            <!-- POST FOOTER & AUTHOR                       -->
+            <!-- ══════════════════════════════════════════ -->
+
+            <div class="author-card reveal">
+                <img src="https://ui-avatars.com/api/?name=Lokesh+Ram+Chand&background=22c55e&color=fff&size=120" alt="Lokesh Ram Chand" class="author-avatar">
+                
+                <div class="author-details">
+                    <span class="author-label">Written by</span>
+                    <h3 class="author-card__title">Lokesh Ram Chand</h3>
+                    
+                    <div class="author-links">
+                        <a href="#" class="magnet" target="_blank"><i class="ri-twitter-x-line"></i> Twitter</a>
+                        <a href="#" class="magnet" target="_blank"><i class="ri-linkedin-line"></i> LinkedIn</a>
+                        <a href="#" class="magnet" target="_blank"><i class="ri-github-line"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+
             <footer class="article__footer reveal">
-                <!-- Uncomment when next post is ready:
-        <span style="color:var(--acc); font-size:.9rem; text-transform:uppercase; letter-spacing:1px;">Next Post</span>
-        <a href="/blog/next" class="next-article magnet">
-          Next title <i class="ri-arrow-right-line"></i>
-        </a>
-        -->
+                <a href="/blog/" class="next-article magnet">
+                    <i class="ri-arrow-left-line"></i> All Articles
+                </a>
+                
+                <a href="/blog/next-post" class="next-article magnet">
+                    Next Article <i class="ri-arrow-right-line"></i>
+                </a>
             </footer>
 
         </article>
@@ -1113,7 +1117,7 @@ def predict():
                 duration: 0.9,
                 ease: 'power3.out',
                 stagger: 0.12,
-                delay: 0.1,
+                delay: 0.1
             });
         });
 
@@ -1135,6 +1139,7 @@ def predict():
             window.addEventListener('mousemove', (e) => {
                 gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
             });
+            
             document.querySelectorAll('.magnet').forEach((el) => {
                 el.addEventListener('mousemove', (e) => {
                     const rect = el.getBoundingClientRect();
@@ -1154,5 +1159,4 @@ def predict():
     </script>
 
 </body>
-
 </html>

@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 
-<!-- ============================================================
-  BLOG POST — "Why Accuracy Lied: Lessons from Building an NLP System"
-  Author : Lokesh Ram Chand
-  Date   : April 26, 2026
-============================================================ -->
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +28,6 @@
 
       --font-display: 'Clash Display', sans-serif;
       --font-body   : 'General Sans', sans-serif;
-
 
       --gap-sm  : 1rem;
       --gap-md  : 2rem;
@@ -433,31 +426,73 @@
       font-style: italic;
     }
 
-    /* ── Stage label (inline section marker) ── */
-    .stage-label {
-      display: inline-flex;
+    /* ============================================================
+       9. ARTICLE FOOTER & BOTTOM COMPONENTS
+    ============================================================ */
+    .author-card {
+      padding: var(--gap-lg) 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: var(--gap-xl) 0 var(--gap-lg);
+      display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--acc);
-      border: 1px solid var(--border);
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: var(--gap-sm);
+      gap: 24px;
     }
 
-    /* ============================================================
-       9. ARTICLE FOOTER
-    ============================================================ */
+    .author-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--overlay);
+      border: 1px solid var(--border);
+    }
+
+    .author-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .author-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--acc);
+    }
+
+    .author-card__title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .author-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 6px;
+    }
+
+    .author-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--acc);
+      transition: color 0.3s;
+    }
+
+    .author-links a:hover {
+      color: var(--text);
+    }
+
     .article__footer {
-      margin-top: 80px;
-      padding-top: 40px;
-      border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding-bottom: var(--gap-md);
     }
 
     .next-article {
@@ -507,6 +542,8 @@
       * { cursor: auto !important; }
       .post-content pre { padding: 16px; }
       .failure-card__row { flex-direction: column; gap: 6px; }
+      .article__footer { flex-direction: column; gap: 20px; align-items: flex-start; }
+      .author-card { flex-direction: column; align-items: flex-start; gap: 16px; }
     }
   </style>
 </head>
@@ -519,12 +556,8 @@
 
   <div id="navbar-placeholder"></div>
 
-  <!-- ============================================================
-       MAIN
-  ============================================================ -->
   <main id="main" class="layout-container">
 
-    <!-- ── Sidebar ── -->
     <aside class="meta-sidebar reveal-text reveal">
       <a href="/blog/" class="back-btn magnet">
         <i class="ri-arrow-left-line"></i> Back to Journal
@@ -555,7 +588,6 @@
       </div>
     </aside>
 
-    <!-- ── Article ── -->
     <article class="article-content">
 
       <h1 class="article__title reveal-text reveal">
@@ -569,10 +601,6 @@
       </p>
 
       <div class="post-content reveal-text reveal">
-
-        <!-- ══════════════════════════════════════════ -->
-        <!-- INTRO                                      -->
-        <!-- ══════════════════════════════════════════ -->
 
         <p>
           For the past year I've been building and dogfooding <strong>Velar</strong> — a personal
@@ -596,17 +624,6 @@
           interesting, then humbling, then finally useful.
         </p>
 
-        <!-- IMAGE PLACEHOLDER: A screenshot of Velar's transaction list showing real messy inputs.
-             Helps ground the reader in the actual product context. -->
-        <!-- <figure class="post-image">
-          <img src="/images/blog/velar-transactions.png" alt="Velar transaction feed showing noisy inputs" />
-          <figcaption>Real UPI data from 12 months of usage — the input the model had to handle.</figcaption>
-        </figure> -->
-
-        <!-- ══════════════════════════════════════════ -->
-        <!-- STAGE 1                                    -->
-        <!-- ══════════════════════════════════════════ -->
-
         <h2>Stage 1 — 97% and a False Sense of Progress</h2>
 
         <p>
@@ -615,7 +632,6 @@
           TF-IDF + Logistic Regression classifier. I ran evaluation.
         </p>
 
-        <!-- Stat block -->
         <div class="stat-row">
           <div class="stat-cell">
             <span class="stat-cell__label">Clean Data</span>
@@ -656,10 +672,6 @@
           a lookup table with extra steps. Remove the merchant token and prediction collapses entirely.
         </p>
 
-        <!-- ══════════════════════════════════════════ -->
-        <!-- STAGE 2                                    -->
-        <!-- ══════════════════════════════════════════ -->
-
         <h2>Stage 2 — Hiding the Problem More Cleverly</h2>
 
         <p>
@@ -690,10 +702,6 @@
           hiding the failure — the implicit mappings were still there, just more subtle.
           I hadn't solved the problem. I'd made it harder to see.
         </p>
-
-        <!-- ══════════════════════════════════════════ -->
-        <!-- STAGE 2.5                                  -->
-        <!-- ══════════════════════════════════════════ -->
 
         <h2>Stage 2.5 — Forcing Honesty</h2>
 
@@ -750,10 +758,6 @@
           </div>
         </div>
 
-        <!-- ══════════════════════════════════════════ -->
-        <!-- STAGE 3: BERT                              -->
-        <!-- ══════════════════════════════════════════ -->
-
         <h2>Stage 3 — BERT Didn't Save Me</h2>
 
         <p>
@@ -795,18 +799,6 @@
           calculator to solve an equation with missing variables.
         </p>
 
-        <!-- IMAGE PLACEHOLDER: A simple bar chart — TF-IDF 48%, BERT 50% — identical to the
-             LinkedIn visual. Reinforces the BERT finding visually. You can drop in the SVG
-             exported from the LinkedIn image you already have. -->
-        <!-- <figure class="post-image">
-          <img src="/images/blog/accuracy-chart.png" alt="TF-IDF vs BERT accuracy comparison" />
-          <figcaption>State-of-the-art transformer. Two percentage points.</figcaption>
-        </figure> -->
-
-        <!-- ══════════════════════════════════════════ -->
-        <!-- THE REDESIGN                               -->
-        <!-- ══════════════════════════════════════════ -->
-
         <h2>The Redesign — From Model to System</h2>
 
         <p>
@@ -825,7 +817,6 @@
 
         <p>The answer was a hybrid pipeline:</p>
 
-        <!-- Pipeline diagram -->
         <div class="pipeline">
           <div class="pipeline__step">
             <span class="pipeline__label">normalization</span>
@@ -860,10 +851,6 @@
           than a confidently incorrect category.
         </p>
 
-        <!-- ══════════════════════════════════════════ -->
-        <!-- FEEDBACK LOOP                              -->
-        <!-- ══════════════════════════════════════════ -->
-
         <h2>The Feedback Loop — Making It a Living System</h2>
 
         <p>
@@ -884,18 +871,6 @@
           the variety of 12 months of real transactions. Closing that loop was the most
           architecturally important decision in the whole project.
         </p>
-
-        <!-- IMAGE PLACEHOLDER: A simple diagram showing the correction loop —
-             User sees wrong category → taps to fix → correction stored → feeds retraining.
-             Even a hand-drawn style works well here. -->
-        <!-- <figure class="post-image">
-          <img src="/images/blog/feedback-loop.png" alt="User correction feedback loop diagram" />
-          <figcaption>The loop that makes the system smarter over time.</figcaption>
-        </figure> -->
-
-        <!-- ══════════════════════════════════════════ -->
-        <!-- WHAT I LEARNED                             -->
-        <!-- ══════════════════════════════════════════ -->
 
         <h2>What This Project Actually Taught Me</h2>
 
@@ -930,10 +905,6 @@
           afterthought. Every user interaction is a labeled training example.
         </p>
 
-        <!-- ══════════════════════════════════════════ -->
-        <!-- CLOSING                                    -->
-        <!-- ══════════════════════════════════════════ -->
-
         <h2>The Metric That Actually Matters</h2>
 
         <p>
@@ -954,21 +925,33 @@
         </blockquote>
 
       </div>
-      <!-- /post-content -->
+      <div class="author-card reveal">
+        <img src="https://ui-avatars.com/api/?name=Lokesh+Ram+Chand&background=22c55e&color=fff&size=120" alt="Lokesh Ram Chand" class="author-avatar">
+        
+        <div class="author-details">
+          <span class="author-label">Written by</span>
+          <h3 class="author-card__title">Lokesh Ram Chand</h3>
+          
+          <div class="author-links">
+            <a href="https://www.linkedin.com/in/lokeshramchand/" class="magnet" target="_blank"><i class="ri-linkedin-line"></i> LinkedIn</a>
+            <a href="https://github.com/lokeshramchand-ctrl" class="magnet" target="_blank"><i class="ri-github-line"></i> GitHub</a>
+          </div>
+        </div>
+      </div>
 
-      <footer class="article__footer reveal-text">
-        <!-- Uncomment when next post is published:
-        <span style="color:var(--acc); font-size:.9rem; text-transform:uppercase; letter-spacing:1px;">Next Post</span>
-        <a href="/blog/next-post" class="next-article magnet">
-          Next Title <i class="ri-arrow-right-line"></i>
+      <footer class="article__footer reveal">
+        <a href="/blog/" class="next-article magnet">
+          <i class="ri-arrow-left-line"></i> All Articles
         </a>
-        -->
+        
+        <a href="/blog/Velar-System/" class="next-article magnet">
+          Next Article <i class="ri-arrow-right-line"></i>
+        </a>
       </footer>
 
     </article>
   </main>
 
-  <!-- ── Scripts ── -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>

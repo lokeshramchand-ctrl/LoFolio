@@ -2,16 +2,13 @@
 <html lang="en" data-theme="dark">
 
 <head>
-  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Journal — Lokesh Ram Chand</title>
 
+  <!-- Icons & Fonts -->
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-  <link
-    href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap"
-    rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@200,400,500,600,700&f[]=general-sans@200,300,400,500,600&display=swap" rel="stylesheet">
 
   <style>
     /* --- 1. VARIABLES & THEMES --- */
@@ -20,29 +17,24 @@
       --text: #e0e0e0;
       --acc: #888;
       --border: rgba(255, 255, 255, 0.1);
-      --cursor: #fff;
-      --nav-bg: rgba(11, 11, 11, 0.8);
-      --overlay: rgba(255, 255, 255, 0.03);
-      --accent: #22c55e;
+      --border-hover: rgba(255, 255, 255, 0.3);
+      --nav-bg: rgba(11, 11, 11, 0.6);
     }
 
     [data-theme="light"] {
       --bg: #f4f4f4;
       --text: #1a1a1a;
-      --acc: #555;
+      --acc: #666;
       --border: rgba(0, 0, 0, 0.1);
-      --cursor: #000;
-      --nav-bg: rgba(244, 244, 244, 0.8);
-      --overlay: rgba(0, 0, 0, 0.03);
-      --accent: #15803d;
+      --border-hover: rgba(0, 0, 0, 0.3);
+      --nav-bg: rgba(244, 244, 244, 0.6);
     }
 
-    /* --- 2. RESET --- */
+    /* --- 2. RESET & BASE --- */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      cursor: none;
     }
 
     html, body {
@@ -52,128 +44,139 @@
       font-family: 'General Sans', sans-serif;
       overflow-x: hidden;
       transition: background-color 0.5s ease, color 0.5s ease;
+      cursor: none; /* Custom cursor */
     }
 
     a { text-decoration: none; color: inherit; display: block; }
     ul { list-style: none; }
-    button { border: none; background: none; cursor: none; color: inherit; }
+    button { border: none; background: none; color: inherit; font-family: inherit; }
 
-    /* --- 3. UTILITIES --- */
+    /* --- 3. UTILITIES & EFFECTS --- */
     .noise-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      pointer-events: none; z-index: 9000; opacity: 0.04;
+      pointer-events: none; z-index: 9000; opacity: 0.03;
       background-image: url("https://grainy-gradients.vercel.app/noise.svg");
     }
 
-    /* --- 4. CUSTOM CURSOR --- */
     #cursor {
-      position: fixed; top: 0; left: 0; width: 15px; height: 15px;
+      position: fixed; top: 0; left: 0; width: 12px; height: 12px;
       background-color: var(--text); border-radius: 50%;
       pointer-events: none; z-index: 9999; mix-blend-mode: difference;
       transform: translate(-50%, -50%);
       transition: width 0.3s, height 0.3s, transform 0.1s;
     }
 
-    /* --- 5. LOADER --- */
-    #loader {
-      position: fixed; inset: 0; background: var(--bg);
-      z-index: 10000; display: flex; justify-content: center; align-items: center;
+    /* --- 4. NAVIGATION --- */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%;
+      padding: 2rem 5vw;
+      display: flex; justify-content: space-between; align-items: center;
+      z-index: 1000;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
-    .counter { font-family: 'Clash Display', sans-serif; font-size: 10vw; font-weight: 600; }
+    
+    .nav-logo {
+      font-family: 'Clash Display', sans-serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: 0.5px;
+    }
 
-    /* --- 6. HERO (Slimmer) --- */
+    .nav-links {
+      display: flex; gap: 2rem; align-items: center;
+    }
+
+    .nav-links a, .nav-links button {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--acc);
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover, .nav-links button:hover {
+      color: var(--text);
+    }
+
+    /* --- 5. HERO SECTION --- */
     #hero {
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 20vh 5vw 8vh; /* Tightened padding for a slimmer look */
-      position: relative;
+      min-height: 55vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 5vw 4rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    .hero-line { overflow: hidden; line-height: 1; }
-
     .hero-subtitle {
-      font-family: 'General Sans', sans-serif;
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: var(--text);
+      font-size: 0.9rem;
+      color: var(--acc);
       text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 2vh;
-      display: block;
+      letter-spacing: 3px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title-wrap {
+      overflow: hidden; line-height: 0.9;
     }
 
     .hero-title {
       font-family: 'Clash Display', sans-serif;
-      font-size: clamp(3.5rem, 10vw, 8rem); /* Slightly scaled down */
+      font-size: clamp(4rem, 12vw, 10rem);
       font-weight: 600;
       text-transform: uppercase;
-      color: var(--text);
-      transform: translateY(100%);
     }
 
     .hero-title.outline {
       color: transparent;
-      -webkit-text-stroke: 1px var(--text);
-      opacity: 0.5;
+      -webkit-text-stroke: 1.5px var(--border-hover);
     }
 
-    /* --- 7. ARTICLES LIST (Slimmer Rows) --- */
+    /* --- 6. ARTICLES LIST (Grid Architecture) --- */
     #articles {
-      padding: 0 5vw 15vh;
-      position: relative;
+      padding: 0 5vw 10vh;
     }
-
-    .article-list { display: flex; flex-direction: column; }
 
     .article-item {
-      padding: 35px 0; /* Reduced from 50px to make rows slimmer */
+      padding: 3rem 0;
       border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: grid;
+      grid-template-columns: 3.5fr auto 50px; /* Title area | Tags | Icon */
+      align-items: end;
+      gap: 2rem;
       transition: opacity 0.4s ease;
-      position: relative;
     }
 
-    .article-item:first-child { border-top: 1px solid var(--border); }
-
-    .article-list:hover .article-item { opacity: 0.3; }
-    .article-list:hover .article-item:hover { opacity: 1; }
-
-    .a-left {
-      display: flex; flex-direction: column; gap: 8px; flex: 2;
-    }
+    #articles:hover .article-item { opacity: 0.4; }
+    #articles:hover .article-item:hover { opacity: 1; }
 
     .a-meta {
-      font-family: 'General Sans', sans-serif;
-      font-size: 0.85rem;
-      color: var(--acc);
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      font-size: 0.8rem; color: var(--acc);
+      text-transform: uppercase; letter-spacing: 1.5px;
+      margin-bottom: 1rem; display: block;
     }
 
     .a-name {
       font-family: 'Clash Display', sans-serif;
-      font-size: clamp(1.8rem, 3.5vw, 3.5rem); /* Scaled down for a neater fit */
-      font-weight: 500;
-      line-height: 1.1;
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 500; line-height: 1.05;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .a-center {
-      display: flex; gap: 12px; flex: 1; justify-content: flex-start;
+    .a-tags {
+      display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: flex-end;
     }
 
     .a-tag {
-      font-size: 0.75rem; padding: 6px 16px;
+      font-size: 0.7rem; padding: 0.4rem 1rem;
       border: 1px solid var(--border); border-radius: 50px;
       color: var(--acc); text-transform: uppercase; letter-spacing: 1px;
-      transition: background 0.3s, color 0.3s, border-color 0.3s;
+      transition: all 0.3s ease;
     }
 
-    .a-right {
-      display: flex; align-items: center; justify-content: flex-end; flex: 0.5;
+    .a-icon-wrap {
+      text-align: right;
     }
 
     .a-icon {
@@ -181,19 +184,28 @@
       transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
     }
 
-    .article-item:hover .a-name { transform: translateX(20px); color: var(--text); }
+    /* Hover Interactions */
+    .article-item:hover .a-name { transform: translateX(15px); }
     .article-item:hover .a-icon { transform: rotate(45deg); color: var(--text); }
     .article-item:hover .a-tag { border-color: var(--text); color: var(--text); }
 
-    /* --- MEDIA QUERIES --- */
+    /* --- 7. MOBILE RESPONSIVE --- */
     @media (max-width: 768px) {
-      #cursor, .preview-img { display: none !important; }
       * { cursor: auto !important; }
+      #cursor, .noise-overlay { display: none !important; }
       
-      .article-item { flex-direction: column; align-items: flex-start; gap: 15px; padding: 25px 0; }
-      .a-center { width: 100%; flex-wrap: wrap; margin-top: 5px; }
-      .a-right { display: none; }
-      .article-item:hover .a-name { transform: translateX(10px); }
+      .nav-links { display: none; } /* Hide links on mobile for now, just show logo */
+      
+      #hero { min-height: 40vh; padding-bottom: 2rem; }
+      
+      .article-item {
+        display: flex; flex-direction: column; align-items: flex-start;
+        padding: 2rem 0; gap: 1.5rem;
+      }
+      
+      .a-tags { justify-content: flex-start; }
+      .a-icon-wrap { display: none; } /* Hide arrow on mobile to save space */
+      .article-item:hover .a-name { transform: translateX(5px); }
     }
   </style>
 </head>
@@ -203,100 +215,116 @@
   <div class="noise-overlay"></div>
   <div id="cursor"></div>
 
-  <div id="navbar-placeholder"></div>
+  <!-- Navigation -->
+  <nav>
+    <a href="/" class="nav-logo magnet">Lokesh Ram Chand</a>
+    <div class="nav-links">
+      <a href="#" class="magnet">Projects</a>
+      <a href="#" class="magnet">About</a>
+      <a href="#" style="color: var(--text);" class="magnet">Blog</a>
+      <a href="#" class="magnet">Resume</a>
+      <button onclick="toggleTheme()" class="magnet">
+        <i id="theme-icon" class="ri-moon-line"></i>
+      </button>
+    </div>
+  </nav>
 
-  <div id="main">
-
+  <main id="main">
+    
+    <!-- Hero Section -->
     <section id="hero">
-      <span class="hero-subtitle reveal-text">Thoughts & Discoveries.</span>
-      <div class="hero-line">
+      <div class="hero-subtitle reveal-text">Thoughts & Discoveries.</div>
+      <div class="hero-title-wrap">
         <h1 class="hero-title">The</h1>
       </div>
-      <div class="hero-line">
+      <div class="hero-title-wrap">
         <h1 class="hero-title outline">Journal</h1>
       </div>
     </section>
 
+    <!-- Articles Feed -->
     <section id="articles">
-      <div class="article-list">
+      
+      <!-- Article 1 -->
+      <a href="/blog/event-driven-rag/" class="article-item">
+        <div class="a-info">
+          <span class="a-meta">Upcoming • Research Paper</span>
+          <h2 class="a-name">Architecting the Enterprise Twin: Event-Driven RAG Systems</h2>
+        </div>
+        <div class="a-tags">
+          <span class="a-tag">System Design</span>
+          <span class="a-tag">MLOps</span>
+        </div>
+        <div class="a-icon-wrap">
+          <i class="ri-arrow-right-up-line a-icon"></i>
+        </div>
+      </a>
 
-        <a href="/blog/NLP-System/" class="article-item magnet" data-img="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2000">
-          <div class="a-left">
-            <span class="a-meta">April 26, 2026 • 12 Min Read</span>
-            <div class="a-name">Why Accuracy Lied: Lessons from Building an NLP System</div>
-          </div>
-          <div class="a-center">
-            <span class="a-tag">System Design</span>
-            <span class="a-tag">ML Systems</span>
-          </div>
-          <div class="a-right">
-            <i class="ri-arrow-right-up-line a-icon"></i>
-          </div>
-        </a>
+      <!-- Article 2 -->
+      <a href="/blog/NLP-System/" class="article-item">
+        <div class="a-info">
+          <span class="a-meta">April 26, 2026 • 12 Min Read</span>
+          <h2 class="a-name">Why Accuracy Lied: Lessons from Building an NLP System</h2>
+        </div>
+        <div class="a-tags">
+          <span class="a-tag">Data Engineering</span>
+          <span class="a-tag">ML Systems</span>
+        </div>
+        <div class="a-icon-wrap">
+          <i class="ri-arrow-right-up-line a-icon"></i>
+        </div>
+      </a>
 
-         <a href="/blog/Velar-System/" class="article-item magnet" data-img="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=2000">
-          <div class="a-left">
-            <span class="a-meta">Jul 1, 2025 • 10 Min Read</span>
-            <div class="a-name">How I combined ML , Clean UI , and APIs to simplify Personal Finance </div>
-          </div>
-          <div class="a-center">
-            <span class="a-tag">Flutter</span>
-            <span class="a-tag">Node.js</span>
-            <span class="a-tag">MongoDB</span>
-          </div>
-          <div class="a-right">
-            <i class="ri-arrow-right-up-line a-icon"></i>
-          </div>
-        </a>
+      <!-- Article 3 -->
+      <a href="/blog/Velar-System/" class="article-item">
+        <div class="a-info">
+          <span class="a-meta">Jul 1, 2025 • 10 Min Read</span>
+          <h2 class="a-name">Bridging ML and Clean UI for Financial Clarity in Velar</h2>
+        </div>
+        <div class="a-tags">
+          <span class="a-tag">Full Stack</span>
+          <span class="a-tag">Architecture</span>
+        </div>
+        <div class="a-icon-wrap">
+          <i class="ri-arrow-right-up-line a-icon"></i>
+        </div>
+      </a>
 
-
-      </div>
     </section>
+  </main>
 
-  </div>
-
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="/components-loader.js"></script>
+
   <script>
     gsap.registerPlugin(ScrollTrigger);
 
-    // --- 1. THEME SWITCHER LOGIC ---
+    // 1. Theme Switcher
     function toggleTheme() {
       const html = document.documentElement;
       const themeIcon = document.getElementById('theme-icon');
-      if (!themeIcon) return;
-      
-      const currentTheme = html.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      const newTheme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       
       html.setAttribute('data-theme', newTheme);
       themeIcon.className = newTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
-      
-      try { localStorage.setItem('theme', newTheme); } catch (e) {}
+      localStorage.setItem('theme', newTheme);
     }
 
-    try {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        const themeIcon = document.getElementById('theme-icon');
-        if (themeIcon) themeIcon.className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
-      }
-    } catch (e) {}
+    // Initialize Theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      document.getElementById('theme-icon').className = savedTheme === 'light' ? 'ri-sun-line' : 'ri-moon-line';
+    }
 
-
-    // --- 2. SMOOTH SCROLL ---
+    // 2. Smooth Scroll (Lenis)
     const lenis = new Lenis();
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
 
-    // --- 3. CURSOR & MAGNETS (Desktop Only) ---
+    // 3. Custom Cursor & Magnets (Desktop Only)
     if (window.matchMedia("(min-width: 769px)").matches) {
       const cursor = document.getElementById("cursor");
 
@@ -304,105 +332,24 @@
         gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
       });
 
-      document.querySelectorAll(".magnet").forEach((magnet) => {
-        magnet.addEventListener("mousemove", (e) => {
-          const rect = magnet.getBoundingClientRect();
-          const x = e.clientX - rect.left - rect.width / 2;
-          const y = e.clientY - rect.top - rect.height / 2;
-          gsap.to(magnet, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
-          gsap.to(cursor, { scale: 3 });
-        });
-
-        magnet.addEventListener("mouseleave", () => {
-          gsap.to(magnet, { x: 0, y: 0 });
-          gsap.to(cursor, { scale: 1 });
-        });
+      document.querySelectorAll(".magnet").forEach((btn) => {
+        btn.addEventListener("mouseenter", () => gsap.to(cursor, { scale: 2.5, backgroundColor: "transparent", border: "1px solid var(--text)", duration: 0.2 }));
+        btn.addEventListener("mouseleave", () => gsap.to(cursor, { scale: 1, backgroundColor: "var(--text)", border: "none", duration: 0.2 }));
       });
     }
 
-    // --- 4. HERO SECTION ANIMATIONS ---
-    gsap.set(".hero-title", { y: 50, opacity: 0 });
-    gsap.set(".hero-subtitle", { y: 20, opacity: 0 });
+    // 4. Initial Load Animations
+    gsap.to(".hero-title", { y: 0, opacity: 1, duration: 1.5, ease: "power4.out", stagger: 0.15, startAt: {y: 100, opacity: 0} });
+    gsap.to(".hero-subtitle", { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.3, startAt: {y: 20, opacity: 0} });
 
-    gsap.to(".hero-title", {
-      y: 0,
-      opacity: 1,
-      duration: 1.5,
-      ease: "power4.out",
-      stagger: 0.2,
-    });
-
-    gsap.to(".hero-subtitle", {
-      y: 0,
-      opacity: 1,
-      duration: 1.2,
-      ease: "power3.out",
-      delay: 0.5,
-    });
-
-    // --- 5. ARTICLE LIST ANIMATIONS ---
-    document.querySelectorAll(".article-item").forEach((item, index) => {
+    // 5. Scroll Animations for Articles
+    document.querySelectorAll(".article-item").forEach((item, i) => {
       gsap.from(item, {
-        scrollTrigger: {
-          trigger: item,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-        y: 50,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        delay: index * 0.1,
-      });
-
-      // Hover effect for articles
-      item.addEventListener("mouseenter", () => {
-        gsap.to(item, { scale: 1.05, duration: 0.3, ease: "power3.out" });
-      });
-
-      item.addEventListener("mouseleave", () => {
-        gsap.to(item, { scale: 1, duration: 0.3, ease: "power3.out" });
+        scrollTrigger: { trigger: item, start: "top 90%", toggleActions: "play none none reverse" },
+        y: 40, opacity: 0, duration: 0.8, ease: "power3.out"
       });
     });
 
-    // --- 6. BACKGROUND OVERLAY ANIMATION ---
-    gsap.to(".noise-overlay", {
-      opacity: 0.1,
-      duration: 2,
-      ease: "power1.inOut",
-      repeat: -1,
-      yoyo: true,
-    });
-
-    // --- 7. SCROLL ANIMATIONS ---
-    let proxy = { skew: 0 },
-      skewSetter = gsap.quickSetter(".article-item", "skewY", "deg"),
-      clamp = gsap.utils.clamp(-8, 8); // Tighter clamp for slimmer rows
-
-    ScrollTrigger.create({
-      onUpdate: (self) => {
-        let skew = clamp(self.getVelocity() / -300);
-        if (Math.abs(skew) > Math.abs(proxy.skew)) {
-          proxy.skew = skew;
-          gsap.to(proxy, {
-            skew: 0, duration: 0.8, ease: "power3", overwrite: true,
-            onUpdate: () => skewSetter(proxy.skew)
-          });
-        }
-      }
-    });
-
-    // --- 8. ICON ANIMATIONS ---
-    document.querySelectorAll(".a-icon").forEach((icon) => {
-      icon.addEventListener("mouseenter", () => {
-        gsap.to(icon, { rotate: 360, scale: 1.2, duration: 0.5, ease: "power3.out" });
-      });
-
-      icon.addEventListener("mouseleave", () => {
-        gsap.to(icon, { rotate: 0, scale: 1, duration: 0.5, ease: "power3.out" });
-      });
-    });
-</script>
+  </script>
 </body>
-
 </html>
